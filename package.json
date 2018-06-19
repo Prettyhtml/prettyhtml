@@ -1,0 +1,60 @@
+{
+  "name": "prettyhtml",
+  "version": "0.0.0",
+  "description": "Prettyhtml is an opinionated HTML code formatter for various web frameworks.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StarpTech/prettyhtml.git"
+  },
+  "scripts": {
+    "test": "nyc mocha -t 5000 --exit ./test/**/*.js",
+    "format": "prettier ./lib/**/*.js --write",
+    "coverage": "npm run test && nyc report --reporter=html"
+  },
+  "keywords": [],
+  "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StarpTech/prettyhtml/issues"
+  },
+  "homepage": "https://github.com/StarpTech/prettyhtml#readme",
+  "dependencies": {
+    "ccount": "^1.0.3",
+    "comma-separated-tokens": "^1.0.5",
+    "hast-util-is-element": "^1.0.0",
+    "hast-util-phrasing": "^1.0.1",
+    "hast-util-whitespace": "^1.0.1",
+    "html-tag-names": "^1.1.3",
+    "html-void-elements": "^1.0.3",
+    "html-whitespace-sensitive-tag-names": "^1.0.0",
+    "kebab-case": "^1.0.0",
+    "property-information": "^3.2.0",
+    "rehype-minify-attribute-whitespace": "^1.0.1",
+    "rehype-minify-whitespace": "^2.0.3",
+    "rehype-parse": "^4.1.0",
+    "rehype-sort-attributes": "^1.0.1",
+    "repeat-string": "^1.6.1",
+    "space-separated-tokens": "^1.1.2",
+    "stringify-entities": "^1.3.2",
+    "svg-tag-names": "^1.1.1",
+    "to-vfile": "^5.0.0",
+    "unified": "^7.0.0",
+    "unist-util-is": "^2.1.2",
+    "unist-util-visit-parents": "^1.1.2",
+    "vfile-reporter": "^5.0.0",
+    "xtend": "^4.0.1"
+  },
+  "devDependencies": {
+    "code": "^4.1.0",
+    "eslint": "^4.19.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^5.2.0",
+    "mocha-lcov-reporter": "^1.3.0",
+    "np": "^3.0.4",
+    "nyc": "^12.0.2",
+    "husky": "^0.14.3",
+    "eslint-config-hemera": "0.0.6",
+    "prettier": "^1.13.5"
+  }
+}

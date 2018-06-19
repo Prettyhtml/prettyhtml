@@ -1,0 +1,7 @@
+{
+  "extends": "hemera",
+  "globals": {
+    "expect": true,
+    "Code": true
+  }
+}
