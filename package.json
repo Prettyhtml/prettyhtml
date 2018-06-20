@@ -22,6 +22,8 @@
   "dependencies": {
     "ccount": "^1.0.3",
     "comma-separated-tokens": "^1.0.5",
+    "fs-extra": "^6.0.1",
+    "globby": "^8.0.1",
     "hast-util-is-element": "^1.0.0",
     "hast-util-phrasing": "^1.0.1",
     "hast-util-whitespace": "^1.0.1",
