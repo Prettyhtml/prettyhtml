@@ -76,6 +76,9 @@
     "tape": "^4.9.1",
     "xo": "^0.21.1"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "nyc": {
     "check-coverage": true,
     "lines": 100,
