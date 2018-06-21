@@ -16,7 +16,7 @@
 ## Install
 
 ```
-$ npm install prettyhtml --global
+$ npm install @starptech/prettyhtml --global
 ```
 
 ## Command Line
@@ -34,7 +34,7 @@ $ prettyhtml --help
 ## API
 
 ```js
-const prettyhtml = require('prettyhtml')
+const prettyhtml = require('@starptech/prettyhtml')
 const result = prettyhtml(`<element></element>`)
 ```
 
