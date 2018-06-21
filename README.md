@@ -28,7 +28,7 @@ $ prettyhtml --help
 
 ```js
 const prettyhtml = require('prettyhtml')
-prettyhtml(`<element></element>`)
+const result = prettyhtml(`<element></element>`)
 ```
 
 ## Why
