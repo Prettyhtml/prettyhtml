@@ -2,9 +2,10 @@
 
 <h2 align="center">Opinionated Web Component HTML formatter</h2>
 
-- Remove unneeded white-space
-- Reorder attributes
-- Format custom elements specifically
+- Remove superfluous white-space but still line-wrap as expected.
+- Reorder attributes based on how often they occur.
+- Special indentation for [`custom elements`](https://developers.google.com/web/fundamentals/web-components/).
+- No content manipulation in attributes or tags.
 
 ## Install
 
