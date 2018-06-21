@@ -1,8 +1,6 @@
 # Prettyhtml
 
-Prettyhtml is an opinionated HTML code formatter. It should help to enforce a consistent style.
-
-> I don't want to talk about formatting in my frontend components ;)
+Prettyhtml is an opinionated HTML code formatter. It should help to enforce a consistent style in web component templates like Angular or Vue.
 
 - Remove unneeded white-space
 - Reorder attributes
