@@ -1,39 +1,37 @@
 'use strict'
 
-const vfile = require('to-vfile')
-const report = require('vfile-reporter')
+const VFile = require('vfile')
 const unified = require('unified')
+const sort = require('vfile-sort')
 const parse = require('rehype-parse')
 const sortAttributes = require('rehype-sort-attributes')
 const minifyAttributes = require('rehype-minify-attribute-whitespace')
-const toHTML = require('./lib/hast-to-html')
+const stringify = require('./lib/stringify')
 const format = require('./lib/formatter')
-const argv = require('minimist')(process.argv.slice(2))
-const globby = require('globby')
-const { writeFile } = require('fs-extra')
-const glob = argv._[0]
 
-const processor = unified()
-  .use(parse)
-  .use(sortAttributes)
-  .use(minifyAttributes)
-  .use(format)
-  .freeze()
+module.exports = prettyhtml
 
-globby(glob)
-  .then(paths => {
-    const ops = []
-    paths.forEach(path => {
-      const op = vfile.read(path).then(data => {
-        return processor.run(processor.parse(data)).then(node => {
-          writeFile(path, toHTML(node), 'utf8')
-        })
+function core(value, processor) {
+  const file = new VFile(value)
+  const tree = processor.parse(file)
+
+  processor.runSync(tree, file)
+
+  sort(file)
+
+  return file
+}
+
+function prettyhtml(value, allow) {
+  return core(
+    value,
+    unified()
+      .use(parse, {
+        fragment: true
       })
-      ops.push(op)
-    })
-    return Promise.all(ops)
-  })
-  .catch(err => {
-    console.error(report(err))
-    process.exit(1)
-  })
+      .use(stringify)
+      .use(sortAttributes)
+      .use(minifyAttributes)
+      .use(format)
+  )
+}

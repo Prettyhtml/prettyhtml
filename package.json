@@ -1,18 +1,26 @@
 {
   "name": "prettyhtml",
   "version": "0.0.0",
-  "description": "Prettyhtml is an opinionated HTML code formatter for various web frameworks.",
+  "description": "Prettyhtml is an opinionated HTML code formatter.",
   "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/StarpTech/prettyhtml.git"
   },
+  "bin": "cli.js",
   "scripts": {
     "test": "nyc mocha -t 5000 --exit ./test/**/*.js",
     "format": "prettier ./lib/**/*.js --write",
     "coverage": "npm run test && nyc report --reporter=html"
   },
-  "keywords": [],
+  "files": [
+    "index.js",
+    "cli.js"
+  ],
+  "keywords": [
+    "formatter",
+    "html"
+  ],
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
   "license": "ISC",
   "bugs": {
@@ -22,8 +30,6 @@
   "dependencies": {
     "ccount": "^1.0.3",
     "comma-separated-tokens": "^1.0.5",
-    "fs-extra": "^6.0.1",
-    "globby": "^8.0.1",
     "hast-util-is-element": "^1.0.0",
     "hast-util-phrasing": "^1.0.1",
     "hast-util-whitespace": "^1.0.1",
@@ -31,8 +37,8 @@
     "html-void-elements": "^1.0.3",
     "html-whitespace-sensitive-tag-names": "^1.0.0",
     "kebab-case": "^1.0.0",
+    "meow": "^5.0.0",
     "property-information": "^3.2.0",
-    "rehype-minify-attribute-whitespace": "^1.0.1",
     "rehype-minify-whitespace": "^2.0.3",
     "rehype-parse": "^4.1.0",
     "rehype-sort-attributes": "^1.0.1",
@@ -42,9 +48,13 @@
     "svg-tag-names": "^1.1.1",
     "to-vfile": "^5.0.0",
     "unified": "^7.0.0",
+    "unified-engine": "^6.0.1",
     "unist-util-is": "^2.1.2",
     "unist-util-visit-parents": "^1.1.2",
+    "update-notifier": "^2.5.0",
+    "vfile": "^3.0.0",
     "vfile-reporter": "^5.0.0",
+    "vfile-sort": "^2.1.1",
     "xtend": "^4.0.1"
   },
   "devDependencies": {
