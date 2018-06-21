@@ -60,7 +60,6 @@
     "update-notifier": "^2.5.0",
     "vfile": "^3.0.0",
     "vfile-reporter": "^5.0.0",
-    "vfile-sort": "^2.1.1",
     "xtend": "^4.0.1"
   },
   "devDependencies": {
