@@ -1,6 +1,6 @@
-# Prettyhtml
+![Prettyhtml Banner](/logo.png)
 
-Prettyhtml is an opinionated HTML code formatter. It should help to enforce a consistent style in web component templates like Angular or Vue.
+<h2 align="center">Opinionated Web Component HTML formatter</h2>
 
 - Remove unneeded white-space
 - Reorder attributes
