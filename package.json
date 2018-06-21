@@ -12,7 +12,9 @@
     "test": "node test/index.js",
     "format": "prettier ./lib/**/*.js --write",
     "test-coverage": "nyc --reporter lcov tape test/index.js",
-    "release": "np"
+    "release:patch": "np patch --yolo",
+    "release:minor": "np minor --yolo",
+    "release:major": "np major --yolo"
   },
   "files": [
     "index.js",
@@ -28,7 +30,7 @@
     "html"
   ],
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/StarpTech/prettyhtml/issues"
   },
@@ -73,5 +75,16 @@
     "prettier": "^1.13.5",
     "tape": "^4.9.1",
     "xo": "^0.21.1"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "lines": 100,
+    "functions": 100,
+    "branches": 100
+  },
+  "xo": {
+    "space": true,
+    "esnext": false,
+    "ignores": []
   }
 }

@@ -2,6 +2,12 @@
 
 <h2 align="center">Opinionated Web Component HTML formatter</h2>
 
+<p align="center">
+  <a href="https://www.npmjs.com/package/prettyhtml">
+    <img alt="npm version" src="https://img.shields.io/npm/v/prettyhtml.svg?style=flat-square">
+  </a>
+</p>
+
 - Remove superfluous white-space but still line-wrap as expected.
 - Reorder attributes based on how often they occur.
 - Special indentation for [`custom elements`](https://developers.google.com/web/fundamentals/web-components/).
