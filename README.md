@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/prettyhtml">
-    <img alt="npm version" src="https://img.shields.io/npm/v/prettyhtml.svg?style=flat-square">
+    <img alt="npm version" src="https://img.shields.io/npm/v/@starptech/prettyhtml.svg?style=flat-square">
   </a>
 </p>
 
