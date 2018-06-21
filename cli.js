@@ -41,10 +41,6 @@ var cli = meow(
     autoHelp: true,
     autoVersion: true,
     flags: {
-      version: {
-        type: 'boolean',
-        alias: 'v'
-      },
       quiet: {
         type: 'boolean',
         default: true,
