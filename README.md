@@ -20,7 +20,7 @@
 * [prettyhtml-hast-to-html](/packages/prettyhtml-hast-to-html) Stringifier.
 * [prettyhtml-parse](/packages/prettyhtml-parse) HTML parser and serializer.
 * [prettyhtml-rehype-parse](/packages/prettyhtml-rehype-parse) Adapter between HTML parser and rehype.
-* [prettyhtml-hast-util-from-parse](/packages/prettyhtml-hast-util-from-parse) Transform Parse5’s AST to HAST.
+* [prettyhtml-hast-util-from-parse](/packages/prettyhtml-hast-util-from-parse) Transform prettyhtml-parse AST to HAST.
 * [prettyhtml-hastscript](/packages/prettyhtml-hastscript) Hyperscript compatible DSL for creating virtual HAST trees.
 
 ## Install
