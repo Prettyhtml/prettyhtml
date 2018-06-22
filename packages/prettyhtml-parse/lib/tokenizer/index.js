@@ -223,6 +223,11 @@ function toChar(cp) {
   )
 }
 
+function toAsciiChar(cp) {
+  return String.fromCharCode(cp)
+}
+
+// eslint-disable-next-line no-unused-vars
 function toAsciiLowerChar(cp) {
   return String.fromCharCode(toAsciiLowerCodePoint(cp))
 }
@@ -776,7 +781,7 @@ class Tokenizer {
       this.state = DATA_STATE
       this._emitCurrentToken()
     } else if (isAsciiUpper(cp)) {
-      this.currentToken.tagName += toAsciiLowerChar(cp)
+      this.currentToken.tagName += toAsciiChar(cp)
     } else if (cp === $.NULL) {
       this._err(ERR.unexpectedNullCharacter)
       this.currentToken.tagName += unicode.REPLACEMENT_CHARACTER
@@ -816,7 +821,7 @@ class Tokenizer {
   // ------------------------------------------------------------------
   [RCDATA_END_TAG_NAME_STATE](cp) {
     if (isAsciiUpper(cp)) {
-      this.currentToken.tagName += toAsciiLowerChar(cp)
+      this.currentToken.tagName += toAsciiChar(cp)
       this.tempBuff.push(cp)
     } else if (isAsciiLower(cp)) {
       this.currentToken.tagName += toChar(cp)
@@ -874,7 +879,7 @@ class Tokenizer {
   // ------------------------------------------------------------------
   [RAWTEXT_END_TAG_NAME_STATE](cp) {
     if (isAsciiUpper(cp)) {
-      this.currentToken.tagName += toAsciiLowerChar(cp)
+      this.currentToken.tagName += toAsciiChar(cp)
       this.tempBuff.push(cp)
     } else if (isAsciiLower(cp)) {
       this.currentToken.tagName += toChar(cp)
@@ -935,7 +940,7 @@ class Tokenizer {
   // ------------------------------------------------------------------
   [SCRIPT_DATA_END_TAG_NAME_STATE](cp) {
     if (isAsciiUpper(cp)) {
-      this.currentToken.tagName += toAsciiLowerChar(cp)
+      this.currentToken.tagName += toAsciiChar(cp)
       this.tempBuff.push(cp)
     } else if (isAsciiLower(cp)) {
       this.currentToken.tagName += toChar(cp)
@@ -1078,7 +1083,7 @@ class Tokenizer {
   // ------------------------------------------------------------------
   [SCRIPT_DATA_ESCAPED_END_TAG_NAME_STATE](cp) {
     if (isAsciiUpper(cp)) {
-      this.currentToken.tagName += toAsciiLowerChar(cp)
+      this.currentToken.tagName += toAsciiChar(cp)
       this.tempBuff.push(cp)
     } else if (isAsciiLower(cp)) {
       this.currentToken.tagName += toChar(cp)
@@ -1258,7 +1263,7 @@ class Tokenizer {
     } else if (cp === $.EQUALS_SIGN) {
       this._leaveAttrName(BEFORE_ATTRIBUTE_VALUE_STATE)
     } else if (isAsciiUpper(cp)) {
-      this.currentAttr.name += toAsciiLowerChar(cp)
+      this.currentAttr.name += toAsciiChar(cp)
     } else if (
       cp === $.QUOTATION_MARK ||
       cp === $.APOSTROPHE ||
@@ -1644,7 +1649,7 @@ class Tokenizer {
     }
 
     if (isAsciiUpper(cp)) {
-      this._createDoctypeToken(toAsciiLowerChar(cp))
+      this._createDoctypeToken(toAsciiChar(cp))
       this.state = DOCTYPE_NAME_STATE
     } else if (cp === $.NULL) {
       this._err(ERR.unexpectedNullCharacter)
@@ -1677,7 +1682,7 @@ class Tokenizer {
       this.state = DATA_STATE
       this._emitCurrentToken()
     } else if (isAsciiUpper(cp)) {
-      this.currentToken.name += toAsciiLowerChar(cp)
+      this.currentToken.name += toAsciiChar(cp)
     } else if (cp === $.NULL) {
       this._err(ERR.unexpectedNullCharacter)
       this.currentToken.name += unicode.REPLACEMENT_CHARACTER

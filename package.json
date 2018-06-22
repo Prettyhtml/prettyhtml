@@ -31,5 +31,8 @@
     "husky": "^0.14.3",
     "nyc": "^12.0.2",
     "prettier": "^1.13.5"
+  },
+  "dependencies": {
+    "hastscript": "^3.1.0"
   }
 }

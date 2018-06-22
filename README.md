@@ -16,10 +16,12 @@
 ## Packages
 
 * [prettyhtml](/packages/prettyhtml) CLI and API.
-* [prettyhtml-formatter](/packages/prettyhtml-formatter) formater.
-* [prettyhtml-hast-to-html](/packages/prettyhtml-hast-to-html) stringifier.
+* [prettyhtml-formatter](/packages/prettyhtml-formatter) Formater.
+* [prettyhtml-hast-to-html](/packages/prettyhtml-hast-to-html) Stringifier.
 * [prettyhtml-parse](/packages/prettyhtml-parse) HTML parser and serializer.
-* [prettyhtml-rehype-parse](/packages/prettyhtml-rehype-parse) adapter between HTML parser and rehype.
+* [prettyhtml-rehype-parse](/packages/prettyhtml-rehype-parse) Adapter between HTML parser and rehype.
+* [prettyhtml-hast-util-from-parse](/packages/prettyhtml-hast-util-from-parse) Transform Parse5’s AST to HAST.
+* [prettyhtml-hastscript](/packages/prettyhtml-hastscript) Hyperscript compatible DSL for creating virtual HAST trees.
 
 ## Install
 
@@ -48,8 +50,9 @@ const result = prettyhtml(`<element></element>`)
 
 ## TODO
 
-* [ ] Angular support
-* [ ] Fixed rule set
+* [ ] Support casesensitive html attributes
+* [ ] Fixed tests from packages
+* [ ] Agree on ruleset
 
 ## Why
 

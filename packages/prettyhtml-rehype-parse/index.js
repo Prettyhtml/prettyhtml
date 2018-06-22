@@ -1,6 +1,6 @@
 'use strict'
 
-var fromParse5 = require('hast-util-from-parse5')
+var fromParse5 = require('@starptech/prettyhtml-hast-util-from-parse')
 var Parser5 = require('@starptech/prettyhtml-parse/lib/parser')
 var xtend = require('xtend')
 var errors = require('./errors.json')

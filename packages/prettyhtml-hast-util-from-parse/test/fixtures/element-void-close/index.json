@@ -1,0 +1,166 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "element",
+      "tagName": "html",
+      "properties": {},
+      "children": [
+        {
+          "type": "element",
+          "tagName": "head",
+          "properties": {},
+          "children": []
+        },
+        {
+          "type": "element",
+          "tagName": "body",
+          "properties": {},
+          "children": [
+            {
+              "type": "element",
+              "tagName": "br",
+              "properties": {},
+              "children": [],
+              "data": {
+                "position": {
+                  "opening": {
+                    "start": {
+                      "line": 1,
+                      "column": 1,
+                      "offset": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 5,
+                      "offset": 4
+                    }
+                  },
+                  "closing": null,
+                  "properties": {}
+                }
+              },
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 5,
+                  "offset": 4
+                }
+              }
+            },
+            {
+              "type": "text",
+              "value": "text",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 5,
+                  "offset": 4
+                },
+                "end": {
+                  "line": 1,
+                  "column": 9,
+                  "offset": 8
+                }
+              }
+            },
+            {
+              "type": "element",
+              "tagName": "br",
+              "properties": {},
+              "children": []
+            },
+            {
+              "type": "text",
+              "value": "\n",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 14,
+                  "offset": 13
+                },
+                "end": {
+                  "line": 2,
+                  "column": 1,
+                  "offset": 14
+                }
+              }
+            },
+            {
+              "type": "element",
+              "tagName": "img",
+              "properties": {},
+              "children": [],
+              "data": {
+                "position": {
+                  "opening": {
+                    "start": {
+                      "line": 2,
+                      "column": 1,
+                      "offset": 14
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 6,
+                      "offset": 19
+                    }
+                  },
+                  "closing": null,
+                  "properties": {}
+                }
+              },
+              "position": {
+                "start": {
+                  "line": 2,
+                  "column": 1,
+                  "offset": 14
+                },
+                "end": {
+                  "line": 2,
+                  "column": 6,
+                  "offset": 19
+                }
+              }
+            },
+            {
+              "type": "text",
+              "value": "text\n",
+              "position": {
+                "start": {
+                  "line": 2,
+                  "column": 6,
+                  "offset": 19
+                },
+                "end": {
+                  "line": 3,
+                  "column": 1,
+                  "offset": 30
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "data": {
+    "quirksMode": true
+  },
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 3,
+      "column": 1,
+      "offset": 30
+    }
+  }
+}

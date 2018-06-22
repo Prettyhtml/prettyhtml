@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+- lts/boron
+- node
+after_script: bash <(curl -s https://codecov.io/bash)
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: D32bcNwl0l5PKZNzjp0qjHuNJb7Eb3qvzuTcAwust5OsDBsuLPgADjj1spqthLJbV6ZXHfTCCG2K8pvnkF9uTlBlAKBySN2Pr4P8YLuhKAbzrkCdq0/grRhKwxlsESzcPlLNl5bQ85CLbupMIcuujEnxxwJuX+ISDm72ODjlZdEVHigaB7jsW9V0rGa3mQvucr3wLgCSVD6eTiwWXTX144O96it0Wn3vdyfv10gHC9EtVG8cDJCLp2nKdP7dTzDTbxEaGGox8cCs5MqkCKCjiHR97OYLOX4kCclgcfR+iNfbs9AFC3mIxY8OQgsoS/gw5iOp/7IRMk1Gc5Ey5gwbdKvNfwxFVJImCOszZLpMluN9nWWELhw3lclG58o5PYlS8BB04ZJRze4QVloUv1HRrJxU6OKvhz0ilqqwdRpfUjyzVFKXjUWhNXhOBCV+KqG5MCShx2F2eFrAvCLO7tD8d7QJs/oImDvY/hLc2aTfLZGSyUjRIDTNBPzI/6iEuPxEFawZMOo4xKd2vdttF53tj4mKKgnYwGcKDmWC/LpicOlhS0btd5jt7klpeEprSPJXU90dc3EmlcGQW5hEwsoU9ioKYjC5PQfX7uTLIr4VnYECNFUwsj5BPpkDneC6wZ61dfXWD7+RUCdAbDMNl9mIVuuoASELG+oEVkcp+ji8iv4=
+  file:
+    - "hast-util-from-parse5.js"
+    - "hast-util-from-parse5.min.js"
+  on:
+    tags: true

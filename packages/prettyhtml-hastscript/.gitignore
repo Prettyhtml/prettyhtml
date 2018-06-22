@@ -1,0 +1,8 @@
+.DS_Store
+*.log
+.nyc_output/
+coverage/
+node_modules/
+hastscript.js
+hastscript.min.js
+yarn.lock

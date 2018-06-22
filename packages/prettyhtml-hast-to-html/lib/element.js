@@ -62,8 +62,7 @@ function element(ctx, node, index, parent) {
     // break closing element when the custom element has at least one property or one children
     if (
       node.isCustomElement &&
-      Object.keys(node.properties).length > 0 &&
-      node.children.length > 0
+      (Object.keys(node.properties).length > 0 || node.children.length > 0)
     ) {
       value += '\n' + repeat(ctx.indent, node.indentLevel) + LT + SO + name + GT
     } else {
@@ -129,7 +128,7 @@ function attribute(ctx, node, key, value) {
     return EMPTY
   }
 
-  name = attributeName(ctx, key)
+  name = attributeName(ctx, node, key)
 
   if ((value && info.boolean) || (value === true && info.overloadedBoolean)) {
     return name
@@ -150,9 +149,14 @@ function attribute(ctx, node, key, value) {
 }
 
 /* Stringify the attribute name. */
-function attributeName(ctx, key) {
+function attributeName(ctx, node, key) {
   var info = information(key) || {}
-  var name = info.name || kebab(key)
+  var name = info.name || key
+
+  // don't kebab case custom element attributes
+  if (!name && !node.isCustomElement) {
+    name = kebab(key)
+  }
 
   if (
     name.slice(0, DATA.length) === DATA &&
