@@ -136,9 +136,10 @@ function attribute(ctx, node, key, value) {
     return name
   }
 
-  if ((value && info.boolean) || (value === true && info.overloadedBoolean)) {
-    return name
-  }
+  // don't omit value behind attribute
+  // if ((value && info.boolean) || (value === true && info.overloadedBoolean)) {
+  //   return name
+  // }
 
   // isCustomElement was set by formatter
   if (node.isCustomElement) {

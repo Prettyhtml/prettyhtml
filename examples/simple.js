@@ -2,7 +2,7 @@ const prettyhtml = require('./../packages/prettyhtml')
 
 // example with angular template
 const result = prettyhtml(`
-<my-component ng-model="selected">
+<my-component ng-model="selected" disabled="AAA">
 <custom FOO="test" class="test" title="wdwe"></custom>
 <form #heroForm (ngSubmit)="onSubmit(heroForm)">
   <input type="text" [(onChange)]="dede" name="test"/>
