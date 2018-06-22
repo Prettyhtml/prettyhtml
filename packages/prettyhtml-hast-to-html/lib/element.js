@@ -130,6 +130,12 @@ function attribute(ctx, node, key, value) {
 
   name = attributeName(ctx, node, key)
 
+  // TODO Angular specific
+  // handle it like boolean attribute
+  if (key.startsWith('#')) {
+    return name
+  }
+
   if ((value && info.boolean) || (value === true && info.overloadedBoolean)) {
     return name
   }
@@ -212,13 +218,14 @@ function attributeValue(ctx, key, value) {
         quote = alternative
       }
 
-      value = entities(
-        value,
-        xtend(options, {
-          subset: quote === SQ ? ctx.SINGLE_QUOTED : ctx.DOUBLE_QUOTED,
-          attribute: true
-        })
-      )
+      // don't encode attribute values
+      // value = entities(
+      //   value,
+      //   xtend(options, {
+      //     subset: quote === SQ ? ctx.SINGLE_QUOTED : ctx.DOUBLE_QUOTED,
+      //     attribute: true
+      //   })
+      // )
 
       value = quote + value + quote
     }
