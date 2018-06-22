@@ -1,0 +1,48 @@
+{
+  "name": "@starptech/prettyhtml",
+  "version": "0.0.2",
+  "description": "Opinionated Web Component HTML formatter",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StarpTech/prettyhtml.git"
+  },
+  "bin": "cli.js",
+  "scripts": {
+    "test": "node test/index.js",
+    "format": "prettier ./lib/**/*.js --write",
+    "test-coverage": "nyc --reporter lcov tape test/index.js",
+    "release:patch": "np patch --yolo",
+    "release:minor": "np minor --yolo",
+    "release:major": "np major --yolo"
+  },
+  "files": [
+    "index.js",
+    "cli.js",
+    "lib"
+  ],
+  "keywords": [
+    "formatter",
+    "web-components",
+    "html"
+  ],
+  "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/StarpTech/prettyhtml/issues"
+  },
+  "homepage": "https://github.com/StarpTech/prettyhtml#readme",
+  "dependencies": {
+    "@starptech/prettyhtml-formatter": "^0.0.2",
+    "@starptech/prettyhtml-rehype-parse": "^0.0.2",
+    "meow": "^5.0.0",
+    "rehype-parse": "^4.1.0",
+    "rehype-sort-attributes": "^1.0.1",
+    "unified": "^7.0.0",
+    "unified-engine": "^6.0.1",
+    "update-notifier": "^2.5.0",
+    "vfile": "^3.0.0",
+    "vfile-reporter": "^5.0.0"
+  },
+  "devDependencies": {}
+}

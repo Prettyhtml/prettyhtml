@@ -1,0 +1,31 @@
+{
+    "name": "@starptech/prettyhtml-parse",
+    "description": "HTML parser and serializer.",
+    "version": "0.0.2",
+    "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
+    "homepage": "https://github.com/StarpTech/prettyhtml",
+    "keywords": [
+        "html",
+        "parser",
+        "html5",
+        "WHATWG",
+        "specification",
+        "fast",
+        "html parser",
+        "html5 parser",
+        "htmlparser",
+        "parse5",
+        "serializer",
+        "html serializer",
+        "htmlserializer",
+        "parse",
+        "serialize"
+    ],
+    "license": "MIT",
+    "main": "./lib/index.js",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/StarpTech/prettyhtml.git"
+    },
+    "files": ["lib"]
+}

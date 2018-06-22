@@ -1,7 +1,7 @@
 'use strict'
 
 const xtend = require('xtend')
-const toHTML = require('./hast-to-html')
+const toHTML = require('@starptech/prettyhtml-hast-to-html')
 
 module.exports = stringify
 

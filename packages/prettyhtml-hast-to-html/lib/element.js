@@ -59,7 +59,12 @@ function element(ctx, node, index, parent) {
 
   if (!selfClosing && (!omit || !omit.closing(node, index, parent))) {
     // isCustomElement was set by formatter
-    if (node.isCustomElement) {
+    // break closing element when the custom element has at least one property or one children
+    if (
+      node.isCustomElement &&
+      Object.keys(node.properties).length > 0 &&
+      node.children.length > 0
+    ) {
       value += '\n' + repeat(ctx.indent, node.indentLevel) + LT + SO + name + GT
     } else {
       value += LT + SO + name + GT

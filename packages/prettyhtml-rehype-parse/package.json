@@ -1,0 +1,31 @@
+{
+  "name": "@starptech/prettyhtml-rehype-parse",
+  "version": "0.0.2",
+  "description": "HTML parser for rehype",
+  "license": "MIT",
+  "keywords": [
+    "html",
+    "abstract",
+    "syntax",
+    "tree",
+    "ast",
+    "parse"
+  ],
+  "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
+  "homepage": "https://github.com/StarpTech/prettyhtml",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StarpTech/prettyhtml.git"
+  },
+  "bugs": "https://github.com/StarpTech/prettyhtml/issues",
+  "files": [
+    "index.js",
+    "errors.json"
+  ],
+  "dependencies": {
+    "hast-util-from-parse5": "^3.0.0",
+    "@starptech/prettyhtml-parse": "^0.0.2",
+    "xtend": "^4.0.1"
+  },
+  "xo": false
+}

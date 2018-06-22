@@ -13,8 +13,8 @@ const pack = require('./package')
 // processing
 const parse = require('rehype-parse')
 const sortAttributes = require('rehype-sort-attributes')
-const stringify = require('./lib/stringify')
-const format = require('./lib/formatter')
+const stringify = require('@starptech/prettyhtml-formatter/stringify')
+const format = require('@starptech/prettyhtml-formatter/formatter')
 
 const extensions = ['html']
 

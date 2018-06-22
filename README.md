@@ -13,6 +13,14 @@
 - Special indentation for [`custom elements`](https://developers.google.com/web/fundamentals/web-components/).
 - No content manipulation in attributes or tags.
 
+## Packages
+
+* [prettyhtml](/packages/prettyhtml) CLI and API.
+* [prettyhtml-formatter](/packages/prettyhtml-formatter) formater.
+* [prettyhtml-hast-to-html](/packages/prettyhtml-hast-to-html) stringifier.
+* [prettyhtml-parse](/packages/prettyhtml-parse) HTML parser and serializer.
+* [prettyhtml-rehype-parse](/packages/prettyhtml-rehype-parse) adapter between HTML parser and rehype.
+
 ## Install
 
 ```
@@ -37,6 +45,11 @@ $ prettyhtml --help
 const prettyhtml = require('@starptech/prettyhtml')
 const result = prettyhtml(`<element></element>`)
 ```
+
+## TODO
+
+* [ ] Angular support
+* [ ] Fixed rule set
 
 ## Why
 

@@ -2,10 +2,10 @@
 
 const VFile = require('vfile')
 const unified = require('unified')
-const parse = require('rehype-parse')
+const parse = require('@starptech/prettyhtml-rehype-parse')
 const sortAttributes = require('rehype-sort-attributes')
-const stringify = require('./lib/stringify')
-const format = require('./lib/formatter')
+const stringify = require('@starptech/prettyhtml-formatter/stringify')
+const format = require('@starptech/prettyhtml-formatter')
 
 module.exports = prettyhtml
 

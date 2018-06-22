@@ -7,7 +7,7 @@ var vfile = require('to-vfile')
 var hidden = require('is-hidden')
 
 const unified = require('unified')
-const parse = require('rehype-parse')
+const parse = require('@starptech/prettyhtml-rehype-parse')
 const sortAttributes = require('rehype-sort-attributes')
 const stringify = require('../lib/stringify')
 const format = require('../lib/formatter')

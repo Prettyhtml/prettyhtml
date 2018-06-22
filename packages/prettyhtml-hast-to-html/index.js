@@ -1,8 +1,8 @@
 'use strict'
 
 const voids = require('html-void-elements')
-const omission = require('./omission')
-const one = require('./one')
+const omission = require('./lib/omission')
+const one = require('./lib/one')
 const repeat = require('repeat-string')
 
 module.exports = toHTML
