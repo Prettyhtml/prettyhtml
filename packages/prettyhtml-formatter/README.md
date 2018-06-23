@@ -11,4 +11,4 @@
 
 ### Modifications
 
-* Use `@starptech/prettyhtml-rehype-parse`
+*   Use `@starptech/prettyhtml-rehype-parse`

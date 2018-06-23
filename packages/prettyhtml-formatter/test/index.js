@@ -5,18 +5,12 @@ var path = require('path')
 var test = require('tape')
 var vfile = require('to-vfile')
 var hidden = require('is-hidden')
+var negate = require('negate')
 
 const unified = require('unified')
 const parse = require('@starptech/prettyhtml-rehype-parse')
-const sortAttributes = require('rehype-sort-attributes')
-const stringify = require('../lib/stringify')
-const format = require('../lib/formatter')
-
-function negate(predicate) {
-  return function() {
-    return !predicate.apply(this, arguments)
-  }
-}
+const stringify = require('../stringify')
+const format = require('..')
 
 test('format', function(t) {
   var root = path.join(__dirname, 'fixtures')
@@ -48,9 +42,6 @@ test('format', function(t) {
       })
       .use(stringify)
       .freeze()()
-
-      .use(stringify)
-      .use(sortAttributes)
       .use(format, config)
 
     proc.process(input, function(err) {

@@ -7,7 +7,11 @@
     "type": "git",
     "url": "git+https://github.com/StarpTech/prettyhtml.git"
   },
-  "scripts": {},
+  "scripts": {
+    "test-api": "node test/index.js",
+    "test-coverage": "nyc --reporter lcov tape test/index.js",
+    "test": "npm run test-coverage"
+  },
   "files": [
     "index.js",
     "stringify.js"
@@ -29,7 +33,6 @@
     "html-whitespace-sensitive-tag-names": "^1.0.0",
     "is-hidden": "^1.1.1",
     "rehype-minify-whitespace": "^2.0.3",
-    "rehype-sort-attributes": "^1.0.1",
     "repeat-string": "^1.6.1",
     "to-vfile": "^5.0.0",
     "unified": "^7.0.0",
@@ -38,12 +41,15 @@
     "@starptech/prettyhtml-rehype-parse": "^0.0.2"
   },
   "devDependencies": {
-    "code": "^4.1.0",
-    "husky": "^0.14.3",
-    "istanbul": "^0.4.5",
-    "nyc": "^12.0.2",
-    "tape": "^4.9.1",
-    "xo": "^0.21.1"
+    "bail": "^1.0.1",
+    "browserify": "^14.1.0",
+    "esmangle": "^1.0.0",
+    "is-hidden": "^1.0.1",
+    "negate": "^1.0.0",
+    "nyc": "^11.0.0",
+    "rehype": "^5.0.0",
+    "tape": "^4.0.0",
+    "to-vfile": "^2.1.1"
   },
   "nyc": {
     "check-coverage": true,
@@ -54,6 +60,8 @@
   "xo": {
     "space": true,
     "esnext": false,
-    "ignores": []
+    "ignores": [
+      "rehype-format.js"
+    ]
   }
 }
