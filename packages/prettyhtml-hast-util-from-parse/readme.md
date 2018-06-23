@@ -17,3 +17,4 @@
 ### Modifications
 
 * Added `isCustomElement` to HAST node.
+* Use `@starptech/prettyhtml-hastscript`

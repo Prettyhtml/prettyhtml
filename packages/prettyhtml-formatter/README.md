@@ -8,3 +8,7 @@
 <div align="center">
 <code>npm install --save @starptech/prettyhtml-formatter</code>
 </div>
+
+### Modifications
+
+* Use `@starptech/prettyhtml-rehype-parse`

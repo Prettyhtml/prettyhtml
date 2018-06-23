@@ -13,3 +13,7 @@
 <p align="center">
   📖 <a href="https://github.com/rehypejs/rehype/tree/master/packages/rehype-parse"><b>Documentation</b></a> 📖
 </p>
+
+### Modification
+
+* Use `@starptech/prettyhtml-hast-util-from-parse` and `@starptech/prettyhtml-parse/lib/parser`
