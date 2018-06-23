@@ -771,6 +771,7 @@ class Tokenizer {
   }
 
   // Tag name state
+  // Mod: Allow to handle tags case-sensitive
   // ------------------------------------------------------------------
   [TAG_NAME_STATE](cp) {
     if (isWhitespace(cp)) {
@@ -818,10 +819,11 @@ class Tokenizer {
   }
 
   // RCDATA end tag name state
+  // Mod: Allow to handle tags case-sensitive
   // ------------------------------------------------------------------
   [RCDATA_END_TAG_NAME_STATE](cp) {
     if (isAsciiUpper(cp)) {
-      this.currentToken.tagName += toAsciiChar(cp)
+      this.currentToken.tagName += toAsciiLowerChar(cp)
       this.tempBuff.push(cp)
     } else if (isAsciiLower(cp)) {
       this.currentToken.tagName += toChar(cp)
@@ -879,7 +881,7 @@ class Tokenizer {
   // ------------------------------------------------------------------
   [RAWTEXT_END_TAG_NAME_STATE](cp) {
     if (isAsciiUpper(cp)) {
-      this.currentToken.tagName += toAsciiChar(cp)
+      this.currentToken.tagName += toAsciiLowerChar(cp)
       this.tempBuff.push(cp)
     } else if (isAsciiLower(cp)) {
       this.currentToken.tagName += toChar(cp)
@@ -940,7 +942,7 @@ class Tokenizer {
   // ------------------------------------------------------------------
   [SCRIPT_DATA_END_TAG_NAME_STATE](cp) {
     if (isAsciiUpper(cp)) {
-      this.currentToken.tagName += toAsciiChar(cp)
+      this.currentToken.tagName += toAsciiLowerChar(cp)
       this.tempBuff.push(cp)
     } else if (isAsciiLower(cp)) {
       this.currentToken.tagName += toChar(cp)
@@ -1083,7 +1085,7 @@ class Tokenizer {
   // ------------------------------------------------------------------
   [SCRIPT_DATA_ESCAPED_END_TAG_NAME_STATE](cp) {
     if (isAsciiUpper(cp)) {
-      this.currentToken.tagName += toAsciiChar(cp)
+      this.currentToken.tagName += toAsciiLowerChar(cp)
       this.tempBuff.push(cp)
     } else if (isAsciiLower(cp)) {
       this.currentToken.tagName += toChar(cp)
@@ -1250,6 +1252,7 @@ class Tokenizer {
   }
 
   // Attribute name state
+  // Mod: Allow to handle attributes case sensitive
   // ------------------------------------------------------------------
   [ATTRIBUTE_NAME_STATE](cp) {
     if (
@@ -1649,7 +1652,7 @@ class Tokenizer {
     }
 
     if (isAsciiUpper(cp)) {
-      this._createDoctypeToken(toAsciiChar(cp))
+      this._createDoctypeToken(toAsciiLowerChar(cp))
       this.state = DOCTYPE_NAME_STATE
     } else if (cp === $.NULL) {
       this._err(ERR.unexpectedNullCharacter)
@@ -1682,7 +1685,7 @@ class Tokenizer {
       this.state = DATA_STATE
       this._emitCurrentToken()
     } else if (isAsciiUpper(cp)) {
-      this.currentToken.name += toAsciiChar(cp)
+      this.currentToken.name += toAsciiLowerChar(cp)
     } else if (cp === $.NULL) {
       this._err(ERR.unexpectedNullCharacter)
       this.currentToken.name += unicode.REPLACEMENT_CHARACTER

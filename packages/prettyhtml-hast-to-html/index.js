@@ -50,8 +50,9 @@ var DQ_VALUE_CLEAN = DQ_VALUE.concat(NULL)
 /* Stringify the given HAST node. */
 function toHTML(node, options) {
   var settings = options || {}
+  var booleanAttrMarks = settings.booleanAttrMarks || ['#'] // handle e.g #ref as boolean attribute
   var quote = settings.quote || DQ
-  var indent = settings.indent || 2
+  var customElAttrIndent = settings.customElAttrIndent || 2 // indent attributes from custom elements
   var smart = settings.quoteSmart
   var errors = settings.allowParseErrors
   var characters = settings.allowDangerousCharacters
@@ -67,8 +68,8 @@ function toHTML(node, options) {
     )
   }
 
-  if (typeof indent === 'number') {
-    indent = repeat(' ', indent)
+  if (typeof customElAttrIndent === 'number') {
+    customElAttrIndent = repeat(' ', customElAttrIndent)
   }
 
   return one(
@@ -79,7 +80,8 @@ function toHTML(node, options) {
       SINGLE_QUOTED: singleQuoted.concat(characters ? [] : QUOTES),
       omit: settings.omitOptionalTags && omission,
       quote: quote,
-      indent,
+      customElAttrIndent,
+      booleanAttrMarks,
       alternative: smart ? alternative : null,
       unquoted: Boolean(settings.preferUnquoted),
       tight: settings.tightAttributes,

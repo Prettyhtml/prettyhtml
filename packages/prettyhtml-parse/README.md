@@ -13,3 +13,8 @@
 <p align="center">
   📖 <a href="/docs/index.md"><b>Documentation</b></a> 📖
 </p>
+
+### Modifications
+
+* Allow to handle attributes case-sensitive
+* Allow to tagName case-sensitive

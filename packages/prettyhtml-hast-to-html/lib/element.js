@@ -64,7 +64,13 @@ function element(ctx, node, index, parent) {
       node.isCustomElement &&
       (Object.keys(node.properties).length > 0 || node.children.length > 0)
     ) {
-      value += '\n' + repeat(ctx.indent, node.indentLevel) + LT + SO + name + GT
+      value +=
+        '\n' +
+        repeat(ctx.customElAttrIndent, node.indentLevel) +
+        LT +
+        SO +
+        name +
+        GT
     } else {
       value += LT + SO + name + GT
     }
@@ -130,9 +136,8 @@ function attribute(ctx, node, key, value) {
 
   name = attributeName(ctx, node, key)
 
-  // TODO Angular specific
   // handle it like boolean attribute
-  if (key.startsWith('#')) {
+  if (ctx.booleanAttrMarks.indexOf(name[0]) !== -1) {
     return name
   }
 
@@ -145,7 +150,7 @@ function attribute(ctx, node, key, value) {
   if (node.isCustomElement) {
     return (
       '\n' +
-      repeat(ctx.indent, node.indentLevel) +
+      repeat(ctx.customElAttrIndent, node.indentLevel) +
       '  ' +
       name +
       attributeValue(ctx, key, value)
