@@ -12,7 +12,6 @@ const pack = require('./package')
 
 // processing
 const parse = require('rehype-parse')
-const sortAttributes = require('rehype-sort-attributes')
 const stringify = require('@starptech/prettyhtml-formatter/stringify')
 const format = require('@starptech/prettyhtml-formatter/formatter')
 
@@ -94,6 +93,6 @@ engine(
 )
 
 function transform(options) {
-  const plugins = [sortAttributes, format]
+  const plugins = [format]
   return { plugins }
 }

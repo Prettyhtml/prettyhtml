@@ -3,7 +3,6 @@
 const VFile = require('vfile')
 const unified = require('unified')
 const parse = require('@starptech/prettyhtml-rehype-parse')
-const sortAttributes = require('rehype-sort-attributes')
 const stringify = require('@starptech/prettyhtml-formatter/stringify')
 const format = require('@starptech/prettyhtml-formatter')
 
@@ -13,7 +12,6 @@ function core(value, processor) {
   const file = new VFile(value)
   return processor()
     .use(stringify)
-    .use(sortAttributes)
     .use(format)
     .processSync(file)
 }

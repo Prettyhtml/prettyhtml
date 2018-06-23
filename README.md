@@ -9,9 +9,7 @@
 </p>
 
 - Remove superfluous white-space but still line-wrap as expected.
-- Reorder attributes based on how often they occur.
 - Special indentation for [`custom elements`](https://developers.google.com/web/fundamentals/web-components/).
-- No content manipulation in attributes or tags.
 
 ## Packages
 
