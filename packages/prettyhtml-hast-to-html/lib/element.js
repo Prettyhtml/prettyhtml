@@ -224,7 +224,7 @@ function attributeValue(ctx, key, value) {
         quote = alternative
       }
 
-      // don't encode attribute values
+      // don't encode attribute values because it can contains JS
       // value = entities(
       //   value,
       //   xtend(options, {

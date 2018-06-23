@@ -1,4 +1,5 @@
-const prettyhtml = require('./../packages/prettyhtml')
+const prettyhtml = require('..')
+const { writeFileSync } = require('fs')
 
 // example with angular template
 const result = prettyhtml(`<my-component ng-model="selected" disabled="AAA">
@@ -16,4 +17,4 @@ const result = prettyhtml(`<my-component ng-model="selected" disabled="AAA">
   </my-sub-component>
   <div></div></my-component>`)
 
-console.log(result.contents)
+writeFileSync('./examples/result.html', result.contents, 'utf8')
