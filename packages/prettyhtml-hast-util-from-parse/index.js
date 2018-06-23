@@ -5,6 +5,8 @@ var camelcase = require('camelcase')
 var h = require('@starptech/prettyhtml-hastscript')
 var xtend = require('xtend')
 var count = require('ccount')
+var htmlTags = require('html-tag-names')
+var svgTags = require('svg-tag-names')
 
 module.exports = wrapper
 
@@ -138,6 +140,15 @@ function element(ast, children, config) {
   }
 
   node = h(ast.tagName, props, children)
+
+  // detect custom elements by check all known html elements
+  if (
+    node.tagName &&
+    htmlTags.includes(node.tagName) === false &&
+    svgTags.includes(node.tagName) === false
+  ) {
+    node.isCustomElement = true
+  }
 
   if (ast.nodeName === 'template' && 'content' in ast) {
     pos = ast.sourceCodeLocation

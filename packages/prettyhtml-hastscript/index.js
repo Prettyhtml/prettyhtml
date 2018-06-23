@@ -1,7 +1,6 @@
 'use strict'
 
 var parseSelector = require('hast-util-parse-selector')
-var camelcase = require('camelcase')
 var propertyInformation = require('property-information')
 var spaces = require('space-separated-tokens').parse
 var commas = require('comma-separated-tokens').parse
@@ -141,6 +140,8 @@ function addProperty(properties, name, value) {
 
   result = parsePrimitive(info, name, result)
 
+  // properties[info.propertyName || camelcase(name)] = result
+  // don't camelcase attributes in order to work with the raw value in formatter
   properties[info.propertyName || name] = result
 }
 

@@ -5,8 +5,6 @@ const phrasing = require('hast-util-phrasing')
 const sensitive = require('html-whitespace-sensitive-tag-names')
 const repeat = require('repeat-string')
 const visit = require('unist-util-visit-parents')
-const htmlTags = require('html-tag-names')
-const svgTags = require('svg-tag-names')
 
 module.exports = format
 
@@ -50,14 +48,6 @@ function format(options) {
       let prev
       let child
       let newline
-
-      if (
-        node.tagName &&
-        htmlTags.includes(node.tagName) === false &&
-        svgTags.includes(node.tagName) === false
-      ) {
-        node.isCustomElement = true
-      }
 
       if (node.type === 'element' && node.tagName === 'head') {
         head = true

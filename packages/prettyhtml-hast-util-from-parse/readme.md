@@ -12,3 +12,8 @@
 <p align="center">
   📖 <a href="https://github.com/syntax-tree/hast-util-from-parse5"><b>Documentation</b></a> 📖
 </p>
+
+
+### Modifications
+
+* Added `isCustomElement` to HAST node.

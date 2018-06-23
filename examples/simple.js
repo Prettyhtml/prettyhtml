@@ -6,7 +6,7 @@ const result = prettyhtml(`
 <custom FOO="test" class="test" title="wdwe"></custom>
 <form #heroForm (ngSubmit)="onSubmit(heroForm)">
   <input type="text" [(onChange)]="dede" name="test"/>
-  <button [style.color]="isSpecial ? 'red' : 'green'">
+  <button [style.color]="isSpecial ? 'red' : 'green'"></button>
 </form>
   <my-sub-component ng-repeat="item in items" ng-value="item.value" aria-label="{{item.label}}">{{ item.label }}
     <div>foo

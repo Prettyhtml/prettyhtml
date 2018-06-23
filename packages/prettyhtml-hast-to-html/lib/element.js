@@ -58,7 +58,7 @@ function element(ctx, node, index, parent) {
   value += content
 
   if (!selfClosing && (!omit || !omit.closing(node, index, parent))) {
-    // isCustomElement was set by formatter
+    // isCustomElement was set by hast-from-parse
     // break closing element when the custom element has at least one property or one children
     if (
       node.isCustomElement &&
@@ -141,7 +141,7 @@ function attribute(ctx, node, key, value) {
   //   return name
   // }
 
-  // isCustomElement was set by formatter
+  // isCustomElement was set by hast-from-parse
   if (node.isCustomElement) {
     return (
       '\n' +
