@@ -11,8 +11,7 @@
     "unit-tests": "mocha --ui exports --reporter progress --timeout 20000 packages/**/test/*.test.js",
     "postinstall": "npm run bootstrap",
     "preversion": "npm test",
-    "precommit": "npm run prettify && git add -u",
-    "publish": "lerna exec 'npm publish'"
+    "precommit": "npm run prettify && git add -u"
   },
   "repository": {
     "type": "git",
