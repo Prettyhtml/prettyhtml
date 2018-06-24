@@ -36,6 +36,5 @@
     "hast-util-is-element": "^1.0.1",
     "stringify-entities": "^1.3.2",
     "repeat-string":"^1.6.1"
-  },
-  "devDependencies": {}
+  }
 }

@@ -18,3 +18,4 @@
 ## Modification
 
 * Don't camelCase attributes
+* Don't coerce or optimize attribute values

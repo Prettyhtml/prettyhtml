@@ -42,7 +42,16 @@ function element(ctx, node, index, parent) {
   selfClosing = content ? false : selfClosing
 
   if (attrs || !omit || !omit.opening(node, index, parent)) {
-    value = LT + name + (attrs ? SPACE + attrs : EMPTY)
+    value = LT + name
+
+    if (attrs) {
+      // we don't need to add space we indent it with newline
+      if (node.isCustomElement) {
+        value += attrs
+      } else {
+        value += SPACE + attrs
+      }
+    }
 
     if (selfClosing && ctx.close) {
       if (!ctx.tightClose || attrs.charAt(attrs.length - 1) === SO) {
@@ -113,7 +122,12 @@ function attributes(ctx, node) {
 
     /* In tight mode, don’t add a space after quoted attributes. */
     if (index !== length - 1 && last !== DQ && last !== SQ) {
-      values[index] = result + SPACE
+      // attributes are aligned in newline we don't need a space
+      if (node.isCustomElement) {
+        values[index] = result
+      } else {
+        values[index] = result + SPACE
+      }
     }
   }
 
