@@ -14,7 +14,7 @@
 ## Packages
 
 * [prettyhtml](/packages/prettyhtml) CLI and API.
-* [prettyhtml-formatter](/packages/prettyhtml-formatter) Formater.
+* [prettyhtml-formatter](/packages/prettyhtml-formatter) Formatter.
 * [prettyhtml-hast-to-html](/packages/prettyhtml-hast-to-html) Stringifier.
 * [prettyhtml-parse](/packages/prettyhtml-parse) HTML parser and serializer.
 * [prettyhtml-rehype-parse](/packages/prettyhtml-rehype-parse) Adapter between HTML parser and rehype.
