@@ -25,9 +25,10 @@ var cli = meow(
 
   Options:
 
-  -t, --tab-width   Specify the number of spaces per indentation-level
-  -w, --why         output sources (when available)'
-  -q, --quiet       output only warnings and errors'
+  --tab-width     Specify the number of spaces per indentation-level
+  --print-width   Specify the line length that the printer will wrap on
+  --why           output sources (when available)'
+  --quiet         output only warnings and errors'
 
   When no input files are given, searches for html templates
   files in the current directory, \`src\` and \`app\`.
@@ -43,17 +44,18 @@ var cli = meow(
     flags: {
       tabWidth: {
         type: 'number',
-        default: 2,
-        alias: 't'
+        default: 2
+      },
+      printWidth: {
+        type: 'number',
+        default: 80
       },
       quiet: {
         type: 'boolean',
-        default: true,
-        alias: 'q'
+        default: true
       },
       why: {
-        type: 'boolean',
-        alias: 'q'
+        type: 'boolean'
       }
     }
   }
@@ -98,7 +100,7 @@ function transform(options) {
   const plugins = [
     [parse, { fragment: true }],
     [stringify, { customElAttrIndent: cli.flags.tabWidth }],
-    [format, { indent: cli.flags.tabWidth }]
+    [format, { indent: cli.flags.tabWidth, printWidth: cli.flags.printWidth }]
   ]
   return { plugins }
 }
