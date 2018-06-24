@@ -9,11 +9,8 @@
     "clean": "lerna clean",
     "prettify": "prettier --write \"./**/*.js\"",
     "lint": "eslint .",
-    "test": "npm run lint && npm run unit-tests",
-    "unit-tests": "mocha --ui exports --reporter progress --timeout 20000 packages/**/test/*.test.js",
     "postinstall": "npm run bootstrap",
-    "preversion": "npm test",
-    "precommit": "npm run prettify && git add -u"
+    "precommit": "npm run prettify"
   },
   "repository": {
     "type": "git",
