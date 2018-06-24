@@ -44,7 +44,7 @@ test('format', function(t) {
       .freeze()()
       .use(format, config)
 
-    proc.process(input, function(err, a ) {
+    proc.process(input, function(err) {
       t.test(fixture, function(st) {
         st.plan(3)
         st.ifErr(err, 'shouldn’t throw')
