@@ -26,5 +26,8 @@
     "@starptech/prettyhtml-parse": "^0.0.2",
     "@starptech/prettyhtml-hast-util-from-parse": "^0.0.2",
     "xtend": "^4.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -64,5 +64,8 @@
     "ignores": [
       "rehype-format.js"
     ]
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

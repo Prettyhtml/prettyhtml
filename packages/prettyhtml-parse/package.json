@@ -27,5 +27,8 @@
       "type": "git",
       "url": "git+https://github.com/StarpTech/prettyhtml.git"
     },
-    "files": ["lib"]
+    "files": ["lib"],
+    "publishConfig": {
+      "access": "public"
+    }
 }
