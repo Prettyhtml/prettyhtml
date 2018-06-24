@@ -16,5 +16,5 @@
 
 ### Modifications
 
-* Allow to handle attributes case-sensitive
-* Allow to tagName case-sensitive
+* Allow to handle case-sensitive attributes
+* Allow to handle case-sensitive tagName
