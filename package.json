@@ -5,6 +5,7 @@
   "description": "",
   "scripts": {
     "bootstrap": "lerna bootstrap",
+    "publish": "lerna publish",
     "clean": "lerna clean",
     "prettify": "prettier --write \"./**/*.js\"",
     "lint": "eslint .",
