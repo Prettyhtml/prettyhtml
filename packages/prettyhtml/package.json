@@ -8,14 +8,7 @@
     "url": "git+https://github.com/StarpTech/prettyhtml.git"
   },
   "bin": "cli.js",
-  "scripts": {
-    "test": "node test/index.js",
-    "format": "prettier ./lib/**/*.js --write",
-    "test-coverage": "nyc --reporter lcov tape test/index.js",
-    "release:patch": "np patch --yolo",
-    "release:minor": "np minor --yolo",
-    "release:major": "np major --yolo"
-  },
+  "scripts": {},
   "files": [
     "index.js",
     "cli.js",
