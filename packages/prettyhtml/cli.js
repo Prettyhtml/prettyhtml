@@ -11,9 +11,9 @@ const report = require('vfile-reporter')
 const pack = require('./package')
 
 // processing
-const parse = require('rehype-parse')
+const parse = require('@starptech/prettyhtml-rehype-parse')
 const stringify = require('@starptech/prettyhtml-formatter/stringify')
-const format = require('@starptech/prettyhtml-formatter/formatter')
+const format = require('@starptech/prettyhtml-formatter')
 
 const extensions = ['html']
 
@@ -25,8 +25,9 @@ var cli = meow(
 
   Options:
 
-  -w, --why    output sources (when available)'
-  -q, --quiet  output only warnings and errors'
+  -t, --tab-width   Specify the number of spaces per indentation-level
+  -w, --why         output sources (when available)'
+  -q, --quiet       output only warnings and errors'
 
   When no input files are given, searches for html templates
   files in the current directory, \`src\` and \`app\`.
@@ -40,6 +41,11 @@ var cli = meow(
     autoHelp: true,
     autoVersion: true,
     flags: {
+      tabWidth: {
+        type: 'number',
+        default: 2,
+        alias: 't'
+      },
       quiet: {
         type: 'boolean',
         default: true,
@@ -61,11 +67,7 @@ if (cli.input.length !== 0) {
 
 engine(
   {
-    processor: unified()
-      .use(parse, {
-        fragment: true
-      })
-      .use(stringify),
+    processor: unified(),
     files: globs,
     extensions: extensions,
     configTransform: transform,
@@ -93,6 +95,10 @@ engine(
 )
 
 function transform(options) {
-  const plugins = [format]
+  const plugins = [
+    [parse, { fragment: true }],
+    [stringify, { customElAttrIndent: cli.flags.tabWidth }],
+    [format, { indent: cli.flags.tabWidth }]
+  ]
   return { plugins }
 }

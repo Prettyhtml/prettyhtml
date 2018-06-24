@@ -150,8 +150,7 @@ function attribute(ctx, node, key, value) {
   if (node.isCustomElement) {
     return (
       '\n' +
-      repeat(ctx.customElAttrIndent, node.indentLevel) +
-      '  ' +
+      repeat(ctx.customElAttrIndent, node.indentLevel + 1) +
       name +
       attributeValue(ctx, key, value)
     )

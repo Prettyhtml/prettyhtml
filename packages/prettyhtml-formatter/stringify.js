@@ -6,7 +6,7 @@ const toHTML = require('@starptech/prettyhtml-hast-to-html')
 module.exports = stringify
 
 function stringify(config) {
-  var settings = xtend(config, this.data('settings'))
+  const settings = xtend(config, this.data('settings'))
 
   this.Compiler = compiler
 

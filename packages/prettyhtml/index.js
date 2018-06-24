@@ -8,22 +8,23 @@ const format = require('@starptech/prettyhtml-formatter')
 
 module.exports = prettyhtml
 
-function core(value, processor) {
+function core(value, processor, options) {
   const file = new VFile(value)
   return processor()
-    .use(stringify)
-    .use(format)
+    .use(stringify, { customElAttrIndent: options.tabWidth })
+    .use(format, { indent: options.tabWidth })
     .processSync(file)
 }
 
-function prettyhtml(value) {
+function prettyhtml(value, options) {
+  options = options || {}
   return core(
     value,
     unified()
       .use(parse, {
         fragment: true
       })
-      .use(stringify)
-      .freeze()
+      .freeze(),
+    options
   )
 }
