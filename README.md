@@ -12,6 +12,36 @@
 - Special indentation for [`custom elements`](https://developers.google.com/web/fundamentals/web-components/).
 - No content manipulation.
 
+## Example
+
+In
+
+```html
+<p>Some <code>  code  </code>, <em> emphasis </em>, and <br> <strong> importance </strong>
+  .</p>
+<custom [ngModel]="currentHero.name"
+  (ngModelChange)="setUppercaseName($event)">
+    <custom2 [ngModel]="currentHero.name"     (ngModelChange)="setUppercaseName($event)">   </custom2>
+</custom>
+```
+
+Out
+
+```html
+<p>
+  Some <code>code</code>, <em>emphasis</em>, and<br><strong>importance</strong>
+  .
+</p>
+<custom
+  [ngModel]="currentHero.name"
+  (ngModelChange)="setUppercaseName($event)">
+  <custom2
+    [ngModel]="currentHero.name"
+    (ngModelChange)="setUppercaseName($event)">
+  </custom2>
+</custom>
+```
+
 ## Packages
 
 * [prettyhtml](/packages/prettyhtml) CLI and API.
