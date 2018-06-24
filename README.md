@@ -48,9 +48,10 @@ const result = prettyhtml(`<element></element>`)
 
 ## TODO
 
-* [ ] Support casesensitive html attributes
+* [X] Support casesensitive html attributes and tags
+* [X] Implement tab-width (default 2 spaces)
+* [ ] Implement print-width (default 80)
 * [ ] Fixed tests from packages
-* [ ] Agree on ruleset
 
 ## Why
 
