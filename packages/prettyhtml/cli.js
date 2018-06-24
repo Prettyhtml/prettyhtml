@@ -8,6 +8,7 @@ const meow = require('meow')
 const engine = require('unified-engine')
 const unified = require('unified')
 const report = require('vfile-reporter')
+const { basename } = require('path')
 const pack = require('./package')
 
 // processing
@@ -25,18 +26,20 @@ var cli = meow(
 
   Options:
 
-  --tab-width     Specify the number of spaces per indentation-level
-  --print-width   Specify the line length that the printer will wrap on
-  --why           output sources (when available)'
-  --quiet         output only warnings and errors'
+  --tab-width       Specify the number of spaces per indentation-level
+  --print-width     Specify the line length that the printer will wrap on
+  --stdin-filepath  Specify the input filepath. This will be used to do parser inference.
+  --why             Output sources (when available)
+  --quiet           Output only warnings and errors
 
-  When no input files are given, searches for html templates
-  files in the current directory, \`src\` and \`app\`.
+  When no input files are given, the standard in/out streams
+  are used as source and sink.
 
   Examples
-    $ echo "<element foo='bat'></element>" | prettyhtml
+    $ prettyhtml *.html
     $ prettyhtml *.html !example.html
-    $ prettyhtml
+    $ echo "<custom foo='bat'></custom>" | prettyhtml
+    $ echo "<custom foo='bat'></custom>" --stdin-filepath ./test.html
   `,
   {
     autoHelp: true,
@@ -45,6 +48,10 @@ var cli = meow(
       tabWidth: {
         type: 'number',
         default: 2
+      },
+      stdinFilepath: {
+        type: 'boolean',
+        default: false
       },
       printWidth: {
         type: 'number',
@@ -61,40 +68,43 @@ var cli = meow(
   }
 )
 
-let globs = ['{src/**/,app/**/,}*.{' + extensions.join(',') + '}']
-
-if (cli.input.length !== 0) {
-  globs = cli.input
+const settings = {
+  processor: unified(),
+  extensions: extensions,
+  configTransform: transform,
+  streamError: new PassThrough(), // sink errors
+  rcName: '.prettyhtmlrc',
+  packageField: 'prettyhtml',
+  ignoreName: '.prettyhtmlignore',
+  frail: true,
+  defaultConfig: transform()
 }
 
-engine(
-  {
-    processor: unified(),
-    files: globs,
-    extensions: extensions,
-    configTransform: transform,
-    output: true, // overwrite files
-    out: false,
-    streamError: new PassThrough(), // sink errors
-    rcName: '.prettyhtmlrc',
-    packageField: 'prettyhtml',
-    ignoreName: '.prettyhtmlignore',
-    frail: true,
-    defaultConfig: transform()
-  },
-  (err, code, result) => {
-    const out = report(err || result.files, {
-      verbose: cli.flags.why,
-      quiet: cli.flags.quiet
-    })
+if (cli.flags.stdinFilepath === false) {
+  settings.files = cli.input
+  settings.output = true // Whether to overwrite the input files
+  settings.out = false // Whether to write the processed file to streamOut
 
-    if (out) {
-      console.error(out)
-    }
-
-    process.exit(code)
+  engine(settings, processResult)
+} else {
+  if (cli.input.length !== 0) {
+    settings.output = basename(cli.input[0])
   }
-)
+  engine(settings, processResult)
+}
+
+function processResult(err, code, result) {
+  const out = report(err || result.files, {
+    verbose: cli.flags.why,
+    quiet: cli.flags.quiet
+  })
+
+  if (out) {
+    console.error(out)
+  }
+
+  process.exit(code)
+}
 
 function transform(options) {
   const plugins = [
