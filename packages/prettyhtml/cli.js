@@ -28,15 +28,15 @@ var cli = meow(
 
   --tab-width       Specify the number of spaces per indentation-level
   --print-width     Specify the line length that the printer will wrap on
-  --stdin-filepath  Specify the input filepath. This will be used to do parser inference.
+  --stdin           Specify the standard stream as source (for pipe mode)
   --why             Output sources (when available)
   --quiet           Output only warnings and errors
 
   Examples
     $ prettyhtml *.html
     $ prettyhtml *.html !example.html
-    $ echo "<custom foo='bat'></custom>" | prettyhtml
-    $ echo "<custom foo='bat'></custom>" --stdin-filepath ./test.html
+    $ echo "<custom foo='bat'></custom>" | prettyhtml --stdin
+    $ echo "<custom foo='bat'></custom>" --stdin ./test.html
   `,
   {
     autoHelp: true,
@@ -46,7 +46,7 @@ var cli = meow(
         type: 'number',
         default: 2
       },
-      stdinFilepath: {
+      stdin: {
         type: 'boolean',
         default: false
       },
@@ -77,12 +77,16 @@ const settings = {
   defaultConfig: transform()
 }
 
-if (cli.flags.stdinFilepath === false) {
-  settings.files = cli.input
-  settings.output = true // Whether to overwrite the input files
-  settings.out = false // Whether to write the processed file to streamOut
+if (cli.flags.stdin === false) {
+  if (cli.input.length === 0) {
+    cli.showHelp()
+  } else {
+    settings.files = cli.input
+    settings.output = true // Whether to overwrite the input files
+    settings.out = false // Whether to write the processed file to streamOut
 
-  engine(settings, processResult)
+    engine(settings, processResult)
+  }
 } else {
   if (cli.input.length !== 0) {
     settings.output = basename(cli.input[0])
