@@ -86,6 +86,14 @@ function format(options) {
       while (++index < length) {
         child = children[index]
 
+        // never indent the first node on root because we only format fragments
+        if (node.type === 'root' && index === 0) {
+          child.indentLevel = level
+          prev = child
+          result.push(child)
+          continue
+        }
+
         if (padding(child, head) || (newline && index === 0)) {
           child.indentLevel = level
           result.push({
@@ -100,7 +108,7 @@ function format(options) {
         result.push(child)
       }
 
-      // don't add indent for custom elements
+      // don't add indent after custom elements
       if (node.isCustomElement) {
         return
       }
