@@ -32,9 +32,6 @@ var cli = meow(
   --why             Output sources (when available)
   --quiet           Output only warnings and errors
 
-  When no input files are given, the standard in/out streams
-  are used as source and sink.
-
   Examples
     $ prettyhtml *.html
     $ prettyhtml *.html !example.html
