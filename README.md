@@ -74,7 +74,7 @@ $ prettyhtml --help
 
 ```js
 const prettyhtml = require('@starptech/prettyhtml')
-const result = prettyhtml(`<element></element>`)
+const result = prettyhtml(`<element></element>`, { tabWidth: 4 })
 ```
 
 ## TODO
