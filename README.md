@@ -61,7 +61,7 @@ $ npm install @starptech/prettyhtml --global
 ## Command Line
 
 ```
-$ prettyhtml example.md ./**/*.html
+$ prettyhtml example.html ./**/*.html
 ```
 
 ## Help
@@ -74,7 +74,7 @@ $ prettyhtml --help
 
 ```js
 const prettyhtml = require('@starptech/prettyhtml')
-const result = prettyhtml(`<element></element>`, { tabWidth: 4 })
+const result = prettyhtml(`<custom foo="bar"></custom>`, { tabWidth: 2 })
 ```
 
 ## TODO
@@ -82,7 +82,7 @@ const result = prettyhtml(`<element></element>`, { tabWidth: 4 })
 * [X] Support casesensitive html attributes and tags
 * [X] Implement tab-width (default 2 spaces)
 * [ ] Implement print-width (default 80)
-* [ ] Fixed tests from packages
+* [ ] Update tests from forked packages
 
 ## Why
 
