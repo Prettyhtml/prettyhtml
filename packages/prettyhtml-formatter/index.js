@@ -142,7 +142,7 @@ function padding(node, head) {
     return node.tagName === 'script' || !phrasing(node) || head
   }
 
-  return true
+  return false
 }
 
 /**
