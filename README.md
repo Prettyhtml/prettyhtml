@@ -11,9 +11,9 @@
 - Remove superfluous white-space but still line-wrap as expected.
 - Special indentation for [`custom elements`](https://developers.google.com/web/fundamentals/web-components/).
 - Reorder attributes based on how often they occur.
-- Sort attribute values.
-- No content manipulation of attributes.
 - Support case-sensitive html tags and attributes.
+- Sort attribute values.
+- No content sanitization.
 
 ## Example
 
