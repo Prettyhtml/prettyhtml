@@ -29,6 +29,8 @@
     "@starptech/prettyhtml-formatter": "^0.0.3",
     "@starptech/prettyhtml-rehype-parse": "^0.0.3",
     "meow": "^5.0.0",
+    "rehype-sort-attribute-values": "^1.0.1",
+    "rehype-sort-attributes": "^1.0.1",
     "unified": "^7.0.0",
     "unified-engine": "^6.0.1",
     "update-notifier": "^2.5.0",

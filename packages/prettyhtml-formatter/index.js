@@ -85,7 +85,7 @@ function format(options) {
       while (++index < length) {
         child = children[index]
 
-        // never indent the first node on root because we only format fragments
+        // never indent the first node on root
         if (node.type === 'root' && index === 0) {
           child.indentLevel = level
           prev = child
@@ -95,7 +95,7 @@ function format(options) {
 
         if (
           padding(child, head) ||
-          // indent when we found an text element with newlines before
+          // only insert newline when no previous text element includes a newline
           (newline && index === 0)
         ) {
           child.indentLevel = level
@@ -125,7 +125,8 @@ function format(options) {
 }
 
 /**
- * Add newline after script tags, comments and non-phrasing elements or head element
+ * Add newline after script tags, comments and non-phrasing elements or head element.
+ * Phrasing content is the text of the document, as well as elements that mark up that text at the intra-paragraph level
  * @param {*} node
  * @param {*} head
  */
@@ -134,15 +135,21 @@ function padding(node, head) {
     return true
   }
 
+  // each comment should appear on a saparate line
   if (node.type === 'comment') {
     return true
   } else if (node.type === 'element') {
     return node.tagName === 'script' || !phrasing(node) || head
   }
 
-  return false
+  return true
 }
 
+/**
+ * Check if an element is case-sensitive
+ * @param {*} nodes
+ * @returns
+ */
 function ignore(nodes) {
   var index = nodes.length
 
