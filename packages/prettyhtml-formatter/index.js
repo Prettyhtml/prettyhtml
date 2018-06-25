@@ -9,7 +9,6 @@ const visit = require('unist-util-visit-parents')
 module.exports = format
 
 /* Constants. */
-const double = '\n\n'
 const single = '\n'
 const re = /\n/g
 
@@ -18,7 +17,6 @@ function format(options) {
   const settings = options || {}
   let indent = settings.indent || 2
   let indentInitial = settings.indentInitial
-  const blanks = settings.blanks || []
 
   if (typeof indent === 'number') {
     indent = repeat(' ', indent)
@@ -74,6 +72,7 @@ function format(options) {
           if (child.value.indexOf('\n') !== -1) {
             newline = true
           }
+          // add indentation after newline
           child.value = child.value.replace(re, '$&' + repeat(indent, level))
         }
       }
@@ -86,21 +85,17 @@ function format(options) {
       while (++index < length) {
         child = children[index]
 
-        // never indent the first node on root because we only format fragments
-        if (node.type === 'root' && index === 0) {
-          child.indentLevel = level
-          prev = child
-          result.push(child)
-          continue
-        }
-
-        if (padding(child, head) || (newline && index === 0)) {
+        if (
+          padding(child, head) ||
+          // indent when we found an text element with newlines before
+          (newline && index === 0) ||
+          // never indent the first node on root because we only format fragments
+          (node.type !== 'root' && index !== 0)
+        ) {
           child.indentLevel = level
           result.push({
             type: 'text',
-            value:
-              (prev && blank(prev) && blank(child) ? double : single) +
-              repeat(indent, level)
+            value: single + repeat(indent, level)
           })
         }
 
@@ -120,14 +115,6 @@ function format(options) {
         })
       }
     }
-  }
-
-  function blank(node) {
-    return (
-      node.type === 'element' &&
-      blanks.length !== 0 &&
-      blanks.indexOf(node.tagName) !== -1
-    )
   }
 }
 

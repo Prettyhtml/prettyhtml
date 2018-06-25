@@ -6,7 +6,7 @@ module.exports = doctype
 function doctype(ctx, node) {
   var pub = node.public
   var sys = node.system
-  var val = '<!DOCTYPE'
+  var val = '<!doctype'
 
   if (!node.name) {
     return val + '>'
@@ -15,9 +15,9 @@ function doctype(ctx, node) {
   val += ' ' + node.name
 
   if (pub != null) {
-    val += ' PUBLIC ' + smart(pub)
+    val += ' public ' + smart(pub)
   } else if (sys != null) {
-    val += ' SYSTEM'
+    val += ' system'
   }
 
   if (sys != null) {

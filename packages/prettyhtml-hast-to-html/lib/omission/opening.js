@@ -1,15 +1,20 @@
 'use strict'
 
-const is = require('unist-util-is')
-const element = require('hast-util-is-element')
-const before = require('./util/siblings').before
-const first = require('./util/first')
-const place = require('./util/place')
-const whiteSpaceLeft = require('./util/white-space-left')
-const closing = require('./closing')
-const omission = require('./omission')
+var is = require('unist-util-is')
+var element = require('hast-util-is-element')
+var before = require('./util/siblings').before
+var first = require('./util/first')
+var place = require('./util/place')
+var whiteSpaceLeft = require('./util/white-space-left')
+var closing = require('./closing')
+var omission = require('./omission')
 
 var own = {}.hasOwnProperty
+
+var uniqueHeadMetadata = ['title', 'base']
+var meta = ['meta', 'link', 'script', 'style', 'template']
+var tableContainers = ['thead', 'tbody']
+var tableRow = 'tr'
 
 module.exports = omission({
   html: html,
@@ -38,7 +43,7 @@ function head(node) {
     child = children[index]
     name = child.tagName
 
-    if (child.type === 'element' && (name === 'title' || name === 'base')) {
+    if (element(child, uniqueHeadMetadata)) {
       if (own.call(map, name)) {
         return false
       }
@@ -56,9 +61,7 @@ function body(node) {
 
   return (
     !head ||
-    (!is('comment', head) &&
-      !whiteSpaceLeft(head) &&
-      !element(head, ['meta', 'link', 'script', 'style', 'template']))
+    (!is('comment', head) && !whiteSpaceLeft(head) && !element(head, meta))
   )
 }
 
@@ -85,11 +88,11 @@ function tbody(node, index, parent) {
 
   /* Previous table section was already omitted. */
   if (
-    element(prev, ['thead', 'tbody']) &&
+    element(prev, tableContainers) &&
     closing(prev, place(parent, prev), parent)
   ) {
     return false
   }
 
-  return head && element(head, 'tr')
+  return head && element(head, tableRow)
 }

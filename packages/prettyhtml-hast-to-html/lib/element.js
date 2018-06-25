@@ -154,11 +154,6 @@ function attribute(ctx, node, key, value) {
     return name
   }
 
-  // don't omit value behind attribute
-  // if ((value && info.boolean) || (value === true && info.overloadedBoolean)) {
-  //   return name
-  // }
-
   // isCustomElement was set by hast-from-parse
   if (node.isCustomElement) {
     return (
@@ -184,7 +179,7 @@ function attributeName(ctx, node, key) {
 
   if (
     name.slice(0, DATA.length) === DATA &&
-    /[0-9]/.test(name.charAt(DATA.length))
+    /\d/.test(name.charAt(DATA.length))
   ) {
     name = DATA + '-' + name.slice(4)
   }
