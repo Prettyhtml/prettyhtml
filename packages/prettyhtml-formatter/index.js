@@ -85,12 +85,18 @@ function format(options) {
       while (++index < length) {
         child = children[index]
 
+        // never indent the first node on root because we only format fragments
+        if (node.type === 'root' && index === 0) {
+          child.indentLevel = level
+          prev = child
+          result.push(child)
+          continue
+        }
+
         if (
           padding(child, head) ||
           // indent when we found an text element with newlines before
-          (newline && index === 0) ||
-          // never indent the first node on root because we only format fragments
-          (node.type !== 'root' && index !== 0)
+          (newline && index === 0)
         ) {
           child.indentLevel = level
           result.push({
