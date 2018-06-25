@@ -81,6 +81,7 @@ const result = prettyhtml(`<custom foo="bar"></custom>`, { tabWidth: 2 })
 
 * [X] Support casesensitive html attributes and tags
 * [X] Implement tab-width (default 2 spaces)
+* [ ] Sort attributes
 * [ ] Implement print-width (default 80)
 * [ ] Update tests from forked packages
 * [ ] More tests
