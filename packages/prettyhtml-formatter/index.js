@@ -122,6 +122,11 @@ function format(options) {
         result.push(child)
       }
 
+      // don't add indent after custom elements
+      if (node.isCustomElement) {
+        return
+      }
+
       if (newline || padding(prev, head)) {
         result.push({
           type: 'text',
