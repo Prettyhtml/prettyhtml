@@ -12,6 +12,7 @@
   "files": [
     "index.js",
     "cli.js",
+    "defaults.js",
     "lib"
   ],
   "keywords": [
