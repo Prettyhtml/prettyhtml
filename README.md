@@ -20,29 +20,31 @@
 In
 
 ```html
-<p>Some <code>  code  </code>, <em> emphasis </em>, and <br> <strong> importance </strong>
-  .</p>
-<custom [ngModel]="currentHero.name"
+<!-- custom --><custom [ngModel]="currentHero.name" class="b c a"
   (ngModelChange)="setUppercaseName($event)">
     <custom2 [ngModel]="currentHero.name"     (ngModelChange)="setUppercaseName($event)">   </custom2>
 </custom>
+<p>Some <code>  code  </code>, <em> emphasis </em>, and <br> <strong> importance </strong>
+  .</p>
 ```
 
 Out
 
 ```html
-<p>
-  Some <code>code</code>, <em>emphasis</em>, and<br><strong>importance</strong>
-  .
-</p>
+<!-- custom -->
 <custom
   [ngModel]="currentHero.name"
-  (ngModelChange)="setUppercaseName($event)">
+  (ngModelChange)="setUppercaseName($event)"
+  class="a b c">
   <custom2
     [ngModel]="currentHero.name"
     (ngModelChange)="setUppercaseName($event)">
   </custom2>
 </custom>
+<p>
+  Some <code>code</code>, <em>emphasis</em>, and<br><strong>importance</strong>
+  .
+</p>
 ```
 
 ## Packages
