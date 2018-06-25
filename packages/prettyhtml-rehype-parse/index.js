@@ -30,6 +30,8 @@ function parse(options) {
 
     return fromParse5(parse5[fn](doc), {
       file: file,
+      customElementAttrMarker: settings.customElementAttrMarker,
+      customElementAttrValueMarker: settings.customElementAttrValueMarker,
       verbose: settings.verbose
     })
 

@@ -57,6 +57,7 @@ function format(options) {
 
       /* Don’t indent content of whitespace-sensitive nodes / inlines. */
       if (!length || !padding(node, head) || ignore(parents.concat(node))) {
+        node.indentLevel = level - 1
         return
       }
 
@@ -67,7 +68,6 @@ function format(options) {
       /* Indent newlines in `text`. */
       while (++index < length) {
         child = children[index]
-
         if (child.type === 'text') {
           if (child.value.indexOf('\n') !== -1) {
             newline = true
@@ -98,6 +98,19 @@ function format(options) {
           // only insert newline when no previous text element includes a newline
           (newline && index === 0)
         ) {
+          // extra new line to separate it as a section
+          // don't add newline when a comment is followed by comment
+          if (
+            child.type === 'comment' &&
+            index + 1 <= children.length - 1 &&
+            children[index + 1].type !== 'comment'
+          ) {
+            result.push({
+              type: 'text',
+              value: single
+            })
+          }
+
           child.indentLevel = level
           result.push({
             type: 'text',
@@ -107,11 +120,6 @@ function format(options) {
 
         prev = child
         result.push(child)
-      }
-
-      // don't add indent after custom elements
-      if (node.isCustomElement) {
-        return
       }
 
       if (newline || padding(prev, head)) {

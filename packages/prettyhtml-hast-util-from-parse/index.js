@@ -36,6 +36,8 @@ function wrapper(ast, options) {
   return transform(ast, {
     file: file,
     verbose: settings.verbose,
+    customElementAttrValueMarker: settings.customElementAttrValueMarker,
+    customElementAttrMarker: settings.customElementAttrMarker,
     location: false
   })
 }
@@ -141,12 +143,7 @@ function element(ast, children, config) {
 
   node = h(ast.tagName, props, children)
 
-  // detect custom elements by check all known html elements
-  if (
-    node.tagName &&
-    htmlTags.includes(node.tagName) === false &&
-    svgTags.includes(node.tagName) === false
-  ) {
+  if (isCustomElement(node, config)) {
     node.isCustomElement = true
   }
 
@@ -225,4 +222,39 @@ function position(loc) {
 
 function point(point) {
   return point.line && point.column ? point : null
+}
+
+function isCustomElement(node, config) {
+  // detect custom elements by check all known html elements
+  if (
+    node.tagName &&
+    htmlTags.includes(node.tagName) === false &&
+    svgTags.includes(node.tagName) === false
+  ) {
+    return true
+  }
+
+  // check if attribute contains special marker
+  if (config.customElementAttrMarker) {
+    for (const key in node.properties) {
+      if (config.customElementAttrMarker.indexOf(key[0]) !== -1) {
+        node.isCustomElement = true
+        break
+      }
+    }
+  }
+
+  // check if attribute value contains special marker
+  if (config.customElementAttrValueMarker) {
+    for (const key in node.properties) {
+      const val = node.properties[key]
+      for (let i = 0; i < config.customElementAttrValueMarker.length; i++) {
+        if (val.includes(config.customElementAttrValueMarker[i])) {
+          return true
+        }
+      }
+    }
+  }
+
+  return false
 }

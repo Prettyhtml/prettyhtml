@@ -12,6 +12,7 @@ const unified = require('unified')
 const report = require('vfile-reporter')
 const { basename } = require('path')
 const pack = require('./package')
+const defaults = require('./defaults')
 
 // processing
 const parse = require('@starptech/prettyhtml-rehype-parse')
@@ -111,7 +112,7 @@ function processResult(err, code, result) {
 
 function transform(options) {
   const plugins = [
-    [parse, { fragment: true }],
+    [parse, defaults.parser],
     [stringify, { customElAttrIndent: cli.flags.tabWidth }],
     sortAttributes,
     sortAttributeValues,
