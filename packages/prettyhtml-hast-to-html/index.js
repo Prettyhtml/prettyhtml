@@ -53,10 +53,8 @@ function toHTML(node, options) {
   var booleanAttrMarks = settings.booleanAttrMarks || ['#'] // handle e.g #ref as boolean attribute
   var quote = settings.quote || DQ
   var customElAttrIndent = settings.customElAttrIndent || 2 // indent attributes from custom elements
-  var smart = settings.quoteSmart
   var errors = settings.allowParseErrors
   var characters = settings.allowDangerousCharacters
-  var alternative = quote === DQ ? SQ : DQ
   var name = errors ? NAME : CLEAN_NAME
   var unquoted = errors ? UQ_VALUE : UQ_VALUE_CLEAN
   var singleQuoted = errors ? SQ_VALUE : SQ_VALUE_CLEAN
@@ -82,12 +80,10 @@ function toHTML(node, options) {
       quote: quote,
       customElAttrIndent,
       booleanAttrMarks,
-      alternative: smart ? alternative : null,
       unquoted: Boolean(settings.preferUnquoted),
       tight: settings.tightAttributes,
       tightLists: settings.tightCommaSeparatedLists,
       tightClose: settings.tightSelfClosing,
-      collapseEmpty: settings.collapseEmptyAttributes,
       dangerous: settings.allowDangerousHTML,
       voids: settings.voids || voids.concat(),
       entities: settings.entities || {},

@@ -6,7 +6,6 @@ const commas = require('comma-separated-tokens').stringify
 const information = require('property-information')
 const entities = require('stringify-entities')
 const kebab = require('kebab-case')
-const ccount = require('ccount')
 const all = require('./all')
 const repeat = require('repeat-string')
 
@@ -201,10 +200,7 @@ function attributeName(ctx, node, key) {
 /* Stringify the attribute value. */
 function attributeValue(ctx, key, value) {
   var info = information(key) || {}
-  var options = ctx.entities
   var quote = ctx.quote
-  var alternative = ctx.alternative
-  var unquoted
 
   if (typeof value === 'object' && 'length' in value) {
     /* `spaces` doesn’t accept a second argument, but it’s
@@ -216,41 +212,8 @@ function attributeValue(ctx, key, value) {
 
   value = String(value)
 
-  if (value || !ctx.collapseEmpty) {
-    unquoted = value
-
-    /* Check unquoted value. */
-    if (ctx.unquoted) {
-      unquoted = entities(
-        value,
-        xtend(options, {
-          subset: ctx.UNQUOTED,
-          attribute: true
-        })
-      )
-    }
-
-    /* If `value` contains entities when unquoted... */
-    if (!ctx.unquoted || unquoted !== value) {
-      /* If the alternative is less common than `quote`, switch. */
-      if (alternative && ccount(value, quote) > ccount(value, alternative)) {
-        quote = alternative
-      }
-
-      // don't encode attribute values because it can contains JS
-      // value = entities(
-      //   value,
-      //   xtend(options, {
-      //     subset: quote === SQ ? ctx.SINGLE_QUOTED : ctx.DOUBLE_QUOTED,
-      //     attribute: true
-      //   })
-      // )
-
-      value = quote + value + quote
-    }
-
-    /* Don’t add a `=` for unquoted empties. */
-    value = value ? EQ + value : value
+  if (value !== '') {
+    value = EQ + quote + value + quote
   }
 
   return value
