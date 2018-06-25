@@ -83,7 +83,8 @@ const result = prettyhtml(`<custom foo="bar"></custom>`, { tabWidth: 2 })
 * [X] Implement tab-width (default 2 spaces)
 * [ ] Implement print-width (default 80)
 * [ ] Update tests from forked packages
-
+* [ ] Agree on rules
+ 
 ## Why
 
 Prettier has no support for HTML.
