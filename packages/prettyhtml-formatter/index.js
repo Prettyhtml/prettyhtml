@@ -131,12 +131,19 @@ function format(options) {
   }
 }
 
+/**
+ * Add newline after script tags, comments and non-phrasing elements or head element
+ * @param {*} node
+ * @param {*} head
+ */
 function padding(node, head) {
   if (node.type === 'root') {
     return true
   }
 
-  if (node.type === 'element') {
+  if (node.type === 'comment') {
+    return true
+  } else if (node.type === 'element') {
     return node.tagName === 'script' || !phrasing(node) || head
   }
 
