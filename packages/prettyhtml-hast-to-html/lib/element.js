@@ -155,6 +155,7 @@ function attribute(ctx, node, key, value) {
   }
 
   // isCustomElement was set by hast-from-parse
+  // TODO only indent with newline when width is larger than print-width
   if (node.isCustomElement) {
     return (
       '\n' +
