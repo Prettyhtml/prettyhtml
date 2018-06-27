@@ -65,7 +65,7 @@ function format(options) {
         level--
       }
 
-      /* Indent newlines in `text`. */
+      // Indent newlines in `text`
       while (++index < length) {
         child = children[index]
         if (child.type === 'text') {
@@ -120,11 +120,6 @@ function format(options) {
 
         prev = child
         result.push(child)
-      }
-
-      // don't add indent after custom elements
-      if (node.isCustomElement) {
-        return
       }
 
       if (newline || padding(prev, head)) {

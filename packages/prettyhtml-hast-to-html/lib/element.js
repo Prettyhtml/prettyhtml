@@ -5,7 +5,6 @@ const spaces = require('space-separated-tokens').stringify
 const commas = require('comma-separated-tokens').stringify
 const information = require('property-information')
 const entities = require('stringify-entities')
-const kebab = require('kebab-case')
 const all = require('./all')
 const repeat = require('repeat-string')
 
@@ -44,12 +43,7 @@ function element(ctx, node, index, parent) {
     value = LT + name
 
     if (attrs) {
-      // we don't need to add space we indent it with newline
-      if (node.isCustomElement) {
-        value += attrs
-      } else {
-        value += SPACE + attrs
-      }
+      value += SPACE + attrs
     }
 
     if (selfClosing && ctx.close) {
@@ -66,22 +60,7 @@ function element(ctx, node, index, parent) {
   value += content
 
   if (!selfClosing && (!omit || !omit.closing(node, index, parent))) {
-    // isCustomElement was set by hast-from-parse
-    // break closing element when the custom element has at least one property or one children
-    if (
-      node.isCustomElement &&
-      (Object.keys(node.properties).length > 0 || node.children.length > 0)
-    ) {
-      value +=
-        '\n' +
-        repeat(ctx.customElAttrIndent, node.indentLevel) +
-        LT +
-        SO +
-        name +
-        GT
-    } else {
-      value += LT + SO + name + GT
-    }
+    value += LT + SO + name + GT
   }
 
   return value
@@ -121,12 +100,7 @@ function attributes(ctx, node) {
 
     /* In tight mode, don’t add a space after quoted attributes. */
     if (index !== length - 1 && last !== DQ && last !== SQ) {
-      // attributes are aligned in newline we don't need a space
-      if (node.isCustomElement) {
-        values[index] = result
-      } else {
-        values[index] = result + SPACE
-      }
+      values[index] = result + SPACE
     }
   }
 
@@ -149,22 +123,6 @@ function attribute(ctx, node, key, value) {
 
   name = attributeName(ctx, node, key)
 
-  // handle it like boolean attribute
-  if (ctx.booleanAttrMarks.indexOf(name[0]) !== -1) {
-    return name
-  }
-
-  // isCustomElement was set by hast-from-parse
-  // TODO only indent with newline when width is larger than print-width
-  if (node.isCustomElement) {
-    return (
-      '\n' +
-      repeat(ctx.customElAttrIndent, node.indentLevel + 1) +
-      name +
-      attributeValue(ctx, key, value)
-    )
-  }
-
   return name + attributeValue(ctx, key, value)
 }
 
@@ -172,11 +130,6 @@ function attribute(ctx, node, key, value) {
 function attributeName(ctx, node, key) {
   var info = information(key) || {}
   var name = info.name || key
-
-  // don't kebab case custom element attributes
-  if (!name && !node.isCustomElement) {
-    name = kebab(key)
-  }
 
   if (
     name.slice(0, DATA.length) === DATA &&

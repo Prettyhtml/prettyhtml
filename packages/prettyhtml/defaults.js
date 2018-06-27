@@ -1,10 +1,5 @@
 'use strict'
 
-const defaults = { parser: {} }
-
-// to mark normal html elements as custom elements for formatting
-defaults.parser.customElementAttrMarker = ['*', '[', ']', '(', ')', '#']
-defaults.parser.customElementAttrValueMarker = ['{{', '}}']
-defaults.parser.fragment = true
+const defaults = { parser: { verbose: true } }
 
 module.exports = defaults

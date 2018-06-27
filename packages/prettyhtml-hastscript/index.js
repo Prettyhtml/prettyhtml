@@ -163,20 +163,5 @@ function parsePrimitive(info, name, value) {
     return result
   }
 
-  // don't coerce or optimize attribute values
-  // if (info.numeric || info.positiveNumeric) {
-  //   if (!isNaN(result) && result !== '') {
-  //     result = Number(result)
-  //   }
-  // } else if (info.boolean || info.overloadedBoolean) {
-  //   /* Accept `boolean` and `string`. */
-  //   if (
-  //     typeof result === 'string' &&
-  //     (result === '' || value.toLowerCase() === name)
-  //   ) {
-  //     result = true
-  //   }
-  // }
-
   return result
 }

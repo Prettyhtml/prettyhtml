@@ -20,7 +20,8 @@ function parse(options) {
   this.Parser = parser
 
   function parser(doc, file) {
-    var fn = settings.fragment ? 'parseFragment' : 'parse'
+    var isFragment = !/^\s*<(!doctype|html|head|body)/i.test(doc)
+    var fn = settings.fragment || isFragment ? 'parseFragment' : 'parse'
     var onParseError = settings.emitParseErrors ? onerror : null
     var parse5 = new Parser5({
       sourceCodeLocationInfo: position,

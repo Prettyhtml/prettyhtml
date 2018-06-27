@@ -6,8 +6,6 @@ const PassThrough = require('stream').PassThrough
 const notifier = require('update-notifier')
 const meow = require('meow')
 const engine = require('unified-engine')
-const sortAttributes = require('rehype-sort-attributes')
-const sortAttributeValues = require('rehype-sort-attribute-values')
 const unified = require('unified')
 const report = require('vfile-reporter')
 const { basename } = require('path')
@@ -113,10 +111,14 @@ function processResult(err, code, result) {
 function transform(options) {
   const plugins = [
     [parse, defaults.parser],
-    [stringify, { customElAttrIndent: cli.flags.tabWidth }],
-    sortAttributes,
-    sortAttributeValues,
-    [format, { indent: cli.flags.tabWidth, printWidth: cli.flags.printWidth }]
+    [format, { indent: cli.flags.tabWidth, printWidth: cli.flags.printWidth }],
+    [
+      stringify,
+      {
+        tabWidth: cli.flags.tabWidth,
+        printWidth: cli.flags.printWidth
+      }
+    ]
   ]
   return { plugins }
 }

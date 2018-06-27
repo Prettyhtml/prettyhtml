@@ -38,11 +38,13 @@ test('format', function(t) {
 
     proc = unified()
       .use(parse, {
-        fragment: true
+        verbose: true
       })
-      .use(stringify)
-      .freeze()()
       .use(format, config)
+      .use(stringify, {
+        tabWidth: 2,
+        printWidth: 80
+      })
 
     proc.process(input, function(err) {
       t.test(fixture, function(st) {

@@ -8,43 +8,36 @@
   </a>
 </p>
 
-- Remove superfluous white-space but still line-wrap as expected.
-- Special indentation for [`custom elements`](https://developers.google.com/web/fundamentals/web-components/).
-- Reorder attributes based on how often they occur.
-- Support case-sensitive html tags and attributes.
-- Sort attribute values.
-- No content sanitization.
-
 ## Example
 
 In
 
 ```html
-<!-- custom --><custom [ngModel]="currentHero.name" class="b c a"
-  (ngModelChange)="setUppercaseName($event)">
-    <custom2 [ngModel]="currentHero.name"     (ngModelChange)="setUppercaseName($event)">   </custom2>
-</custom>
-<p>Some <code>  code  </code>, <em> emphasis </em>, and <br> <strong> importance </strong>
-  .</p>
+<!-- custom -->
+<my-component ng-model="selected">
+  <custom FOO="test" class="test" title="title"></custom>
+  <form #heroForm (ngSubmit)="onSubmit(heroForm)" title="title" data-foo="foo"
+        data-baz="baz">
+    <input type="text" [(onChange)]="dede" name="test">
+    <button [style.color]="isSpecial ? 'red' : 'green'"></button>
+    <div>Foo bar test</div>
+  </form>
+</my-component>
 ```
 
 Out
 
 ```html
 <!-- custom -->
-<custom
-  [ngModel]="currentHero.name"
-  (ngModelChange)="setUppercaseName($event)"
-  class="a b c">
-  <custom2
-    [ngModel]="currentHero.name"
-    (ngModelChange)="setUppercaseName($event)">
-  </custom2>
-</custom>
-<p>
-  Some <code>code</code>, <em>emphasis</em>, and<br><strong>importance</strong>
-  .
-</p>
+<my-component ng-model="selected">
+  <custom FOO="test" class="test" title="title"></custom>
+  <form #heroForm (ngSubmit)="onSubmit(heroForm)" title="title" data-foo="foo"
+        data-baz="baz">
+    <input type="text" [(onChange)]="dede" name="test">
+    <button [style.color]="isSpecial ? 'red' : 'green'"></button>
+    <div>Foo bar test</div>
+  </form>
+</my-component>
 ```
 
 ## Packages

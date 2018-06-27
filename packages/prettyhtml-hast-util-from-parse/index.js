@@ -1,12 +1,9 @@
 'use strict'
 
 var information = require('property-information')
-var camelcase = require('camelcase')
 var h = require('@starptech/prettyhtml-hastscript')
 var xtend = require('xtend')
 var count = require('ccount')
-var htmlTags = require('html-tag-names')
-var svgTags = require('svg-tag-names')
 
 module.exports = wrapper
 
@@ -36,8 +33,6 @@ function wrapper(ast, options) {
   return transform(ast, {
     file: file,
     verbose: settings.verbose,
-    customElementAttrValueMarker: settings.customElementAttrValueMarker,
-    customElementAttrMarker: settings.customElementAttrMarker,
     location: false
   })
 }
@@ -143,10 +138,6 @@ function element(ast, children, config) {
 
   node = h(ast.tagName, props, children)
 
-  if (isCustomElement(node, config)) {
-    node.isCustomElement = true
-  }
-
   if (ast.nodeName === 'template' && 'content' in ast) {
     pos = ast.sourceCodeLocation
     start = pos && pos.startTag && position(pos.startTag).end
@@ -189,7 +180,7 @@ function location(node, location, verbose) {
       props = {}
 
       for (prop in values) {
-        name = (information(prop) || {}).propertyName || camelcase(prop)
+        name = (information(prop) || {}).propertyName || prop
         props[name] = position(values[prop])
       }
 
@@ -222,39 +213,4 @@ function position(loc) {
 
 function point(point) {
   return point.line && point.column ? point : null
-}
-
-function isCustomElement(node, config) {
-  // detect custom elements by check all known html elements
-  if (
-    node.tagName &&
-    htmlTags.includes(node.tagName) === false &&
-    svgTags.includes(node.tagName) === false
-  ) {
-    return true
-  }
-
-  // check if attribute contains special marker
-  if (config.customElementAttrMarker) {
-    for (const key in node.properties) {
-      if (config.customElementAttrMarker.indexOf(key[0]) !== -1) {
-        node.isCustomElement = true
-        break
-      }
-    }
-  }
-
-  // check if attribute value contains special marker
-  if (config.customElementAttrValueMarker) {
-    for (const key in node.properties) {
-      const val = node.properties[key]
-      for (let i = 0; i < config.customElementAttrValueMarker.length; i++) {
-        if (val.includes(config.customElementAttrValueMarker[i])) {
-          return true
-        }
-      }
-    }
-  }
-
-  return false
 }

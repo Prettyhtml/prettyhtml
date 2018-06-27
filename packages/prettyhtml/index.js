@@ -5,8 +5,6 @@ const unified = require('unified')
 const parse = require('@starptech/prettyhtml-rehype-parse')
 const stringify = require('@starptech/prettyhtml-formatter/stringify')
 const format = require('@starptech/prettyhtml-formatter')
-const sortAttributes = require('rehype-sort-attributes')
-const sortAttributeValues = require('rehype-sort-attribute-values')
 const defaults = require('./defaults')
 
 module.exports = prettyhtml
@@ -14,10 +12,11 @@ module.exports = prettyhtml
 function core(value, processor, options) {
   const file = new VFile(value)
   return processor()
-    .use(stringify, { customElAttrIndent: options.tabWidth })
-    .use(sortAttributes)
-    .use(sortAttributeValues)
     .use(format, { indent: options.tabWidth })
+    .use(stringify, {
+      tabWidth: options.tabWidth || 2,
+      printWidth: options.printWidth || 80
+    })
     .processSync(file)
 }
 
