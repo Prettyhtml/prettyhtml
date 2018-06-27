@@ -14,14 +14,11 @@ In
 
 ```html
 <!-- custom -->
-<my-component ng-model="selected">
-  <custom FOO="test" class="test" title="title"></custom>
-  <form #heroForm (ngSubmit)="onSubmit(heroForm)" title="title" data-foo="foo"
-        data-baz="baz">
-    <input type="text" [(onChange)]="dede" name="test">
-    <button [style.color]="isSpecial ? 'red' : 'green'"></button>
-    <div>Foo bar test</div>
-  </form>
+<my-component ng-model="selected"><custom FOO="test" class="test" title="title"></custom>
+<form #heroForm (ngSubmit)="onSubmit(heroForm)" title="title" data-foo="foo" data-baz="baz"> <input 
+type="text" [(onChange)]="dede" name="test"> <button [style.color]="isSpecial ? 'red' : 'green'"></button>
+<div>Foo bar test</div>
+</form>
 </my-component>
 ```
 
@@ -31,10 +28,9 @@ Out
 <!-- custom -->
 <my-component ng-model="selected">
   <custom FOO="test" class="test" title="title"></custom>
-  <form #heroForm (ngSubmit)="onSubmit(heroForm)" title="title" data-foo="foo"
-        data-baz="baz">
+  <form #heroForm (ngSubmit)="onSubmit(heroForm)" title="title" data-foo="foo" data-baz="baz">
     <input type="text" [(onChange)]="dede" name="test">
-    <button [style.color]="isSpecial ? 'red' : 'green'"></button>
+    <button [style.color]="isSpecial ? 'red' : 'green'">Click</button>
     <div>Foo bar test</div>
   </form>
 </my-component>
