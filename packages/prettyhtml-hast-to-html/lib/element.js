@@ -6,7 +6,6 @@ const commas = require('comma-separated-tokens').stringify
 const information = require('property-information')
 const entities = require('stringify-entities')
 const all = require('./all')
-const repeat = require('repeat-string')
 
 module.exports = element
 
