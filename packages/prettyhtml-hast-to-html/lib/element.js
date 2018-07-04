@@ -29,7 +29,7 @@ function element(ctx, node, index, parent) {
   var name = node.tagName
   var content = all(ctx, name === 'template' ? node.content : node)
   var selfClosing = ctx.voids.indexOf(name.toLowerCase()) !== -1
-  var shouldBreak = shouldBreakAttributesOnMultipleLines(node)
+  var shouldBreak = node.shouldBreakAttr
   var attrs = attributes(ctx, node, shouldBreak)
   var omit = ctx.omit
   var value = ''
@@ -121,15 +121,9 @@ function attributes(ctx, node, shouldBreak) {
 
 /* Stringify one attribute. */
 function attribute(ctx, node, key, value) {
-  var info = information(key) || {}
   var name
 
-  if (
-    value == null ||
-    (typeof value === 'number' && isNaN(value)) ||
-    (!value && info.boolean) ||
-    (value === false && info.overloadedBoolean)
-  ) {
+  if (value == null || (typeof value === 'number' && isNaN(value))) {
     return EMPTY
   }
 
@@ -178,18 +172,4 @@ function attributeValue(ctx, key, value) {
   }
 
   return value
-}
-
-function shouldBreakAttributesOnMultipleLines(node) {
-  if (Object.keys(node.properties).length < 2) {
-    return false
-  }
-
-  const pos = node.position
-  for (const attr in node.data.position.properties) {
-    if (pos.start.line !== node.data.position.properties[attr].start.line) {
-      return true
-    }
-  }
-  return false
 }

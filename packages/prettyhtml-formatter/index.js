@@ -50,6 +50,7 @@ function format(options) {
       /* if we find whitespace-sensitive nodes / inlines we skip it */
       if (ignore(parents.concat(node))) {
         node.indentLevel = level - 1
+        node.shouldBreakAttr = false
         return
       }
 
@@ -77,11 +78,19 @@ function format(options) {
       node.children = result
 
       if (length) {
+        const shouldBreakAttr = shouldBreakAttributesOnMultipleLines(node)
+        node.shouldBreakAttr = shouldBreakAttributesOnMultipleLines(node)
         // walk through children
         // a child has no children informations
         while (++index < length) {
+          let indentLevel = level
+
+          // collapsed attributes creates a new indent level
+          if (shouldBreakAttr) {
+            indentLevel++
+          }
           child = children[index]
-          child.indentLevel = level
+          child.indentLevel = indentLevel
 
           // Insert 2 newlines
           // 1. check if comment followed by a comment
@@ -92,7 +101,7 @@ function format(options) {
           ) {
             result.push({
               type: 'text',
-              value: single + single + repeat(indent, level)
+              value: single + single + repeat(indent, indentLevel)
             })
           }
           // Insert 1 newline
@@ -104,7 +113,7 @@ function format(options) {
           ) {
             result.push({
               type: 'text',
-              value: single + repeat(indent, level)
+              value: single + repeat(indent, indentLevel)
             })
           }
 
@@ -124,6 +133,24 @@ function format(options) {
       }
     }
   }
+}
+
+function shouldBreakAttributesOnMultipleLines(node) {
+  if (node.type === 'root') {
+    return false
+  }
+
+  if (Object.keys(node.properties).length < 2) {
+    return false
+  }
+
+  const pos = node.position
+  for (const attr in node.data.position.properties) {
+    if (pos.start.line !== node.data.position.properties[attr].start.line) {
+      return true
+    }
+  }
+  return false
 }
 
 function isWhitespace(node) {
