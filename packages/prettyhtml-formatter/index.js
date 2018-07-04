@@ -1,8 +1,12 @@
 'use strict'
 
-const minify = require('rehype-minify-whitespace')({ newlines: false })
+const minify = require('rehype-minify-whitespace')({ newlines: true })
 const phrasing = require('hast-util-phrasing')
 const sensitive = require('html-whitespace-sensitive-tag-names')
+const is = require('unist-util-is')
+const sectioning = require('hast-util-sectioning')
+const labelable = require('hast-util-labelable')
+const isElement = require('hast-util-is-element')
 const repeat = require('repeat-string')
 const visit = require('unist-util-visit-parents')
 const voids = require('html-void-elements')
@@ -17,6 +21,7 @@ var re = /\n/g
 function format(options) {
   const settings = options || {}
   let indent = settings.indent || 2
+  let indentInitial = settings.indentInitial
 
   if (typeof indent === 'number') {
     indent = repeat(' ', indent)
@@ -43,19 +48,20 @@ function format(options) {
       let newline
 
       /* if we find whitespace-sensitive nodes / inlines we skip it */
-      if (!length || ignore(parents.concat(node))) {
+      if (ignore(parents.concat(node))) {
+        node.indentLevel = level - 1
         return
+      }
+
+      if (indentInitial) {
+        level--
       }
 
       /* Indent newlines in `text`. */
       while (++index < length) {
         child = children[index]
 
-        if (child.tagName === 'textarea') {
-          console.log(child.tagName, child)
-        }
-
-        if (child.type === 'text') {
+        if (is('text', child)) {
           if (child.value.indexOf('\n') !== -1) {
             newline = true
           }
@@ -64,32 +70,53 @@ function format(options) {
         }
       }
 
+      // reset
       result = []
       index = -1
 
       node.children = result
 
-      // walk through children
-      // a child has no children informations
-      while (++index < length) {
-        child = children[index]
+      if (length) {
+        // walk through children
+        // a child has no children informations
+        while (++index < length) {
+          child = children[index]
+          child.indentLevel = level
 
-        // should we break before child node is started?
-        if (breakBeforeStartingTag(node, child, index)) {
-          node.break = true
-          result.push({
-            type: 'text',
-            value: single + repeat(indent, level)
-          })
+          // Insert 2 newlines
+          // 1. check if comment followed by a comment
+          // 2. check if newline should be inserted before comment
+          if (
+            isCommentFollowedByComment(node, child, index, prev) ||
+            isCommentBeforeElement(node, child, index, prev)
+          ) {
+            result.push({
+              type: 'text',
+              value: single + single + repeat(indent, level)
+            })
+          }
+          // Insert 1 newline
+          // 1. should we break before child node is started?
+          // 2. don't break when a newline was already inserted before
+          else if (
+            beforeChildAddedHook(node, child, index, prev) &&
+            !isWhitespace(prev)
+          ) {
+            result.push({
+              type: 'text',
+              value: single + repeat(indent, level)
+            })
+          }
+
+          prev = child
+
+          result.push(child)
         }
-
-        prev = child
-
-        result.push(child)
       }
 
-      // should we break before node is closed?
-      if (newline || breakBeforeClosingTag(node, prev)) {
+      // 1. hould we break before node is closed?
+      // 2. break text when node text was aligned
+      if (afterChildsAddedHook(node, prev) || newline) {
         result.push({
           type: 'text',
           value: single + repeat(indent, level - 1)
@@ -99,16 +126,54 @@ function format(options) {
   }
 }
 
-function breakBeforeStartingTag(node, child, index) {
+function isWhitespace(node) {
+  return is('text', node) && node.value && node.value.indexOf('\n') !== -1
+}
+
+function beforeChildAddedHook(node, child, index, prev) {
+  // insert newline when tag is on the same line as the comment
+  if (is('comment', prev)) {
+    return true
+  }
+
+  // all childs in head should be land in a newline
+  if (isElement(node, 'head')) {
+    return true
+  }
+
+  // newline for closing body tag
+  if (isElement(child, 'body')) {
+    return true
+  }
+
+  if (isElement(child, 'script')) {
+    return true
+  }
+
   const isRootElement = node.type === 'root' && index === 0
-  const isChildTextElement = child.type === 'text'
+  const isChildTextElement = is('text', child)
 
   return !isChildTextElement && !isRootElement
 }
 
-function breakBeforeClosingTag(node, prev) {
+function isCommentBeforeElement(node, child, index, prev) {
+  // insert newline when comment is on the same line as the node
+  if (is('comment', child) && isElement(prev)) {
+    return true
+  }
+  return false
+}
+
+function isCommentFollowedByComment(node, child, index, prev) {
+  if (is('comment', prev) && is('comment', child)) {
+    return true
+  }
+  return false
+}
+
+function afterChildsAddedHook(node, prev) {
   const hasChilds = node.children.length > 0
-  const isPrevRawText = prev.type === 'text'
+  const isPrevRawText = is('text', prev)
 
   return hasChilds && !isVoid(node) && !isPrevRawText
 }

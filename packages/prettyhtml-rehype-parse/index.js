@@ -20,7 +20,7 @@ function parse(options) {
   this.Parser = parser
 
   function parser(doc, file) {
-    var isFragment = !/^\s*<(!doctype|html|head|body)/i.test(doc)
+    var isFragment = !/<(!doctype|html|head|body)/i.test(doc)
     var fn = settings.fragment || isFragment ? 'parseFragment' : 'parse'
     var onParseError = settings.emitParseErrors ? onerror : null
     var parse5 = new Parser5({

@@ -6,6 +6,7 @@ const commas = require('comma-separated-tokens').stringify
 const information = require('property-information')
 const entities = require('stringify-entities')
 const all = require('./all')
+const repeat = require('repeat-string')
 
 module.exports = element
 
@@ -21,13 +22,15 @@ var EQ = '='
 var LT = '<'
 var GT = '>'
 var SO = '/'
+var LF = '\n'
 
 /* Stringify an element `node`. */
 function element(ctx, node, index, parent) {
   var name = node.tagName
   var content = all(ctx, name === 'template' ? node.content : node)
   var selfClosing = ctx.voids.indexOf(name.toLowerCase()) !== -1
-  var attrs = attributes(ctx, node)
+  var shouldBreak = shouldBreakAttributesOnMultipleLines(node)
+  var attrs = attributes(ctx, node, shouldBreak)
   var omit = ctx.omit
   var value = ''
 
@@ -42,7 +45,11 @@ function element(ctx, node, index, parent) {
     value = LT + name
 
     if (attrs) {
-      value += SPACE + attrs
+      if (shouldBreak) {
+        value += attrs
+      } else {
+        value += SPACE + attrs
+      }
     }
 
     if (selfClosing && ctx.close) {
@@ -66,7 +73,7 @@ function element(ctx, node, index, parent) {
 }
 
 /* Stringify all attributes. */
-function attributes(ctx, node) {
+function attributes(ctx, node, shouldBreak) {
   var props = node.properties
   var values = []
   var key
@@ -98,8 +105,14 @@ function attributes(ctx, node) {
     last = ctx.tight && result.charAt(result.length - 1)
 
     /* In tight mode, don’t add a space after quoted attributes. */
-    if (index !== length - 1 && last !== DQ && last !== SQ) {
-      values[index] = result + SPACE
+    if (last !== DQ && last !== SQ) {
+      if (shouldBreak) {
+        values[index] = LF + repeat('  ', node.indentLevel + 1) + result
+      } else if (index !== length - 1) {
+        values[index] = result + SPACE
+      } else {
+        values[index] = result
+      }
     }
   }
 
@@ -165,4 +178,18 @@ function attributeValue(ctx, key, value) {
   }
 
   return value
+}
+
+function shouldBreakAttributesOnMultipleLines(node) {
+  if (Object.keys(node.properties).length < 2) {
+    return false
+  }
+
+  const pos = node.position
+  for (const attr in node.data.position.properties) {
+    if (pos.start.line !== node.data.position.properties[attr].start.line) {
+      return true
+    }
+  }
+  return false
 }
