@@ -146,7 +146,7 @@ function beforeChildAddedHook(node, child, index, prev) {
     return true
   }
 
-  if (isElement(child, 'script')) {
+  if (isElement(child, 'script') || isElement(child, 'style')) {
     return true
   }
 
