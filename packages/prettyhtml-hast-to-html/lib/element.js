@@ -29,8 +29,8 @@ function element(ctx, node, index, parent) {
   var name = node.tagName
   var content = all(ctx, name === 'template' ? node.content : node)
   var selfClosing = ctx.voids.indexOf(name.toLowerCase()) !== -1
-  var shouldBreak = node.shouldBreakAttr
-  var attrs = attributes(ctx, node, shouldBreak)
+  var collapseAttr = node.collapseAttr
+  var attrs = attributes(ctx, node, collapseAttr)
   var omit = ctx.omit
   var value = ''
 
@@ -45,7 +45,7 @@ function element(ctx, node, index, parent) {
     value = LT + name
 
     if (attrs) {
-      if (shouldBreak) {
+      if (collapseAttr) {
         value += attrs
       } else {
         value += SPACE + attrs
@@ -73,7 +73,7 @@ function element(ctx, node, index, parent) {
 }
 
 /* Stringify all attributes. */
-function attributes(ctx, node, shouldBreak) {
+function attributes(ctx, node, collapseAttr) {
   var props = node.properties
   var values = []
   var key
@@ -106,7 +106,7 @@ function attributes(ctx, node, shouldBreak) {
 
     /* In tight mode, don’t add a space after quoted attributes. */
     if (last !== DQ && last !== SQ) {
-      if (shouldBreak) {
+      if (collapseAttr) {
         values[index] = LF + repeat('  ', node.indentLevel + 1) + result
       } else if (index !== length - 1) {
         values[index] = result + SPACE
