@@ -9,6 +9,8 @@ const repeat = require('repeat-string')
 const visit = require('unist-util-visit-parents')
 const voids = require('html-void-elements')
 const find = require('unist-util-find')
+const toString = require('hast-util-to-string')
+const prettier = require('prettier')
 
 module.exports = format
 
@@ -22,6 +24,7 @@ function format(options) {
   const settings = options || {}
   let indent = settings.indent || 2
   let indentInitial = settings.indentInitial
+  let noPrettier = settings.noPrettier
 
   if (typeof indent === 'number') {
     indent = repeat(' ', indent)
@@ -71,7 +74,9 @@ function format(options) {
           }
         }
 
-        alignWhitespaceSensitiveNodes(node, indent, settings.indent, level)
+        if (!noPrettier) {
+          prettierEmbeddedContent(node, level, 2)
+        }
 
         return
       }
@@ -308,42 +313,6 @@ function isConCommentFollowedByComment(node, child, index, prev) {
   return false
 }
 
-function alignWhitespaceSensitiveNodes(node, indent, indentWidth, level) {
-  let children = node.children || []
-  let index = -1
-  while (++index < children.length) {
-    let child = children[index]
-    if (is('text', child)) {
-      let newText = ''
-      const lines = child.value.split('\n')
-
-      if (lines.length < 2) {
-        return
-      }
-
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i]
-
-        // when last newline consists only of whitespaces we can align it
-        if (i === lines.length - 1) {
-          if (/^\s+$/.test(line)) {
-            newText += single + repeat(indent, level - 1) + line.trim()
-            break
-          }
-        }
-
-        if (line) {
-          newText += single + line
-        } else if (i !== 0) {
-          // preserve newlines from text
-          newText += single
-        }
-      }
-      child.value = newText
-    }
-  }
-}
-
 function isVoid(node) {
   return voids.indexOf(node.tagName) !== -1
 }
@@ -358,4 +327,84 @@ function ignore(nodes) {
   }
 
   return false
+}
+
+function prettierEmbeddedContent(node, level, tabWidth) {
+  if (isElement(node, 'style')) {
+    const content = toString(node)
+    node.children = []
+    const typeAttr = node.properties.type
+    let parser = 'css'
+    if (typeAttr === 'text/x-scss') {
+      parser = 'scss'
+    } else if (typeAttr === 'text/less') {
+      parser = 'less'
+    } else {
+      const langAttr = node.properties.lang
+      if (langAttr === 'postcss') {
+        parser = 'css'
+      } else if (langAttr === 'scss') {
+        parser = 'scss'
+      } else if (langAttr === 'less') {
+        parser = 'less'
+      } else {
+        parser = 'css'
+      }
+    }
+
+    let formattedText = prettier.format(content, {
+      parser,
+      tabWidth
+    })
+    formattedText = indentPrettierOutput(formattedText, level)
+
+    node.children = [
+      { type: 'text', value: '\n' },
+      { type: 'text', value: formattedText },
+      { type: 'text', value: repeat('  ', level - 1) }
+    ]
+  } else if (isElement(node, 'script')) {
+    const content = toString(node)
+    node.children = []
+    const typeAttr = node.properties.type
+    let parser = 'babylon'
+
+    if (typeAttr === 'application/x-typescript') {
+      parser = 'typescript'
+    } else {
+      const langAttr = node.properties.lang
+
+      if (langAttr === 'ts' || langAttr === 'tsx') {
+        parser = 'typescript'
+      } else {
+        parser = 'babylon'
+      }
+    }
+
+    let formattedText = prettier.format(content, {
+      parser,
+      tabWidth
+    })
+    formattedText = indentPrettierOutput(formattedText, level)
+
+    node.children = [
+      { type: 'text', value: '\n' },
+      { type: 'text', value: formattedText },
+      { type: 'text', value: repeat('  ', level - 1) }
+    ]
+  }
+}
+
+function indentPrettierOutput(formattedText, level) {
+  let lines = formattedText.split('\n')
+
+  for (let i = 0; i < lines.length; i++) {
+    if (i === lines.length - 1) {
+      lines[i] = lines[i]
+    } else {
+      lines[i] = repeat('  ', level) + lines[i]
+    }
+  }
+
+  return lines.join('\n')
 }
