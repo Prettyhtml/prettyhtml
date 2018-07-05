@@ -1,7 +1,6 @@
 ![Prettyhtml Banner](/logo.png)
 
 <h2 align="center">Opinionated Web Component HTML formatter</h2>
-<h2 align="center">!!Experimental!!!</h2>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/prettyhtml">
