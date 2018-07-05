@@ -1,7 +1,7 @@
 {
     "name": "@starptech/prettyhtml-parse",
     "description": "HTML parser and serializer.",
-    "version": "0.0.3",
+    "version": "0.0.6",
     "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
     "homepage": "https://github.com/StarpTech/prettyhtml",
     "keywords": [
