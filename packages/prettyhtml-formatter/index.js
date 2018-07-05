@@ -52,6 +52,14 @@ function format(options) {
       if (ignore(parents.concat(node))) {
         node.indentLevel = level - 1
         node.shouldBreakAttr = false
+
+        // clear empty script, textarea, pre, style tags
+        if (length) {
+          const empty = containsOnlyEmptyTextNodes(node)
+          if (empty) {
+            node.children = []
+          }
+        }
         return
       }
 
@@ -241,25 +249,29 @@ function beforeChildNodeAddedHook(node, child, index, prev) {
   return !isChildTextElement
 }
 
-function containsOnlyTextNodes(node) {
-  return node.children.every(n => is('text', n))
-}
-
 function afterChildNodesAddedHook(node, prev) {
   const hasChilds = node.children.length > 0
-  const isPrevRawText = is('text', prev)
 
   /**
    * e.g <label><input/>foo</label>
    */
-  if (!containsOnlyTextNodes(node) && hasChilds && !isVoid(node)) {
+  if (hasChilds && !containsOnlyTextNodes(node) && !isVoid(node)) {
     return true
   }
 
   /**
    * e.g <label>foo</label>
    */
+  const isPrevRawText = is('text', prev)
   return hasChilds && !isVoid(node) && !isPrevRawText
+}
+
+function containsOnlyTextNodes(node) {
+  return node.children.every(n => is('text', n))
+}
+
+function containsOnlyEmptyTextNodes(node) {
+  return node.children.every(n => is('text', n) && /^\s+$/.test(n.value))
 }
 
 function isCommentBeforeElement(node, child, index, prev) {
