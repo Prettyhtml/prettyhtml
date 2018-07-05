@@ -13,6 +13,7 @@ module.exports = format
 
 /* Constants. */
 const single = '\n'
+const double = '\n\n'
 var re = /\n/g
 
 /* Format white-space. */
@@ -44,7 +45,10 @@ function format(options) {
       let child
       let newline
 
-      /* if we find whitespace-sensitive nodes / inlines we skip it */
+      /**
+       * If we find whitespace-sensitive nodes / inlines we skip it
+       * e.g pre, textarea
+       */
       if (ignore(parents.concat(node))) {
         node.indentLevel = level - 1
         node.shouldBreakAttr = false
@@ -56,8 +60,8 @@ function format(options) {
       }
 
       /**
-       * Based on the flagging we can ignore this element
-       * In order to ingore all child nodes we have to set this flag recursively.
+       * When 'prettyhtml-ignore' flag is set we can ignore this element
+       * In order to ignore the whole element tree we have to ignore all childs.
        */
       if (node.ignoreFlagged) {
         while (++index < length) {
@@ -68,7 +72,7 @@ function format(options) {
       }
 
       /**
-       * Flag the first element after the ignore flag
+       * Flag the next element after the ignore flag
        */
       let found
       while (++index < length) {
@@ -96,6 +100,12 @@ function format(options) {
       while (++index < length) {
         child = children[index]
 
+        // only indent text in nodes
+        // root text nodes should't influence other root nodes
+        if (node.type === 'root') {
+          break
+        }
+
         if (is('text', child)) {
           if (child.value.indexOf('\n') !== -1) {
             newline = true
@@ -114,16 +124,17 @@ function format(options) {
 
       let prevChild
 
+      // check if we indent the attributes in newlines
+      node.collapseAttr = collapseAttributes(node)
+
       if (length) {
-        const collapseAttr = collapseAttributes(node)
-        node.collapseAttr = collapseAttributes(node)
         // walk through children
         // a child has no children informations
         while (++index < length) {
           let indentLevel = level
 
           // collapsed attributes creates a new indent level
-          if (collapseAttr) {
+          if (node.collapseAttr) {
             indentLevel++
           }
           child = children[index]
@@ -131,16 +142,18 @@ function format(options) {
 
           /**
            * Insert 2 newline
-           * 1. check if comment followed by a comment
-           * 2. check if newline should be inserted before comment
+           * 1. check if an element is followed by a conditional comment
+           * 2. check if a comment is followed by a conditional comment
+           * 3. check if a comment is before an element
            */
           if (
-            isCommentFollowedByComment(node, child, index, prevChild) ||
+            isElementAfterConditionalComment(node, child, index, prevChild) ||
+            isConCommentFollowedByComment(node, child, index, prevChild) ||
             isCommentBeforeElement(node, child, index, prevChild)
           ) {
             result.push({
               type: 'text',
-              value: single + single + repeat(indent, indentLevel)
+              value: double + repeat(indent, indentLevel)
             })
           } else if (
             /**
@@ -150,7 +163,7 @@ function format(options) {
              * 3. break text in newline when it's the first node
              */
             (beforeChildNodeAddedHook(node, child, index, prevChild) &&
-              !isWhitespace(prevChild)) ||
+              !isNewline(prevChild)) ||
             (newline && index === 0)
           ) {
             result.push({
@@ -178,7 +191,7 @@ function format(options) {
 }
 
 function collapseAttributes(node) {
-  if (node.type === 'root') {
+  if (!isElement(node) || node.type === 'root') {
     return false
   }
 
@@ -195,7 +208,7 @@ function collapseAttributes(node) {
   return false
 }
 
-function isWhitespace(node) {
+function isNewline(node) {
   return is('text', node) && node.value && node.value.indexOf('\n') !== -1
 }
 
@@ -215,14 +228,17 @@ function beforeChildNodeAddedHook(node, child, index, prev) {
     return true
   }
 
-  if (isElement(child, 'script') || isElement(child, 'style')) {
+  if (isElement(child, ['script', 'style']) && index !== 0) {
     return true
   }
 
   const isRootElement = node.type === 'root' && index === 0
+  if (isRootElement) {
+    return false
+  }
   const isChildTextElement = is('text', child)
 
-  return !isChildTextElement && !isRootElement
+  return !isChildTextElement
 }
 
 function containsOnlyTextNodes(node) {
@@ -247,15 +263,33 @@ function afterChildNodesAddedHook(node, prev) {
 }
 
 function isCommentBeforeElement(node, child, index, prev) {
-  // insert newline when comment is on the same line as the node
+  // insert newline when comment is on the same line as the element
   if (is('comment', child) && isElement(prev)) {
     return true
   }
   return false
 }
 
-function isCommentFollowedByComment(node, child, index, prev) {
-  if (is('comment', prev) && is('comment', child)) {
+function isElementAfterConditionalComment(node, child, index, prev) {
+  // insert double newline when conditional comment is before element
+  if (
+    is('comment', prev) &&
+    prev.value.indexOf('if') !== -1 &&
+    isElement(child)
+  ) {
+    return true
+  }
+  return false
+}
+
+function isConCommentFollowedByComment(node, child, index, prev) {
+  // insert double newline when conditional comment is before a non conditional comment
+  if (
+    is('comment', prev) &&
+    prev.value.indexOf('if') !== -1 &&
+    is('comment', child) &&
+    child.value.indexOf('if') === -1
+  ) {
     return true
   }
   return false
@@ -275,8 +309,4 @@ function ignore(nodes) {
   }
 
   return false
-}
-
-function containsIgnoreFlag(node) {
-  return is('comment', node) && node.value.indexOf('prettyhtml-ignore') !== -1
 }
