@@ -22,13 +22,15 @@ var EQ = '='
 var LT = '<'
 var GT = '>'
 var SO = '/'
+var LF = '\n'
 
 /* Stringify an element `node`. */
 function element(ctx, node, index, parent) {
   var name = node.tagName
   var content = all(ctx, name === 'template' ? node.content : node)
   var selfClosing = ctx.voids.indexOf(name.toLowerCase()) !== -1
-  var attrs = attributes(ctx, node)
+  var collapseAttr = node.collapseAttr
+  var attrs = attributes(ctx, node, collapseAttr)
   var omit = ctx.omit
   var value = ''
 
@@ -43,7 +45,11 @@ function element(ctx, node, index, parent) {
     value = LT + name
 
     if (attrs) {
-      value += SPACE + attrs
+      if (collapseAttr) {
+        value += attrs
+      } else {
+        value += SPACE + attrs
+      }
     }
 
     if (selfClosing && ctx.close) {
@@ -67,7 +73,7 @@ function element(ctx, node, index, parent) {
 }
 
 /* Stringify all attributes. */
-function attributes(ctx, node) {
+function attributes(ctx, node, collapseAttr) {
   var props = node.properties
   var values = []
   var key
@@ -99,8 +105,14 @@ function attributes(ctx, node) {
     last = ctx.tight && result.charAt(result.length - 1)
 
     /* In tight mode, don’t add a space after quoted attributes. */
-    if (index !== length - 1 && last !== DQ && last !== SQ) {
-      values[index] = result + SPACE
+    if (last !== DQ && last !== SQ) {
+      if (collapseAttr) {
+        values[index] = LF + repeat('  ', node.indentLevel + 1) + result
+      } else if (index !== length - 1) {
+        values[index] = result + SPACE
+      } else {
+        values[index] = result
+      }
     }
   }
 
@@ -109,15 +121,9 @@ function attributes(ctx, node) {
 
 /* Stringify one attribute. */
 function attribute(ctx, node, key, value) {
-  var info = information(key) || {}
   var name
 
-  if (
-    value == null ||
-    (typeof value === 'number' && isNaN(value)) ||
-    (!value && info.boolean) ||
-    (value === false && info.overloadedBoolean)
-  ) {
+  if (value == null || (typeof value === 'number' && isNaN(value))) {
     return EMPTY
   }
 

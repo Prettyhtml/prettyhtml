@@ -18,3 +18,4 @@
 
 * Allow to handle case-sensitive attributes
 * Allow to handle case-sensitive tagName
+* Don't skip newline in `textarea`, `pre` tags in order to format correctly

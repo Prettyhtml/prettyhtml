@@ -1494,7 +1494,7 @@ function preStartTagInBody(p, token) {
   p._insertElement(token, NS.HTML)
   // NOTE: If the next token is a U+000A LINE FEED (LF) character token, then ignore that token and move
   // on to the next one. (Newlines at the start of pre blocks are ignored as an authoring convenience.)
-  p.skipNextNewLine = true
+  p.skipNextNewLine = false
   p.framesetOk = false
 }
 
@@ -1674,7 +1674,7 @@ function textareaStartTagInBody(p, token) {
   p._insertElement(token, NS.HTML)
   // NOTE: If the next token is a U+000A LINE FEED (LF) character token, then ignore that token and move
   // on to the next one. (Newlines at the start of textarea elements are ignored as an authoring convenience.)
-  p.skipNextNewLine = true
+  p.skipNextNewLine = false
   p.tokenizer.state = Tokenizer.MODE.RCDATA
   p.originalInsertionMode = p.insertionMode
   p.framesetOk = false
