@@ -22,12 +22,17 @@ var re = /\n/g
 /* Format white-space. */
 function format(options) {
   const settings = options || {}
-  let indent = settings.indent || 2
+  let tabWidth = settings.tabWidth || 2
+  let useTabs = settings.useTabs
   let indentInitial = settings.indentInitial
   let noPrettier = settings.noPrettier
+  let prettierOpts = settings.prettier
+  let indent
 
-  if (typeof indent === 'number') {
-    indent = repeat(' ', indent)
+  if (useTabs) {
+    indent = '\t'
+  } else {
+    indent = repeat(' ', tabWidth)
   }
 
   return transform
@@ -75,7 +80,7 @@ function format(options) {
         }
 
         if (!noPrettier) {
-          prettierEmbeddedContent(node, level, 2)
+          prettierEmbeddedContent(node, level, prettierOpts)
         }
 
         return
@@ -329,7 +334,7 @@ function ignore(nodes) {
   return false
 }
 
-function prettierEmbeddedContent(node, level, tabWidth) {
+function prettierEmbeddedContent(node, level, prettierOpts) {
   if (isElement(node, 'style')) {
     const content = toString(node)
     node.children = []
@@ -352,10 +357,15 @@ function prettierEmbeddedContent(node, level, tabWidth) {
       }
     }
 
-    let formattedText = prettier.format(content, {
-      parser,
-      tabWidth
-    })
+    let formattedText = prettier.format(
+      content,
+      Object.assign(
+        {
+          parser
+        },
+        prettierOpts
+      )
+    )
     formattedText = indentPrettierOutput(formattedText, level)
 
     node.children = [
@@ -381,10 +391,15 @@ function prettierEmbeddedContent(node, level, tabWidth) {
       }
     }
 
-    let formattedText = prettier.format(content, {
-      parser,
-      tabWidth
-    })
+    let formattedText = prettier.format(
+      content,
+      Object.assign(
+        {
+          parser
+        },
+        prettierOpts
+      )
+    )
     formattedText = indentPrettierOutput(formattedText, level)
 
     node.children = [

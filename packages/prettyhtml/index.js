@@ -12,7 +12,11 @@ module.exports = prettyhtml
 function core(value, processor, options) {
   const file = new VFile(value)
   return processor()
-    .use(format, { indent: options.tabWidth })
+    .use(format, {
+      tabWidth: options.tabWidth,
+      useTabs: options.useTabs,
+      prettier: options.prettier
+    })
     .use(stringify, {
       tabWidth: options.tabWidth || 2,
       printWidth: options.printWidth || 80
