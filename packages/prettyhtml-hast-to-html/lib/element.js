@@ -107,7 +107,7 @@ function attributes(ctx, node, collapseAttr) {
     /* In tight mode, don’t add a space after quoted attributes. */
     if (last !== DQ && last !== SQ) {
       if (collapseAttr) {
-        values[index] = LF + repeat('  ', node.indentLevel + 1) + result
+        values[index] = LF + repeat(ctx.tabWidth, node.indentLevel + 1) + result
       } else if (index !== length - 1) {
         values[index] = result + SPACE
       } else {
