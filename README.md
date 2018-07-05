@@ -1,12 +1,8 @@
 ![Prettyhtml Banner](/logo.png)
 
-<h2 align="center">Opinionated Web Component HTML formatter</h2>
-
-<p align="center">
-  <a href="https://www.npmjs.com/package/@starptech/prettyhtml">
-    <img alt="npm version" src="https://img.shields.io/npm/v/@starptech/prettyhtml.svg?style=flat-square">
-  </a>
-</p>
+* Parse Angular, Vue or HTML5 templates.
+* Formats embedded content like CSS, JS with [prettier](https://github.com/prettier/prettier).
+* Remove all superfluous white-space but your code will still line-wrap as expected.
 
 ## Example
 
