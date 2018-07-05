@@ -3,7 +3,7 @@
 <h2 align="center">Opinionated Web Component HTML formatter</h2>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/prettyhtml">
+  <a href="https://www.npmjs.com/package/@starptech/prettyhtml">
     <img alt="npm version" src="https://img.shields.io/npm/v/@starptech/prettyhtml.svg?style=flat-square">
   </a>
 </p>
