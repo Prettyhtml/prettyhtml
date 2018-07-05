@@ -8,6 +8,7 @@ const isElement = require('hast-util-is-element')
 const repeat = require('repeat-string')
 const visit = require('unist-util-visit-parents')
 const voids = require('html-void-elements')
+const find = require('unist-util-find')
 
 module.exports = format
 
@@ -31,6 +32,11 @@ function format(options) {
   function transform(tree) {
     let root = minify(tree)
 
+    // check if we are in page mode to indent the first level
+    indentInitial = !find(root, function(node) {
+      return isElement(node, ['html', 'body', 'head'])
+    })
+
     visit(root, visitor)
 
     return root
@@ -44,6 +50,10 @@ function format(options) {
       let result
       let child
       let newline
+
+      if (indentInitial === false) {
+        level--
+      }
 
       /**
        * If we find whitespace-sensitive nodes / inlines we skip it
@@ -60,17 +70,17 @@ function format(options) {
             node.children = []
           }
         }
-        return
-      }
 
-      if (indentInitial === false) {
-        level--
+        alignWhitespaceSensitiveNodes(node, indent, settings.indent, level)
+
+        return
       }
 
       /**
        * When 'prettyhtml-ignore' flag is set we can ignore this element
        * In order to ignore the whole element tree we have to ignore all childs.
        */
+      index = -1
       if (node.ignoreFlagged) {
         while (++index < length) {
           child = children[index]
@@ -226,20 +236,11 @@ function beforeChildNodeAddedHook(node, child, index, prev) {
     return true
   }
 
-  // all childs in head should be indented in a newline
-  if (isElement(node, 'head')) {
-    return true
-  }
-
-  // newline for closing body tag
-  if (isElement(child, 'body')) {
-    return true
-  }
-
   if (isElement(child, ['script', 'style']) && index !== 0) {
     return true
   }
 
+  // dont add newline on the first elmement
   const isRootElement = node.type === 'root' && index === 0
   if (isRootElement) {
     return false
@@ -305,6 +306,42 @@ function isConCommentFollowedByComment(node, child, index, prev) {
     return true
   }
   return false
+}
+
+function alignWhitespaceSensitiveNodes(node, indent, indentWidth, level) {
+  let children = node.children || []
+  let index = -1
+  while (++index < children.length) {
+    let child = children[index]
+    if (is('text', child)) {
+      let newText = ''
+      const lines = child.value.split('\n')
+
+      if (lines.length < 2) {
+        return
+      }
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i]
+
+        // when last newline consists only of whitespaces we can align it
+        if (i === lines.length - 1) {
+          if (/^\s+$/.test(line)) {
+            newText += single + repeat(indent, level - 1) + line.trim()
+            break
+          }
+        }
+
+        if (line) {
+          newText += single + line
+        } else if (i !== 0) {
+          // preserve newlines from text
+          newText += single
+        }
+      }
+      child.value = newText
+    }
+  }
 }
 
 function isVoid(node) {
