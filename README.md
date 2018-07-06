@@ -3,7 +3,12 @@
 * Parse Angular, Vue or HTML5 templates.
 * Formats embedded content with [prettier](https://github.com/prettier/prettier).
 * Remove all superfluous white-space. 
-* Enforce consistent output of your HTML. 
+* Enforce consistent output of your HTML.
+
+### Limitations
+
+* No support for custom self-closing elements.
+* No guarantee of the print width. Nodes are collapsed based on existing attribute indentation.
 
 ## Example
 
@@ -70,14 +75,16 @@ $ prettyhtml --help
 const prettyhtml = require('@starptech/prettyhtml')
 const result = prettyhtml(`<custom foo="bar"></custom>`, {
   tabWidth: 2,
-  useTabs: false,
-  printWidth: 120
+  useTabs: false
 })
 ```
 
-## Limitations
+## Ignore specific elments
 
-* No support for custom self-closing elements.
+```html
+<!-- prettyhtml-ignore -->
+<div></div>
+```
 
 ## Why
 

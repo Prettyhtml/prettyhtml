@@ -46,7 +46,6 @@ var DQ_VALUE_CLEAN = DQ_VALUE.concat(NULL)
 /* Stringify the given HAST node. */
 function toHTML(node, options) {
   var settings = options || {}
-  var printWidth = settings.printWidth || 80
   var quote = settings.quote || DQ
   var tabWidth = settings.tabWidth || 2 // indent attributes from custom elements
   var errors = settings.allowParseErrors
@@ -72,7 +71,6 @@ function toHTML(node, options) {
       SINGLE_QUOTED: singleQuoted.concat(characters ? [] : QUOTES),
       omit: settings.omitOptionalTags && omission,
       quote,
-      printWidth,
       tabWidth,
       tight: settings.tightAttributes,
       tightDoctype: Boolean(settings.tightDoctype),
