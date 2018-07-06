@@ -180,7 +180,7 @@ test('hastscript', function(t) {
     )
 
     st.deepEqual(
-      h(null, { foo: NaN }),
+      h(null, { width: NaN }),
       {
         type: 'element',
         tagName: 'div',

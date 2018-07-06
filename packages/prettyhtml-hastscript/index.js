@@ -108,7 +108,7 @@ function addProperty(properties, name, value) {
   var key
 
   /* Ignore nully and NaN values. */
-  if (value === null || value === undefined) {
+  if (value === null || value === undefined || value !== value) {
     return
   }
 
@@ -161,6 +161,17 @@ function parsePrimitive(info, name, value) {
     }
 
     return result
+  }
+
+  if (info.numeric || info.positiveNumeric) {
+    if (!isNaN(result) && result !== '') {
+      result = Number(result)
+    }
+  } else if (info.boolean || info.overloadedBoolean) {
+    /* Accept `boolean` and `string`. */
+    if (typeof result === 'string' && result === '') {
+      result = true
+    }
   }
 
   return result

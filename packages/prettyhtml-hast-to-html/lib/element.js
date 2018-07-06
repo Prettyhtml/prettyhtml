@@ -121,13 +121,25 @@ function attributes(ctx, node, collapseAttr) {
 
 /* Stringify one attribute. */
 function attribute(ctx, node, key, value) {
+  var info = information(key) || {}
   var name
 
-  if (value == null || (typeof value === 'number' && isNaN(value))) {
+  if (
+    value == null ||
+    (typeof value === 'number' && isNaN(value)) ||
+    (value === false && info.boolean)
+  ) {
     return EMPTY
   }
 
   name = attributeName(ctx, node, key)
+
+  if (
+    (value === true && info.boolean) ||
+    (value === true && info.overloadedBoolean)
+  ) {
+    return name
+  }
 
   return name + attributeValue(ctx, key, value)
 }

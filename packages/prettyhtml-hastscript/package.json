@@ -36,9 +36,7 @@
     "tape": "^4.0.0"
   },
   "scripts": {
-    "test-api": "node test",
-    "test-coverage": "nyc --reporter lcov tape test.js",
-    "test": "npm run format && npm run build && npm run test-coverage"
+    "test": "nyc --reporter lcov tape test.js"
   },
   "nyc": {
     "check-coverage": true,

@@ -35,10 +35,6 @@ var CLEAN_NAME = NAME.concat(NULL, DQ, SQ, LT)
  * - https://html5sec.org/#108 */
 var QUOTES = [DQ, SQ, GR]
 
-/* https://html.spec.whatwg.org/#attribute-value-(unquoted)-state */
-var UQ_VALUE = [AMP, SPACE, TAB, LF, CR, FF, GT]
-var UQ_VALUE_CLEAN = UQ_VALUE.concat(NULL, DQ, SQ, LT, EQ, GR)
-
 /* https://html.spec.whatwg.org/#attribute-value-(single-quoted)-state */
 var SQ_VALUE = [AMP, SQ]
 var SQ_VALUE_CLEAN = SQ_VALUE.concat(NULL)
@@ -56,7 +52,6 @@ function toHTML(node, options) {
   var errors = settings.allowParseErrors
   var characters = settings.allowDangerousCharacters
   var name = errors ? NAME : CLEAN_NAME
-  var unquoted = errors ? UQ_VALUE : UQ_VALUE_CLEAN
   var singleQuoted = errors ? SQ_VALUE : SQ_VALUE_CLEAN
   var doubleQuoted = errors ? DQ_VALUE : DQ_VALUE_CLEAN
 
@@ -73,15 +68,14 @@ function toHTML(node, options) {
   return one(
     {
       NAME: name.concat(characters ? [] : QUOTES),
-      UNQUOTED: unquoted.concat(characters ? [] : QUOTES),
       DOUBLE_QUOTED: doubleQuoted.concat(characters ? [] : QUOTES),
       SINGLE_QUOTED: singleQuoted.concat(characters ? [] : QUOTES),
       omit: settings.omitOptionalTags && omission,
       quote,
       printWidth,
       tabWidth,
-      unquoted: Boolean(settings.preferUnquoted),
       tight: settings.tightAttributes,
+      tightDoctype: Boolean(settings.tightDoctype),
       tightLists: settings.tightCommaSeparatedLists,
       tightClose: settings.tightSelfClosing,
       dangerous: settings.allowDangerousHTML,

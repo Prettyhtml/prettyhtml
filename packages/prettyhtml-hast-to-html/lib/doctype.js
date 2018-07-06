@@ -4,27 +4,27 @@ module.exports = doctype
 
 /* Stringify a doctype `node`. */
 function doctype(ctx, node) {
+  var sep = ctx.tightDoctype ? '' : ' '
+  var name = node.name
   var pub = node.public
   var sys = node.system
-  var val = '<!doctype'
+  var val = ['<!doctype']
 
-  if (!node.name) {
-    return val + '>'
+  if (name) {
+    val.push(sep, name)
+
+    if (pub != null) {
+      val.push(' public', sep, smart(pub))
+    } else if (sys != null) {
+      val.push(' system')
+    }
+
+    if (sys != null) {
+      val.push(sep, smart(sys))
+    }
   }
 
-  val += ' ' + node.name
-
-  if (pub != null) {
-    val += ' public ' + smart(pub)
-  } else if (sys != null) {
-    val += ' system'
-  }
-
-  if (sys != null) {
-    val += ' ' + smart(sys)
-  }
-
-  return val + '>'
+  return val.join('') + '>'
 }
 
 function smart(value) {
