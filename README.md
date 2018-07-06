@@ -75,6 +75,10 @@ const result = prettyhtml(`<custom foo="bar"></custom>`, {
 })
 ```
 
+## Limitations
+
+* No support for custom self-closing elements.
+
 ## Why
 
 Prettier has no support for HTML.

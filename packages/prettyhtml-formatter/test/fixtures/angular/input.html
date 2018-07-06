@@ -1,0 +1,100 @@
+<!--
+  If there's not enough space in the first row, create a separate label row. We mark this row as
+  aria-hidden because we don't want it to be read out as one of the weeks in the month.
+-->
+<tr *ngIf="_firstRowOffset < labelMinRequiredCells" aria-hidden="true">
+  <td class="mat-calendar-body-label"
+      [attr.colspan]="numCols"
+      [style.paddingTop.%]="50 * cellAspectRatio / numCols"
+      [style.paddingBottom.%]="50 * cellAspectRatio / numCols">
+    {{label}}
+  </td>
+</tr>
+
+<!-- Create the first row separately so we can include a special spacer cell. -->
+<tr *ngFor="let row of rows; let rowIndex = index" role="row">
+  <!--
+    We mark this cell as aria-hidden so it doesn't get read out as one of the days in the week.
+    The aspect ratio of the table cells is maintained by setting the top and bottom padding as a
+    percentage of the width (a variant of the trick described here:
+    https://www.w3schools.com/howto/howto_css_aspect_ratio.asp).
+  -->
+  <td *ngIf="rowIndex === 0 && _firstRowOffset"
+      aria-hidden="true"
+      class="mat-calendar-body-label"
+      [attr.colspan]="_firstRowOffset"
+      [style.paddingTop.%]="50 * cellAspectRatio / numCols"
+      [style.paddingBottom.%]="50 * cellAspectRatio / numCols">
+    {{_firstRowOffset >= labelMinRequiredCells ? label : ''}}
+  </td>
+  <td *ngFor="let item of row; let colIndex = index"
+      role="gridcell"
+      class="mat-calendar-body-cell"
+      [tabindex]="_isActiveCell(rowIndex, colIndex) ? 0 : -1"
+      [class.mat-calendar-body-disabled]="!item.enabled"
+      [class.mat-calendar-body-active]="_isActiveCell(rowIndex, colIndex)"
+      [attr.aria-label]="item.ariaLabel"
+      [attr.aria-disabled]="!item.enabled || null"
+      (click)="_cellClicked(item)"
+      [style.width.%]="100 / numCols"
+      [style.paddingTop.%]="50 * cellAspectRatio / numCols"
+      [style.paddingBottom.%]="50 * cellAspectRatio / numCols">
+    <div class="mat-calendar-body-cell-content"
+         [class.mat-calendar-body-selected]="selectedValue === item.value"
+         [class.mat-calendar-body-today]="todayValue === item.value">
+      {{item.displayValue}}
+    </div>
+  </td>
+</tr>
+
+<div cdk-overlay-origin
+     class="mat-select-trigger"
+     aria-hidden="true"
+     (click)="toggle()"
+     #origin="cdkOverlayOrigin"
+     #trigger>
+  <div class="mat-select-value" [ngSwitch]="empty">
+    <span class="mat-select-placeholder" *ngSwitchCase="true">{{placeholder || '\u00A0'}}</span>
+    <span class="mat-select-value-text" *ngSwitchCase="false" [ngSwitch]="!!customTrigger">
+      <span *ngSwitchDefault>{{triggerValue}}</span>
+      <ng-content select="mat-select-trigger" *ngSwitchCase="true"></ng-content>
+    </span>
+  </div>
+
+  <div class="mat-select-arrow-wrapper"><div class="mat-select-arrow"></div></div>
+</div>
+
+<ng-template
+  cdk-connected-overlay
+  cdkConnectedOverlayLockPosition
+  cdkConnectedOverlayHasBackdrop
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  [cdkConnectedOverlayScrollStrategy]="_scrollStrategy"
+  [cdkConnectedOverlayOrigin]="origin"
+  [cdkConnectedOverlayOpen]="panelOpen"
+  [cdkConnectedOverlayPositions]="_positions"
+  [cdkConnectedOverlayMinWidth]="_triggerRect?.width"
+  [cdkConnectedOverlayOffsetY]="_offsetY"
+  (backdropClick)="close()"
+  (attach)="_onAttached()"
+  (detach)="close()">
+
+  <div
+    #panel
+    class="mat-select-panel {{ _getPanelTheme() }}"
+    [ngClass]="panelClass"
+    [@transformPanel]="multiple ? 'showing-multiple' : 'showing'"
+    (@transformPanel.done)="_panelDoneAnimatingStream.next($event.toState)"
+    [style.transformOrigin]="_transformOrigin"
+    [class.mat-select-panel-done-animating]="_panelDoneAnimating"
+    [style.font-size.px]="_triggerFontSize"
+    (keydown)="_handleKeydown($event)">
+
+    <div
+      class="mat-select-content"
+      [@fadeInContent]="'showing'"
+      (@fadeInContent.done)="_onFadeInDone()">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</ng-template>

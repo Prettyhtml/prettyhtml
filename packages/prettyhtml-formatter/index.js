@@ -79,7 +79,7 @@ function format(options) {
           }
         }
 
-        if (!noPrettier) {
+        if (!noPrettier && containsOnlyEmptyTextNodes(node) === false) {
           prettierEmbeddedContent(node, level, prettierOpts)
         }
 
@@ -227,6 +227,7 @@ function collapseAttributes(node) {
     return false
   }
 
+  // when attributes was already indent on newlines
   const pos = node.position
   for (const attr in node.data.position.properties) {
     if (pos.start.line !== node.data.position.properties[attr].start.line) {
@@ -278,11 +279,13 @@ function afterChildNodesAddedHook(node, prev) {
 }
 
 function containsOnlyTextNodes(node) {
-  return node.children.every(n => is('text', n))
+  const children = node.children || []
+  return children.every(n => is('text', n))
 }
 
 function containsOnlyEmptyTextNodes(node) {
-  return node.children.every(n => is('text', n) && /^\s+$/.test(n.value))
+  const children = node.children || []
+  return children.every(n => is('text', n) && /^\s+$/.test(n.value))
 }
 
 function isCommentBeforeElement(node, child, index, prev) {
