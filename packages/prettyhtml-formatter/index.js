@@ -227,7 +227,7 @@ function collapseAttributes(node) {
     return false
   }
 
-  // when attributes was already indent on newlines
+  // when attributes was already indented on newlines
   const pos = node.position
   for (const attr in node.data.position.properties) {
     if (pos.start.line !== node.data.position.properties[attr].start.line) {
