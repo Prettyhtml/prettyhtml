@@ -1,8 +1,9 @@
 ![Prettyhtml Banner](/logo.png)
 
 * Parse Angular, Vue or HTML5 templates.
-* Formats embedded content like CSS, JS with [prettier](https://github.com/prettier/prettier).
-* Remove all superfluous white-space but your code will still line-wrap as expected.
+* Formats embedded content with [prettier](https://github.com/prettier/prettier).
+* Remove all superfluous white-space. 
+* Enforce consistent output of your HTML. 
 
 ## Example
 
