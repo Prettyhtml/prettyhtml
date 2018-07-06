@@ -1,6 +1,6 @@
 {
   "name": "@starptech/prettyhtml-rehype-parse",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "HTML parser for rehype",
   "license": "MIT",
   "keywords": [
@@ -23,7 +23,7 @@
     "errors.json"
   ],
   "dependencies": {
-    "@starptech/prettyhtml-hast-util-from-parse": "^0.0.6",
+    "@starptech/prettyhtml-hast-util-from-parse": "^0.0.8",
     "@starptech/prettyhtml-parse": "^0.0.6",
     "xtend": "^4.0.1"
   },
