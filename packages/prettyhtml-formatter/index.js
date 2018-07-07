@@ -409,6 +409,9 @@ function prettierEmbeddedContent(node, level, prettierOpts) {
       )
     )
     formattedText = indentPrettierOutput(formattedText, level)
+    // in order to prevent parsing issues
+    // https://github.com/inikulin/parse5/issues/262
+    formattedText = formattedText.replace(/<\/script>/gi, '<\\/script>')
 
     node.children = [
       { type: 'text', value: '\n' },
