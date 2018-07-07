@@ -5,10 +5,6 @@
 * Remove all superfluous white-space. 
 * Enforce consistent output of your HTML.
 
-### Limitations
-No guarantee of a print width. Nodes are collapsed based on existing attribute indentation. 
-e.g when your element has more than 2 attributes and at least one attribute is on a newline all attributes are intended on newlines.
-
 ## Example
 
 In
