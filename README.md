@@ -83,7 +83,7 @@ const result = prettyhtml(`<custom foo="bar"></custom>`, {
 
 ## Why
 
-Prettier has no support for HTML. There are a [PR](https://github.com/prettier/prettier/pull/4753) but it doesn't support other HTML5 template syntaxes like Angular or Vue.
+Prettier has no support for HTML. There is a [PR](https://github.com/prettier/prettier/pull/4753) but it doesn't support other HTML5 template syntaxes like Angular or Vue.
 Prettyhtml should support formatting any valid HTML5 template without to corce or sanitize values but ensure a consistent output of your HTML.
 
 ## Acknowledgement
