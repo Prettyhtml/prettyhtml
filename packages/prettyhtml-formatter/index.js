@@ -38,18 +38,23 @@ function format(options) {
   return transform
 
   function transform(tree) {
-    let root = minify(tree)
-
     // check if we are in page mode to indent the first level
-    indentInitial = !find(root, function(node) {
-      return isElement(node, ['html', 'body', 'head'])
-    })
+    indentInitial = isPageMode(tree)
+
+    let root = minify(tree)
 
     visit(root, visitor)
 
     return root
 
     function visitor(node, parents) {
+      // <template> is special they children are exposed under 'content' property
+      if (isElement(node, 'template')) {
+        minify(node.content)
+        visit(node.content, visitor)
+        return
+      }
+
       // holds a copy of the children
       let children = node.children || []
       let length = children.length
@@ -437,4 +442,10 @@ function getData(node, key) {
   if (node.data) {
     return node.data[key]
   }
+}
+
+function isPageMode(ast) {
+  return !find(ast, function(node) {
+    return isElement(node, ['html', 'body', 'head'])
+  })
 }
