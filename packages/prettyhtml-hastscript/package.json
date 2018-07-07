@@ -25,15 +25,14 @@
     "index.js"
   ],
   "dependencies": {
-    "camelcase": "^3.0.0",
-    "comma-separated-tokens": "^1.0.0",
-    "hast-util-parse-selector": "^2.0.0",
-    "property-information": "^3.0.0",
-    "space-separated-tokens": "^1.0.0"
+    "comma-separated-tokens": "^1.0.5",
+    "hast-util-parse-selector": "^2.1.1",
+    "property-information": "^3.2.0",
+    "space-separated-tokens": "^1.1.2"
   },
   "devDependencies": {
-    "nyc": "^12.0.0",
-    "tape": "^4.0.0"
+    "nyc": "^12.0.2",
+    "tape": "^4.9.1"
   },
   "scripts": {
     "test": "nyc --reporter lcov tape test.js"
