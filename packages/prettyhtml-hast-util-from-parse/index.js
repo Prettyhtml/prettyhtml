@@ -59,6 +59,10 @@ function transform(ast, config) {
     }
   }
 
+  // extend hast data property with 'selfClosing' information
+  node.data = node.data || {}
+  node.data.selfClosing = ast.selfClosing
+
   return node
 }
 

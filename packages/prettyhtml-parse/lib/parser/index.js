@@ -563,7 +563,8 @@ class Parser {
     const element = this.treeAdapter.createElement(
       token.tagName,
       namespaceURI,
-      token.attrs
+      token.attrs,
+      token.selfClosing
     )
 
     this._attachElementToTree(element)
@@ -573,7 +574,8 @@ class Parser {
     const element = this.treeAdapter.createElement(
       token.tagName,
       namespaceURI,
-      token.attrs
+      token.attrs,
+      token.selfClosing
     )
 
     this._attachElementToTree(element)
@@ -1783,9 +1785,17 @@ function svgStartTagInBody(p, token) {
   token.ackSelfClosing = true
 }
 
+// modified: Allow any element to self close itself
 function genericStartTagInBody(p, token) {
   p._reconstructActiveFormattingElements()
-  p._insertElement(token, NS.HTML)
+
+  if (token.selfClosing) {
+    p._appendElement(token, NS.HTML)
+  } else {
+    p._insertElement(token, NS.HTML)
+  }
+
+  token.ackSelfClosing = true
 }
 
 // OPTIMIZATION: Integer comparisons are low-cost, so we can use very fast tag name length filters here.
@@ -2033,7 +2043,6 @@ function htmlEndTagInBody(p, token) {
 
 function addressEndTagInBody(p, token) {
   const tn = token.tagName
-
   if (p.openElements.hasInScope(tn)) {
     p.openElements.generateImpliedEndTags()
     p.openElements.popUntilTagNamePopped(tn)

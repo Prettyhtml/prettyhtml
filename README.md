@@ -6,9 +6,7 @@
 * Enforce consistent output of your HTML.
 
 ### Limitations
-
-* No support for custom self-closing elements because HTML doesn’t allow custom elements to be self-closing - only official [“void”](https://www.w3.org/TR/html/syntax.html#void-elements) elements.
-* No guarantee of a print width. Nodes are collapsed based on existing attribute indentation when your element has more than 2 attributes and at least one attribute is on a newline.
+No guarantee of a print width. Nodes are collapsed based on existing attribute indentation when your element has more than 2 attributes and at least one attribute is on a newline.
 
 ## Example
 

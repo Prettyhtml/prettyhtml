@@ -28,7 +28,8 @@ var LF = '\n'
 function element(ctx, node, index, parent) {
   var name = node.tagName
   var content = all(ctx, name === 'template' ? node.content : node)
-  var selfClosing = ctx.voids.indexOf(name.toLowerCase()) !== -1
+  var selfClosing =
+    ctx.voids.indexOf(name.toLowerCase()) !== -1 || node.data.selfClosing
   var collapseAttr = node.data ? node.data.collapseAttr : false
   var attrs = attributes(ctx, node, collapseAttr)
   var omit = ctx.omit
@@ -57,6 +58,11 @@ function element(ctx, node, index, parent) {
         value += SPACE
       }
 
+      value += SO
+    }
+
+    // allow any element to selfclose itself except known HTML void elements
+    if (selfClosing && ctx.voids.indexOf(name.toLowerCase()) === -1) {
       value += SO
     }
 

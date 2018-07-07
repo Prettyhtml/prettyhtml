@@ -18,14 +18,15 @@ exports.createDocumentFragment = function() {
   }
 }
 
-exports.createElement = function(tagName, namespaceURI, attrs) {
+exports.createElement = function(tagName, namespaceURI, attrs, selfClosing) {
   return {
     nodeName: tagName,
     tagName: tagName,
     attrs: attrs,
     namespaceURI: namespaceURI,
     childNodes: [],
-    parentNode: null
+    parentNode: null,
+    selfClosing
   }
 }
 
