@@ -29,7 +29,7 @@ function element(ctx, node, index, parent) {
   var name = node.tagName
   var content = all(ctx, name === 'template' ? node.content : node)
   var selfClosing = ctx.voids.indexOf(name.toLowerCase()) !== -1
-  var collapseAttr = node.collapseAttr
+  var collapseAttr = node.data ? node.data.collapseAttr : false
   var attrs = attributes(ctx, node, collapseAttr)
   var omit = ctx.omit
   var value = ''
@@ -107,7 +107,8 @@ function attributes(ctx, node, collapseAttr) {
     /* In tight mode, don’t add a space after quoted attributes. */
     if (last !== DQ && last !== SQ) {
       if (collapseAttr) {
-        values[index] = LF + repeat(ctx.tabWidth, node.indentLevel + 1) + result
+        values[index] =
+          LF + repeat(ctx.tabWidth, node.data.indentLevel + 1) + result
       } else if (index !== length - 1) {
         values[index] = result + SPACE
       } else {

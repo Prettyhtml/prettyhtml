@@ -68,8 +68,8 @@ function format(options) {
        * e.g pre, textarea
        */
       if (ignore(parents.concat(node))) {
-        node.indentLevel = level - 1
-        node.shouldBreakAttr = false
+        setData(node, 'indentLevel', level - 1)
+        setData(node, 'shouldBreakAttr', false)
 
         // clear empty script, textarea, pre, style tags
         if (length) {
@@ -91,10 +91,10 @@ function format(options) {
        * In order to ignore the whole element tree we have to ignore all childs.
        */
       index = -1
-      if (node.ignoreFlagged) {
+      if (getData(node, 'ignoreFlagged')) {
         while (++index < length) {
-          child = children[index]
-          child.ignoreFlagged = true
+          let child = children[index]
+          setData(child, 'ignoreFlagged', true)
         }
         return
       }
@@ -104,13 +104,13 @@ function format(options) {
        */
       let found
       while (++index < length) {
-        child = children[index]
+        let child = children[index]
         if (is('comment', child)) {
           if (child.value.indexOf('prettyhtml-ignore') !== -1) {
             found = true
           }
         } else if (isElement(child) && found) {
-          child.ignoreFlagged = true
+          setData(child, 'ignoreFlagged', true)
           break
         }
       }
@@ -126,7 +126,7 @@ function format(options) {
        */
       index = -1
       while (++index < length) {
-        child = children[index]
+        let child = children[index]
 
         // only indent text in nodes
         // root text nodes should't influence other root nodes
@@ -153,7 +153,7 @@ function format(options) {
       let prevChild
 
       // check if we indent the attributes in newlines
-      node.collapseAttr = collapseAttributes(node)
+      setData(node, 'collapseAttr', collapseAttributes(node))
 
       if (length) {
         // walk through children
@@ -162,11 +162,12 @@ function format(options) {
           let indentLevel = level
 
           // collapsed attributes creates a new indent level
-          if (node.collapseAttr) {
+          if (getData(node, 'collapseAttr')) {
             indentLevel++
           }
+
           child = children[index]
-          child.indentLevel = indentLevel
+          setData(child, 'indentLevel', indentLevel)
 
           /**
            * Insert 2 newline
@@ -425,4 +426,16 @@ function indentPrettierOutput(formattedText, level) {
   }
 
   return lines.join('\n')
+}
+
+function setData(node, key, value) {
+  let data = node.data || {}
+  node.data = data
+  node.data[key] = value
+}
+
+function getData(node, key) {
+  if (node.data) {
+    return node.data[key]
+  }
 }
