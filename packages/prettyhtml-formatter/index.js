@@ -77,10 +77,9 @@ function format(options) {
           if (empty) {
             node.children = []
           }
-        }
-
-        if (!noPrettier && containsOnlyEmptyTextNodes(node) === false) {
-          prettierEmbeddedContent(node, level, prettierOpts)
+          if (!noPrettier && !empty) {
+            prettierEmbeddedContent(node, level, prettierOpts)
+          }
         }
 
         return
