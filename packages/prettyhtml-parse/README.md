@@ -20,3 +20,4 @@
 * Allow to handle case-sensitive tagName
 * Don't skip newline in `textarea`, `pre` tags in order to format correctly
 * Allow any element to self close itself
+* Add `selfClosing` property to treeAdapter `createElement` interface.

@@ -1,7 +1,6 @@
 'use strict'
 
 const minify = require('rehype-minify-whitespace')({ newlines: true })
-const phrasing = require('hast-util-phrasing')
 const sensitive = require('html-whitespace-sensitive-tag-names')
 const is = require('unist-util-is')
 const isElement = require('hast-util-is-element')

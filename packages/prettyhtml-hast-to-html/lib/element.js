@@ -28,12 +28,16 @@ var LF = '\n'
 function element(ctx, node, index, parent) {
   var name = node.tagName
   var content = all(ctx, name === 'template' ? node.content : node)
-  var selfClosing =
-    ctx.voids.indexOf(name.toLowerCase()) !== -1 || node.data.selfClosing
+  var selfClosing = ctx.voids.indexOf(name.toLowerCase()) !== -1
   var collapseAttr = node.data ? node.data.collapseAttr : false
   var attrs = attributes(ctx, node, collapseAttr)
   var omit = ctx.omit
   var value = ''
+
+  // check for 'selfClosing' property of parse5
+  if (node.data && selfClosing === false) {
+    selfClosing = !!node.data.selfClosing
+  }
 
   /* If the node is categorised as void, but it has
    * children, remove the categorisation.  This
