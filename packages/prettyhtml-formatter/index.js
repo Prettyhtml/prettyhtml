@@ -15,6 +15,7 @@ module.exports = format
 
 /* Constants. */
 const single = '\n'
+const space = ' '
 const double = '\n\n'
 var re = /\n/g
 
@@ -31,7 +32,7 @@ function format(options) {
   if (useTabs) {
     indent = '\t'
   } else {
-    indent = repeat(' ', tabWidth)
+    indent = repeat(space, tabWidth)
   }
 
   return transform
@@ -82,7 +83,7 @@ function format(options) {
             node.children = []
           }
           if (!noPrettier && !empty) {
-            prettierEmbeddedContent(node, level, prettierOpts)
+            prettierEmbeddedContent(node, level, indent, prettierOpts)
           }
         }
 
@@ -316,9 +317,9 @@ function isConCommentFollowedByComment(node, child, index, prev) {
   // insert double newline when conditional comment is before a non conditional comment
   if (
     is('comment', prev) &&
-    prev.value.indexOf('if') !== -1 &&
+    prev.value.toLowerCase().indexOf('if') !== -1 &&
     is('comment', child) &&
-    child.value.indexOf('if') === -1
+    child.value.toLowerCase().indexOf('if') === -1
   ) {
     return true
   }
@@ -341,7 +342,7 @@ function ignore(nodes) {
   return false
 }
 
-function prettierEmbeddedContent(node, level, prettierOpts) {
+function prettierEmbeddedContent(node, level, indent, prettierOpts) {
   if (isElement(node, 'style')) {
     const content = toString(node)
     node.children = []
@@ -378,7 +379,7 @@ function prettierEmbeddedContent(node, level, prettierOpts) {
     node.children = [
       { type: 'text', value: '\n' },
       { type: 'text', value: formattedText },
-      { type: 'text', value: repeat('  ', level - 1) }
+      { type: 'text', value: repeat(indent, level - 1) }
     ]
   } else if (isElement(node, 'script')) {
     const content = toString(node)
