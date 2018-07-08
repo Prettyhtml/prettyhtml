@@ -29,9 +29,9 @@ function parse(options) {
       scriptingEnabled: false,
 
       allowLeadingNewlineInTextareaAndPre: true,
-      allowSelfClosingElements: true,
-      allowSensitiveTagName: true,
-      allowSensitiveAttributeName: true
+      allowSelfClosingCustomElements: true,
+      allowCaseSensitiveTagName: true,
+      allowCaseSensitiveAttributeName: true
     })
 
     return fromParse5(parse5[fn](doc), {
