@@ -41,7 +41,7 @@ Out
 - [prettyhtml](/packages/prettyhtml) CLI and API.
 - [prettyhtml-formatter](/packages/prettyhtml-formatter) Formatter.
 - [prettyhtml-hast-to-html](/packages/prettyhtml-hast-to-html) Stringifier.
-- [prettyhtml-parse](/packages/prettyhtml-parse) HTML parser and serializer.
+- [prettyhtml-parse](https://github.com/StarpTech/parse5) HTML parser and serializer (fork of [parse5](https://github.com/inikulin/parse5))
 - [prettyhtml-rehype-parse](/packages/prettyhtml-rehype-parse) Adapter between HTML parser and rehype.
 - [prettyhtml-hast-util-from-parse](/packages/prettyhtml-hast-util-from-parse) Transform prettyhtml-parse AST to HAST.
 - [prettyhtml-hastscript](/packages/prettyhtml-hastscript) Hyperscript compatible DSL for creating virtual HAST trees.

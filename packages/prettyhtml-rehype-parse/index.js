@@ -26,7 +26,12 @@ function parse(options) {
     var parse5 = new Parser5({
       sourceCodeLocationInfo: position,
       onParseError: onParseError,
-      scriptingEnabled: false
+      scriptingEnabled: false,
+
+      allowNewlinesInTextareAndPre: true,
+      allowSelfClosingElements: true,
+      allowSensitiveTagName: true,
+      allowSensitiveAttributeName: true
     })
 
     return fromParse5(parse5[fn](doc), {
