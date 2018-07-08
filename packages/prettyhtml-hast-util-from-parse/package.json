@@ -1,6 +1,6 @@
 {
   "name": "@starptech/prettyhtml-hast-util-from-parse",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Transform Parse5’s AST to HAST",
   "keywords": [
     "parse5",
