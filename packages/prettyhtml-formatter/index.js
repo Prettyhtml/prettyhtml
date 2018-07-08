@@ -347,6 +347,8 @@ function prettierEmbeddedContent(node, level, indent, prettierOpts) {
     const content = toString(node)
     node.children = []
     const typeAttr = node.properties.type
+      ? node.properties.type.toLowerCase()
+      : ''
     let parser = 'css'
     if (typeAttr === 'text/x-scss') {
       parser = 'scss'
@@ -354,14 +356,14 @@ function prettierEmbeddedContent(node, level, indent, prettierOpts) {
       parser = 'less'
     } else {
       const langAttr = node.properties.lang
+        ? node.properties.lang.toLowerCase()
+        : ''
       if (langAttr === 'postcss') {
         parser = 'css'
       } else if (langAttr === 'scss') {
         parser = 'scss'
       } else if (langAttr === 'less') {
         parser = 'less'
-      } else {
-        parser = 'css'
       }
     }
 
@@ -385,17 +387,21 @@ function prettierEmbeddedContent(node, level, indent, prettierOpts) {
     const content = toString(node)
     node.children = []
     const typeAttr = node.properties.type
+      ? node.properties.type.toLowerCase()
+      : ''
     let parser = 'babylon'
 
-    if (typeAttr === 'application/x-typescript') {
+    if (typeAttr.indexOf('json') !== -1) {
+      parser = 'json'
+    } else if (typeAttr === 'application/x-typescript') {
       parser = 'typescript'
     } else {
       const langAttr = node.properties.lang
+        ? node.properties.lang.toLowerCase()
+        : ''
 
       if (langAttr === 'ts' || langAttr === 'tsx') {
         parser = 'typescript'
-      } else {
-        parser = 'babylon'
       }
     }
 
@@ -427,7 +433,7 @@ function indentPrettierOutput(formattedText, level) {
   for (let i = 0; i < lines.length; i++) {
     if (i === lines.length - 1) {
       lines[i] = lines[i]
-    } else {
+    } else if (lines[i].replace(/\s+/g, '').length) {
       lines[i] = repeat('  ', level) + lines[i]
     }
   }
