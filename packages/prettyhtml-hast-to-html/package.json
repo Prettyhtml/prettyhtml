@@ -1,6 +1,6 @@
 {
   "name": "@starptech/prettyhtml-hast-to-html",
-  "version": "0.0.11",
+  "version": "0.0.14",
   "description": "Hast to html converter",
   "main": "index.js",
   "repository": {
