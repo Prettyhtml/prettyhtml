@@ -6,6 +6,7 @@
 * Enforce consistent output of your HTML.
 
 ## Example
+Test it on [repl.it](https://repl.it/@StarpTech/PrettyHtml)
 
 In
 
