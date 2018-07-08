@@ -114,7 +114,7 @@ function format(options) {
           }
         } else if (isElement(child) && found) {
           setData(child, 'ignoreFlagged', true)
-          break
+          found = false
         }
       }
 

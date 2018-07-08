@@ -1,12 +1,13 @@
 const prettyhtml = require('./../packages/prettyhtml')
 
 // example with angular template
-const result = prettyhtml(`<!-- custom -->
-<my-component ng-model="selected"><custom FOO="test" class="test" title="title"></custom>
-<form #heroForm (ngSubmit)="onSubmit(heroForm)" title="title" data-foo="foo" data-baz="baz"> <input
-type="text" [(onChange)]="dede" name="test"> <button [style.color]="isSpecial ? 'red' : 'green'"></button>
-<div>Foo bar test</div>
-</form>
-</my-component>`)
+const result = prettyhtml(`<!-- prettyhtml-ignore -->
+<div class="form-check"><label class="form-check-label"><input type="checkbox" class="form-check-input"> Check me out</label></div>
+<div class="form-check"><label class="form-check-label"><input type="checkbox" class="form-check-input"> Check me out</label></div>
+<!-- prettyhtml-ignore -->
+<ul><!--
+--><li>   First   </li><!--
+--><li>   Second   </li><!--
+--></ul>`)
 
 console.log(result.contents)
