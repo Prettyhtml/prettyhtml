@@ -196,7 +196,7 @@ function format(options) {
              * 3. break text in newline when it's the first node
              */
             (beforeChildNodeAddedHook(node, child, index, prevChild) &&
-              !isNewline(prevChild)) ||
+              !containsNewline(prevChild)) ||
             (newline && index === 0)
           ) {
             result.push({
@@ -211,7 +211,7 @@ function format(options) {
         }
       }
 
-      // 1. hould we break before node is closed?
+      // 1. should we break before node is closed?
       // 2. break text when node text was aligned
       if (afterChildNodesAddedHook(node, prevChild) || newline) {
         result.push({
@@ -242,7 +242,7 @@ function collapseAttributes(node) {
   return false
 }
 
-function isNewline(node) {
+function containsNewline(node) {
   return is('text', node) && node.value && node.value.indexOf('\n') !== -1
 }
 
