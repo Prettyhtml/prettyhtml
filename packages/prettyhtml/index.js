@@ -18,7 +18,8 @@ function core(value, processor, options) {
       prettier: options.prettier
     })
     .use(stringify, {
-      tabWidth: options.tabWidth || 2
+      tabWidth: options.tabWidth,
+      quote: options.quote
     })
     .processSync(file)
 }

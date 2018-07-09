@@ -71,7 +71,8 @@ $ prettyhtml --help
 const prettyhtml = require('@starptech/prettyhtml')
 const result = prettyhtml(`<custom foo="bar"></custom>`, {
   tabWidth: 2,
-  useTabs: false
+  useTabs: false,
+  quote: `"`
 })
 ```
 
