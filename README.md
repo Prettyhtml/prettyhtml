@@ -83,7 +83,7 @@ ddddddd" id="dwedwedwed"><p>foo</p></div>
 </div>
 ```
 
-## Ignore specific elments
+## Ignore specific elements
 
 ```html
 <!-- prettyhtml-ignore -->
