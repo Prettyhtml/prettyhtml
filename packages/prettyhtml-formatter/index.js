@@ -202,8 +202,7 @@ function format(options) {
            */
           if (
             isElementAfterConditionalComment(node, child, index, prevChild) ||
-            isConCommentFollowedByComment(node, child, index, prevChild) ||
-            isCommentBeforeElement(node, child, index, prevChild)
+            isConCommentFollowedByComment(node, child, index, prevChild)
           ) {
             result.push({
               type: 'text',
@@ -315,14 +314,6 @@ function containsOnlyTextNodes(node) {
 function containsOnlyEmptyTextNodes(node) {
   const children = node.children || []
   return children.every(n => is('text', n) && /^\s+$/.test(n.value))
-}
-
-function isCommentBeforeElement(node, child, index, prev) {
-  // insert newline when comment is on the same line as the element
-  if (is('comment', child) && isElement(prev)) {
-    return true
-  }
-  return false
 }
 
 function isElementAfterConditionalComment(node, child, index, prev) {

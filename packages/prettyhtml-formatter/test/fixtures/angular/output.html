@@ -9,7 +9,6 @@
     [style.paddingTop.%]="50 * cellAspectRatio / numCols"
     [style.paddingBottom.%]="50 * cellAspectRatio / numCols">{{label}}</td>
 </tr>
-
 <!-- Create the first row separately so we can include a special spacer cell. -->
 <tr *ngFor="let row of rows; let rowIndex = index" role="row">
   <!--
