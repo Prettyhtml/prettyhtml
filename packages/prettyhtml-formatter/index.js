@@ -119,6 +119,10 @@ function format(options) {
         }
       }
 
+      // check if we indent the attributes in newlines
+      const shouldCollapse = collapseAttributes(node)
+      setData(node, 'collapseAttr', shouldCollapse)
+
       /**
        * Indent newlines in `text`.
        * e.g <p>foo <strong>bar</strong></p> to
@@ -146,6 +150,26 @@ function format(options) {
             .replace(/^[ \t]+|[ \t]+$/g, '')
             .replace(re, '$&' + repeat(indent, level))
         }
+
+        /**
+         * Indent newlines in attribute values
+         */
+        for (const attrName in child.properties) {
+          const attrValue = child.properties[attrName]
+          const indentLevel = shouldCollapse ? level + 2 : level + 1
+
+          if (Array.isArray(attrValue)) {
+            attrValue.map(value => {
+              return value
+                .replace(/^[ \t]+|[ \t]+$/g, '')
+                .replace(re, '$&' + repeat(indent, indentLevel))
+            })
+          } else if (typeof attrValue === 'string') {
+            child.properties[attrName] = attrValue
+              .replace(/^[ \t]+|[ \t]+$/g, '')
+              .replace(re, '$&' + repeat(indent, indentLevel))
+          }
+        }
       }
 
       // reset
@@ -156,9 +180,6 @@ function format(options) {
 
       let prevChild
 
-      // check if we indent the attributes in newlines
-      setData(node, 'collapseAttr', collapseAttributes(node))
-
       if (length) {
         // walk through children
         // a child has no children informations
@@ -166,7 +187,7 @@ function format(options) {
           let indentLevel = level
 
           // collapsed attributes creates a new indent level
-          if (getData(node, 'collapseAttr')) {
+          if (shouldCollapse) {
             indentLevel++
           }
 
@@ -235,7 +256,10 @@ function collapseAttributes(node) {
   // when attributes was already indented on newlines
   const pos = node.position
   for (const attr in node.data.position.properties) {
-    if (pos.start.line !== node.data.position.properties[attr].start.line) {
+    if (
+      pos.start.line !== node.data.position.properties[attr].start.line ||
+      pos.start.line !== node.data.position.properties[attr].end.line
+    ) {
       return true
     }
   }
