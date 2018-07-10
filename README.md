@@ -83,6 +83,13 @@ ddddddd" id="dwedwedwed"><p>foo</p></div>
 </div>
 ```
 
+## Ignore specific elments
+
+```html
+<!-- prettyhtml-ignore -->
+<div></div>
+```
+
 ## Ideas?
 
 Feel free to create an issue and show your proposal!
@@ -93,7 +100,7 @@ Feel free to create an issue and show your proposal!
 $ npm install @starptech/prettyhtml --global
 ```
 
-## Command Line
+## CLI
 
 ```
 $ prettyhtml example.html ./**/*.html
@@ -116,17 +123,10 @@ const result = prettyhtml(`<custom foo="bar"></custom>`, {
 })
 ```
 
-## Ignore specific elments
-
-```html
-<!-- prettyhtml-ignore -->
-<div></div>
-```
-
 ## Why
 
 Prettier has no intention to support other template syntaxes e.g like Angular or Vue. There is a [PR](https://github.com/prettier/prettier/pull/4753) but they is no agreement on it.
-Prettyhtml should be able to format any superset of HTML as long it is parseable with minor tweaks.
+Prettyhtml should be able to format any superset of HTML as long it is parseable with minor tweaks. We maintain a [fork](https://github.com/StarpTech/parse5) of the most robust HTML5 parser.
 
 ## Acknowledgement
 
