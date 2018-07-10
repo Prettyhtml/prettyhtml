@@ -1,6 +1,6 @@
 ![Prettyhtml Banner](/logo.png)
 
-Opinionated general formatter for your Angular, Vue or pure HTML5 templates.
+Opinionated general formatter for your Angular, Vue or pure HTML5 templates. Try it on [repl.it](https://repl.it/@StarpTech/PrettyHtml).
 
 ## Features
 
