@@ -1,6 +1,6 @@
 ![Prettyhtml Banner](/logo.png)
 
-Prettyhtml is a general formatter for your Angular, Vue or pure HTML5 templates.
+Opinionated general formatter for your Angular, Vue or pure HTML5 templates.
 
 ## Features
 
