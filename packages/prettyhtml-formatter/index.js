@@ -17,7 +17,7 @@ module.exports = format
 const single = '\n'
 const space = ' '
 const double = '\n\n'
-var re = /\n/g
+const re = /\n/g
 
 /* Format white-space. */
 function format(options) {
@@ -48,21 +48,14 @@ function format(options) {
     return root
 
     function visitor(node, parents) {
-      // <template> is special they children are exposed under 'content' property
-      if (isElement(node, 'template')) {
-        minify(node.content)
-        visit(node.content, visitor)
-        return
-      }
-
       // holds a copy of the children
       let children = node.children || []
       let length = children.length
-      let level = parents.length
       let index = -1
       let result
       let child
       let newline
+      let level = parents.length
 
       if (indentInitial === false) {
         level--
@@ -198,7 +191,6 @@ function format(options) {
            * Insert 2 newline
            * 1. check if an element is followed by a conditional comment
            * 2. check if a comment is followed by a conditional comment
-           * 3. check if a comment is before an element
            */
           if (
             isElementAfterConditionalComment(node, child, index, prevChild) ||
@@ -279,7 +271,7 @@ function beforeChildNodeAddedHook(node, child, index, prev) {
     return true
   }
 
-  // dont add newline on the first elmement
+  // don't add newline on the first elmement
   const isRootElement = node.type === 'root' && index === 0
   if (isRootElement) {
     return false
