@@ -16,4 +16,4 @@
 
 ### Modifications
 
-* Use `@starptech/prettyhtml-hast-util-from-parse` and `@starptech/prettyhtml-parse/lib/parser`
+* Use `@starptech/prettyhtml-hast-util-from-parse` and `@starptech/prettyhtml-parse`

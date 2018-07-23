@@ -53,6 +53,7 @@ function toHTML(node, options) {
   var name = errors ? NAME : CLEAN_NAME
   var singleQuoted = errors ? SQ_VALUE : SQ_VALUE_CLEAN
   var doubleQuoted = errors ? DQ_VALUE : DQ_VALUE_CLEAN
+  var templateHoldTag = settings.templateHoldTag || 'prettyhtml-template'
 
   if (quote !== DQ && quote !== SQ) {
     throw new Error(
@@ -72,6 +73,7 @@ function toHTML(node, options) {
       omit: settings.omitOptionalTags && omission,
       quote,
       tabWidth,
+      templateHoldTag,
       tight: settings.tightAttributes,
       tightDoctype: Boolean(settings.tightDoctype),
       tightLists: settings.tightCommaSeparatedLists,

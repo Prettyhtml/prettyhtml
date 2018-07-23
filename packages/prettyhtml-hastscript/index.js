@@ -32,11 +32,6 @@ function h(selector, properties, children) {
 
   addChild(node.children, children)
 
-  if (node.tagName === 'template') {
-    node.content = { type: 'root', children: node.children }
-    node.children = []
-  }
-
   return node
 }
 

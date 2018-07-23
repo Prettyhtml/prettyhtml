@@ -26,8 +26,11 @@ var LF = '\n'
 
 /* Stringify an element `node`. */
 function element(ctx, node, index, parent) {
-  var name = node.tagName
-  var content = all(ctx, name === 'template' ? node.content : node)
+  var name = node.tagName === ctx.templateHoldTag ? 'template' : node.tagName
+  var content = all(
+    ctx,
+    name === 'template' && node.content ? node.content : node
+  )
   var selfClosing = ctx.voids.indexOf(name.toLowerCase()) !== -1
   var collapseAttr = node.data ? node.data.collapseAttr : false
   var attrs = attributes(ctx, node, collapseAttr)

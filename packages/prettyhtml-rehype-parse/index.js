@@ -23,6 +23,17 @@ function parse(options) {
     var isFragment = !/<(!doctype|html|head|body)/i.test(doc)
     var fn = settings.fragment || isFragment ? 'parseFragment' : 'parse'
     var onParseError = settings.emitParseErrors ? onerror : null
+
+    if (settings.replaceTemplate) {
+      // parse5 will create a new sub-document per fragment and expose their children under a new property called `content`.
+      // This makes formatting very hard because the parent relationship is deleted and rehype handle it as a new root element
+      // this results in a complete different algorithm
+      // the content is restored in prettyhtml-formatter
+      doc = doc
+        .replace(/<template(.*)>/g, '<' + settings.replaceTemplate + '$1>')
+        .replace(/<\/template\s*>/g, '</' + settings.replaceTemplate + '>')
+    }
+
     var parse5 = new Parser5({
       sourceCodeLocationInfo: position,
       onParseError: onParseError,

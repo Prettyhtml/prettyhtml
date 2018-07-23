@@ -1,11 +1,11 @@
 'use strict'
 
-var fs = require('fs')
-var path = require('path')
-var test = require('tape')
-var vfile = require('to-vfile')
-var hidden = require('is-hidden')
-var negate = require('negate')
+const fs = require('fs')
+const path = require('path')
+const test = require('tape')
+const vfile = require('to-vfile')
+const hidden = require('is-hidden')
+const negate = require('negate')
 
 const unified = require('unified')
 const parse = require('@starptech/prettyhtml-rehype-parse')
@@ -38,7 +38,8 @@ test('format', function(t) {
 
     proc = unified()
       .use(parse, {
-        verbose: true
+        verbose: true,
+        replaceTemplate: 'prettyhtml-template'
       })
       .use(format, config)
       .use(stringify, {
