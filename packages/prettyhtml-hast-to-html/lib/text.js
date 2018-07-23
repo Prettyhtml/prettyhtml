@@ -1,8 +1,6 @@
 'use strict'
 
-const xtend = require('xtend')
 const restoreTemplate = require('./omission/util/restore-template-holder')
-const entities = require('stringify-entities')
 
 module.exports = text
 
@@ -10,14 +8,7 @@ module.exports = text
 function text(ctx, node, index, parent) {
   var value = restoreTemplate(node.value, ctx.templateHoldTag)
 
-  return isLiteral(parent)
-    ? value
-    : entities(
-        value,
-        xtend(ctx.entities, {
-          subset: ['<', '&']
-        })
-      )
+  return value
 }
 
 /* Check if content of `node` should be escaped. */
