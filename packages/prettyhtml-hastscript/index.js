@@ -135,8 +135,6 @@ function addProperty(properties, name, value) {
 
   result = parsePrimitive(info, name, result)
 
-  // properties[info.propertyName || camelcase(name)] = result
-  // don't camelcase attributes in order to work with the raw value in formatter
   properties[info.propertyName || name] = result
 }
 

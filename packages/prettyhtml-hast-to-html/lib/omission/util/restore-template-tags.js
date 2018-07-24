@@ -1,8 +1,8 @@
 'use strict'
 
-module.exports = replace
+module.exports = restore
 
-function replace(value, holder) {
+function restore(value, holder) {
   if (value.indexOf(holder) !== -1) {
     const startTag = new RegExp('<' + holder + '(.*)>', 'g')
     const endTag = new RegExp('</' + holder + '(.*)>', 'g')

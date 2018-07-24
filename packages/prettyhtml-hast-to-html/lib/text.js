@@ -1,12 +1,16 @@
 'use strict'
 
-const restoreTemplate = require('./omission/util/restore-template-holder')
+const restoreTemplateTags = require('./omission/util/restore-template-tags')
 
 module.exports = text
 
 /* Stringify `text`. */
 function text(ctx, node, index, parent) {
-  var value = restoreTemplate(node.value, ctx.templateHoldTag)
+  var value = node.value
+
+  if (isLiteral(node)) {
+    value = restoreTemplateTags(node.value, ctx.templateHoldTag)
+  }
 
   return value
 }
