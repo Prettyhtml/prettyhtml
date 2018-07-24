@@ -1,6 +1,6 @@
 {
   "name": "@starptech/prettyhtml-formatter",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "Html formatter",
   "main": "index.js",
   "repository": {
@@ -28,8 +28,8 @@
   },
   "homepage": "https://github.com/StarpTech/prettyhtml#readme",
   "dependencies": {
-    "@starptech/prettyhtml-hast-to-html": "^0.0.21",
-    "@starptech/prettyhtml-rehype-parse": "^0.0.20",
+    "@starptech/prettyhtml-hast-to-html": "^0.0.22",
+    "@starptech/prettyhtml-rehype-parse": "^0.0.22",
     "hast-util-is-element": "^1.0.1",
     "hast-util-to-string": "^1.0.1",
     "html-void-elements": "^1.0.3",

@@ -1,6 +1,6 @@
 {
   "name": "@starptech/prettyhtml-hast-util-from-parse",
-  "version": "0.0.20",
+  "version": "0.0.22",
   "description": "Transform Parse5’s AST to HAST",
   "keywords": [
     "parse5",
@@ -22,7 +22,7 @@
     "index.js"
   ],
   "dependencies": {
-    "@starptech/prettyhtml-hastscript": "^0.0.20",
+    "@starptech/prettyhtml-hastscript": "^0.0.22",
     "ccount": "^1.0.3",
     "property-information": "^3.2.0",
     "xtend": "^4.0.1"
