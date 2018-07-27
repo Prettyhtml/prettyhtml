@@ -44,6 +44,14 @@ function transform(ast, config) {
   var node
   var pos
 
+  // remove #document-fragment and update parentNode of childs
+  if (ast.nodeName === 'template') {
+    ast.childNodes = ast.content.childNodes
+    ast.childNodes.forEach(n => {
+      n.parentNode = ast
+    })
+  }
+
   if (ast.childNodes) {
     children = nodes(ast.childNodes, config)
   }
@@ -59,7 +67,7 @@ function transform(ast, config) {
     }
   }
 
-  // extend hast data property with 'selfClosing' information
+  // extend hast data property with 'selfClosing' information from parse5 ast
   if (ast.selfClosing) {
     node.data = node.data || {}
     node.data.selfClosing = ast.selfClosing
@@ -133,9 +141,6 @@ function element(ast, children, config) {
   var index = -1
   var attr
   var node
-  var pos
-  var start
-  var end
 
   while (++index < length) {
     attr = values[index]
@@ -143,18 +148,6 @@ function element(ast, children, config) {
   }
 
   node = h(ast.tagName, props, children)
-
-  if (ast.nodeName === 'template' && 'content' in ast) {
-    pos = ast.sourceCodeLocation
-    start = pos && pos.startTag && position(pos.startTag).end
-    end = pos && pos.endTag && position(pos.endTag).start
-
-    node.content = transform(ast.content, config)
-
-    if ((start || end) && config.file) {
-      node.content.position = { start: start, end: end }
-    }
-  }
 
   return node
 }

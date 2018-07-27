@@ -38,8 +38,7 @@ test('format', function(t) {
 
     proc = unified()
       .use(parse, {
-        verbose: true,
-        replaceTemplate: 'prettyhtml-template'
+        verbose: true
       })
       .use(format, config)
       .use(stringify, {

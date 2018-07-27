@@ -1,7 +1,7 @@
 'use strict'
 
 const defaults = {
-  parser: { verbose: true, replaceTemplate: 'prettyhtml-template' }
+  parser: { verbose: true }
 }
 
 module.exports = defaults

@@ -62,6 +62,25 @@ function format(options) {
       }
 
       /**
+       * When 'prettyhtml-ignore' flag is set we can ignore the next element
+       * In order to ignore the whole subtree we have to return the index from the next+1 element
+       */
+      if (is('comment', node)) {
+        if (node.value.indexOf('prettyhtml-ignore') !== -1) {
+          const parent = parents[parents.length - 1]
+          const nodeIndex = parent ? parent.children.indexOf(node) : null
+          if (nodeIndex !== null) {
+            for (let i = nodeIndex; i < parent.children.length; i++) {
+              const child = parent.children[i]
+              if (isElement(child)) {
+                return i + 1
+              }
+            }
+          }
+        }
+      }
+
+      /**
        * If we find whitespace-sensitive nodes / inlines we skip it
        * e.g pre, textarea
        */
@@ -80,36 +99,7 @@ function format(options) {
           }
         }
 
-        return
-      }
-
-      /**
-       * When 'prettyhtml-ignore' flag is set we can ignore this element
-       * In order to ignore the whole element tree we have to ignore all childs.
-       */
-      index = -1
-      if (getData(node, 'ignoreFlagged')) {
-        while (++index < length) {
-          let child = children[index]
-          setData(child, 'ignoreFlagged', true)
-        }
-        return
-      }
-
-      /**
-       * Flag the next element after the ignore flag
-       */
-      let found
-      while (++index < length) {
-        let child = children[index]
-        if (is('comment', child)) {
-          if (child.value.indexOf('prettyhtml-ignore') !== -1) {
-            found = true
-          }
-        } else if (isElement(child) && found) {
-          setData(child, 'ignoreFlagged', true)
-          found = false
-        }
+        return visit.SKIP
       }
 
       // check if we indent the attributes in newlines
@@ -177,6 +167,8 @@ function format(options) {
         // walk through children
         // a child has no children informations
         while (++index < length) {
+          child = children[index]
+
           let indentLevel = level
 
           // collapsed attributes creates a new indent level
@@ -184,7 +176,6 @@ function format(options) {
             indentLevel++
           }
 
-          child = children[index]
           setData(child, 'indentLevel', indentLevel)
 
           /**
@@ -452,12 +443,6 @@ function setData(node, key, value) {
   let data = node.data || {}
   node.data = data
   node.data[key] = value
-}
-
-function getData(node, key) {
-  if (node.data) {
-    return node.data[key]
-  }
 }
 
 function isPageMode(ast) {
