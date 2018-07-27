@@ -48,11 +48,7 @@ test('`element`', function(t) {
       type: 'element',
       tagName: 'template',
       properties: {},
-      children: [],
-      content: {
-        type: 'root',
-        children: [h('p', [h('b', 'Bold'), ' and ', h('i', 'italic'), '.'])]
-      }
+      children: [h('p', [h('b', 'Bold'), ' and ', h('i', 'italic'), '.'])]
     }),
     '<template><p><b>Bold</b> and <i>italic</i>.</p></template>',
     'should support `<template>`s content'
