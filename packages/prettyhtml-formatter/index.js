@@ -329,6 +329,11 @@ function containsOnlyTextNodes(node) {
 
 function containsOnlyEmptyTextNodes(node) {
   const children = node.children || []
+
+  if (children.length === 0) {
+    return false
+  }
+
   return children.every(n => is('text', n) && /^\s+$/.test(n.value))
 }
 
