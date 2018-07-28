@@ -1,6 +1,6 @@
 'use strict'
 
-const text = require('./text')
+var text = require('./text')
 
 module.exports = raw
 

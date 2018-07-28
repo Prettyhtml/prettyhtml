@@ -1,17 +1,18 @@
 'use strict'
 
-const xtend = require('xtend')
-const spaces = require('space-separated-tokens').stringify
-const commas = require('comma-separated-tokens').stringify
-const information = require('property-information')
-const entities = require('stringify-entities')
-const all = require('./all')
+var xtend = require('xtend')
+var svg = require('property-information/svg')
+var find = require('property-information/find')
+var spaces = require('space-separated-tokens').stringify
+var commas = require('comma-separated-tokens').stringify
+var entities = require('stringify-entities')
+var all = require('./all')
+var constants = require('./constants')
 const repeat = require('repeat-string')
 
 module.exports = element
 
 /* Constants. */
-var DATA = 'data'
 var EMPTY = ''
 
 /* Characters. */
@@ -26,13 +27,39 @@ var LF = '\n'
 
 /* Stringify an element `node`. */
 function element(ctx, node, index, parent) {
+  var parentSchema = ctx.schema
   var name = node.tagName
-  var content = all(ctx, node)
-  var selfClosing = ctx.voids.indexOf(name.toLowerCase()) !== -1
-  var collapseAttr = node.data ? node.data.collapseAttr : false
-  var attrs = attributes(ctx, node, collapseAttr)
-  var omit = ctx.omit
   var value = ''
+  var selfClosing
+  var close
+  var omit
+  var root = node
+  var content
+  var attrs
+  var collapseAttr = node.data ? node.data.collapseAttr : false
+  var indentLevel = node.data ? node.data.indentLevel : 0
+
+  if (parentSchema.space === 'html' && name === 'svg') {
+    ctx.schema = svg
+  }
+
+  attrs = attributes(ctx, node.properties, collapseAttr, indentLevel)
+
+  if (ctx.schema.space === 'svg') {
+    omit = false
+    close = true
+    selfClosing = ctx.closeEmpty
+  } else {
+    omit = ctx.omit
+    close = ctx.close
+    selfClosing = ctx.voids.indexOf(name.toLowerCase()) !== -1
+
+    // if (name === 'template') {
+    //   root = node.content
+    // }
+  }
+
+  content = all(ctx, root)
 
   // check for 'selfClosing' property of parse5
   if (node.data && selfClosing === false) {
@@ -57,7 +84,7 @@ function element(ctx, node, index, parent) {
       }
     }
 
-    if (selfClosing && ctx.close) {
+    if (selfClosing && close) {
       if (!ctx.tightClose || attrs.charAt(attrs.length - 1) === SO) {
         value += SPACE
       }
@@ -79,12 +106,13 @@ function element(ctx, node, index, parent) {
     value += LT + SO + name + GT
   }
 
+  ctx.schema = parentSchema
+
   return value
 }
 
 /* Stringify all attributes. */
-function attributes(ctx, node, collapseAttr) {
-  var props = node.properties
+function attributes(ctx, props, collapseAttr, indentLevel) {
   var values = []
   var key
   var value
@@ -100,7 +128,7 @@ function attributes(ctx, node, collapseAttr) {
       continue
     }
 
-    result = attribute(ctx, node, key, value)
+    result = attribute(ctx, key, value)
 
     if (result) {
       values.push(result)
@@ -112,13 +140,16 @@ function attributes(ctx, node, collapseAttr) {
 
   while (++index < length) {
     result = values[index]
-    last = ctx.tight && result.charAt(result.length - 1)
+    last = null
+
+    if (ctx.schema.space === 'html' && ctx.tight) {
+      last = result.charAt(result.length - 1)
+    }
 
     /* In tight mode, don’t add a space after quoted attributes. */
     if (last !== DQ && last !== SQ) {
       if (collapseAttr) {
-        values[index] =
-          LF + repeat(ctx.tabWidth, node.data.indentLevel + 1) + result
+        values[index] = LF + repeat(ctx.tabWidth, indentLevel + 1) + result
       } else if (index !== length - 1) {
         values[index] = result + SPACE
       } else {
@@ -131,9 +162,10 @@ function attributes(ctx, node, collapseAttr) {
 }
 
 /* Stringify one attribute. */
-function attribute(ctx, node, key, value) {
-  var info = information(key) || {}
-  var name
+function attribute(ctx, key, value) {
+  var schema = ctx.schema
+  var info = find(schema, key)
+  var name = info.attribute
 
   if (
     value == null ||
@@ -143,7 +175,7 @@ function attribute(ctx, node, key, value) {
     return EMPTY
   }
 
-  name = attributeName(ctx, node, key)
+  name = attributeName(ctx, name)
 
   if (
     (value === true && info.boolean) ||
@@ -152,32 +184,20 @@ function attribute(ctx, node, key, value) {
     return name
   }
 
-  return name + attributeValue(ctx, key, value)
+  return name + attributeValue(ctx, key, value, info)
 }
 
 /* Stringify the attribute name. */
-function attributeName(ctx, node, key) {
-  var info = information(key) || {}
-  var name = info.name || key
+function attributeName(ctx, name) {
+  // Always encode without parse errors in non-HTML.
+  var valid = ctx.schema.space === 'html' ? ctx.valid : 1
+  var subset = constants.name[valid][ctx.safe]
 
-  if (
-    name.slice(0, DATA.length) === DATA &&
-    /\d/.test(name.charAt(DATA.length))
-  ) {
-    name = DATA + '-' + name.slice(4)
-  }
-
-  return entities(
-    name,
-    xtend(ctx.entities, {
-      subset: ctx.NAME
-    })
-  )
+  return entities(name, xtend(ctx.entities, { subset: subset }))
 }
 
 /* Stringify the attribute value. */
-function attributeValue(ctx, key, value) {
-  var info = information(key) || {}
+function attributeValue(ctx, key, value, info) {
   var quote = ctx.quote
 
   if (typeof value === 'object' && 'length' in value) {

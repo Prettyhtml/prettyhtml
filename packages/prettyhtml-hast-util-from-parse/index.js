@@ -1,6 +1,10 @@
 'use strict'
 
-var information = require('property-information')
+var html = require('property-information/html')
+var svg = require('property-information/svg')
+var find = require('property-information/find')
+var ns = require('web-namespaces')
+var s = require('@starptech/prettyhtml-hastscript/svg')
 var h = require('@starptech/prettyhtml-hastscript')
 var xtend = require('xtend')
 var count = require('ccount')
@@ -31,6 +35,7 @@ function wrapper(ast, options) {
   }
 
   return transform(ast, {
+    schema: settings.space === 'svg' ? svg : html,
     file: file,
     verbose: settings.verbose,
     location: false
@@ -39,6 +44,7 @@ function wrapper(ast, options) {
 
 /* Transform a node. */
 function transform(ast, config) {
+  var schema = config.schema
   var fn = own.call(map, ast.nodeName) ? map[ast.nodeName] : element
   var children
   var node
@@ -50,6 +56,11 @@ function transform(ast, config) {
     ast.childNodes.forEach(n => {
       n.parentNode = ast
     })
+    delete ast.content
+  }
+
+  if (fn === element) {
+    config.schema = ast.namespaceURI === ns.svg ? svg : html
   }
 
   if (ast.childNodes) {
@@ -59,7 +70,7 @@ function transform(ast, config) {
   node = fn(ast, children, config)
 
   if (ast.sourceCodeLocation && config.file) {
-    pos = location(node, ast.sourceCodeLocation, config.verbose)
+    pos = location(node, ast.sourceCodeLocation, config)
 
     if (pos) {
       config.location = true
@@ -72,6 +83,8 @@ function transform(ast, config) {
     node.data = node.data || {}
     node.data.selfClosing = ast.selfClosing
   }
+
+  config.schema = schema
 
   return node
 }
@@ -135,31 +148,37 @@ function comment(ast) {
 
 /* Transform an element. */
 function element(ast, children, config) {
+  var fn = config.schema.space === 'svg' ? s : h
+  var name = ast.tagName
+  var attributes = ast.attrs
+  var length = attributes.length
   var props = {}
-  var values = ast.attrs
-  var length = values.length
   var index = -1
-  var attr
+  var attribute
+  var prop
   var node
 
   while (++index < length) {
-    attr = values[index]
-    props[(attr.prefix ? attr.prefix + ':' : '') + attr.name] = attr.value
+    attribute = attributes[index]
+    prop = (attribute.prefix ? attribute.prefix + ':' : '') + attribute.name
+    props[prop] = attribute.value
   }
 
-  node = h(ast.tagName, props, children)
+  node = fn(name, props, children)
 
   return node
 }
 
 /* Create clean positional information. */
-function location(node, location, verbose) {
+function location(node, location, config) {
+  var schema = config.schema
+  var verbose = config.verbose
   var pos = position(location)
   var reference
-  var values
+  var attributes
+  var attribute
   var props
   var prop
-  var name
 
   if (node.type === 'element') {
     reference = node.children[node.children.length - 1]
@@ -175,12 +194,12 @@ function location(node, location, verbose) {
     }
 
     if (verbose) {
-      values = location.attrs
+      attributes = location.attrs
       props = {}
 
-      for (prop in values) {
-        name = (information(prop) || {}).propertyName || prop
-        props[name] = position(values[prop])
+      for (attribute in attributes) {
+        prop = find(schema, attribute).property
+        props[prop] = position(attributes[attribute])
       }
 
       node.data = {

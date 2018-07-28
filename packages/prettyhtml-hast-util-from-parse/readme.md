@@ -18,3 +18,4 @@
 
 * Use `@starptech/prettyhtml-hastscript`
 * Don't camelCase property names for custom location infos
+* Remove #document-fragment and update parentNode of childs

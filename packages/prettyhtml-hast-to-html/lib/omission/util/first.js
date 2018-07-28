@@ -1,6 +1,6 @@
 'use strict'
 
-const after = require('./siblings').after
+var after = require('./siblings').after
 
 module.exports = first
 

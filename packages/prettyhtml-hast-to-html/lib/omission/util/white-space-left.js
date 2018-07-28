@@ -1,7 +1,7 @@
 'use strict'
 
-const is = require('unist-util-is')
-const whiteSpace = require('hast-util-whitespace')
+var is = require('unist-util-is')
+var whiteSpace = require('hast-util-whitespace')
 
 module.exports = whiteSpaceLeft
 

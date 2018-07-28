@@ -1,7 +1,7 @@
 'use strict'
 
 var test = require('tape')
-var h = require('@starptech/prettyhtml-hastscript')
+var h = require('hastscript')
 var to = require('..')
 
 test('`element`', function(t) {
@@ -20,27 +20,31 @@ test('`element`', function(t) {
   t.deepEqual(to(h('img')), '<img>', 'should stringify void `element`s')
 
   t.deepEqual(
-    to(h('foo'), { voids: ['foo'] }),
+    to(h('foo'), {voids: ['foo']}),
     '<foo>',
     'should stringify given void `element`s'
   )
 
   t.deepEqual(
-    to(h('img'), { closeSelfClosing: true }),
+    to(h('img'), {closeSelfClosing: true}),
     '<img />',
     'should stringify with ` /` in `closeSelfClosing` mode'
   )
 
   t.deepEqual(
-    to(h('img'), { closeSelfClosing: true, tightSelfClosing: true }),
+    to(h('img'), {closeSelfClosing: true, tightSelfClosing: true}),
     '<img/>',
     'should stringify voids with `/` in `closeSelfClosing` and `tightSelfClosing` mode'
   )
 
   t.deepEqual(
-    to(h('img', { title: '/' })),
-    '<img title="/">',
-    'should not stringify voids with a ` /` in if an quoted attribute ends with `/` because we always wrap with quotes'
+    to(h('img', {title: '/'}), {
+      preferUnquoted: true,
+      closeSelfClosing: true,
+      tightSelfClosing: true
+    }),
+    '<img title=/ />',
+    'should stringify voids with a ` /` in if an unquoted attribute ends with `/`'
   )
 
   t.deepEqual(
@@ -48,7 +52,11 @@ test('`element`', function(t) {
       type: 'element',
       tagName: 'template',
       properties: {},
-      children: [h('p', [h('b', 'Bold'), ' and ', h('i', 'italic'), '.'])]
+      children: [],
+      content: {
+        type: 'root',
+        children: [h('p', [h('b', 'Bold'), ' and ', h('i', 'italic'), '.'])]
+      }
     }),
     '<template><p><b>Bold</b> and <i>italic</i>.</p></template>',
     'should support `<template>`s content'

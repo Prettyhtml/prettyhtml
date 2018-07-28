@@ -17,5 +17,4 @@
 
 ## Modifications
 
-* Don't camelCase attributes
-* Don't coerce or optimize attribute values
+* Don't handle `template` tags separately.

@@ -36,6 +36,7 @@ function parse(options) {
     })
 
     return fromParse5(parse5[fn](doc), {
+      space: settings.space,
       file: file,
       customElementAttrMarker: settings.customElementAttrMarker,
       customElementAttrValueMarker: settings.customElementAttrValueMarker,

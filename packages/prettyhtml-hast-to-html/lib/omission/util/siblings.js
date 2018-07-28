@@ -1,6 +1,6 @@
 'use strict'
 
-const whiteSpace = require('hast-util-whitespace')
+var whiteSpace = require('hast-util-whitespace')
 
 exports.before = siblings(-1)
 exports.after = siblings(1)

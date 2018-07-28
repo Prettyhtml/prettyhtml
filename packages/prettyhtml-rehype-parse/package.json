@@ -24,7 +24,7 @@
   ],
   "dependencies": {
     "@starptech/prettyhtml-hast-util-from-parse": "^0.0.23",
-    "@starptech/prettyhtml-parse": "^0.0.16",
+    "@starptech/prettyhtml-parse": "^0.0.17",
     "xtend": "^4.0.1"
   },
   "publishConfig": {
