@@ -2,6 +2,7 @@
     {{ message | translate }}
     <span>Hello world</span>
     {{ title }}
-    <span>{{ name }}</span>
-    {{ footer }}
+    <span>{{ name }}</span>{{ footer }}
   </div>
+
+  <div>{{ message | translate }}<span>Hello world</span>{{ title }}<span>{{ name }}</span>{{ footer }}</div>

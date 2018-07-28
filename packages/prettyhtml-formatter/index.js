@@ -258,33 +258,27 @@ function endsWithNewline(node) {
   return is('text', node) && node.value && /\s*\n\s*$/.test(node.value)
 }
 
+function startsWithNewline(node) {
+  return is('text', node) && node.value && /^\s*\n/.test(node.value)
+}
+
 function beforeChildNodeAddedHook(node, children, child, index, prev) {
   // insert newline when tag is on the same line as the comment
   if (is('comment', prev)) {
     return true
   }
 
-  /**
-   *  dont add newline when
-   *   <span>{{ message }}</span>
-   */
+  if (isTemplateExpression(child.value)) {
+    // dont touch nodes with single text element
+    if (containsOnlyTextNodes({ children })) {
+      return false
+    }
 
-  if (
-    isTemplateExpression(child.value) &&
-    containsOnlyTextNodes({ children })
-  ) {
-    return false
-  }
+    // dont add newline when newline is already in text
+    if (startsWithNewline(child)) {
+      return false
+    }
 
-  /**
-   *  add newline when
-   *  <div>{{ message }}<span>foo</span></div>
-   */
-  if (
-    isTemplateExpression(child.value) &&
-    !containsOnlyTextNodes({ children }) &&
-    !isElement(prev)
-  ) {
     return true
   }
 
