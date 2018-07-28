@@ -19,3 +19,4 @@
 
 * Don't camelCase attributes
 * Don't coerce or optimize attribute values
+* Don't house `<template>` node through `content` property. Handle it like any other element.

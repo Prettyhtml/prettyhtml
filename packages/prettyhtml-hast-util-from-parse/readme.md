@@ -18,3 +18,4 @@
 
 * Use `@starptech/prettyhtml-hastscript`
 * Don't camelCase property names for custom location infos
+* Link `<template>` tags with the tree and remove container elements like `#document-fragment`

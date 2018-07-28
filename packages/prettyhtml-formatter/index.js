@@ -198,8 +198,14 @@ function format(options) {
              * 2. don't break when a newline was already inserted before
              * 3. break text in newline when it's the first node
              */
-            (beforeChildNodeAddedHook(node, child, index, prevChild) &&
-              !containsNewline(prevChild)) ||
+            (!endsWithNewline(prevChild) &&
+              beforeChildNodeAddedHook(
+                node,
+                children,
+                child,
+                index,
+                prevChild
+              )) ||
             (newline && index === 0)
           ) {
             result.push({
@@ -248,13 +254,37 @@ function collapseAttributes(node) {
   return false
 }
 
-function containsNewline(node) {
-  return is('text', node) && node.value && node.value.indexOf('\n') !== -1
+function endsWithNewline(node) {
+  return is('text', node) && node.value && /\s*\n\s*$/.test(node.value)
 }
 
-function beforeChildNodeAddedHook(node, child, index, prev) {
+function beforeChildNodeAddedHook(node, children, child, index, prev) {
   // insert newline when tag is on the same line as the comment
   if (is('comment', prev)) {
+    return true
+  }
+
+  /**
+   *  dont add newline when
+   *   <span>{{ message }}</span>
+   */
+
+  if (
+    isTemplateExpression(child.value) &&
+    containsOnlyTextNodes({ children })
+  ) {
+    return false
+  }
+
+  /**
+   *  add newline when
+   *  <div>{{ message }}<span>foo</span></div>
+   */
+  if (
+    isTemplateExpression(child.value) &&
+    !containsOnlyTextNodes({ children }) &&
+    !isElement(prev)
+  ) {
     return true
   }
 
@@ -289,8 +319,17 @@ function afterChildNodesAddedHook(node, prev) {
   return hasChilds && !isVoid(node) && !isPrevRawText
 }
 
+function isTemplateExpression(value) {
+  return /<%.+%>/gi.test(value) || /[{]{2,3}.+[}]{2,3}/gi.test(value)
+}
+
 function containsOnlyTextNodes(node) {
   const children = node.children || []
+
+  if (children.length === 0) {
+    return false
+  }
+
   return children.every(n => is('text', n))
 }
 
