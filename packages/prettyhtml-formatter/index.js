@@ -314,7 +314,17 @@ function afterChildNodesAddedHook(node, prev) {
 }
 
 function isTemplateExpression(value) {
-  return /<%.+%>/gi.test(value) || /[{]{2,3}.+[}]{2,3}/gi.test(value)
+  // erb ruby templates
+  if (/<%.+%>/gi.test(value)) {
+    return true
+  }
+
+  // angular, vue ...
+  if (/[{]{2,3}.+[}]{2,3}/gi.test(value)) {
+    return true
+  }
+
+  return false
 }
 
 function containsOnlyTextNodes(node) {
