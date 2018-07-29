@@ -28,6 +28,11 @@ function factory(schema, defaultTagName) {
 
     addChild(node.children, children)
 
+    // if (node.tagName === 'template') {
+    //   node.content = {type: 'root', children: node.children}
+    //   node.children = []
+    // }
+
     return node
   }
 
@@ -112,7 +117,7 @@ function addChild(nodes, value) {
   }
 
   if (typeof value === 'string' || typeof value === 'number') {
-    nodes.push({type: 'text', value: String(value)})
+    nodes.push({ type: 'text', value: String(value) })
     return
   }
 
