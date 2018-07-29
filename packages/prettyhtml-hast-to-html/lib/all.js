@@ -1,6 +1,6 @@
 'use strict'
 
-const one = require('./one')
+var one = require('./one')
 
 module.exports = all
 

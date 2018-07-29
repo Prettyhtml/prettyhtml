@@ -1,7 +1,7 @@
 <div align="center">
 <h1>@starptech/prettyhtml-hastscript</h1>
 <i><b>Hyperscript compatible DSL for creating virtual HAST trees</b></i>
-<p>The implementation is a derivated from <a href="https://github.com/syntax-tree/hastscript">hastscript (Version 3.1.0)</a></p>
+<p>The implementation is a derivated from <a href="https://github.com/syntax-tree/hastscript">hastscript (Version 4.0.0)</a></p>
 </div>
 <br>
 
@@ -17,6 +17,5 @@
 
 ## Modifications
 
-* Don't camelCase attributes
 * Don't coerce or optimize attribute values
 * Don't house `<template>` node through `content` property. Handle it like any other element.

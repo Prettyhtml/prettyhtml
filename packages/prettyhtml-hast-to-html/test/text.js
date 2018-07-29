@@ -1,7 +1,7 @@
 'use strict'
 
 var test = require('tape')
-var h = require('@starptech/prettyhtml-hastscript')
+var h = require('hastscript')
 var u = require('unist-builder')
 var to = require('..')
 
@@ -10,8 +10,8 @@ test('`text`', function(t) {
 
   t.deepEqual(
     to(u('text', '3 < 5 & 7')),
-    '3 < 5 & 7',
-    'should not encode `text`s'
+    '3 &#x3C; 5 &#x26; 7',
+    'should encode `text`s'
   )
 
   t.deepEqual(
@@ -28,8 +28,8 @@ test('`text`', function(t) {
 
   t.deepEqual(
     to(h('b', u('text', '3 < 5'))),
-    '<b>3 < 5</b>',
-    'should not encode `text`s in other nodes'
+    '<b>3 &#x3C; 5</b>',
+    'should encode `text`s in other nodes'
   )
 
   t.end()
