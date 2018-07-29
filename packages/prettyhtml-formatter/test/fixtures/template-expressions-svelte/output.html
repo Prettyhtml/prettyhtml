@@ -1,0 +1,20 @@
+<h1>Cats of YouTube</h1>
+<ul>
+  {#each cats as cat}
+  <li>
+    <a target="_blank" href="{cat.video}">{cat.name}</a>
+  </li>
+  {/each}
+</ul>
+<div class="grid">
+  {#each rows as row, y}
+  <div class="row">
+    {#each columns as column, x}
+    <code class="cell">
+      {x + 1},{y + 1}:
+      <strong>{row[column]}</strong>
+    </code>
+    {/each}
+  </div>
+  {/each}
+</div>
