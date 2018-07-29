@@ -1,6 +1,6 @@
 {
   "name": "@starptech/prettyhtml-formatter",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "description": "Html formatter",
   "main": "index.js",
   "repository": {
