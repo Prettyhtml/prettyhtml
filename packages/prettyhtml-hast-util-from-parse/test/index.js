@@ -7,7 +7,7 @@ var test = require('tape')
 var not = require('not')
 var hidden = require('is-hidden')
 var vfile = require('to-vfile')
-var parse5 = require('parse5')
+var parse5 = require('@starptech/prettyhtml-parse')
 var visit = require('unist-util-visit')
 var fromParse5 = require('..')
 
