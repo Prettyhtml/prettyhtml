@@ -262,12 +262,7 @@ function startsWithNewline(node) {
   return is('text', node) && node.value && /^\s*\n/.test(node.value)
 }
 
-function beforeChildNodeAddedHook(node, children, child, index, prev) {
-  // insert newline when tag is on the same line as the comment
-  if (is('comment', prev)) {
-    return true
-  }
-
+function handleTemplateExpression(child, children) {
   if (isTemplateExpression(child.value)) {
     // dont touch nodes with single text element
     if (containsOnlyTextNodes({ children })) {
@@ -279,6 +274,17 @@ function beforeChildNodeAddedHook(node, children, child, index, prev) {
       return false
     }
 
+    return true
+  }
+}
+
+function beforeChildNodeAddedHook(node, children, child, index, prev) {
+  if (handleTemplateExpression(child, children)) {
+    return true
+  }
+
+  // insert newline when tag is on the same line as the comment
+  if (is('comment', prev)) {
     return true
   }
 
