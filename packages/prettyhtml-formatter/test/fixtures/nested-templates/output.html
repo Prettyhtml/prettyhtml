@@ -5,7 +5,8 @@
       <span>{{data.item.name}}</span>
     </template>
     <template slot="item" scope="data">
-      <v-chip>{{getChipString(data.item)}}</v-chip>{{data.item.name}}
+      <v-chip>{{getChipString(data.item)}}</v-chip>
+      {{data.item.name}}
     </template>
   </v-select>
 </template>
