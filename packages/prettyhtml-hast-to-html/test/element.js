@@ -20,25 +20,25 @@ test('`element`', function(t) {
   t.deepEqual(to(h('img')), '<img>', 'should stringify void `element`s')
 
   t.deepEqual(
-    to(h('foo'), {voids: ['foo']}),
+    to(h('foo'), { voids: ['foo'] }),
     '<foo>',
     'should stringify given void `element`s'
   )
 
   t.deepEqual(
-    to(h('img'), {closeSelfClosing: true}),
+    to(h('img'), { closeSelfClosing: true }),
     '<img />',
     'should stringify with ` /` in `closeSelfClosing` mode'
   )
 
   t.deepEqual(
-    to(h('img'), {closeSelfClosing: true, tightSelfClosing: true}),
+    to(h('img'), { closeSelfClosing: true, tightSelfClosing: true }),
     '<img/>',
     'should stringify voids with `/` in `closeSelfClosing` and `tightSelfClosing` mode'
   )
 
   t.deepEqual(
-    to(h('img', {title: '/'}), {
+    to(h('img', { title: '/' }), {
       preferUnquoted: true,
       closeSelfClosing: true,
       tightSelfClosing: true

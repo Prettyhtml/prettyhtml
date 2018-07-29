@@ -14,7 +14,7 @@ var fromParse5 = require('..')
 var join = path.join
 
 test('hast-util-from-parse5', function(t) {
-  var file = vfile({contents: '<title>Hello!</title><h1>World!'})
+  var file = vfile({ contents: '<title>Hello!</title><h1>World!' })
 
   t.deepEqual(
     fromParse5(parse5.parse(String(file))),
@@ -35,7 +35,7 @@ test('hast-util-from-parse5', function(t) {
                   type: 'element',
                   tagName: 'title',
                   properties: {},
-                  children: [{type: 'text', value: 'Hello!'}]
+                  children: [{ type: 'text', value: 'Hello!' }]
                 }
               ]
             },
@@ -48,14 +48,14 @@ test('hast-util-from-parse5', function(t) {
                   type: 'element',
                   tagName: 'h1',
                   properties: {},
-                  children: [{type: 'text', value: 'World!'}]
+                  children: [{ type: 'text', value: 'World!' }]
                 }
               ]
             }
           ]
         }
       ],
-      data: {quirksMode: true}
+      data: { quirksMode: true }
     },
     'should transform a complete document'
   )
@@ -69,23 +69,23 @@ test('hast-util-from-parse5', function(t) {
           type: 'element',
           tagName: 'title',
           properties: {},
-          children: [{type: 'text', value: 'Hello!'}]
+          children: [{ type: 'text', value: 'Hello!' }]
         },
         {
           type: 'element',
           tagName: 'h1',
           properties: {},
-          children: [{type: 'text', value: 'World!'}]
+          children: [{ type: 'text', value: 'World!' }]
         }
       ],
-      data: {quirksMode: false}
+      data: { quirksMode: false }
     },
     'should transform a fragment'
   )
 
   t.deepEqual(
     fromParse5(
-      parse5.parse(String(file), {sourceCodeLocationInfo: true}),
+      parse5.parse(String(file), { sourceCodeLocationInfo: true }),
       file
     ),
     {
@@ -110,14 +110,14 @@ test('hast-util-from-parse5', function(t) {
                       type: 'text',
                       value: 'Hello!',
                       position: {
-                        start: {line: 1, column: 8, offset: 7},
-                        end: {line: 1, column: 14, offset: 13}
+                        start: { line: 1, column: 8, offset: 7 },
+                        end: { line: 1, column: 14, offset: 13 }
                       }
                     }
                   ],
                   position: {
-                    start: {line: 1, column: 1, offset: 0},
-                    end: {line: 1, column: 22, offset: 21}
+                    start: { line: 1, column: 1, offset: 0 },
+                    end: { line: 1, column: 22, offset: 21 }
                   }
                 }
               ]
@@ -136,14 +136,14 @@ test('hast-util-from-parse5', function(t) {
                       type: 'text',
                       value: 'World!',
                       position: {
-                        start: {line: 1, column: 26, offset: 25},
-                        end: {line: 1, column: 32, offset: 31}
+                        start: { line: 1, column: 26, offset: 25 },
+                        end: { line: 1, column: 32, offset: 31 }
                       }
                     }
                   ],
                   position: {
-                    start: {line: 1, column: 22, offset: 21},
-                    end: {line: 1, column: 32, offset: 31}
+                    start: { line: 1, column: 22, offset: 21 },
+                    end: { line: 1, column: 32, offset: 31 }
                   }
                 }
               ]
@@ -151,10 +151,10 @@ test('hast-util-from-parse5', function(t) {
           ]
         }
       ],
-      data: {quirksMode: true},
+      data: { quirksMode: true },
       position: {
-        start: {line: 1, column: 1, offset: 0},
-        end: {line: 1, column: 32, offset: 31}
+        start: { line: 1, column: 1, offset: 0 },
+        end: { line: 1, column: 32, offset: 31 }
       }
     },
     'should accept a file as options'
@@ -209,7 +209,7 @@ test('hast-util-from-parse5', function(t) {
           ]
         }
       ],
-      data: {quirksMode: true}
+      data: { quirksMode: true }
     },
     'should accept a file as options (without location info)'
   )
@@ -246,7 +246,7 @@ test('hast-util-from-parse5', function(t) {
           value: 'Hello!'
         }
       ],
-      position: {start: {line: 1, column: 1, offset: 0}, end: null}
+      position: { start: { line: 1, column: 1, offset: 0 }, end: null }
     },
     'should support synthetic locations'
   )
@@ -289,14 +289,14 @@ test('hast-util-from-parse5', function(t) {
           type: 'text',
           value: 'Hello!',
           position: {
-            start: {line: 1, column: 4, offset: 3},
-            end: {line: 1, column: 10, offset: 9}
+            start: { line: 1, column: 4, offset: 3 },
+            end: { line: 1, column: 10, offset: 9 }
           }
         }
       ],
       position: {
-        start: {line: 1, column: 1, offset: 0},
-        end: {line: 1, column: 10, offset: 9}
+        start: { line: 1, column: 1, offset: 0 },
+        end: { line: 1, column: 10, offset: 9 }
       }
     },
     'should support synthetic locations on unclosed elements'
@@ -311,7 +311,7 @@ test('hast-util-from-parse5', function(t) {
           '</svg>'
         ].join('\n')
       ),
-      {space: 'svg'}
+      { space: 'svg' }
     ),
     {
       type: 'root',
@@ -327,18 +327,18 @@ test('hast-util-from-parse5', function(t) {
             xmlnsXLink: 'http://www.w3.org/1999/xlink'
           },
           children: [
-            {type: 'text', value: '\n'},
+            { type: 'text', value: '\n' },
             {
               type: 'element',
               tagName: 'circle',
-              properties: {cx: '60', cy: '60', r: '50', fill: 'red'},
+              properties: { cx: '60', cy: '60', r: '50', fill: 'red' },
               children: []
             },
-            {type: 'text', value: '\n'}
+            { type: 'text', value: '\n' }
           ]
         }
       ],
-      data: {quirksMode: false}
+      data: { quirksMode: false }
     },
     'should transform svg'
   )
@@ -375,7 +375,7 @@ test('fixtures', function(t) {
     var input = parse5.parse(String(options.file), {
       sourceCodeLocationInfo: true
     })
-    var actual = fromParse5(input, {file: options.file, verbose: true})
+    var actual = fromParse5(input, { file: options.file, verbose: true })
     var expected
 
     try {
@@ -392,7 +392,7 @@ test('fixtures', function(t) {
 
   function checkNoYes(t, fixture, options) {
     var input = parse5.parse(String(options.file))
-    var actual = fromParse5(input, {file: options.file, verbose: true})
+    var actual = fromParse5(input, { file: options.file, verbose: true })
     var expected = JSON.parse(fs.readFileSync(options.out))
 
     clean(expected)
@@ -452,8 +452,8 @@ function log(label, actual, expected) {
     assert.deepEqual(actual, expected, label)
   } catch (err) {
     console.log('actual:%s: ', label)
-    console.dir(actual, {depth: null})
+    console.dir(actual, { depth: null })
     console.log('expected:%s: ', label)
-    console.dir(expected, {depth: null})
+    console.dir(expected, { depth: null })
   }
 }

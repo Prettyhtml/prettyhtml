@@ -42,6 +42,7 @@ function factory(schema, defaultTagName) {
     var result
 
     /* Ignore nully and NaN values. */
+    // eslint-disable-next-line no-self-compare
     if (value === null || value === undefined || value !== value) {
       return
     }

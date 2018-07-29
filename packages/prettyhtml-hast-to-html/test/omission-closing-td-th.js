@@ -9,31 +9,31 @@ var to = require('..')
     var other = values[index ? 0 : 1]
 
     t.deepEqual(
-      to(h(tagName), {omitOptionalTags: true}),
+      to(h(tagName), { omitOptionalTags: true }),
       '<' + tagName + '>',
       'should omit tag without parent'
     )
 
     t.deepEqual(
-      to(h('tr', h(tagName)), {omitOptionalTags: true}),
+      to(h('tr', h(tagName)), { omitOptionalTags: true }),
       '<tr><' + tagName + '>',
       'should omit tag without following'
     )
 
     t.deepEqual(
-      to(h('tr', [h(tagName), h(tagName)]), {omitOptionalTags: true}),
+      to(h('tr', [h(tagName), h(tagName)]), { omitOptionalTags: true }),
       '<tr><' + tagName + '><' + tagName + '>',
       'should omit tag followed by `' + tagName + '`'
     )
 
     t.deepEqual(
-      to(h('tr', [h(tagName), h(other)]), {omitOptionalTags: true}),
+      to(h('tr', [h(tagName), h(other)]), { omitOptionalTags: true }),
       '<tr><' + tagName + '><' + other + '>',
       'should omit tag followed by `' + other + '`'
     )
 
     t.deepEqual(
-      to(h('tr', [h(tagName), h('p')]), {omitOptionalTags: true}),
+      to(h('tr', [h(tagName), h('p')]), { omitOptionalTags: true }),
       '<tr><' + tagName + '></' + tagName + '><p>',
       'should not omit tag followed by others'
     )

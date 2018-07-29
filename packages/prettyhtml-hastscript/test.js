@@ -20,11 +20,11 @@ test('hastscript', function(t) {
     )
 
     st.deepEqual(
-      h('.bar', {class: 'baz'}),
+      h('.bar', { class: 'baz' }),
       {
         type: 'element',
         tagName: 'div',
-        properties: {className: ['bar', 'baz']},
+        properties: { className: ['bar', 'baz'] },
         children: []
       },
       'should append to the selector’s classes'
@@ -35,7 +35,7 @@ test('hastscript', function(t) {
       {
         type: 'element',
         tagName: 'div',
-        properties: {id: 'id'},
+        properties: { id: 'id' },
         children: []
       },
       'should create a `div` element when given an id selector'
@@ -46,7 +46,7 @@ test('hastscript', function(t) {
       {
         type: 'element',
         tagName: 'div',
-        properties: {id: 'b'},
+        properties: { id: 'b' },
         children: []
       },
       'should create an element with the last ID when given multiple in a selector'
@@ -57,7 +57,7 @@ test('hastscript', function(t) {
       {
         type: 'element',
         tagName: 'div',
-        properties: {className: ['foo']},
+        properties: { className: ['foo'] },
         children: []
       },
       'should create a `div` element when given a class selector'
@@ -79,7 +79,7 @@ test('hastscript', function(t) {
       {
         type: 'element',
         tagName: 'foo',
-        properties: {id: 'bar'},
+        properties: { id: 'bar' },
         children: []
       },
       'should create a `foo` element with an ID when given a both as a selector'
@@ -90,7 +90,7 @@ test('hastscript', function(t) {
       {
         type: 'element',
         tagName: 'foo',
-        properties: {className: ['bar']},
+        properties: { className: ['bar'] },
         children: []
       },
       'should create a `foo` element with a class when given a both as a selector'
@@ -101,7 +101,7 @@ test('hastscript', function(t) {
       {
         type: 'element',
         tagName: 'div',
-        properties: {className: ['foo', 'bar']},
+        properties: { className: ['foo', 'bar'] },
         children: []
       },
       'should support multiple classes'
@@ -113,44 +113,44 @@ test('hastscript', function(t) {
   t.test('properties', function(st) {
     st.test('known property names', function(sst) {
       sst.deepEqual(
-        h(null, {className: 'foo'}),
+        h(null, { className: 'foo' }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {className: ['foo']},
+          properties: { className: ['foo'] },
           children: []
         },
         'should support correctly cased property names'
       )
 
       sst.deepEqual(
-        h(null, {class: 'foo'}),
+        h(null, { class: 'foo' }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {className: ['foo']},
+          properties: { className: ['foo'] },
           children: []
         },
         'should map attributes to property names'
       )
 
       sst.deepEqual(
-        h(null, {CLASS: 'foo'}),
+        h(null, { CLASS: 'foo' }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {className: ['foo']},
+          properties: { className: ['foo'] },
           children: []
         },
         'should map attribute-like values to property names'
       )
 
       sst.deepEqual(
-        h(null, {'class-name': 'foo'}),
+        h(null, { 'class-name': 'foo' }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {className: ['foo']},
+          properties: { className: ['foo'] },
           children: []
         },
         'should map property-like values to property names'
@@ -161,33 +161,33 @@ test('hastscript', function(t) {
 
     st.test('unknown property names', function(sst) {
       sst.deepEqual(
-        h(null, {allowbigscreen: true}),
+        h(null, { allowbigscreen: true }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {allowbigscreen: true},
+          properties: { allowbigscreen: true },
           children: []
         },
         'should keep lower-cased unknown names'
       )
 
       sst.deepEqual(
-        h(null, {allowBigScreen: true}),
+        h(null, { allowBigScreen: true }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {allowBigScreen: true},
+          properties: { allowBigScreen: true },
           children: []
         },
         'should keep camel-cased unknown names'
       )
 
       sst.deepEqual(
-        h(null, {'allow_big-screen': true}),
+        h(null, { 'allow_big-screen': true }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {'allow_big-screen': true},
+          properties: { 'allow_big-screen': true },
           children: []
         },
         'should keep weirdly cased unknown names'
@@ -198,110 +198,110 @@ test('hastscript', function(t) {
 
     st.test('other namespaces', function(sst) {
       sst.deepEqual(
-        h(null, {'aria-valuenow': 1}),
+        h(null, { 'aria-valuenow': 1 }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {ariaValueNow: 1},
+          properties: { ariaValueNow: 1 },
           children: []
         },
         'should support aria attribute names'
       )
 
       sst.deepEqual(
-        h(null, {ariaValueNow: 1}),
+        h(null, { ariaValueNow: 1 }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {ariaValueNow: 1},
+          properties: { ariaValueNow: 1 },
           children: []
         },
         'should support aria property names'
       )
 
       sst.deepEqual(
-        s(null, {'color-interpolation-filters': 'sRGB'}),
+        s(null, { 'color-interpolation-filters': 'sRGB' }),
         {
           type: 'element',
           tagName: 'g',
-          properties: {colorInterpolationFilters: 'sRGB'},
+          properties: { colorInterpolationFilters: 'sRGB' },
           children: []
         },
         'should support svg attribute names'
       )
 
       sst.deepEqual(
-        s(null, {colorInterpolationFilters: 'sRGB'}),
+        s(null, { colorInterpolationFilters: 'sRGB' }),
         {
           type: 'element',
           tagName: 'g',
-          properties: {colorInterpolationFilters: 'sRGB'},
+          properties: { colorInterpolationFilters: 'sRGB' },
           children: []
         },
         'should support svg property names'
       )
 
       sst.deepEqual(
-        s(null, {'xml:space': 'preserve'}),
+        s(null, { 'xml:space': 'preserve' }),
         {
           type: 'element',
           tagName: 'g',
-          properties: {xmlSpace: 'preserve'},
+          properties: { xmlSpace: 'preserve' },
           children: []
         },
         'should support xml attribute names'
       )
 
       sst.deepEqual(
-        s(null, {xmlSpace: 'preserve'}),
+        s(null, { xmlSpace: 'preserve' }),
         {
           type: 'element',
           tagName: 'g',
-          properties: {xmlSpace: 'preserve'},
+          properties: { xmlSpace: 'preserve' },
           children: []
         },
         'should support xml property names'
       )
 
       sst.deepEqual(
-        s(null, {'xmlns:xlink': 'http://www.w3.org/1999/xlink'}),
+        s(null, { 'xmlns:xlink': 'http://www.w3.org/1999/xlink' }),
         {
           type: 'element',
           tagName: 'g',
-          properties: {xmlnsXLink: 'http://www.w3.org/1999/xlink'},
+          properties: { xmlnsXLink: 'http://www.w3.org/1999/xlink' },
           children: []
         },
         'should support xmlns attribute names'
       )
 
       sst.deepEqual(
-        s(null, {xmlnsXLink: 'http://www.w3.org/1999/xlink'}),
+        s(null, { xmlnsXLink: 'http://www.w3.org/1999/xlink' }),
         {
           type: 'element',
           tagName: 'g',
-          properties: {xmlnsXLink: 'http://www.w3.org/1999/xlink'},
+          properties: { xmlnsXLink: 'http://www.w3.org/1999/xlink' },
           children: []
         },
         'should support xmlns property names'
       )
 
       sst.deepEqual(
-        s(null, {'xlink:arcrole': 'http://www.example.com'}),
+        s(null, { 'xlink:arcrole': 'http://www.example.com' }),
         {
           type: 'element',
           tagName: 'g',
-          properties: {xLinkArcRole: 'http://www.example.com'},
+          properties: { xLinkArcRole: 'http://www.example.com' },
           children: []
         },
         'should support xlink attribute names'
       )
 
       sst.deepEqual(
-        s(null, {xLinkArcRole: 'http://www.example.com'}),
+        s(null, { xLinkArcRole: 'http://www.example.com' }),
         {
           type: 'element',
           tagName: 'g',
-          properties: {xLinkArcRole: 'http://www.example.com'},
+          properties: { xLinkArcRole: 'http://www.example.com' },
           children: []
         },
         'should support xlink property names'
@@ -312,88 +312,88 @@ test('hastscript', function(t) {
 
     st.test('data property names', function(sst) {
       sst.deepEqual(
-        h(null, {'data-foo': true}),
+        h(null, { 'data-foo': true }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {dataFoo: true},
+          properties: { dataFoo: true },
           children: []
         },
         'should support data attribute names'
       )
 
       sst.deepEqual(
-        h(null, {'data-123': true}),
+        h(null, { 'data-123': true }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {data123: true},
+          properties: { data123: true },
           children: []
         },
         'should support numeric-first data attribute names'
       )
 
       sst.deepEqual(
-        h(null, {dataFooBar: true}),
+        h(null, { dataFooBar: true }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {dataFooBar: true},
+          properties: { dataFooBar: true },
           children: []
         },
         'should support data property names'
       )
 
       sst.deepEqual(
-        h(null, {data123: true}),
+        h(null, { data123: true }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {data123: true},
+          properties: { data123: true },
           children: []
         },
         'should support numeric-first data property names'
       )
 
       sst.deepEqual(
-        h(null, {'data-foo.bar': true}),
+        h(null, { 'data-foo.bar': true }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {'dataFoo.bar': true},
+          properties: { 'dataFoo.bar': true },
           children: []
         },
         'should support data attribute names with uncommon characters'
       )
 
       sst.deepEqual(
-        h(null, {'dataFoo.bar': true}),
+        h(null, { 'dataFoo.bar': true }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {'dataFoo.bar': true},
+          properties: { 'dataFoo.bar': true },
           children: []
         },
         'should support data property names with uncommon characters'
       )
 
       sst.deepEqual(
-        h(null, {'data-foo!bar': true}),
+        h(null, { 'data-foo!bar': true }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {'data-foo!bar': true},
+          properties: { 'data-foo!bar': true },
           children: []
         },
         'should keep invalid data attribute names'
       )
 
       sst.deepEqual(
-        h(null, {'dataFoo!bar': true}),
+        h(null, { 'dataFoo!bar': true }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {'dataFoo!bar': true},
+          properties: { 'dataFoo!bar': true },
           children: []
         },
         'should keep invalid data property names'
@@ -404,51 +404,51 @@ test('hastscript', function(t) {
 
     st.test('unknown property values', function(sst) {
       sst.deepEqual(
-        h(null, {foo: 'bar'}),
+        h(null, { foo: 'bar' }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {foo: 'bar'},
+          properties: { foo: 'bar' },
           children: []
         },
         'should support unknown `string` values'
       )
 
       sst.deepEqual(
-        h(null, {foo: 3}),
+        h(null, { foo: 3 }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {foo: 3},
+          properties: { foo: 3 },
           children: []
         },
         'should support unknown `number` values'
       )
 
       sst.deepEqual(
-        h(null, {foo: true}),
+        h(null, { foo: true }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {foo: true},
+          properties: { foo: true },
           children: []
         },
         'should support unknown `boolean` values'
       )
 
       sst.deepEqual(
-        h(null, {list: ['bar', 'baz']}),
+        h(null, { list: ['bar', 'baz'] }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {list: ['bar', 'baz']},
+          properties: { list: ['bar', 'baz'] },
           children: []
         },
         'should support unknown `Array` values'
       )
 
       sst.deepEqual(
-        h(null, {foo: null}),
+        h(null, { foo: null }),
         {
           type: 'element',
           tagName: 'div',
@@ -459,7 +459,7 @@ test('hastscript', function(t) {
       )
 
       sst.deepEqual(
-        h(null, {foo: undefined}),
+        h(null, { foo: undefined }),
         {
           type: 'element',
           tagName: 'div',
@@ -470,7 +470,7 @@ test('hastscript', function(t) {
       )
 
       sst.deepEqual(
-        h(null, {foo: NaN}),
+        h(null, { foo: NaN }),
         {
           type: 'element',
           tagName: 'div',
@@ -485,33 +485,33 @@ test('hastscript', function(t) {
 
     st.test('known booleans', function(sst) {
       sst.deepEqual(
-        h(null, {allowFullScreen: ''}),
+        h(null, { allowFullScreen: '' }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {allowFullScreen: true},
+          properties: { allowFullScreen: true },
           children: []
         },
         'should cast valid known `boolean` values'
       )
 
       sst.deepEqual(
-        h(null, {allowFullScreen: 'yup'}),
+        h(null, { allowFullScreen: 'yup' }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {allowFullScreen: 'yup'},
+          properties: { allowFullScreen: 'yup' },
           children: []
         },
         'should not cast invalid known `boolean` values'
       )
 
       sst.deepEqual(
-        h('img', {title: 'title'}),
+        h('img', { title: 'title' }),
         {
           type: 'element',
           tagName: 'img',
-          properties: {title: 'title'},
+          properties: { title: 'title' },
           children: []
         },
         'should not cast unknown boolean-like values'
@@ -522,33 +522,33 @@ test('hastscript', function(t) {
 
     st.test('known overloaded booleans', function(sst) {
       sst.deepEqual(
-        h(null, {download: ''}),
+        h(null, { download: '' }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {download: true},
+          properties: { download: true },
           children: []
         },
         'should cast known empty overloaded `boolean` values'
       )
 
       sst.deepEqual(
-        h(null, {download: 'downLOAD'}),
+        h(null, { download: 'downLOAD' }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {download: true},
+          properties: { download: true },
           children: []
         },
         'should cast known named overloaded `boolean` values'
       )
 
       st.deepEqual(
-        h(null, {download: 'example.ogg'}),
+        h(null, { download: 'example.ogg' }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {download: 'example.ogg'},
+          properties: { download: 'example.ogg' },
           children: []
         },
         'should not cast overloaded `boolean` values for different values'
@@ -559,33 +559,33 @@ test('hastscript', function(t) {
 
     st.test('known numbers', function(sst) {
       sst.deepEqual(
-        h('textarea', {cols: '3'}),
+        h('textarea', { cols: '3' }),
         {
           type: 'element',
           tagName: 'textarea',
-          properties: {cols: 3},
+          properties: { cols: 3 },
           children: []
         },
         'should cast valid known `numeric` values'
       )
 
       sst.deepEqual(
-        h('textarea', {cols: 'one'}),
+        h('textarea', { cols: 'one' }),
         {
           type: 'element',
           tagName: 'textarea',
-          properties: {cols: 'one'},
+          properties: { cols: 'one' },
           children: []
         },
         'should not cast invalid known `numeric` values'
       )
 
       sst.deepEqual(
-        h('meter', {low: '40', high: '90'}),
+        h('meter', { low: '40', high: '90' }),
         {
           type: 'element',
           tagName: 'meter',
-          properties: {low: 40, high: 90},
+          properties: { low: 40, high: 90 },
           children: []
         },
         'should cast known `numeric` values'
@@ -596,33 +596,33 @@ test('hastscript', function(t) {
 
     st.test('known lists', function(sst) {
       sst.deepEqual(
-        h(null, {class: 'foo bar baz'}),
+        h(null, { class: 'foo bar baz' }),
         {
           type: 'element',
           tagName: 'div',
-          properties: {className: ['foo', 'bar', 'baz']},
+          properties: { className: ['foo', 'bar', 'baz'] },
           children: []
         },
         'should cast know space-separated `array` values'
       )
 
       sst.deepEqual(
-        h('input', {type: 'file', accept: 'video/*, image/*'}),
+        h('input', { type: 'file', accept: 'video/*, image/*' }),
         {
           type: 'element',
           tagName: 'input',
-          properties: {type: 'file', accept: ['video/*', 'image/*']},
+          properties: { type: 'file', accept: ['video/*', 'image/*'] },
           children: []
         },
         'should cast know comma-separated `array` values'
       )
 
       sst.deepEqual(
-        h('a', {coords: ['0', '0', '82', '126']}),
+        h('a', { coords: ['0', '0', '82', '126'] }),
         {
           type: 'element',
           tagName: 'a',
-          properties: {coords: [0, 0, 82, 126]},
+          properties: { coords: [0, 0, 82, 126] },
           children: []
         },
         'should cast a list of known `numeric` values'
@@ -633,7 +633,7 @@ test('hastscript', function(t) {
 
     st.test('style', function(sst) {
       sst.deepEqual(
-        h(null, {style: {color: 'red', '-webkit-border-radius': '3px'}}),
+        h(null, { style: { color: 'red', '-webkit-border-radius': '3px' } }),
         {
           type: 'element',
           tagName: 'div',
@@ -646,7 +646,7 @@ test('hastscript', function(t) {
       )
 
       sst.deepEqual(
-        h(null, {style: 'color:/*red*/purple; -webkit-border-radius: 3px'}),
+        h(null, { style: 'color:/*red*/purple; -webkit-border-radius: 3px' }),
         {
           type: 'element',
           tagName: 'div',
@@ -682,18 +682,18 @@ test('hastscript', function(t) {
         type: 'element',
         tagName: 'div',
         properties: {},
-        children: [{type: 'text', value: 'foo'}]
+        children: [{ type: 'text', value: 'foo' }]
       },
       'should support `string` for a `Text`'
     )
 
     st.deepEqual(
-      h('div', {}, {type: 'text', value: 'foo'}),
+      h('div', {}, { type: 'text', value: 'foo' }),
       {
         type: 'element',
         tagName: 'div',
         properties: {},
-        children: [{type: 'text', value: 'foo'}]
+        children: [{ type: 'text', value: 'foo' }]
       },
       'should support a node'
     )
@@ -709,7 +709,7 @@ test('hastscript', function(t) {
             type: 'element',
             tagName: 'span',
             properties: {},
-            children: [{type: 'text', value: 'foo'}]
+            children: [{ type: 'text', value: 'foo' }]
           }
         ]
       },
@@ -718,14 +718,17 @@ test('hastscript', function(t) {
 
     st.deepEqual(
       h('div', {}, [
-        {type: 'text', value: 'foo'},
-        {type: 'text', value: 'bar'}
+        { type: 'text', value: 'foo' },
+        { type: 'text', value: 'bar' }
       ]),
       {
         type: 'element',
         tagName: 'div',
         properties: {},
-        children: [{type: 'text', value: 'foo'}, {type: 'text', value: 'bar'}]
+        children: [
+          { type: 'text', value: 'foo' },
+          { type: 'text', value: 'bar' }
+        ]
       },
       'should support nodes'
     )
@@ -741,13 +744,13 @@ test('hastscript', function(t) {
             type: 'element',
             tagName: 'span',
             properties: {},
-            children: [{type: 'text', value: 'foo'}]
+            children: [{ type: 'text', value: 'foo' }]
           },
           {
             type: 'element',
             tagName: 'strong',
             properties: {},
-            children: [{type: 'text', value: 'bar'}]
+            children: [{ type: 'text', value: 'bar' }]
           }
         ]
       },
@@ -760,7 +763,10 @@ test('hastscript', function(t) {
         type: 'element',
         tagName: 'div',
         properties: {},
-        children: [{type: 'text', value: 'foo'}, {type: 'text', value: 'bar'}]
+        children: [
+          { type: 'text', value: 'foo' },
+          { type: 'text', value: 'bar' }
+        ]
       },
       'should support `Array.<string>` for a `Text`s'
     )
@@ -771,7 +777,7 @@ test('hastscript', function(t) {
         type: 'element',
         tagName: 'strong',
         properties: {},
-        children: [{type: 'text', value: 'foo'}]
+        children: [{ type: 'text', value: 'foo' }]
       },
       'should allow omitting `properties` for a `string`'
     )
@@ -787,7 +793,7 @@ test('hastscript', function(t) {
             type: 'element',
             tagName: 'span',
             properties: {},
-            children: [{type: 'text', value: 'foo'}]
+            children: [{ type: 'text', value: 'foo' }]
           }
         ]
       },
@@ -800,84 +806,87 @@ test('hastscript', function(t) {
         type: 'element',
         tagName: 'strong',
         properties: {},
-        children: [{type: 'text', value: 'foo'}, {type: 'text', value: 'bar'}]
+        children: [
+          { type: 'text', value: 'foo' },
+          { type: 'text', value: 'bar' }
+        ]
       },
       'should allow omitting `properties` for an array'
     )
 
     st.deepEqual(
-      h('input', {type: 'text', value: 'foo'}),
+      h('input', { type: 'text', value: 'foo' }),
       {
         type: 'element',
         tagName: 'input',
-        properties: {type: 'text', value: 'foo'},
+        properties: { type: 'text', value: 'foo' },
         children: []
       },
       'should *not* allow omitting `properties` for an `input[type=text][value]`, as those are void and clash'
     )
 
     st.deepEqual(
-      h('a', {type: 'text/html'}),
+      h('a', { type: 'text/html' }),
       {
         type: 'element',
         tagName: 'a',
-        properties: {type: 'text/html'},
+        properties: { type: 'text/html' },
         children: []
       },
       'should *not* allow omitting `properties` for a `[type]`, without `value` or `children`'
     )
 
     st.deepEqual(
-      h('foo', {type: 'text/html', children: {bar: 'baz'}}),
+      h('foo', { type: 'text/html', children: { bar: 'baz' } }),
       {
         type: 'element',
         tagName: 'foo',
-        properties: {type: 'text/html', children: {bar: 'baz'}},
+        properties: { type: 'text/html', children: { bar: 'baz' } },
         children: []
       },
       'should *not* allow omitting `properties` when `children` is not set to an array'
     )
 
     st.deepEqual(
-      h('button', {type: 'submit', value: 'Send'}),
+      h('button', { type: 'submit', value: 'Send' }),
       {
         type: 'element',
         tagName: 'button',
-        properties: {type: 'submit', value: 'Send'},
+        properties: { type: 'submit', value: 'Send' },
         children: []
       },
       'should *not* allow omitting `properties` when a button has a valid type'
     )
 
     st.deepEqual(
-      h('button', {type: 'BUTTON', value: 'Send'}),
+      h('button', { type: 'BUTTON', value: 'Send' }),
       {
         type: 'element',
         tagName: 'button',
-        properties: {type: 'BUTTON', value: 'Send'},
+        properties: { type: 'BUTTON', value: 'Send' },
         children: []
       },
       'should *not* allow omitting `properties` when a button has a valid non-lowercase type'
     )
 
     st.deepEqual(
-      h('button', {type: 'menu', value: 'Send'}),
+      h('button', { type: 'menu', value: 'Send' }),
       {
         type: 'element',
         tagName: 'button',
-        properties: {type: 'menu', value: 'Send'},
+        properties: { type: 'menu', value: 'Send' },
         children: []
       },
       'should *not* allow omitting `properties` when a button has a valid type'
     )
 
     st.deepEqual(
-      h('button', {type: 'text', value: 'Send'}),
+      h('button', { type: 'text', value: 'Send' }),
       {
         type: 'element',
         tagName: 'button',
         properties: {},
-        children: [{type: 'text', value: 'Send'}]
+        children: [{ type: 'text', value: 'Send' }]
       },
       'should allow omitting `properties` when a button has an invalid type'
     )
@@ -901,7 +910,7 @@ test('hastscript', function(t) {
         tagName: 'template',
         properties: {},
         children: [],
-        content: {type: 'root', children: []}
+        content: { type: 'root', children: [] }
       },
       'empty template'
     )
@@ -913,7 +922,7 @@ test('hastscript', function(t) {
         tagName: 'template',
         properties: {},
         children: [],
-        content: {type: 'root', children: [{type: 'text', value: 'Alpha'}]}
+        content: { type: 'root', children: [{ type: 'text', value: 'Alpha' }] }
       },
       'template with text'
     )
@@ -932,16 +941,16 @@ test('hastscript', function(t) {
               type: 'element',
               tagName: 'b',
               properties: {},
-              children: [{type: 'text', value: 'Bold'}]
+              children: [{ type: 'text', value: 'Bold' }]
             },
-            {type: 'text', value: ' and '},
+            { type: 'text', value: ' and ' },
             {
               type: 'element',
               tagName: 'i',
               properties: {},
-              children: [{type: 'text', value: 'italic'}]
+              children: [{ type: 'text', value: 'italic' }]
             },
-            {type: 'text', value: '.'}
+            { type: 'text', value: '.' }
           ]
         }
       },
@@ -975,7 +984,7 @@ test('hastscript', function(t) {
         },
         [
           s('title', 'SVG `<circle>` element'),
-          s('circle', {cx: '120', cy: '120', r: '100'})
+          s('circle', { cx: '120', cy: '120', r: '100' })
         ]
       ),
       {
@@ -993,12 +1002,12 @@ test('hastscript', function(t) {
             type: 'element',
             tagName: 'title',
             properties: {},
-            children: [{type: 'text', value: 'SVG `<circle>` element'}]
+            children: [{ type: 'text', value: 'SVG `<circle>` element' }]
           },
           {
             type: 'element',
             tagName: 'circle',
-            properties: {cx: '120', cy: '120', r: '100'},
+            properties: { cx: '120', cy: '120', r: '100' },
             children: []
           }
         ]
@@ -1007,22 +1016,22 @@ test('hastscript', function(t) {
     )
 
     st.deepEqual(
-      s('circle', {class: 'foo bar'}),
+      s('circle', { class: 'foo bar' }),
       {
         type: 'element',
         tagName: 'circle',
-        properties: {className: ['foo', 'bar']},
+        properties: { className: ['foo', 'bar'] },
         children: []
       },
       'should cast valid known space-separated values'
     )
 
     st.deepEqual(
-      s('glyph', {'glyph-name': 'foo, bar'}),
+      s('glyph', { 'glyph-name': 'foo, bar' }),
       {
         type: 'element',
         tagName: 'glyph',
-        properties: {glyphName: ['foo', 'bar']},
+        properties: { glyphName: ['foo', 'bar'] },
         children: []
       },
       'should cast valid known comma-separated values'
@@ -1049,22 +1058,22 @@ test('hastscript', function(t) {
     )
 
     st.deepEqual(
-      s('path', {'stroke-opacity': '0.7'}),
+      s('path', { 'stroke-opacity': '0.7' }),
       {
         type: 'element',
         tagName: 'path',
-        properties: {strokeOpacity: 0.7},
+        properties: { strokeOpacity: 0.7 },
         children: []
       },
       'should cast valid known numeric values'
     )
 
     st.deepEqual(
-      s('path', {'stroke-miterlimit': '1'}),
+      s('path', { 'stroke-miterlimit': '1' }),
       {
         type: 'element',
         tagName: 'path',
-        properties: {strokeMiterLimit: 1},
+        properties: { strokeMiterLimit: 1 },
         children: []
       },
       'should cast valid known positive numeric values'

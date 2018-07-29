@@ -12,7 +12,9 @@ test('`element`', function(t) {
   )
 
   t.deepEqual(
-    to(u('raw', '<script>alert("XSS!")</script>'), {allowDangerousHTML: true}),
+    to(u('raw', '<script>alert("XSS!")</script>'), {
+      allowDangerousHTML: true
+    }),
     '<script>alert("XSS!")</script>',
     'should not encode `raw`s in `allowDangerousHTML` mode'
   )
