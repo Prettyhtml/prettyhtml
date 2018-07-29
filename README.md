@@ -5,7 +5,7 @@ Opinionated general formatter for your Angular, Vue or pure HTML5 templates. Try
 ## Features
 
 * Can parse Angular, Vue or HTML5 templates.
-* Formats embedded content with [prettier](https://github.com/prettier/prettier) with respect to your local settings.
+* Formats embedded content with [prettier](https://github.com/prettier/prettier) and respect to your local settings.
 * Remove all superfluous white-space.
 * Enforce consistent output of your HTML.
 
@@ -22,42 +22,14 @@ Opinionated general formatter for your Angular, Vue or pure HTML5 templates. Try
 ## Example
 Test it on [repl.it](https://repl.it/@StarpTech/PrettyHtml)
 
-In
-
-```html
-<!-- custom -->
-<my-component ng-model="selected"><custom FOO="test" class="test" title="title"></custom>
-<form #heroForm (ngSubmit)="onSubmit(heroForm)" title="title" data-foo="foo" data-baz="baz"> <input
-type="text" [(onChange)]="dede" name="test"> <button [style.color]="isSpecial ? 'red' : 'green'"></button>
-<div>{{ message }}</div>{{ errors }}
-</form>
-</my-component>
-```
-
-Out
-
-```html
-<!-- custom -->
-<my-component ng-model="selected">
-  <custom FOO="test" class="test" title="title"></custom>
-  <form #heroForm (ngSubmit)="onSubmit(heroForm)" title="title" data-foo="foo" data-baz="baz">
-    <input
-      type="text"
-      [(onChange)]="dede"
-      name="test">
-    <button [style.color]="isSpecial ? 'red' : 'green'"></button>
-    <div>{{ message }}</div>
-    {{ errors }}
-  </form>
-</my-component>
-```
-
 ## Wrapping
 
 Prettyhtml does not wrap your code to a preset column. You can wrap elements by placing attributes on a newline.
 We can improve this situation in the future but currently we don't see it as a blocker.
 
-Multiline attributes
+Multiline attributes:
+
+**in**
 ```html
 <div id="test" 
   data-foo="foo" data-bar="bar">
@@ -69,7 +41,9 @@ Multiline attributes
   data-foo="foo"
   data-bar="bar">
 ```
-Multiline attribute values
+Multiline attribute values:
+
+**in**
 ```html
 <div test="dddddddd
 ddddddd" id="dwedwedwed"><p>foo</p></div>
@@ -91,14 +65,14 @@ ddddddd" id="dwedwedwed"><p>foo</p></div>
 <div></div>
 ```
 
-## Ideas?
-
-Feel free to create an issue and show your proposal!
-
 ## Install
 
-```
+```bash
+# regular
 $ npm install @starptech/prettyhtml --global
+
+# when using proxy like sinopia/verdaccio
+$ npm install @starptech/prettyhtml --global --registry=https://registry.npmjs.org/
 ```
 
 ## CLI
@@ -118,16 +92,15 @@ $ prettyhtml --help
 ```js
 const prettyhtml = require('@starptech/prettyhtml')
 const result = prettyhtml(`<custom foo="bar"></custom>`, {
-  tabWidth: 2,
-  useTabs: false,
-  quote: `"`
+  tabWidth: 2,    // the space width of your indentation level
+  useTabs: false, // use tabs instead spaces for indentation (default: false) 
+  quote: `"`      // use different attribute quoting character (default: `"`) 
 })
 ```
 
 ## Why
 
-Prettier has no intention to support other template syntaxes e.g like Angular or Vue. There is a [PR](https://github.com/prettier/prettier/pull/4753) but they is no agreement on it.
-Prettyhtml should be able to format any superset of HTML as long it is parseable with minor tweaks. We maintain a [fork](https://github.com/StarpTech/parse5) of the most robust HTML5 parser.
+Prettier has no support for template syntaxes like Angular or Vue. There is an open [PR](https://github.com/prettier/prettier/pull/4753) but they is no agreement on it. In the meantime I need a general formatter in order to talk less about formatting. Prettyhtml should be able to format any superset of HTML as long it is parseable with minor tweaks. We maintain a [fork](https://github.com/StarpTech/parse5) of the most robust HTML5 parser. Some other packages from the [rehype](https://github.com/rehypejs/rehype) ecosystem were modified to our needs.
 
 ## Acknowledgement
 
