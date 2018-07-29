@@ -24,7 +24,7 @@
   "dependencies": {
     "ccount": "^1.0.3",
     "@starptech/prettyhtml-hastscript": "^0.0.22",
-    "property-information": "^4.0.0",
+    "property-information": "^4.1.0",
     "web-namespaces": "^1.1.2",
     "xtend": "^4.0.1"
   },
