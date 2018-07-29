@@ -3,7 +3,7 @@
 var test = require('tape')
 var u = require('unist-builder')
 var s = require('hastscript/svg')
-var h = require('hastscript')
+var h = require('@starptech/prettyhtml-hastscript')
 var to = require('..')
 
 test('svg', function(t) {

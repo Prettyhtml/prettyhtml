@@ -2,7 +2,7 @@
 
 var test = require('tape')
 var u = require('unist-builder')
-var h = require('hastscript')
+var h = require('@starptech/prettyhtml-hastscript')
 var to = require('..')
 
 test('`body` (opening)', function(t) {

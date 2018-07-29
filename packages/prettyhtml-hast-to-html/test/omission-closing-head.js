@@ -1,7 +1,7 @@
 'use strict'
 
 var test = require('tape')
-var h = require('hastscript')
+var h = require('@starptech/prettyhtml-hastscript')
 var u = require('unist-builder')
 var to = require('..')
 
