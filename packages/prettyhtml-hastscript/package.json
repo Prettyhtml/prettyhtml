@@ -22,7 +22,10 @@
     "url": "https://github.com/StarpTech/prettyhtml/issues"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "factory.js",
+    "html.js",
+    "svg.js"
   ],
   "dependencies": {
     "comma-separated-tokens": "^1.0.5",
