@@ -41,22 +41,6 @@ Multiline attributes:
   data-foo="foo"
   data-bar="bar">
 ```
-Multiline attribute values:
-
-**in**
-```html
-<div test="dddddddd
-ddddddd" id="dwedwedwed"><p>foo</p></div>
-```
-**out**
-```html
-<div
-  test="dddddddd
-  ddddddd"
-  id="dwedwedwed">
-    <p>foo</p>
-</div>
-```
 
 ## Ignore specific elements
 
