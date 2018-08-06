@@ -7,7 +7,9 @@ Opinionated general formatter for your Angular, Vue or pure HTML5 templates. Try
 * Can parse Angular, Vue or HTML5 templates (even self-closing custom elements).
 * Formats embedded content with [prettier](https://github.com/prettier/prettier) with respect to your local settings.
 * Remove all superfluous white-space.
-* Enforce consistent output of your HTML.
+* *Enforce consistent output of your HTML.
+
+_prettyhtml does not change the values of your attributes please ensure that your content does not contain illegal characters or vulnerable content_
 
 ## Packages
 
