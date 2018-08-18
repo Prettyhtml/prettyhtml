@@ -19,6 +19,7 @@ function toHTML(node, options) {
   var quote = settings.quote || DQ
   var alternative = quote === DQ ? SQ : DQ
   var smart = settings.quoteSmart
+  var printWidth = settings.printWidth || 80
   var tabWidth = settings.tabWidth || 2 // indent attributes from custom elements
 
   if (quote !== DQ && quote !== SQ) {
@@ -38,6 +39,7 @@ function toHTML(node, options) {
       schema: settings.space === 'svg' ? svg : html,
       omit: settings.omitOptionalTags && omission,
       quote: quote,
+      printWidth: printWidth,
       tabWidth: tabWidth,
       alternative: smart ? alternative : null,
       unquoted: Boolean(settings.preferUnquoted),

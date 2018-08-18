@@ -22,26 +22,6 @@ Opinionated general formatter for your Angular, Vue or pure HTML5 templates. Try
 ## Example
 Test it on [repl.it](https://repl.it/@StarpTech/PrettyHtml)
 
-## Wrapping
-
-Prettyhtml does not wrap your code to a preset column. You can wrap elements by placing attributes on a newline.
-We can improve this situation in the future but currently we don't see it as a blocker.
-
-Multiline attributes:
-
-**in**
-```html
-<div id="test" 
-  data-foo="foo" data-bar="bar">
-```
-**out**
-```html
-<div
-  id="test" 
-  data-foo="foo"
-  data-bar="bar">
-```
-
 ## Ignore specific elements
 
 ```html
@@ -76,8 +56,9 @@ $ prettyhtml --help
 ```js
 const prettyhtml = require('@starptech/prettyhtml')
 const result = prettyhtml(`<custom foo="bar"></custom>`, {
-  tabWidth: 2,    // the space width of your indentation level
-  useTabs: false, // use tabs instead spaces for indentation (default: false) 
+  tabWidth: 2,    // the space width of your indentation level (default: 2)
+  useTabs: false, // use tabs instead spaces for indentation (default: false)
+  printWidth: 80, // use different maximum line length (default: 80)
   quote: `"`      // use different attribute quoting character (default: `"`) 
 })
 ```

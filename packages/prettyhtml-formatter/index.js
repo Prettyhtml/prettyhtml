@@ -102,10 +102,6 @@ function format(options) {
         return visit.SKIP
       }
 
-      // check if we indent the attributes in newlines
-      const shouldCollapse = collapseAttributes(node)
-      setData(node, 'collapseAttr', shouldCollapse)
-
       /**
        * Indent newlines in `text`.
        * e.g <p>foo <strong>bar</strong></p> to
@@ -151,11 +147,6 @@ function format(options) {
           child = children[index]
 
           let indentLevel = level
-
-          // collapsed attributes creates a new indent level
-          if (shouldCollapse) {
-            indentLevel++
-          }
 
           setData(child, 'indentLevel', indentLevel)
 
@@ -211,33 +202,6 @@ function format(options) {
       }
     }
   }
-}
-
-/**
- * Check if any attribute of the original element was wrapped on a newline.
- * @param {*} node
- */
-function collapseAttributes(node) {
-  if (!isElement(node) || node.type === 'root') {
-    return false
-  }
-
-  if (Object.keys(node.properties).length < 2) {
-    return false
-  }
-
-  // when attributes was already indented on newlines
-  const pos = node.position
-  for (const attr in node.data.position.properties) {
-    // those informations are from the original source
-    if (
-      pos.start.line !== node.data.position.properties[attr].start.line ||
-      pos.start.line !== node.data.position.properties[attr].end.line
-    ) {
-      return true
-    }
-  }
-  return false
 }
 
 function endsWithNewline(node) {

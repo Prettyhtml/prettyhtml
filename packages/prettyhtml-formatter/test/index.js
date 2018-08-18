@@ -42,7 +42,7 @@ test('format', function(t) {
       })
       .use(format, config)
       .use(stringify, {
-        tabWidth: 2
+        ...config
       })
 
     proc.process(input, function(err) {

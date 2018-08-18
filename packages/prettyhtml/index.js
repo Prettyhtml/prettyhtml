@@ -18,6 +18,7 @@ function core(value, processor, options) {
       prettier: options.prettier
     })
     .use(stringify, {
+      printWidth: options.printWidth,
       tabWidth: options.tabWidth,
       quote: options.quote
     })

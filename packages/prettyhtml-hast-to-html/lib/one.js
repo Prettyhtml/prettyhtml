@@ -14,7 +14,7 @@ handlers.comment = require('./comment')
 handlers.raw = require('./raw')
 
 /* Stringify `node`. */
-function one(ctx, node, index, parent) {
+function one(ctx, node, index, parent, printWidthOffset) {
   var type = node && node.type
 
   if (!type) {
@@ -25,5 +25,5 @@ function one(ctx, node, index, parent) {
     throw new Error('Cannot compile unknown node `' + type + '`')
   }
 
-  return handlers[type](ctx, node, index, parent)
+  return handlers[type](ctx, node, index, parent, printWidthOffset)
 }

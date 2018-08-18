@@ -29,6 +29,7 @@ var cli = meow(
   Options:
 
   --tab-width       Specify the number of spaces per indentation-level
+  --print-width     Specify the maximum line length
   --use-tabs        Use tabs for indentation
   --stdin           Specify the standard stream as source (for pipe mode)
   --why             Output sources (when available)
@@ -44,6 +45,10 @@ var cli = meow(
     autoHelp: true,
     autoVersion: true,
     flags: {
+      printWidth: {
+        type: 'number',
+        default: 80
+      },
       tabWidth: {
         type: 'number',
         default: 2
@@ -131,7 +136,8 @@ function transform({ prettierOpts }) {
     [
       stringify,
       {
-        tabWidth: cli.flags.tabWidth
+        tabWidth: cli.flags.tabWidth,
+        printWidth: cli.flags.printWidth
       }
     ]
   ]

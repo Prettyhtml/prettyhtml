@@ -26,7 +26,7 @@ var SO = '/'
 var LF = '\n'
 
 /* Stringify an element `node`. */
-function element(ctx, node, index, parent) {
+function element(ctx, node, index, parent, printWidthOffset) {
   var parentSchema = ctx.schema
   var name = node.tagName
   var value = ''
@@ -36,14 +36,12 @@ function element(ctx, node, index, parent) {
   var root = node
   var content
   var attrs
-  var collapseAttr = node.data ? node.data.collapseAttr : false
   var indentLevel = node.data ? node.data.indentLevel : 0
+  var printContext = { offset: printWidthOffset, collapsed: false, indentLevel }
 
   if (parentSchema.space === 'html' && name === 'svg') {
     ctx.schema = svg
   }
-
-  attrs = attributes(ctx, node.properties, collapseAttr, indentLevel)
 
   if (ctx.schema.space === 'svg') {
     omit = false
@@ -53,18 +51,35 @@ function element(ctx, node, index, parent) {
     omit = ctx.omit
     close = ctx.close
     selfClosing = ctx.voids.indexOf(name.toLowerCase()) !== -1
-
-    // if (name === 'template') {
-    //   root = node.content
-    // }
   }
-
-  content = all(ctx, root)
 
   // check for 'selfClosing' property of parse5
   if (node.data && selfClosing === false) {
     selfClosing = !!node.data.selfClosing
   }
+
+  // <
+  printContext.offset += LT.length
+
+  // tagName
+  printContext.offset += node.tagName.length
+
+  // /
+  if (selfClosing || close) {
+    printContext.offset += SO.length
+  }
+
+  // >
+  printContext.offset += GT.length
+
+  // <x one space before first attr
+  if (Object.keys(node.properties).length) {
+    printContext.offset += 1
+  }
+
+  attrs = attributes(ctx, node.properties, printContext)
+
+  content = all(ctx, root)
 
   /* If the node is categorised as void, but it has
    * children, remove the categorisation.  This
@@ -77,7 +92,7 @@ function element(ctx, node, index, parent) {
     value = LT + name
 
     if (attrs) {
-      if (collapseAttr) {
+      if (printContext.collapsed) {
         value += attrs
       } else {
         value += SPACE + attrs
@@ -112,7 +127,7 @@ function element(ctx, node, index, parent) {
 }
 
 /* Stringify all attributes. */
-function attributes(ctx, props, collapseAttr, indentLevel) {
+function attributes(ctx, props, printContext) {
   var values = []
   var key
   var value
@@ -129,6 +144,12 @@ function attributes(ctx, props, collapseAttr, indentLevel) {
     }
 
     result = attribute(ctx, key, value)
+
+    printContext.offset += result.length
+
+    if (printContext.offset > ctx.printWidth) {
+      printContext.collapsed = true
+    }
 
     if (result) {
       values.push(result)
@@ -148,8 +169,9 @@ function attributes(ctx, props, collapseAttr, indentLevel) {
 
     /* In tight mode, don’t add a space after quoted attributes. */
     if (last !== DQ && last !== SQ) {
-      if (collapseAttr) {
-        values[index] = LF + repeat(ctx.tabWidth, indentLevel + 1) + result
+      if (printContext.collapsed) {
+        values[index] =
+          LF + repeat(ctx.tabWidth, printContext.indentLevel + 1) + result
       } else if (index !== length - 1) {
         values[index] = result + SPACE
       } else {
