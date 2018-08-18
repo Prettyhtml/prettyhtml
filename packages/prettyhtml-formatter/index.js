@@ -145,7 +145,8 @@ function format(options) {
 
       if (length) {
         // walk through children
-        // a child has no children informations
+        // hint: a child has no children informations we already walking through
+        // the tree
         while (++index < length) {
           child = children[index]
 
@@ -174,7 +175,7 @@ function format(options) {
           } else if (
             /**
              * Insert 1 newline
-             * 1. should we break before child node is started
+             * 1. should we break before child node is started?
              * 2. don't break when a newline was already inserted before
              * 3. break text in newline when it's the first node
              */
@@ -212,6 +213,10 @@ function format(options) {
   }
 }
 
+/**
+ * Check if any attribute of the original element was wrapped on a newline.
+ * @param {*} node
+ */
 function collapseAttributes(node) {
   if (!isElement(node) || node.type === 'root') {
     return false
@@ -224,6 +229,7 @@ function collapseAttributes(node) {
   // when attributes was already indented on newlines
   const pos = node.position
   for (const attr in node.data.position.properties) {
+    // those informations are from the original source
     if (
       pos.start.line !== node.data.position.properties[attr].start.line ||
       pos.start.line !== node.data.position.properties[attr].end.line
