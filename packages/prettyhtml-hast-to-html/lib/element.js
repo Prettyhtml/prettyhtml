@@ -102,18 +102,36 @@ function element(ctx, node, index, parent, printWidthOffset) {
       }
     }
 
+    let selfClosed = false
+
     // check if the should close self-closing elements
     if (selfClosing && close) {
       if (!ctx.tightClose || attrs.charAt(attrs.length - 1) === SO) {
         value += SPACE
       }
 
+      if (printContext.collapsed) {
+        value += LF + repeat(ctx.tabWidth, printContext.indentLevel)
+      }
+
+      selfClosed = true
       value += SO
     }
 
     // allow any element to self close itself except known HTML void elements
     else if (selfClosing && !isVoid) {
+      if (printContext.collapsed) {
+        value += LF + repeat(ctx.tabWidth, printContext.indentLevel)
+      }
+
+      selfClosed = true
       value += SO
+    }
+
+    // add newline when element should be wrappend on multiple lines and when
+    // it's no self-closing element because in that case the newline was already added before the slash (/)
+    if (printContext.collapsed && !selfClosed) {
+      value += LF + repeat(ctx.tabWidth, printContext.indentLevel)
     }
 
     value += GT
