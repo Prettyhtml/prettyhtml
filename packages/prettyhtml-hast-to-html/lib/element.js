@@ -38,6 +38,7 @@ function element(ctx, node, index, parent, printWidthOffset) {
   var attrs
   var indentLevel = node.data ? node.data.indentLevel : 0
   var printContext = { offset: printWidthOffset, collapsed: false, indentLevel }
+  var isVoid = ctx.voids.indexOf(name.toLowerCase()) !== -1
 
   if (parentSchema.space === 'html' && name === 'svg') {
     ctx.schema = svg
@@ -50,10 +51,10 @@ function element(ctx, node, index, parent, printWidthOffset) {
   } else {
     omit = ctx.omit
     close = ctx.close
-    selfClosing = ctx.voids.indexOf(name.toLowerCase()) !== -1
+    selfClosing = isVoid
   }
 
-  // check for 'selfClosing' property of parse5
+  // check for 'selfClosing' property of parse5 in order to support custom elements
   if (node.data && selfClosing === false) {
     selfClosing = !!node.data.selfClosing
   }
@@ -61,20 +62,21 @@ function element(ctx, node, index, parent, printWidthOffset) {
   // <
   printContext.offset += LT.length
 
-  // tagName
+  // tagName length
   printContext.offset += node.tagName.length
 
-  // /
-  if (selfClosing || close) {
+  // / closing tag
+  if (selfClosing && !isVoid) {
     printContext.offset += SO.length
   }
 
   // >
   printContext.offset += GT.length
 
-  // <x one space before first attr
-  if (Object.keys(node.properties).length) {
-    printContext.offset += 1
+  const propertyCount = Object.keys(node.properties).length
+  // one space before each attribute
+  if (propertyCount) {
+    printContext.offset += propertyCount * SPACE.length
   }
 
   attrs = attributes(ctx, node.properties, printContext)
@@ -92,6 +94,7 @@ function element(ctx, node, index, parent, printWidthOffset) {
     value = LT + name
 
     if (attrs) {
+      // add no space after tagName when element is collapsed
       if (printContext.collapsed) {
         value += attrs
       } else {
@@ -99,6 +102,7 @@ function element(ctx, node, index, parent, printWidthOffset) {
       }
     }
 
+    // check if the should close self-closing elements
     if (selfClosing && close) {
       if (!ctx.tightClose || attrs.charAt(attrs.length - 1) === SO) {
         value += SPACE
@@ -107,8 +111,8 @@ function element(ctx, node, index, parent, printWidthOffset) {
       value += SO
     }
 
-    // allow any element to selfclose itself except known HTML void elements
-    if (selfClosing && ctx.voids.indexOf(name.toLowerCase()) === -1) {
+    // allow any element to self close itself except known HTML void elements
+    else if (selfClosing && !isVoid) {
       value += SO
     }
 
