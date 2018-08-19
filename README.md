@@ -59,7 +59,8 @@ const result = prettyhtml(`<custom foo="bar"></custom>`, {
   tabWidth: 2,    // the space width of your indentation level (default: 2)
   useTabs: false, // use tabs instead spaces for indentation (default: false)
   printWidth: 80, // use different maximum line length (default: 80)
-  quote: `"`      // use different attribute quoting character (default: `"`) 
+  quote: `"`      // use different attribute quoting character (default: `"`)
+                  // only needed if you use single quotes in your templates
 })
 ```
 
