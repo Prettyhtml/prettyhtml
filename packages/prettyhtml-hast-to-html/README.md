@@ -12,8 +12,7 @@
 
 ### Modifications
 
-* Indent attributes of custom elements with 2 spaces.
-* Insert newline for closing custom element tags when element has attributes or child nodes.
+* Respect `printWidth` but only for starting tags and it's attributes.
 * Don't encode attribute values
 * Don't escape special characters in text
 * Don't omit value behind boolean attributes
