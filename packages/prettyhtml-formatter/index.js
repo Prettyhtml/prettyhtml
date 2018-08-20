@@ -78,6 +78,26 @@ function format(options) {
             }
           }
         }
+
+        /**
+         * indent last line of comment
+         * e.g
+         * <!--
+         *   foo
+         *    -->
+         * to
+         * <!--
+         *   foo
+         * -->
+         */
+
+        let commentLines = node.value.split('\n')
+        if (commentLines.length > 1) {
+          commentLines[commentLines.length - 1] =
+            repeat(indent, level - 1) +
+            commentLines[commentLines.length - 1].trim()
+          node.value = commentLines.join('\n')
+        }
       }
 
       /**
@@ -86,7 +106,6 @@ function format(options) {
        */
       if (ignore(parents.concat(node))) {
         setData(node, 'indentLevel', level - 1)
-        setData(node, 'shouldBreakAttr', false)
 
         // clear empty script, textarea, pre, style tags
         if (length) {
