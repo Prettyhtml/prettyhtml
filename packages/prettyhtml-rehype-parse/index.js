@@ -32,7 +32,8 @@ function parse(options) {
       allowLeadingNewlineInTextareaAndPre: true,
       allowSelfClosingCustomElements: true,
       allowCaseSensitiveTagName: true,
-      allowCaseSensitiveAttributeName: true
+      allowCaseSensitiveAttributeName: true,
+      allowCharacterReferencesInAttributes: true
     })
 
     return fromParse5(parse5[fn](doc), {
