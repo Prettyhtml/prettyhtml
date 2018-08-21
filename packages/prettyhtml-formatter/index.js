@@ -295,7 +295,7 @@ function isTemplateExpression(value) {
   }
 
   // angular, vue, svelte ...
-  if (/[{]{1,3}.+[}]{1,3}/gi.test(value)) {
+  if (/[{]{1,3}.+[}]{1,3}/gis.test(value)) {
     return true
   }
 
