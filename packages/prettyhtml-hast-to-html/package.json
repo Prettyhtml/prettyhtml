@@ -1,6 +1,6 @@
 {
   "name": "@starptech/prettyhtml-hast-to-html",
-  "version": "0.0.38",
+  "version": "0.0.39",
   "description": "Hast to html converter",
   "main": "index.js",
   "repository": {
@@ -38,7 +38,7 @@
     "xtend": "^4.0.1"
   },
   "devDependencies": {
-    "@starptech/prettyhtml-hastscript": "^0.0.38",
+    "@starptech/prettyhtml-hastscript": "^0.0.39",
     "nyc": "^12.0.2",
     "tape": "^4.9.1",
     "unist-builder": "^1.0.2"
