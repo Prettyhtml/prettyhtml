@@ -243,6 +243,7 @@ function attributeName(ctx, name) {
 /* Stringify the attribute value. */
 function attributeValue(ctx, key, value, info) {
   var quote = ctx.quote
+  var space = ctx.schema.space
 
   if (typeof value === 'object' && 'length' in value) {
     /* `spaces` doesn’t accept a second argument, but it’s
@@ -254,8 +255,20 @@ function attributeValue(ctx, key, value, info) {
 
   value = String(value)
 
-  if (value !== '') {
-    value = EQ + quote + value + quote
+  /*
+  * Unknown values are passed through untouched:
+  * https://github.com/wooorm/property-information#propertyinformationfindschema-name
+  */
+  if (info.property === info.attribute && value === '') {
+    return value
+  } else if (space !== 'html' || value || !ctx.collapseEmpty) {
+    /* Is known html attr... */
+    if (space !== 'html' || !ctx.unquoted) {
+      value = quote + value + quote
+    }
+
+    /* Don’t add a `=` for unquoted empties. */
+    value = value ? EQ + value : value
   }
 
   return value
