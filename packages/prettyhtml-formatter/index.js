@@ -19,6 +19,10 @@ const space = ' '
 const double = '\n\n'
 const re = /\n/g
 
+const DOUBLE_BRACKET_INTERPOLATION_REGEXP = /\{\{([\s\S]*?)\}\}/g
+const SINGLE_BRACKET_INTERPOLATION_REGEXP = /\{([\s\S]*?)\}/g
+const ARROW_PERC_INTERPOLATION_REGEXP = /<%([\s\S]*?)%>/g
+
 /* Format white-space. */
 function format(options) {
   const settings = options || {}
@@ -289,13 +293,23 @@ function afterChildNodesAddedHook(node, prev) {
 }
 
 function isTemplateExpression(value) {
+  // reset in order to always check from beginning of the string
+  DOUBLE_BRACKET_INTERPOLATION_REGEXP.lastIndex = 0
+  SINGLE_BRACKET_INTERPOLATION_REGEXP.lastIndex = 0
+  ARROW_PERC_INTERPOLATION_REGEXP.lastIndex = 0
+
   // erb ruby templates
-  if (/<%.+%>/gi.test(value)) {
+  if (ARROW_PERC_INTERPOLATION_REGEXP.test(value)) {
     return true
   }
 
-  // angular, vue, svelte ...
-  if (/[{]{1,3}.+[}]{1,3}/gis.test(value)) {
+  // angular, vue
+  if (DOUBLE_BRACKET_INTERPOLATION_REGEXP.test(value)) {
+    return true
+  }
+
+  // svelte
+  if (SINGLE_BRACKET_INTERPOLATION_REGEXP.test(value)) {
     return true
   }
 
