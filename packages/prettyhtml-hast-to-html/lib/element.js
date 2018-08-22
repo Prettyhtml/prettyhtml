@@ -259,7 +259,7 @@ function attributeValue(ctx, key, value, info) {
   * Unknown values are passed through untouched:
   * https://github.com/wooorm/property-information#propertyinformationfindschema-name
   */
-  if (isUnknownAtribute(info) && value === '') {
+  if (isUnknownAttribute(info) && value === '') {
     return value
   } else if (space !== 'html' || value || !ctx.collapseEmpty) {
     /* Is known html attr... */
@@ -280,7 +280,7 @@ function attributeValue(ctx, key, value, info) {
  * https://github.com/wooorm/property-information/issues/9
  * @param {*} info
  */
-function isUnknownAtribute(info) {
+function isUnknownAttribute(info) {
   return (
     !info.space && info.property === info.attribute && info.property !== 'role'
   )
