@@ -282,6 +282,6 @@ function attributeValue(ctx, key, value, info) {
  */
 function isUnknownAttribute(info) {
   return (
-    !info.space && info.property === info.attribute && info.property !== 'role'
+    info.space === null && info.property === info.attribute && info.property !== 'role'
   )
 }
