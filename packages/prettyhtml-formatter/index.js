@@ -293,7 +293,7 @@ function afterChildNodesAddedHook(node, prev) {
 }
 
 function isTemplateExpression(value) {
-  // reset in order to always check from beginning of the string
+  // do no track informations
   DOUBLE_BRACKET_INTERPOLATION_REGEXP.lastIndex = 0
   SINGLE_BRACKET_INTERPOLATION_REGEXP.lastIndex = 0
   ARROW_PERC_INTERPOLATION_REGEXP.lastIndex = 0
@@ -457,7 +457,7 @@ function prettierEmbeddedContent(node, level, indent, prettierOpts) {
     node.children = [
       { type: 'text', value: '\n' },
       { type: 'text', value: formattedText },
-      { type: 'text', value: repeat('  ', level - 1) }
+      { type: 'text', value: repeat(indent, level - 1) }
     ]
   }
 }
@@ -466,9 +466,7 @@ function indentPrettierOutput(formattedText, level) {
   let lines = formattedText.split('\n')
 
   for (let i = 0; i < lines.length; i++) {
-    if (i === lines.length - 1) {
-      lines[i] = lines[i]
-    } else if (lines[i].replace(/\s+/g, '').length) {
+    if (lines[i].replace(/\s+/g, '').length) {
       lines[i] = repeat('  ', level) + lines[i]
     }
   }
