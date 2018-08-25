@@ -95,12 +95,12 @@ function format(options) {
          * -->
          */
 
-        let commentLines = node.value.split('\n')
+        let commentLines = node.value.split(single)
         if (commentLines.length > 1) {
           commentLines[commentLines.length - 1] =
             repeat(indent, level - 1) +
             commentLines[commentLines.length - 1].trim()
-          node.value = commentLines.join('\n')
+          node.value = commentLines.join(single)
         }
       }
 
@@ -145,11 +145,14 @@ function format(options) {
         }
 
         if (is('text', child)) {
-          if (child.value.indexOf('\n') !== -1) {
+          if (child.value.indexOf(single) !== -1) {
             newline = true
           }
           child.value = child.value
+            // remove leading and last tab characters
             .replace(/^[ \t]+|[ \t]+$/g, '')
+            // reduce newlines to one newline
+            // $& contains the lastMatch
             .replace(re, '$&' + repeat(indent, level))
         }
       }
@@ -414,7 +417,7 @@ function prettierEmbeddedContent(node, level, indent, prettierOpts) {
     formattedText = indentPrettierOutput(formattedText, level)
 
     node.children = [
-      { type: 'text', value: '\n' },
+      { type: 'text', value: single },
       { type: 'text', value: formattedText },
       { type: 'text', value: repeat(indent, level - 1) }
     ]
@@ -455,7 +458,7 @@ function prettierEmbeddedContent(node, level, indent, prettierOpts) {
     formattedText = formattedText.replace(/<\/script\s*>/g, '<\\/script>')
 
     node.children = [
-      { type: 'text', value: '\n' },
+      { type: 'text', value: single },
       { type: 'text', value: formattedText },
       { type: 'text', value: repeat(indent, level - 1) }
     ]
@@ -463,7 +466,7 @@ function prettierEmbeddedContent(node, level, indent, prettierOpts) {
 }
 
 function indentPrettierOutput(formattedText, level) {
-  let lines = formattedText.split('\n')
+  let lines = formattedText.split(single)
 
   for (let i = 0; i < lines.length; i++) {
     if (lines[i].replace(/\s+/g, '').length) {
@@ -471,7 +474,7 @@ function indentPrettierOutput(formattedText, level) {
     }
   }
 
-  return lines.join('\n')
+  return lines.join(single)
 }
 
 function setData(node, key, value) {
