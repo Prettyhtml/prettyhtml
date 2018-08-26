@@ -31,6 +31,8 @@ var cli = meow(
   --tab-width       Specify the number of spaces per indentation-level
   --print-width     Specify the maximum line length
   --use-tabs        Use tabs for indentation
+  --single-quote    Use single instead of double quotes
+  --use-prettier    Use prettier to format embedded content
   --stdin           Specify the standard stream as source (for pipe mode)
   --why             Output sources (when available)
   --quiet           Output only warnings and errors
@@ -52,6 +54,14 @@ var cli = meow(
       tabWidth: {
         type: 'number',
         default: 2
+      },
+      singleQuote: {
+        type: 'boolean',
+        default: false
+      },
+      usePrettier: {
+        type: 'boolean',
+        default: true
       },
       useTabs: {
         type: 'boolean',
@@ -130,6 +140,8 @@ function transform({ prettierOpts }) {
       {
         tabWidth: cli.flags.tabWidth,
         useTabs: cli.flags.useTabs,
+        singleQuote: cli.flags.singleQuote,
+        usePrettier: cli.flags.usePrettier,
         prettier: prettierOpts
       }
     ],
@@ -137,7 +149,8 @@ function transform({ prettierOpts }) {
       stringify,
       {
         tabWidth: cli.flags.tabWidth,
-        printWidth: cli.flags.printWidth
+        printWidth: cli.flags.printWidth,
+        singleQuote: cli.flags.singleQuote
       }
     ]
   ]

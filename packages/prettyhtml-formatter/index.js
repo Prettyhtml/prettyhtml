@@ -29,7 +29,8 @@ function format(options) {
   let tabWidth = settings.tabWidth || 2
   let useTabs = settings.useTabs
   let indentInitial = settings.indentInitial
-  let noPrettier = settings.noPrettier
+  let usePrettier =
+    settings.usePrettier === undefined ? true : settings.usePrettier
   let prettierOpts = settings.prettier
   let indent
 
@@ -117,7 +118,7 @@ function format(options) {
           if (empty) {
             node.children = []
           }
-          if (!noPrettier && !empty) {
+          if (usePrettier && !empty) {
             prettierEmbeddedContent(node, level, indent, prettierOpts)
           }
         }

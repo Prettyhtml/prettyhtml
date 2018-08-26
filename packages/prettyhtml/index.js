@@ -15,6 +15,7 @@ function core(value, processor, options) {
     .use(format, {
       tabWidth: options.tabWidth,
       useTabs: options.useTabs,
+      usePrettier: options.usePrettier,
       prettier: options.prettier
     })
     .use(stringify, {
