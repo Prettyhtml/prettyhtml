@@ -537,10 +537,10 @@ test('hastscript', function(t) {
         {
           type: 'element',
           tagName: 'div',
-          properties: { download: true },
+          properties: { download: 'downLOAD' },
           children: []
         },
-        'should cast known named overloaded `boolean` values'
+        'should not cast known named overloaded `boolean` values'
       )
 
       st.deepEqual(
@@ -909,8 +909,7 @@ test('hastscript', function(t) {
         type: 'element',
         tagName: 'template',
         properties: {},
-        children: [],
-        content: { type: 'root', children: [] }
+        children: []
       },
       'empty template'
     )
@@ -921,8 +920,7 @@ test('hastscript', function(t) {
         type: 'element',
         tagName: 'template',
         properties: {},
-        children: [],
-        content: { type: 'root', children: [{ type: 'text', value: 'Alpha' }] }
+        children:  [{ type: 'text', value: 'Alpha' }]
       },
       'template with text'
     )
@@ -933,26 +931,22 @@ test('hastscript', function(t) {
         type: 'element',
         tagName: 'template',
         properties: {},
-        children: [],
-        content: {
-          type: 'root',
-          children: [
-            {
-              type: 'element',
-              tagName: 'b',
-              properties: {},
-              children: [{ type: 'text', value: 'Bold' }]
-            },
-            { type: 'text', value: ' and ' },
-            {
-              type: 'element',
-              tagName: 'i',
-              properties: {},
-              children: [{ type: 'text', value: 'italic' }]
-            },
-            { type: 'text', value: '.' }
-          ]
-        }
+        children: [
+          {
+            type: 'element',
+            tagName: 'b',
+            properties: {},
+            children: [{ type: 'text', value: 'Bold' }]
+          },
+          { type: 'text', value: ' and ' },
+          {
+            type: 'element',
+            tagName: 'i',
+            properties: {},
+            children: [{ type: 'text', value: 'italic' }]
+          },
+          { type: 'text', value: '.' }
+        ]
       },
       'template with elements'
     )
