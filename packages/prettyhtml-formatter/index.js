@@ -145,6 +145,8 @@ function format(options) {
         }
 
         if (is('text', child)) {
+          // when a newline is found we assume that we can indent it on separate lines
+          // and not beside the open and closed tags
           if (child.value.indexOf(single) !== -1) {
             newline = true
           }
