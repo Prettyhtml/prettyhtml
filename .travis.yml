@@ -1,9 +1,13 @@
 language: node_js
 node_js:
-  - '8.0'
-  - '9.0'
+  - "10"
+  - "9"
+  - "8"
+  - "6"
+
 install:
   - npm set audit false
   - npm install
+
 script:
-  - npm test
+  - cd ./packages/prettyhtml-formatter && npm test

@@ -1,5 +1,7 @@
 ![Prettyhtml Banner](/logo.png)
 
+[![Build Status](https://travis-ci.org/StarpTech/prettyhtml.svg?branch=master)](https://travis-ci.org/StarpTech/prettyhtml)
+
 Opinionated general formatter for your Angular, Vue or pure HTML5 templates. Try it on [repl.it](https://repl.it/@StarpTech/PrettyHtml).
 
 ## Features
