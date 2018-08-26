@@ -67,6 +67,10 @@ const result = prettyhtml(`<custom foo="bar"></custom>`, {
 })
 ```
 
+## Editor support
+
+* [VSCode](https://github.com/StarpTech/prettyhtml-vscode) extension (not published yet)
+
 ## Why
 
 Prettier has no support for template syntaxes like Angular or Vue. There is an open [PR](https://github.com/prettier/prettier/pull/4753) but there is no agreement on it. In the meantime I need a general formatter in order to talk less about formatting. Prettyhtml should be able to format any superset of HTML as long it is parseable with minor tweaks. We maintain a [fork](https://github.com/StarpTech/parse5) of the most robust HTML5 parser. Some other packages from the [rehype](https://github.com/rehypejs/rehype) ecosystem were modified to our needs.
