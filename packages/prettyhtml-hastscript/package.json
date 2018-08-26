@@ -30,7 +30,7 @@
   "dependencies": {
     "comma-separated-tokens": "^1.0.5",
     "hast-util-parse-selector": "^2.2.0",
-    "property-information": "^4.1.0",
+    "property-information": "^4.2.0",
     "space-separated-tokens": "^1.1.2"
   },
   "devDependencies": {

@@ -31,7 +31,7 @@
     "hast-util-is-element": "^1.0.1",
     "hast-util-whitespace": "^1.0.1",
     "html-void-elements": "^1.0.3",
-    "property-information": "^4.1.0",
+    "property-information": "^4.2.0",
     "space-separated-tokens": "^1.1.2",
     "stringify-entities": "^1.3.2",
     "unist-util-is": "^2.1.2",
