@@ -10,4 +10,4 @@ const result = prettyhtml(`<!-- custom -->
   </my-component>
 `)
 
-console.log(result.contents)
+console.log(result)

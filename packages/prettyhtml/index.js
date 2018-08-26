@@ -23,7 +23,7 @@ function core(value, processor, options) {
       tabWidth: options.tabWidth,
       quote: options.quote
     })
-    .processSync(file)
+    .processSync(file).contents
 }
 
 function prettyhtml(value, options) {
