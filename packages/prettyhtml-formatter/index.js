@@ -29,8 +29,7 @@ function format(options) {
   let tabWidth = settings.tabWidth || 2
   let useTabs = settings.useTabs
   let indentInitial = settings.indentInitial
-  let usePrettier =
-    settings.usePrettier === undefined ? true : settings.usePrettier
+  let usePrettier = settings.usePrettier !== false
   let prettierOpts = settings.prettier
   let indent
 

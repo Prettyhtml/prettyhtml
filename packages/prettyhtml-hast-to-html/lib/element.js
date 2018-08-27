@@ -255,6 +255,7 @@ function attributeValue(ctx, key, value, info) {
 
   value = String(value)
 
+  // when element is not part of the spec and has no value we avoid quoting
   if (info.defined === false && value === '') {
     return value
   } else if (space !== 'html' || value || !ctx.collapseEmpty) {
