@@ -39,9 +39,9 @@
   },
   "devDependencies": {
     "@starptech/prettyhtml-hastscript": "^0.0.44",
-    "nyc": "^12.0.2",
+    "nyc": "^13.0.1",
     "tape": "^4.9.1",
-    "unist-builder": "^1.0.2"
+    "unist-builder": "^1.0.3"
   },
   "publishConfig": {
     "access": "public"

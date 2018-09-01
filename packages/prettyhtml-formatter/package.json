@@ -49,11 +49,11 @@
     "bail": "^1.0.3",
     "is-hidden": "^1.1.1",
     "negate": "^1.0.0",
-    "nyc": "^12.0.2",
-    "rehype": "^5.0.1",
+    "nyc": "^13.0.1",
+    "rehype": "^6.0.0",
     "tap-diff": "^0.1.1",
     "tape": "^4.9.1",
-    "to-vfile": "^5.0.0"
+    "to-vfile": "^5.0.1"
   },
   "nyc": {
     "check-coverage": true,

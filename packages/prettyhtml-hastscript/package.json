@@ -34,7 +34,7 @@
     "space-separated-tokens": "^1.1.2"
   },
   "devDependencies": {
-    "nyc": "^12.0.2",
+    "nyc": "^13.0.1",
     "tape": "^4.9.1"
   },
   "scripts": {
