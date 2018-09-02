@@ -1,6 +1,6 @@
 {
   "name": "@starptech/prettyhtml-hastscript",
-  "version": "0.0.45",
+  "version": "0.0.46",
   "description": "Hyperscript compatible DSL for creating virtual HAST trees",
   "keywords": [
     "hast",
