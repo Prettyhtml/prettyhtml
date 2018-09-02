@@ -185,10 +185,6 @@ function attributes(ctx, props, printContext) {
     result = values[index]
     last = null
 
-    if (ctx.schema.space === 'html' && ctx.tight) {
-      last = result.charAt(result.length - 1)
-    }
-
     /* In tight mode, don’t add a space after quoted attributes. */
     if (last !== DQ && last !== SQ) {
       if (printContext.collapsed) {
@@ -243,7 +239,6 @@ function attributeName(ctx, name) {
 /* Stringify the attribute value. */
 function attributeValue(ctx, key, value, info) {
   var quote = ctx.quote
-  var space = ctx.schema.space
 
   if (typeof value === 'object' && 'length' in value) {
     /* `spaces` doesn’t accept a second argument, but it’s
@@ -258,12 +253,8 @@ function attributeValue(ctx, key, value, info) {
   // when element is not part of the spec and has no value we avoid quoting
   if (info.defined === false && value === '') {
     return value
-  } else if (space !== 'html' || value || !ctx.collapseEmpty) {
-    /* Is known html attr... */
-    if (space !== 'html' || !ctx.unquoted) {
-      value = quote + value + quote
-    }
-
+  } else {
+    value = quote + value + quote
     /* Don’t add a `=` for unquoted empties. */
     value = value ? EQ + value : value
   }

@@ -229,11 +229,10 @@ test('svg', function(t) {
 
   t.deepEqual(
     to(s('circle', { title: "3'5" }), {
-      space: 'svg',
-      allowDangerousCharacters: true
+      space: 'svg'
     }),
     '<circle title="3\'5"></circle>',
-    'should not encode characters which cause XSS issues in older browsers, in `allowDangerousCharacters` mode'
+    'should not encode characters which cause XSS issues in older browsers'
   )
 
   t.deepEqual(

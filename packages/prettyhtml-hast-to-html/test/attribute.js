@@ -585,57 +585,6 @@ test('data properties', function(t) {
   )
 })
 
-test('collapseEmptyAttributes', function(t) {
-  t.deepEqual(
-    to(u('element', { tagName: 'i', properties: { id: '' } }, [])),
-    '<i id=""></i>',
-    'should show empty string attributes'
-  )
-
-  t.deepEqual(
-    to(u('element', { tagName: 'i', properties: { id: '' } }, []), {
-      collapseEmptyAttributes: true
-    }),
-    '<i id></i>',
-    'should collapse empty string attributes in `collapseEmptyAttributes` mode'
-  )
-})
-
-test('tightAttributes', function(t) {
-  t.deepEqual(
-    to(u('element', { tagName: 'i', properties: { title: 'a', id: 'b' } }, [])),
-    '<i title="a" id="b"></i>',
-    'should stringify multiple properties'
-  )
-
-  t.deepEqual(
-    to(
-      u('element', { tagName: 'i', properties: { title: 'a', id: 'b' } }, []),
-      {
-        tightAttributes: true
-      }
-    ),
-    '<i title="a"id="b"></i>',
-    'should stringify multiple properties tightly in `tightAttributes` mode'
-  )
-})
-
-test('tightCommaSeparatedLists', function(t) {
-  t.deepEqual(
-    to(u('element', { tagName: 'i', properties: { accept: ['a', 'b'] } }, [])),
-    '<i accept="a, b"></i>',
-    'should stringify comma-separated attributes'
-  )
-
-  t.deepEqual(
-    to(u('element', { tagName: 'i', properties: { accept: ['a', 'b'] } }, []), {
-      tightCommaSeparatedLists: true
-    }),
-    '<i accept="a,b"></i>',
-    'should stringify comma-separated attributes tighly in `tightCommaSeparatedLists` mode'
-  )
-})
-
 test('quote', function(t) {
   t.deepEqual(
     to(u('element', { tagName: 'i', properties: { title: 'a' } }, [])),
@@ -706,11 +655,9 @@ test('entities in attributes', function(t) {
   )
 
   t.deepEqual(
-    to(u('element', { tagName: 'i', properties: { title: "3'5" } }, []), {
-      allowDangerousCharacters: true
-    }),
+    to(u('element', { tagName: 'i', properties: { title: "3'5" } }, [])),
     '<i title="3\'5"></i>',
-    'should not encode characters which cause XSS issues in older browsers, in `allowDangerousCharacters` mode'
+    'should not encode characters which cause XSS issues in older browsers'
   )
 })
 

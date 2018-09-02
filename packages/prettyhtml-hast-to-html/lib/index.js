@@ -39,11 +39,9 @@ function toHTML(node, options) {
       quote: quote,
       printWidth: printWidth,
       tabWidth: tabWidth,
-      tight: settings.tightAttributes,
       tightDoctype: Boolean(settings.tightDoctype),
       tightLists: settings.tightCommaSeparatedLists,
       collapseEmpty: settings.collapseEmptyAttributes,
-      dangerous: settings.allowDangerousHTML,
       voids: settings.voids || voids.concat(),
       entities: settings.entities || {},
       closeEmpty: settings.closeEmptyElements
