@@ -46,9 +46,7 @@ function check(t, fixture, options) {
       verbose: true
     })
     .use(format, config)
-    .use(stringify, {
-      ...config
-    })
+    .use(stringify, config)
 
   proc.process(options.input, function(err) {
     t.falsy(err, 'shouldn’t throw')
