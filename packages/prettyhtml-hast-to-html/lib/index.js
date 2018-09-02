@@ -18,13 +18,7 @@ function toHTML(node, options) {
   var settings = options || {}
   var quote = settings.singleQuote ? SQ : DQ
   var printWidth = settings.printWidth || 80
-  var tabWidth = settings.tabWidth || 2 // indent attributes from custom elements
-
-  if (quote !== DQ && quote !== SQ) {
-    throw new Error(
-      'Invalid quote `' + quote + '`, expected `' + SQ + '` or `' + DQ + '`'
-    )
-  }
+  var tabWidth = settings.tabWidth || 2
 
   if (typeof tabWidth === 'number') {
     tabWidth = repeat(' ', tabWidth)
