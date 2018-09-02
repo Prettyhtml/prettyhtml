@@ -1,6 +1,6 @@
 'use strict'
 
-var test = require('tape')
+var test = require('ava')
 var h = require('@starptech/prettyhtml-hastscript')
 var to = require('..')
 
@@ -40,6 +40,4 @@ test('`head` (opening)', function(t) {
     '<head><base><base>',
     'should not omit tag with multiple `base`s'
   )
-
-  t.end()
 })

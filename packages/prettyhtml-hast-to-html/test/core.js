@@ -1,6 +1,6 @@
 'use strict'
 
-var test = require('tape')
+var test = require('ava')
 var u = require('unist-builder')
 var to = require('..')
 
@@ -20,6 +20,4 @@ test('toHTML()', function(t) {
     /Cannot compile unknown node `foo`/,
     'should throw on unknown nodes'
   )
-
-  t.end()
 })

@@ -17,8 +17,6 @@ var SQ = "'"
 function toHTML(node, options) {
   var settings = options || {}
   var quote = settings.singleQuote ? SQ : DQ
-  var alternative = quote === DQ ? SQ : DQ
-  var smart = settings.quoteSmart
   var printWidth = settings.printWidth || 80
   var tabWidth = settings.tabWidth || 2 // indent attributes from custom elements
 
@@ -41,17 +39,13 @@ function toHTML(node, options) {
       quote: quote,
       printWidth: printWidth,
       tabWidth: tabWidth,
-      alternative: smart ? alternative : null,
-      unquoted: Boolean(settings.preferUnquoted),
       tight: settings.tightAttributes,
       tightDoctype: Boolean(settings.tightDoctype),
       tightLists: settings.tightCommaSeparatedLists,
-      tightClose: settings.tightSelfClosing,
       collapseEmpty: settings.collapseEmptyAttributes,
       dangerous: settings.allowDangerousHTML,
       voids: settings.voids || voids.concat(),
       entities: settings.entities || {},
-      close: settings.closeSelfClosing,
       closeEmpty: settings.closeEmptyElements
     },
     node

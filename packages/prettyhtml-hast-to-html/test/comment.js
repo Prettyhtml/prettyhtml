@@ -1,6 +1,6 @@
 'use strict'
 
-var test = require('tape')
+var test = require('ava')
 var u = require('unist-builder')
 var to = require('..')
 
@@ -23,6 +23,4 @@ test('`comment`', function(t) {
     '<!---->-->',
     'should not encode `comment`s (#2)'
   )
-
-  t.end()
 })

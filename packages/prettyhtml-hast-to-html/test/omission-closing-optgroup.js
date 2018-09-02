@@ -1,6 +1,6 @@
 'use strict'
 
-var test = require('tape')
+var test = require('ava')
 var h = require('@starptech/prettyhtml-hastscript')
 var to = require('..')
 
@@ -28,6 +28,4 @@ test('`optgroup` (closing)', function(t) {
     '<select><optgroup></optgroup><p></select>',
     'should not omit tag followed by others'
   )
-
-  t.end()
 })

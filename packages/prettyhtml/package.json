@@ -8,7 +8,9 @@
     "url": "git+https://github.com/StarpTech/prettyhtml.git"
   },
   "bin": "cli.js",
-  "scripts": {},
+  "scripts": {
+    "test": "echo 'no tests defined'"
+  },
   "files": [
     "index.js",
     "cli.js",

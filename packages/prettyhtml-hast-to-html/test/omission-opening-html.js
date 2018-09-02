@@ -1,6 +1,6 @@
 'use strict'
 
-var test = require('tape')
+var test = require('ava')
 var h = require('@starptech/prettyhtml-hastscript')
 var u = require('unist-builder')
 var to = require('..')
@@ -23,6 +23,4 @@ test('`html` (opening)', function(t) {
     'bravo',
     'should omit tag if head is not `comment`'
   )
-
-  t.end()
 })

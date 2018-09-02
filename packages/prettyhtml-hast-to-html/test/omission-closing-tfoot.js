@@ -1,6 +1,6 @@
 'use strict'
 
-var test = require('tape')
+var test = require('ava')
 var h = require('@starptech/prettyhtml-hastscript')
 var to = require('..')
 
@@ -22,6 +22,4 @@ test('`tfoot` (closing)', function(t) {
     '<table><tfoot></tfoot><tr></table>',
     'should not omit tag followed by others'
   )
-
-  t.end()
 })

@@ -1,6 +1,6 @@
 'use strict'
 
-var test = require('tape')
+var test = require('ava')
 var h = require('@starptech/prettyhtml-hastscript')
 var to = require('..')
 
@@ -37,7 +37,5 @@ var to = require('..')
       '<ruby><' + tagName + '></' + tagName + '><p></ruby>',
       'should not omit tag followed by others'
     )
-
-    t.end()
   })
 })

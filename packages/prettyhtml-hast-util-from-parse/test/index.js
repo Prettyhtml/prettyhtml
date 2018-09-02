@@ -1,17 +1,9 @@
 'use strict'
 
-var fs = require('fs')
-var path = require('path')
-var assert = require('assert')
-var test = require('tape')
-var not = require('not')
-var hidden = require('is-hidden')
+var test = require('ava')
 var vfile = require('to-vfile')
 var parse5 = require('@starptech/prettyhtml-parse')
-var visit = require('unist-util-visit')
 var fromParse5 = require('..')
-
-var join = path.join
 
 test('hast-util-from-parse5', function(t) {
   var file = vfile({ contents: '<title>Hello!</title><h1>World!' })
@@ -332,7 +324,10 @@ test('hast-util-from-parse5', function(t) {
               type: 'element',
               tagName: 'circle',
               properties: { cx: '60', cy: '60', r: '50', fill: 'red' },
-              children: []
+              children: [],
+              data: {
+                selfClosing: true
+              }
             },
             { type: 'text', value: '\n' }
           ]
@@ -342,118 +337,4 @@ test('hast-util-from-parse5', function(t) {
     },
     'should transform svg'
   )
-
-  t.end()
 })
-
-test('fixtures', function(t) {
-  var base = join('test', 'fixtures')
-
-  fs.readdirSync(base)
-    .filter(not(hidden))
-    .forEach(each)
-
-  t.end()
-
-  function each(fixture) {
-    t.test(fixture, function(st) {
-      var opts = {
-        file: vfile.readSync(join(base, fixture, 'index.html')),
-        out: join(base, fixture, 'index.json')
-      }
-
-      st.plan(4)
-
-      checkYesYes(st, fixture, opts)
-      checkNoYes(st, fixture, opts)
-      checkYesNo(st, fixture, opts)
-      checkNoNo(st, fixture, opts)
-    })
-  }
-
-  function checkYesYes(t, fixture, options) {
-    var input = parse5.parse(String(options.file), {
-      sourceCodeLocationInfo: true
-    })
-    var actual = fromParse5(input, { file: options.file, verbose: true })
-    var expected
-
-    try {
-      expected = JSON.parse(fs.readFileSync(options.out))
-    } catch (err) {
-      /* New fixture. */
-      fs.writeFileSync(options.out, JSON.stringify(actual, 0, 2) + '\n')
-      return
-    }
-
-    log('yesyes', actual, expected)
-    t.deepEqual(actual, expected, 'p5 w/ position, hast w/ intent of position')
-  }
-
-  function checkNoYes(t, fixture, options) {
-    var input = parse5.parse(String(options.file))
-    var actual = fromParse5(input, { file: options.file, verbose: true })
-    var expected = JSON.parse(fs.readFileSync(options.out))
-
-    clean(expected)
-
-    log('noyes', actual, expected)
-    t.deepEqual(actual, expected, 'p5 w/o position, hast w/ intent of position')
-  }
-
-  function checkYesNo(t, fixture, options) {
-    var input = parse5.parse(String(options.file), {
-      sourceCodeLocationInfo: true
-    })
-    var actual = fromParse5(input)
-    var expected = JSON.parse(fs.readFileSync(options.out))
-
-    clean(expected)
-
-    log('yesno', actual, expected)
-    t.deepEqual(actual, expected, 'p5 w/ position, hast w/o intent of position')
-  }
-
-  function checkNoNo(t, fixture, options) {
-    var input = parse5.parse(String(options.file))
-    var actual = fromParse5(input)
-    var expected = JSON.parse(fs.readFileSync(options.out))
-
-    clean(expected)
-
-    log('nono', actual, expected)
-    t.deepEqual(
-      actual,
-      expected,
-      'p5 w/o position, hast w/o intent of position'
-    )
-  }
-})
-
-function clean(tree) {
-  visit(tree, cleaner)
-}
-
-function cleaner(node) {
-  delete node.position
-
-  /* Remove verbose data */
-  if (node.type === 'element') {
-    delete node.data
-  }
-
-  if (node.content) {
-    clean(node.content)
-  }
-}
-
-function log(label, actual, expected) {
-  try {
-    assert.deepEqual(actual, expected, label)
-  } catch (err) {
-    console.log('actual:%s: ', label)
-    console.dir(actual, { depth: null })
-    console.log('expected:%s: ', label)
-    console.dir(expected, { depth: null })
-  }
-}

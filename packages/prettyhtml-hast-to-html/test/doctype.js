@@ -1,6 +1,6 @@
 'use strict'
 
-var test = require('tape')
+var test = require('ava')
 var u = require('unist-builder')
 var to = require('..')
 
@@ -95,6 +95,4 @@ test('`text`', function(t) {
     "<!doctype html system 'taco\"'>",
     'should quote smartly'
   )
-
-  t.end()
 })

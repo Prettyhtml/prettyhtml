@@ -1,6 +1,6 @@
 'use strict'
 
-var test = require('tape')
+var test = require('ava')
 var h = require('@starptech/prettyhtml-hastscript')
 var u = require('unist-builder')
 var to = require('..')
@@ -37,6 +37,4 @@ test('`caption` (closing)', function(t) {
     '<table><caption><tr></table>',
     'should omit tag followed by others'
   )
-
-  t.end()
 })

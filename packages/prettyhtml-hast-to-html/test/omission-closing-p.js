@@ -1,6 +1,6 @@
 'use strict'
 
-var test = require('tape')
+var test = require('ava')
 var h = require('@starptech/prettyhtml-hastscript')
 var u = require('unist-builder')
 var to = require('..')
@@ -65,6 +65,4 @@ test('`p` (closing)', function(t) {
     '<section><p></section>',
     'should not omit tag if parented by `section`'
   )
-
-  t.end()
 })

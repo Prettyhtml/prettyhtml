@@ -8,6 +8,7 @@
     "publish": "lerna publish",
     "clean": "lerna clean",
     "prettify": "prettier --write \"./**/*.js\"",
+    "test": "lerna exec -- npm test",
     "lint": "eslint .",
     "postinstall": "npm run bootstrap",
     "precommit": "npm run prettify"
@@ -26,8 +27,8 @@
     "eslint": "^4.19.1",
     "eslint-config-hemera": "0.0.6",
     "husky": "^0.14.3",
-    "lerna": "^3.1.1",
-    "nyc": "^12.0.2",
+    "lerna": "^3.2.1",
+    "nyc": "^13.0.1",
     "prettier": "^1.14.2",
     "unist-util-inspect": "^4.1.3"
   }

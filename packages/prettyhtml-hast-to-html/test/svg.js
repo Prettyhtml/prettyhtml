@@ -1,6 +1,6 @@
 'use strict'
 
-var test = require('tape')
+var test = require('ava')
 var u = require('unist-builder')
 var s = require('@starptech/prettyhtml-hastscript/svg')
 var h = require('@starptech/prettyhtml-hastscript')
@@ -27,18 +27,8 @@ test('svg', function(t) {
 
   t.deepEqual(
     to(s('circle'), { space: 'svg', closeEmptyElements: true }),
-    '<circle />',
-    'should stringify with ` /` in `closeEmptyElements` mode'
-  )
-
-  t.deepEqual(
-    to(s('circle'), {
-      space: 'svg',
-      closeEmptyElements: true,
-      tightSelfClosing: true
-    }),
     '<circle/>',
-    'should stringify voids with `/` in `closeEmptyElements` and `tightSelfClosing` mode'
+    'should stringify with ` /` in `closeEmptyElements` mode'
   )
 
   t.deepEqual(
@@ -110,7 +100,7 @@ test('svg', function(t) {
 
   t.deepEqual(
     to(s('a', { download: true }, 'bravo'), { space: 'svg' }),
-    '<a download="download">bravo</a>',
+    '<a download>bravo</a>',
     'should stringify known boolean attributes set to `true`'
   )
 
@@ -122,26 +112,26 @@ test('svg', function(t) {
 
   t.deepEqual(
     to(s('a', { download: 1 }, 'bravo'), { space: 'svg' }),
-    '<a download="download">bravo</a>',
-    'should stringify truthy known boolean attributes'
+    '<a download="1">bravo</a>',
+    'should stringify raw value'
   )
 
   t.deepEqual(
     to(s('a', { download: 0 }, 'bravo'), { space: 'svg' }),
-    '<a>bravo</a>',
-    'should ignore falsey known boolean attributes'
+    '<a download="0">bravo</a>',
+    'should not ignore falsey known boolean attributes'
   )
 
   t.deepEqual(
     to(s('a', { unknown: false }, 'bravo'), { space: 'svg' }),
-    '<a>bravo</a>',
-    'should ignore unknown attributes set to `false`'
+    '<a unknown="false">bravo</a>',
+    'should not ignore unknown attributes set to `false`'
   )
 
   t.deepEqual(
     to(s('a', { unknown: true }, 'bravo'), { space: 'svg' }),
-    '<a unknown="unknown">bravo</a>',
-    'should stringify unknown attributes set to `true`'
+    '<a unknown="true">bravo</a>',
+    'should stringify unknown attributes set to raw value'
   )
 
   t.deepEqual(
@@ -188,46 +178,23 @@ test('svg', function(t) {
 
   t.deepEqual(
     to(s('i', { id: true }, 'bravo'), { space: 'svg' }),
-    '<i id="id">bravo</i>',
+    '<i id="true">bravo</i>',
     'should stringify other non-string attributes'
   )
 
   t.deepEqual(
-    to(s('svg', { viewBox: '0 0 10 10' }), { space: 'svg', quote: "'" }),
+    to(s('svg', { viewBox: '0 0 10 10' }), { space: 'svg', singleQuote: true }),
     "<svg viewBox='0 0 10 10'></svg>",
     'should quote attribute values with single quotes if `quote: "\'"`'
   )
 
   t.deepEqual(
-    to(s('svg', { viewBox: '0 0 10 10' }), { space: 'svg', quote: '"' }),
+    to(s('svg', { viewBox: '0 0 10 10' }), {
+      space: 'svg',
+      singleQuote: false
+    }),
     '<svg viewBox="0 0 10 10"></svg>',
     "should quote attribute values with double quotes if `quote: '\"'`"
-  )
-
-  t.deepEqual(
-    to(s('circle', { title: '"some \' stuff"' }), {
-      space: 'svg',
-      quote: '"',
-      quoteSmart: true
-    }),
-    "<circle title='&#x22;some &#x27; stuff&#x22;'></circle>",
-    'should quote smartly if the other quote is less prominent (#1)'
-  )
-
-  t.deepEqual(
-    to(s('circle', { title: "'some \" stuff'" }), {
-      space: 'svg',
-      quote: '"',
-      quoteSmart: true
-    }),
-    '<circle title="&#x27;some &#x22; stuff&#x27;"></circle>',
-    'should quote smartly if the other quote is less prominent (#2)'
-  )
-
-  t.deepEqual(
-    to(s('circle', { cx: 2 }), { space: 'svg', preferUnquoted: true }),
-    '<circle cx="2"></circle>',
-    'should *not* omit quotes in `preferUnquoted`'
   )
 
   t.deepEqual(
@@ -238,8 +205,8 @@ test('svg', function(t) {
 
   t.deepEqual(
     to(s('circle', { title: '3<5\0' }), { space: 'svg' }),
-    '<circle title="3<5&#x0;"></circle>',
-    'should encode entities in attribute values'
+    '<circle title="3<5\0"></circle>',
+    'should not encode entities in attribute values'
   )
 
   t.deepEqual(
@@ -256,8 +223,8 @@ test('svg', function(t) {
       space: 'svg',
       allowParseErrors: true
     }),
-    '<circle title="3&#x22;5&#x0;"></circle>',
-    '*should* encode characters in attribute values which cause parse errors, work, even though `allowParseErrors` mode is on'
+    '<circle title="3"5\0"></circle>',
+    '*should* not encode characters in attribute values which cause parse errors, work, even though `allowParseErrors` mode is on'
   )
 
   t.deepEqual(
@@ -301,11 +268,11 @@ test('svg', function(t) {
     ),
     [
       '<svg xlmns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="500" height="500" viewBox="0 0 500 500">',
-      '<title>SVG `&#x3C;circle>` element</title>',
+      '<title>SVG `<circle>` element</title>',
       '<circle cx="120" cy="120" r="100"></circle>',
       '</svg>'
     ].join(''),
-    'should stringify an SVG tree'
+    'should stringify an SVG tree without encoding'
   )
 
   t.deepEqual(
@@ -324,7 +291,7 @@ test('svg', function(t) {
     ),
     [
       '<!doctype html>',
-      '<head><title>The SVG `&#x3C;circle>` element</title></head>',
+      '<head><title>The SVG `<circle>` element</title></head>',
       '<body>',
       '<svg xlmns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">',
       '<circle cx="120" cy="120" r="100"></circle>',
@@ -333,8 +300,6 @@ test('svg', function(t) {
     ].join(''),
     'should stringify an HTML tree with embedded HTML'
   )
-
-  t.end()
 })
 
 function toString() {

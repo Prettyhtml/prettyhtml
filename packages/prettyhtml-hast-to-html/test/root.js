@@ -1,6 +1,6 @@
 'use strict'
 
-var test = require('tape')
+var test = require('ava')
 var h = require('@starptech/prettyhtml-hastscript')
 var u = require('unist-builder')
 var to = require('..')
@@ -13,6 +13,4 @@ test('`root`', function(t) {
     'alpha <i>bravo</i> charlie',
     'should stringify `root`s'
   )
-
-  t.end()
 })

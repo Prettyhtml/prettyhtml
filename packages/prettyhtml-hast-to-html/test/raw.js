@@ -1,14 +1,14 @@
 'use strict'
 
-var test = require('tape')
+var test = require('ava')
 var u = require('unist-builder')
 var to = require('..')
 
 test('`element`', function(t) {
   t.deepEqual(
     to(u('raw', '<script>alert("XSS!")</script>')),
-    '&#x3C;script>alert("XSS!")&#x3C;/script>',
-    'should encode `raw`s'
+    '<script>alert("XSS!")</script>',
+    'should not encode `raw`s'
   )
 
   t.deepEqual(
@@ -18,6 +18,4 @@ test('`element`', function(t) {
     '<script>alert("XSS!")</script>',
     'should not encode `raw`s in `allowDangerousHTML` mode'
   )
-
-  t.end()
 })

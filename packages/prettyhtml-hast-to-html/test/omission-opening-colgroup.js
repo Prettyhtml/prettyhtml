@@ -1,6 +1,6 @@
 'use strict'
 
-var test = require('tape')
+var test = require('ava')
 var u = require('unist-builder')
 var h = require('@starptech/prettyhtml-hastscript')
 var to = require('..')
@@ -43,6 +43,4 @@ test('`colgroup` (opening)', function(t) {
     '<table><colgroup><tr></table>',
     'should omit tag followed by others'
   )
-
-  t.end()
 })

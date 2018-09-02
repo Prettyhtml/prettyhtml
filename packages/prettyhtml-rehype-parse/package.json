@@ -22,6 +22,9 @@
     "index.js",
     "errors.json"
   ],
+  "scripts": {
+    "test": "echo 'no tests defined'"
+  },
   "dependencies": {
     "@starptech/prettyhtml-hast-util-from-parse": "^0.0.44",
     "@starptech/prettyhtml-parse": "^0.0.20",

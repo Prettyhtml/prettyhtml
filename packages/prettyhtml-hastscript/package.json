@@ -34,11 +34,12 @@
     "space-separated-tokens": "^1.1.2"
   },
   "devDependencies": {
-    "nyc": "^13.0.1",
-    "tape": "^4.9.1"
+    "ava": "^0.25.0",
+    "nyc": "^13.0.1"
   },
   "scripts": {
-    "test": "nyc --reporter lcov tape test.js"
+    "test": "ava",
+    "test-coverage": "nyc --reporter lcov ava"
   },
   "nyc": {
     "check-coverage": true,

@@ -76,6 +76,7 @@
                       },
                       "children": [],
                       "data": {
+                        "selfClosing": true,
                         "position": {
                           "opening": {
                             "start": {
@@ -182,6 +183,7 @@
                       },
                       "children": [],
                       "data": {
+                        "selfClosing": true,
                         "position": {
                           "opening": {
                             "start": {

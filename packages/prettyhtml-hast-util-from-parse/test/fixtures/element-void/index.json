@@ -189,6 +189,7 @@
                   "properties": {},
                   "children": [],
                   "data": {
+                    "selfClosing": true,
                     "position": {
                       "opening": {
                         "start": {
@@ -648,6 +649,7 @@
                   "properties": {},
                   "children": [],
                   "data": {
+                    "selfClosing": true,
                     "position": {
                       "opening": {
                         "start": {
@@ -684,6 +686,7 @@
                   "properties": {},
                   "children": [],
                   "data": {
+                    "selfClosing": true,
                     "position": {
                       "opening": {
                         "start": {
@@ -720,6 +723,7 @@
                   "properties": {},
                   "children": [],
                   "data": {
+                    "selfClosing": true,
                     "position": {
                       "opening": {
                         "start": {
@@ -756,6 +760,7 @@
                   "properties": {},
                   "children": [],
                   "data": {
+                    "selfClosing": true,
                     "position": {
                       "opening": {
                         "start": {
@@ -1030,6 +1035,7 @@
                   "properties": {},
                   "children": [],
                   "data": {
+                    "selfClosing": true,
                     "position": {
                       "opening": {
                         "start": {
@@ -1066,6 +1072,7 @@
                   "properties": {},
                   "children": [],
                   "data": {
+                    "selfClosing": true,
                     "position": {
                       "opening": {
                         "start": {
@@ -1102,6 +1109,7 @@
                   "properties": {},
                   "children": [],
                   "data": {
+                    "selfClosing": true,
                     "position": {
                       "opening": {
                         "start": {

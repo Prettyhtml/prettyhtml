@@ -1,6 +1,6 @@
 'use strict'
 
-var test = require('tape')
+var test = require('ava')
 var h = require('@starptech/prettyhtml-hastscript')
 var to = require('..')
 
@@ -53,6 +53,4 @@ test('`menuitem` (closing)', function(t) {
     '<menu><menuitem><p></menu>',
     'should omit tag when without children'
   )
-
-  t.end()
 })

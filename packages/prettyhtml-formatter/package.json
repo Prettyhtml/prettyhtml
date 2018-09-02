@@ -9,8 +9,8 @@
   },
   "scripts": {
     "test-api": "node test/index.js",
-    "test-coverage": "nyc --reporter lcov tape test/index.js | tap-diff",
-    "test": "npm run test-coverage"
+    "test-coverage": "nyc --reporter lcov ava",
+    "test": "ava"
   },
   "files": [
     "index.js",
@@ -46,20 +46,19 @@
     "xtend": "^4.0.1"
   },
   "devDependencies": {
+    "ava": "^0.25.0",
     "bail": "^1.0.3",
     "is-hidden": "^1.1.1",
     "negate": "^1.0.0",
     "nyc": "^13.0.1",
     "rehype": "^6.0.0",
-    "tap-diff": "^0.1.1",
-    "tape": "^4.9.1",
     "to-vfile": "^5.0.1"
   },
   "nyc": {
     "check-coverage": true,
-    "lines": 100,
-    "functions": 100,
-    "branches": 100
+    "lines": 90,
+    "functions": 90,
+    "branches": 85
   },
   "publishConfig": {
     "access": "public"

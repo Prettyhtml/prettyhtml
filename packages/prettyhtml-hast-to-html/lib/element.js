@@ -106,7 +106,7 @@ function element(ctx, node, index, parent, printWidthOffset) {
 
     // check if the should close self-closing elements
     if (selfClosing && close) {
-      if (!ctx.tightClose || attrs.charAt(attrs.length - 1) === SO) {
+      if (attrs.charAt(attrs.length - 1) === SO) {
         value += SPACE
       }
 

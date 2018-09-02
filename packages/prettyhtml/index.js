@@ -21,7 +21,7 @@ function core(value, processor, options) {
     .use(stringify, {
       printWidth: options.printWidth,
       tabWidth: options.tabWidth,
-      quote: options.quote
+      singleQuote: options.singleQuote
     })
     .processSync(file).contents
 }

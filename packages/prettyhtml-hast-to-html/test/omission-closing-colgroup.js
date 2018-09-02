@@ -1,6 +1,6 @@
 'use strict'
 
-var test = require('tape')
+var test = require('ava')
 var h = require('@starptech/prettyhtml-hastscript')
 var u = require('unist-builder')
 var to = require('..')
@@ -35,6 +35,4 @@ test('`colgroup` (closing)', function(t) {
     '<table><col span="2"><colgroup><col span="3"></table>',
     'should not omit tag if previous is `colgroup` whose closing tag is omitted'
   )
-
-  t.end()
 })

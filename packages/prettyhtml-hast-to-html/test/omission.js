@@ -1,6 +1,6 @@
 'use strict'
 
-var test = require('tape')
+var test = require('ava')
 var h = require('@starptech/prettyhtml-hastscript')
 var to = require('..')
 
@@ -32,6 +32,4 @@ test('`omitOptionalTags` mode', function(t) {
     '<ol><li>alpha <li>bravo\t</ol>',
     'should ignore white-space when determining whether tags can be omitted (#2)'
   )
-
-  t.end()
 })

@@ -30,18 +30,19 @@
   },
   "devDependencies": {
     "@starptech/prettyhtml-parse": "^0.0.20",
+    "ava": "^0.25.0",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "is-hidden": "^1.1.1",
     "not": "^0.1.0",
     "nyc": "^13.0.1",
-    "tape": "^4.9.1",
     "to-vfile": "^5.0.1",
     "unist-util-visit": "^1.4.0",
     "vfile": "^3.0.0"
   },
   "scripts": {
-    "test": "nyc --reporter lcov tape test"
+    "test": "ava",
+    "test-coverage": "nyc --reporter lcov ava"
   },
   "nyc": {
     "check-coverage": true,
