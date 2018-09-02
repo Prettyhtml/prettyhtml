@@ -1,7 +1,6 @@
 'use strict'
 
 var test = require('ava')
-var h = require('@starptech/prettyhtml-hastscript')
 var u = require('unist-builder')
 var to = require('..')
 
