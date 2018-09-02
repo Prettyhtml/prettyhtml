@@ -10,6 +10,7 @@
     "prettify": "prettier --write \"./**/*.js\"",
     "test": "lerna exec -- npm test",
     "lint": "eslint .",
+    "lock": "lerna exec -- npm i --package-lock-only",
     "postinstall": "npm run bootstrap",
     "precommit": "npm run prettify"
   },
