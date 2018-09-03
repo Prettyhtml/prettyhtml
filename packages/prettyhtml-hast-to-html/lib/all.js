@@ -31,9 +31,8 @@ function all(ctx, parent) {
 }
 
 /**
- * Returns the text lenght of the first children.
- * Only the first line will be respected in order to make
- * a better decision for attribute collapsing
+ * Returns the text lenght of the first line of the first child.
+ * Whitespace sensitive elements are ignored.
  * @param {*} node
  */
 function getInnerTextLength(node) {

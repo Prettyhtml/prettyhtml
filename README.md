@@ -46,7 +46,7 @@ $ npm install @starptech/prettyhtml --global --registry=https://registry.npmjs.o
 ## CLI
 
 ```
-$ prettyhtml example.html ./**/*.html
+$ prettyhtml example.html "./**/*.html"
 ```
 
 ## Help
