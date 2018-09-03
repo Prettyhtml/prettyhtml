@@ -26,7 +26,7 @@ var SO = '/'
 var LF = '\n'
 
 /* Stringify an element `node`. */
-function element(ctx, node, index, parent, printWidthOffset) {
+function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
   var parentSchema = ctx.schema
   var name = node.tagName
   var value = ''
@@ -78,6 +78,9 @@ function element(ctx, node, index, parent, printWidthOffset) {
   if (propertyCount) {
     printContext.offset += propertyCount * SPACE.length
   }
+
+  // represent the length of the inner text of the node
+  printContext.offset += innerTextLength
 
   attrs = attributes(ctx, node.properties, printContext)
 

@@ -56,7 +56,10 @@
   #trigger
 >
   <div class="mat-select-value" [ngSwitch]="empty">
-    <span class="mat-select-placeholder" *ngSwitchCase="true">{{placeholder || '\u00A0'}}</span>
+    <span
+      class="mat-select-placeholder"
+      *ngSwitchCase="true"
+    >{{placeholder || '\u00A0'}}</span>
     <span
       class="mat-select-value-text"
       *ngSwitchCase="false"
