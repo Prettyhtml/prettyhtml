@@ -82,42 +82,36 @@ var cli = meow(
   }
 )
 
-prettier
-  .resolveConfig(process.cwd())
-  .then(prettierOpts => {
-    const settings = {
-      processor: unified(),
-      extensions: extensions,
-      configTransform: transform,
-      streamError: new PassThrough(), // sink errors
-      rcName: '.prettyhtmlrc',
-      packageField: 'prettyhtml',
-      ignoreName: '.prettyhtmlignore',
-      frail: true,
-      defaultConfig: transform({ prettierOpts })
-    }
+const prettierConfig = prettier.resolveConfig.sync(process.cwd())
 
-    if (cli.flags.stdin === false) {
-      if (cli.input.length === 0) {
-        cli.showHelp()
-      } else {
-        settings.files = cli.input
-        settings.output = true // Whether to overwrite the input files
-        settings.out = false // Whether to write the processed file to streamOut
+const settings = {
+  processor: unified(),
+  extensions: extensions,
+  configTransform: transform,
+  streamError: new PassThrough(), // sink errors
+  rcName: '.prettyhtmlrc',
+  packageField: 'prettyhtml',
+  ignoreName: '.prettyhtmlignore',
+  frail: true,
+  defaultConfig: transform({ prettierConfig })
+}
 
-        engine(settings, processResult)
-      }
-    } else {
-      if (cli.input.length !== 0) {
-        settings.output = basename(cli.input[0])
-      }
-      engine(settings, processResult)
-    }
-  })
-  .catch(err => {
-    console.error(err)
-    process.exit(1)
-  })
+if (cli.flags.stdin === false) {
+  if (cli.input.length === 0) {
+    cli.showHelp()
+  } else {
+    settings.files = cli.input
+    settings.output = true // Whether to overwrite the input files
+    settings.out = false // Whether to write the processed file to streamOut
+
+    engine(settings, processResult)
+  }
+} else {
+  if (cli.input.length !== 0) {
+    settings.output = basename(cli.input[0])
+  }
+  engine(settings, processResult)
+}
 
 function processResult(err, code, result) {
   const out = report(err || result.files, {

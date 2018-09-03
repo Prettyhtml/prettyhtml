@@ -1,0 +1,20 @@
+{
+  "name": "prettyhtml-quick",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./bin/cli.js",
+  "scripts": {
+    "test": "echo 'no tests defined'"
+  },
+  "bin": "./bin/cli.js",
+  "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
+  "license": "ISC",
+  "dependencies": {
+    "@starptech/prettyhtml": "0.0.47",
+    "chalk": "^2.4.1",
+    "commander": "^2.17.1",
+    "execa": "^1.0.0",
+    "find-up": "^3.0.0",
+    "prettier": "^1.14.2"
+  }
+}
