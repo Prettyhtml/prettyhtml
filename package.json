@@ -5,7 +5,7 @@
   "description": "",
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "publish": "lerna publish",
+    "publish": "lerna publish --registry=https://registry.npmjs.org/",
     "clean": "lerna clean",
     "prettify": "prettier --write \"./**/*.js\"",
     "test": "lerna exec -- npm test",
