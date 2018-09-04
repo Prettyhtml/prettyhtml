@@ -1,4 +1,4 @@
-# `prettyhtml-quick`
+# prettyhtml-quick
 
 Runs [Prettyhtml](https://github.com/Prettyhtml/prettyhtml) on your changed (based on Git) files.
 
@@ -17,7 +17,7 @@ prettyhtml-quick
 With `npm`:
 
 ```shellsession
-npm install --save-dev prettyhtml-quick
+npm install --save-dev @starptech/prettyhtml-quick
 ```
 
 ## Usage
@@ -25,7 +25,7 @@ npm install --save-dev prettyhtml-quick
 With [`npx`](https://npm.im/npx): (No install required)
 
 ```shellsession
-npx prettyhtml-quick
+npx @starptech/prettyhtml-quick
 ```
 
 With `npm`:
