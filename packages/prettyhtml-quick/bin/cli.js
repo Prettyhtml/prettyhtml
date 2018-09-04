@@ -3,9 +3,7 @@
 'use strict'
 
 const program = require('commander')
-
 const prettyhtml = require('@starptech/prettyhtml')
-const sgf = require('staged-git-files')
 const path = require('path')
 const fs = require('fs')
 const chalk = require('chalk')
@@ -21,8 +19,9 @@ program
   )
   .parse(process.argv)
 
-const prettierConfig = prettier.resolveConfig.sync(process.cwd())
-const root = git.detect(process.cwd())
+const cwd = process.cwd()
+const prettierConfig = prettier.resolveConfig.sync(cwd)
+const root = git.detect(cwd)
 const revision = git.getSinceRevision(root, { staged: program.staged })
 const changedFiles = program.staged
   ? git.getStagedChangedFiles(root)
@@ -56,16 +55,13 @@ console.log(
   }`
 )
 
-for (let i = 0; i < htmlFiles.length; i++) {
-  const file = htmlFiles[i]
+htmlFiles.forEach(file => {
   const filePath = path.join(root, file)
-
   let input = fs.readFileSync(filePath, 'utf8')
   const result = prettyhtml(input, prettyhtmlCfg)
   fs.writeFileSync(filePath, result, 'utf8')
-  git.stageFile(sgf.cwd, file)
-
+  git.stageFile(cwd, file)
   console.log(`✍️  Fixing up ${chalk.bold(file)}.`)
-}
+})
 
 console.log('✅  Everything is awesome!')
