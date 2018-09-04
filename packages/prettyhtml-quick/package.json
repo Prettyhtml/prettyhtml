@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo 'no tests defined'"
   },
-  "bin": "./bin/cli.js",
+  "bin": {
+    "prettyhtml-quick": "./bin/cli.js"
+  },
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
   "license": "ISC",
   "dependencies": {
