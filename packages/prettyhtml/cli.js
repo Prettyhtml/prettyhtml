@@ -126,7 +126,7 @@ function processResult(err, code, result) {
   process.exit(code)
 }
 
-function transform({ prettierOpts }) {
+function transform({ prettierConfig }) {
   const plugins = [
     [parse, defaults.parser],
     [
@@ -136,7 +136,7 @@ function transform({ prettierOpts }) {
         useTabs: cli.flags.useTabs,
         singleQuote: cli.flags.singleQuote,
         usePrettier: cli.flags.usePrettier,
-        prettier: prettierOpts
+        prettier: prettierConfig
       }
     ],
     [
