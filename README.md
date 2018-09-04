@@ -22,6 +22,7 @@ Opinionated general formatter for your Angular, Vue or pure HTML5 templates. Try
 - [prettyhtml-rehype-parse](/packages/prettyhtml-rehype-parse) Adapter between HTML parser and rehype.
 - [prettyhtml-hast-util-from-parse](/packages/prettyhtml-hast-util-from-parse) Transform prettyhtml-parse AST to HAST.
 - [prettyhtml-hastscript](/packages/prettyhtml-hastscript) Hyperscript compatible DSL for creating virtual HAST trees.
+- [prettyhtml-quick](/packages/prettyhtml-quick) Formats your changed files based on Git. 
 
 ## Example
 Test it on [repl.it](https://repl.it/@StarpTech/PrettyHtml)
