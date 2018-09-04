@@ -18,5 +18,9 @@
     "execa": "^1.0.0",
     "find-up": "^3.0.0",
     "prettier": "^1.14.2"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "c7bfe5fdd9ef240ddf235e50a81be52b30828c8f"
 }
