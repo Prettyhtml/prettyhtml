@@ -22,6 +22,8 @@ const extensions = ['html']
 
 notifier({ pkg: pack }).notify()
 
+const prettierConfig = prettier.resolveConfig.sync(process.cwd())
+
 var cli = meow(
   `
   Usage: prettyhtml [<glob> ...] [options ...],
@@ -47,13 +49,17 @@ var cli = meow(
     autoHelp: true,
     autoVersion: true,
     flags: {
-      printWidth: {
-        type: 'number',
-        default: 80
-      },
       tabWidth: {
         type: 'number',
-        default: 2
+        default: prettierConfig.tabWidth || 2
+      },
+      printWidth: {
+        type: 'number',
+        default: prettierConfig.printWidth || 80
+      },
+      useTabs: {
+        type: 'boolean',
+        default: prettierConfig.useTabs || false
       },
       singleQuote: {
         type: 'boolean',
@@ -62,10 +68,6 @@ var cli = meow(
       usePrettier: {
         type: 'boolean',
         default: true
-      },
-      useTabs: {
-        type: 'boolean',
-        default: false
       },
       stdin: {
         type: 'boolean',
@@ -81,8 +83,6 @@ var cli = meow(
     }
   }
 )
-
-const prettierConfig = prettier.resolveConfig.sync(process.cwd())
 
 const settings = {
   processor: unified(),
