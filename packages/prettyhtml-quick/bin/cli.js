@@ -34,8 +34,8 @@ const htmlFiles = changedFiles.filter(filename =>
 
 // same prettyhtml defaults
 const prettyhtmlCfg = {
-  printWidth: prettierConfig.printWidth || 80,
-  tabWidth: prettierConfig.tabWidth || 2,
+  printWidth: prettierConfig.printWidth,
+  tabWidth: prettierConfig.tabWidth,
   prettier: prettierConfig
 }
 
