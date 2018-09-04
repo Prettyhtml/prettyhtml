@@ -51,9 +51,8 @@ console.log(
   `🎯  Found ${chalk.bold(htmlFiles.length)} changed ${
     htmlFiles.length === 1 ? 'file' : 'files'
   }.
-    ☝  printWidth: ${prettyhtmlCfg.printWidth}, tabWidth: ${
-    prettyhtmlCfg.tabWidth
-  }`
+    ☝  printWidth: ${prettyhtmlCfg.printWidth ||
+      80}, tabWidth: ${prettyhtmlCfg.tabWidth || 2}`
 )
 
 htmlFiles.forEach(file => {
