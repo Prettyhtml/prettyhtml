@@ -29,7 +29,7 @@ function parse(options) {
       onParseError: onParseError,
       scriptingEnabled: false,
 
-      allowSoftTagHandling: true,
+      allowSoftTableHandling: true,
       allowSkipFosterParenting: true,
       allowLeadingNewlineInTextareaAndPre: true,
       allowSelfClosingCustomElements: true,

@@ -62,3 +62,4 @@ typings/
 
 # visual studio vode
 .vscode
+*.code-workspace
