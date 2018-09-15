@@ -29,13 +29,13 @@ function parse(options) {
       onParseError: onParseError,
       scriptingEnabled: false,
 
-      allowSoftTableHandling: true,
-      allowSkipFosterParenting: true,
-      allowLeadingNewlineInTextareaAndPre: true,
-      allowSelfClosingCustomElements: true,
-      allowCaseSensitiveTagName: true,
-      allowCaseSensitiveAttributeName: true,
-      allowCharacterReferencesInAttributes: true
+      softTableHandling: true,
+      preserveFosterParenting: true,
+      preserveCaseSensitiveAttributes: true,
+      preserveCaseSensitiveTags: true,
+      preserveHTMLEntities: true,
+      preserveLeadingNewlineInTextareaAndPre: true,
+      preserveSelfClosingCustomTags: true
     })
 
     return fromParse5(parse5[fn](doc), {
