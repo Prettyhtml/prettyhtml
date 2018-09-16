@@ -12,7 +12,7 @@
 
 ### Modifications
 
-* Respect `printWidth` but only for starting tags and it's attributes.
+* Consider `printWidth`
 * Don't encode attribute values
 * Don't escape special characters in text
 * Don't omit value behind boolean attributes
