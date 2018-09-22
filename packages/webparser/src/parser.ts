@@ -12,6 +12,7 @@ import {
   isNgContainer,
   mergeNsAndName
 } from './tags'
+import { isKnownHTMLTag } from './html_tags'
 
 export class TreeError extends ParseError {
   static create(
@@ -341,7 +342,9 @@ class _TreeBuilder {
         !(
           tagDef.canSelfClose ||
           getNsPrefix(fullName) !== null ||
-          tagDef.isVoid
+          tagDef.isVoid ||
+          // allow self-closing custom elements
+          isKnownHTMLTag(fullName) === false
         )
       ) {
         this._errors.push(

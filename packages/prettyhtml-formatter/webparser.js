@@ -1,4 +1,3 @@
-
 'use strict'
 
 const Webparser = require('@starptech/webparser')

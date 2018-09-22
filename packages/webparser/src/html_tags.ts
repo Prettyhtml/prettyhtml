@@ -184,8 +184,8 @@ export function getHtmlTagDefinition(tagName: string): HtmlTagDefinition {
         closedByChildren: ['option', 'optgroup'],
         closedByParent: true
       }),
-      pre: new HtmlTagDefinition({ ignoreFirstLf: true }),
-      listing: new HtmlTagDefinition({ ignoreFirstLf: true }),
+      pre: new HtmlTagDefinition({ ignoreFirstLf: false }),
+      listing: new HtmlTagDefinition({ ignoreFirstLf: false }),
       style: new HtmlTagDefinition({ contentType: TagContentType.RAW_TEXT }),
       script: new HtmlTagDefinition({ contentType: TagContentType.RAW_TEXT }),
       title: new HtmlTagDefinition({
@@ -193,9 +193,159 @@ export function getHtmlTagDefinition(tagName: string): HtmlTagDefinition {
       }),
       textarea: new HtmlTagDefinition({
         contentType: TagContentType.ESCAPABLE_RAW_TEXT,
-        ignoreFirstLf: true
+        ignoreFirstLf: false
       })
     }
   }
   return TAG_DEFINITIONS[tagName.toLowerCase()] || _DEFAULT_TAG_DEFINITION
+}
+
+export function isKnownHTMLTag(tagName: string): boolean {
+  return tagName.toUpperCase() in TAG_DICTIONARY
+}
+
+const TAG_DICTIONARY: { [name: string]: string } = {
+  A: 'a',
+  ADDRESS: 'address',
+  ANNOTATION_XML: 'annotation-xml',
+  APPLET: 'applet',
+  AREA: 'area',
+  ARTICLE: 'article',
+  ASIDE: 'aside',
+
+  B: 'b',
+  BASE: 'base',
+  BASEFONT: 'basefont',
+  BGSOUND: 'bgsound',
+  BIG: 'big',
+  BLOCKQUOTE: 'blockquote',
+  BODY: 'body',
+  BR: 'br',
+  BUTTON: 'button',
+
+  CAPTION: 'caption',
+  CENTER: 'center',
+  CODE: 'code',
+  COL: 'col',
+  COLGROUP: 'colgroup',
+
+  DD: 'dd',
+  DESC: 'desc',
+  DETAILS: 'details',
+  DIALOG: 'dialog',
+  DIR: 'dir',
+  DIV: 'div',
+  DL: 'dl',
+  DT: 'dt',
+
+  EM: 'em',
+  EMBED: 'embed',
+
+  FIELDSET: 'fieldset',
+  FIGCAPTION: 'figcaption',
+  FIGURE: 'figure',
+  FONT: 'font',
+  FOOTER: 'footer',
+  FOREIGN_OBJECT: 'foreignObject',
+  FORM: 'form',
+  FRAME: 'frame',
+  FRAMESET: 'frameset',
+
+  H1: 'h1',
+  H2: 'h2',
+  H3: 'h3',
+  H4: 'h4',
+  H5: 'h5',
+  H6: 'h6',
+  HEAD: 'head',
+  HEADER: 'header',
+  HGROUP: 'hgroup',
+  HR: 'hr',
+  HTML: 'html',
+
+  I: 'i',
+  IMG: 'img',
+  IMAGE: 'image',
+  INPUT: 'input',
+  IFRAME: 'iframe',
+
+  KEYGEN: 'keygen',
+
+  LABEL: 'label',
+  LI: 'li',
+  LINK: 'link',
+  LISTING: 'listing',
+
+  MAIN: 'main',
+  MALIGNMARK: 'malignmark',
+  MARQUEE: 'marquee',
+  MATH: 'math',
+  MENU: 'menu',
+  META: 'meta',
+  MGLYPH: 'mglyph',
+  MI: 'mi',
+  MO: 'mo',
+  MN: 'mn',
+  MS: 'ms',
+  MTEXT: 'mtext',
+
+  NAV: 'nav',
+  NOBR: 'nobr',
+  NOFRAMES: 'noframes',
+  NOEMBED: 'noembed',
+  NOSCRIPT: 'noscript',
+
+  OBJECT: 'object',
+  OL: 'ol',
+  OPTGROUP: 'optgroup',
+  OPTION: 'option',
+
+  P: 'p',
+  PARAM: 'param',
+  PLAINTEXT: 'plaintext',
+  PRE: 'pre',
+
+  RB: 'rb',
+  RP: 'rp',
+  RT: 'rt',
+  RTC: 'rtc',
+  RUBY: 'ruby',
+
+  S: 's',
+  SCRIPT: 'script',
+  SECTION: 'section',
+  SELECT: 'select',
+  SOURCE: 'source',
+  SMALL: 'small',
+  SPAN: 'span',
+  STRIKE: 'strike',
+  STRONG: 'strong',
+  STYLE: 'style',
+  SUB: 'sub',
+  SUMMARY: 'summary',
+  SUP: 'sup',
+
+  TABLE: 'table',
+  TBODY: 'tbody',
+  TEMPLATE: 'template',
+  TEXTAREA: 'textarea',
+  TFOOT: 'tfoot',
+  TD: 'td',
+  TH: 'th',
+  THEAD: 'thead',
+  TITLE: 'title',
+  TR: 'tr',
+  TRACK: 'track',
+  TT: 'tt',
+
+  U: 'u',
+  UL: 'ul',
+
+  SVG: 'svg',
+
+  VAR: 'var',
+
+  WBR: 'wbr',
+
+  XMP: 'xmp'
 }

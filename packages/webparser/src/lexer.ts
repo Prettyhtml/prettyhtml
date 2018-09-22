@@ -485,7 +485,14 @@ class _Tokenizer {
       nameStart = nameOrPrefixStart
     }
     this._requireCharCodeUntilFn(isNameEnd, this._index === nameStart ? 1 : 0)
-    const name = this._input.substring(nameStart, this._index)
+    let name = this._input.substring(nameStart, this._index)
+
+    // atributes can have a leading collon
+    if (prefix === '') {
+      name = ':' + name
+      prefix = null
+    }
+
     return [prefix, name]
   }
 

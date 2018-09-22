@@ -92,6 +92,29 @@ Object {
 }
 `;
 
+exports[`Attributes with colon or @ as prefix 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "properties": Object {
+        ":type": "",
+        "@foo": "bar",
+      },
+      "tagName": "div",
+      "type": "element",
+    },
+  ],
+  "data": Object {
+    "selfClosing": false,
+  },
+  "type": "root",
+}
+`;
+
 exports[`Comment 1`] = `
 Object {
   "children": Array [
@@ -216,7 +239,7 @@ Object {
                 "fill": "red",
                 "r": "50",
               },
-              "tagName": "circle",
+              "tagName": ":svg:circle",
               "type": "element",
             },
             Object {
@@ -235,7 +258,7 @@ Object {
                 "fill": "green",
                 "r": "50",
               },
-              "tagName": "circle",
+              "tagName": ":svg:circle",
               "type": "element",
             },
             Object {
@@ -248,13 +271,13 @@ Object {
             "selfClosing": false,
           },
           "properties": Object {
-            "height": "120",
+            ":xmlns:xlink": "http://www.w3.org/1999/xlink",
+            "height": 120,
             "viewBox": "0 0 200 200",
-            "width": "230",
+            "width": 230,
             "xmlns": "http://www.w3.org/2000/svg",
-            "xmlnsXLink": "http://www.w3.org/1999/xlink",
           },
-          "tagName": "svg",
+          "tagName": ":svg:svg",
           "type": "element",
         },
         Object {

@@ -110,6 +110,10 @@ function comment(ast: Comment): HastNode {
 }
 
 function getNameAndNS(name: string) {
+  if (name[0] === ':') {
+    return { ns: null, name: name }
+  }
+
   const info = splitNsName(name)
   return { ns: info[0], name: info[1] }
 }
