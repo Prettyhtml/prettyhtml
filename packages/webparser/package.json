@@ -7,7 +7,6 @@
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "test": "jest --forceExit --coverage --verbose",
-    "prepublish": "npm run build-ts",
     "tslint": "tslint -c tslint.json -p tsconfig.json"
   },
   "keywords": [],

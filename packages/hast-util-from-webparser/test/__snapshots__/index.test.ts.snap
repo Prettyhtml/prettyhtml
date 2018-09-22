@@ -1,0 +1,394 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Attributes 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "properties": Object {
+        "className": Array [
+          "bar",
+          "baz",
+        ],
+        "dataQux": "quux",
+        "id": "foo",
+      },
+      "tagName": "p",
+      "type": "element",
+    },
+    Object {
+      "type": "text",
+      "value": "
+  ",
+    },
+    Object {
+      "children": Array [],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "properties": Object {
+        "data123": "456",
+      },
+      "tagName": "p",
+      "type": "element",
+    },
+    Object {
+      "type": "text",
+      "value": "
+  ",
+    },
+    Object {
+      "children": Array [],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "properties": Object {
+        "alt": "",
+        "hidden": true,
+      },
+      "tagName": "img",
+      "type": "element",
+    },
+    Object {
+      "type": "text",
+      "value": "
+  ",
+    },
+    Object {
+      "children": Array [],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "properties": Object {
+        "download": true,
+      },
+      "tagName": "a",
+      "type": "element",
+    },
+    Object {
+      "type": "text",
+      "value": "
+  ",
+    },
+    Object {
+      "children": Array [],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "properties": Object {
+        "download": "example.mp3",
+      },
+      "tagName": "a",
+      "type": "element",
+    },
+  ],
+  "data": Object {
+    "selfClosing": false,
+  },
+  "type": "root",
+}
+`;
+
+exports[`Comment 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "type": "comment",
+      "value": "foo",
+    },
+  ],
+  "data": Object {
+    "selfClosing": false,
+  },
+  "type": "root",
+}
+`;
+
+exports[`Element void 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "type": "text",
+      "value": "
+  ",
+    },
+    Object {
+      "children": Array [],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "properties": Object {},
+      "tagName": "img",
+      "type": "element",
+    },
+    Object {
+      "type": "text",
+      "value": "
+  ",
+    },
+    Object {
+      "children": Array [],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "properties": Object {},
+      "tagName": "hr",
+      "type": "element",
+    },
+    Object {
+      "type": "text",
+      "value": "
+  ",
+    },
+    Object {
+      "children": Array [],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "properties": Object {},
+      "tagName": "br",
+      "type": "element",
+    },
+    Object {
+      "type": "text",
+      "value": "
+  ",
+    },
+    Object {
+      "children": Array [],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "properties": Object {},
+      "tagName": "meta",
+      "type": "element",
+    },
+    Object {
+      "type": "text",
+      "value": "
+  ",
+    },
+    Object {
+      "children": Array [],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "properties": Object {},
+      "tagName": "area",
+      "type": "element",
+    },
+  ],
+  "data": Object {
+    "selfClosing": false,
+  },
+  "type": "root",
+}
+`;
+
+exports[`SVG 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "
+  ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "
+    ",
+            },
+            Object {
+              "children": Array [],
+              "data": Object {
+                "selfClosing": true,
+              },
+              "properties": Object {
+                "cx": "60",
+                "cy": "60",
+                "fill": "red",
+                "r": "50",
+              },
+              "tagName": "circle",
+              "type": "element",
+            },
+            Object {
+              "type": "text",
+              "value": "
+    ",
+            },
+            Object {
+              "children": Array [],
+              "data": Object {
+                "selfClosing": true,
+              },
+              "properties": Object {
+                "cx": "170",
+                "cy": "60",
+                "fill": "green",
+                "r": "50",
+              },
+              "tagName": "circle",
+              "type": "element",
+            },
+            Object {
+              "type": "text",
+              "value": "
+  ",
+            },
+          ],
+          "data": Object {
+            "selfClosing": false,
+          },
+          "properties": Object {
+            "height": "120",
+            "viewBox": "0 0 200 200",
+            "width": "230",
+            "xmlns": "http://www.w3.org/2000/svg",
+            "xmlnsXLink": "http://www.w3.org/1999/xlink",
+          },
+          "tagName": "svg",
+          "type": "element",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+      ],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "properties": Object {},
+      "tagName": "div",
+      "type": "element",
+    },
+  ],
+  "data": Object {
+    "selfClosing": false,
+  },
+  "type": "root",
+}
+`;
+
+exports[`Simple 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo",
+            },
+          ],
+          "data": Object {
+            "selfClosing": false,
+          },
+          "properties": Object {},
+          "tagName": "p",
+          "type": "element",
+        },
+      ],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "properties": Object {},
+      "tagName": "div",
+      "type": "element",
+    },
+  ],
+  "data": Object {
+    "selfClosing": false,
+  },
+  "type": "root",
+}
+`;
+
+exports[`Template 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "!",
+        },
+      ],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "properties": Object {
+        "id": "text",
+      },
+      "tagName": "template",
+      "type": "element",
+    },
+    Object {
+      "type": "text",
+      "value": "
+    ",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "importance",
+            },
+          ],
+          "data": Object {
+            "selfClosing": false,
+          },
+          "properties": Object {},
+          "tagName": "strong",
+          "type": "element",
+        },
+        Object {
+          "type": "text",
+          "value": " and ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "emphasis",
+            },
+          ],
+          "data": Object {
+            "selfClosing": false,
+          },
+          "properties": Object {},
+          "tagName": "em",
+          "type": "element",
+        },
+        Object {
+          "type": "text",
+          "value": ".",
+        },
+      ],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "properties": Object {
+        "id": "html",
+      },
+      "tagName": "TEMPLATE",
+      "type": "element",
+    },
+  ],
+  "data": Object {
+    "selfClosing": false,
+  },
+  "type": "root",
+}
+`;

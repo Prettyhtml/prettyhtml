@@ -37,6 +37,8 @@
     "is-hidden": "^1.1.1",
     "prettier": "^1.14.2",
     "rehype-minify-whitespace": "^2.0.3",
+    "@starptech/webparser": "0.0.1",
+    "@starptech/hast-util-from-webparser": "0.0.1",
     "repeat-string": "^1.6.1",
     "to-vfile": "^5.0.1",
     "unified": "^7.0.0",

@@ -1,5 +1,4 @@
 import {
-  HtmlParser,
   ParseSourceSpan,
   splitNsName,
   Element,
@@ -34,7 +33,7 @@ type HastNode = {
 }
 
 /* Wrapper to normalise options. */
-export function from(rootNodes: Node[], options: Options) {
+export default function(rootNodes: Node[], options: Options) {
   const sourceSpan = new ParseSourceSpan(null, null)
   const fakeRoot = new Element(
     ':webparser:root',

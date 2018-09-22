@@ -2,7 +2,7 @@
   "name": "@starptech/hast-util-from-webparser",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "start": "ts-node index.ts",
     "build-ts": "tsc",

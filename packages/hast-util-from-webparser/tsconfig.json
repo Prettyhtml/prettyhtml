@@ -8,6 +8,5 @@
     "sourceMap": true,
     "outDir": "dist",
     "baseUrl": "."
-  },
-  "include": ["src/**/*"]
+  }
 }
