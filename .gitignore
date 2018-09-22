@@ -63,3 +63,6 @@ typings/
 # visual studio vode
 .vscode
 *.code-workspace
+
+# Ignore built ts files
+packages/*/dist/**/*

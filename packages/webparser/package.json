@@ -1,0 +1,28 @@
+{
+  "name": "@starptech/webparser",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./dist/public_api.js",
+  "scripts": {
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "test": "jest --forceExit --coverage --verbose",
+    "prepublish": "npm run build-ts",
+    "tslint": "tslint -c tslint.json -p tsconfig.json"
+  },
+  "keywords": [],
+  "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^23.6.0",
+    "ts-jest": "^23.10.1",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "^3.0.3",
+    "vrsource-tslint-rules": "^5.8.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
