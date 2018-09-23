@@ -20,6 +20,7 @@ type Options = {
   file?: string
   verbose?: boolean
   schema?: { space: string }
+  documentMode?: boolean
 }
 
 type HastNode = {
@@ -28,6 +29,8 @@ type HastNode = {
   tagName?: string
   properties?: Array<Object>
   children?: HastNode[]
+  public?: string
+  system?: string
   value?: string
   data?: { [name: string]: any }
 }
@@ -35,17 +38,24 @@ type HastNode = {
 /* Wrapper to normalise options. */
 export default function(rootNodes: Node[], options: Options) {
   const sourceSpan = new ParseSourceSpan(null, null)
-  const fakeRoot = new Element(
-    ':webparser:root',
-    [],
-    rootNodes,
-    sourceSpan
-  )
-  return transform(fakeRoot, {
+  const fakeRoot = new Element(':webparser:root', [], rootNodes, sourceSpan)
+  const result = transform(fakeRoot, {
     schema: htmlSchema,
     file: options.file,
     verbose: options.verbose
   })
+
+  // add doctype because webparser don't handle it
+  if (options.documentMode === true) {
+    result.children.unshift({
+      type: 'doctype',
+      name: 'html',
+      public: null,
+      system: null
+    })
+  }
+
+  return result
 }
 
 /* Transform a node. */

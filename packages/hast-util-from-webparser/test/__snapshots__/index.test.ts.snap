@@ -120,7 +120,7 @@ Object {
   "children": Array [
     Object {
       "type": "comment",
-      "value": "foo",
+      "value": " foo ",
     },
   ],
   "data": Object {
