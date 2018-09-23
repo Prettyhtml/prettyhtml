@@ -2,7 +2,7 @@
 
 const VFile = require('vfile')
 const unified = require('unified')
-const parse = require('@starptech/prettyhtml-rehype-parse')
+const parse = require('./webparser')
 const stringify = require('@starptech/prettyhtml-formatter/stringify')
 const format = require('@starptech/prettyhtml-formatter')
 const defaults = require('./defaults')

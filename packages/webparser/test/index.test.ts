@@ -381,11 +381,30 @@ import {
         })
       })
 
+      describe('entities', () => {
+        it('should not decode entities with only ampersand and #', () => {
+          expect(
+            humanizeDom(parser.parse('<div [icon]="&#"></div>', 'TestComp'))
+          ).toEqual([[html.Element, 'div', 0], [html.Attribute, '[icon]', '&#']])
+        })
+        it('should not decode entities', () => {
+          expect(
+            humanizeDom(parser.parse('<div [icon]="&#333;"></div>', 'TestComp'))
+          ).toEqual([[html.Element, 'div', 0], [html.Attribute, '[icon]', '&#333;']])
+        })
+      })
+
       describe('comments', () => {
         it('should preserve comments', () => {
           expect(
             humanizeDom(parser.parse('<!-- comment --><div></div>', 'TestComp'))
-          ).toEqual([[html.Comment, 'comment', 0], [html.Element, 'div', 0]])
+          ).toEqual([[html.Comment, ' comment ', 0], [html.Element, 'div', 0]])
+        })
+
+        it('should preserve whitespaces and newlines in comments', () => {
+          expect(
+            humanizeDom(parser.parse('<!-- \ncomment\n --><div></div>', 'TestComp'))
+          ).toEqual([[html.Comment, ' \ncomment\n ', 0], [html.Element, 'div', 0]])
         })
       })
 

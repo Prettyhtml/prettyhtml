@@ -136,7 +136,7 @@ class _TreeBuilder {
   private _consumeComment(token: lex.Token) {
     const text = this._advanceIf(lex.TokenType.RAW_TEXT)
     this._advanceIf(lex.TokenType.COMMENT_END)
-    const value = text != null ? text.parts[0].trim() : null
+    const value = text != null ? text.parts[0] : null
     this._addToParent(new html.Comment(value, token.sourceSpan))
   }
 

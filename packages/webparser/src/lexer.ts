@@ -579,7 +579,7 @@ class _Tokenizer {
       this._advance()
       const parts: string[] = []
       while (this._peek !== quoteChar) {
-        parts.push(this._readChar(true))
+        parts.push(this._readChar(false))
       }
       value = parts.join('')
       this._advance()
@@ -680,7 +680,7 @@ class _Tokenizer {
         parts.push(this._interpolationConfig.end)
         this._inInterpolation = false
       } else {
-        parts.push(this._readChar(true))
+        parts.push(this._readChar(false))
       }
     } while (!this._isTextEnd())
 
