@@ -10,9 +10,10 @@
 
 ### Features
 
-- Parse custom self-closing elements
-- Don't decode html entities
-- Don't remove first linefeed in `pre`, `textarea` or `listing` tags
+- Can parse custom self-closing elements
+- Can parse tags and attributes case-sensitive
+- Can skip decoding of html entities
+- Can consume the first linefeed in `pre`, `textarea` or `listing` tags (is skipped by HTML5 spcs)
 
 ## Example
 
