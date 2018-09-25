@@ -32,12 +32,29 @@ export class TreeError extends ParseError {
   }
 }
 
+export interface ParserOptions {
+  decodeEntities?: boolean
+  ignoreFirstLf?: boolean
+  selfClosingCustomElements?: boolean
+}
+
+export interface TreeBuilderOptions {
+  ignoreFirstLf?: boolean
+  selfClosingCustomElements?: boolean
+}
+
 export class ParseTreeResult {
   constructor(public rootNodes: html.Node[], public errors: ParseError[]) {}
 }
 
 export class Parser {
-  constructor(public getTagDefinition: (tagName: string) => TagDefinition) {}
+  constructor(
+    public options: ParserOptions,
+    public getTagDefinition: (
+      tagName: string,
+      ignoreFirstLf: boolean
+    ) => TagDefinition
+  ) {}
 
   parse(
     source: string,
@@ -45,15 +62,21 @@ export class Parser {
     parseExpansionForms: boolean = false,
     interpolationConfig: InterpolationConfig = DEFAULT_INTERPOLATION_CONFIG
   ): ParseTreeResult {
+    if (this.options.ignoreFirstLf === undefined) {
+      this.options.ignoreFirstLf = true
+    }
+
     const tokensAndErrors = lex.tokenize(
       source,
       url,
       this.getTagDefinition,
       parseExpansionForms,
-      interpolationConfig
+      interpolationConfig,
+      this.options
     )
 
     const treeAndErrors = new _TreeBuilder(
+      this.options,
       tokensAndErrors.tokens,
       this.getTagDefinition
     ).build()
@@ -76,8 +99,12 @@ class _TreeBuilder {
   private _elementStack: html.Element[] = []
 
   constructor(
+    private options: TreeBuilderOptions,
     private tokens: lex.Token[],
-    private getTagDefinition: (tagName: string) => TagDefinition
+    private getTagDefinition: (
+      tagName: string,
+      ignoreFirstLf: boolean
+    ) => TagDefinition
   ) {
     this._advance()
   }
@@ -206,7 +233,11 @@ class _TreeBuilder {
     exp.push(new lex.Token(lex.TokenType.EOF, [], end.sourceSpan))
 
     // parse everything in between { and }
-    const parsedExp = new _TreeBuilder(exp, this.getTagDefinition).build()
+    const parsedExp = new _TreeBuilder(
+      this.options,
+      exp,
+      this.getTagDefinition
+    ).build()
     if (parsedExp.errors.length > 0) {
       this._errors = this._errors.concat(<TreeError[]>parsedExp.errors)
       return null
@@ -301,7 +332,8 @@ class _TreeBuilder {
       if (
         parent != null &&
         parent.children.length == 0 &&
-        this.getTagDefinition(parent.name).ignoreFirstLf
+        this.getTagDefinition(parent.name, this.options.ignoreFirstLf)
+          .ignoreFirstLf
       ) {
         text = text.substring(1)
       }
@@ -314,7 +346,10 @@ class _TreeBuilder {
 
   private _closeVoidElement(): void {
     const el = this._getParentElement()
-    if (el && this.getTagDefinition(el.name).isVoid) {
+    if (
+      el &&
+      this.getTagDefinition(el.name, this.options.ignoreFirstLf).isVoid
+    ) {
       this._elementStack.pop()
     }
   }
@@ -337,14 +372,15 @@ class _TreeBuilder {
     if (this._peek.type === lex.TokenType.TAG_OPEN_END_VOID) {
       this._advance()
       selfClosing = true
-      const tagDef = this.getTagDefinition(fullName)
+      const tagDef = this.getTagDefinition(fullName, this.options.ignoreFirstLf)
       if (
         !(
           tagDef.canSelfClose ||
           getNsPrefix(fullName) !== null ||
           tagDef.isVoid ||
           // allow self-closing custom elements
-          isKnownHTMLTag(fullName) === false
+          (this.options.selfClosingCustomElements &&
+            isKnownHTMLTag(fullName) === false)
         )
       ) {
         this._errors.push(
@@ -376,12 +412,15 @@ class _TreeBuilder {
 
     if (
       parentEl &&
-      this.getTagDefinition(parentEl.name).isClosedByChild(el.name)
+      this.getTagDefinition(
+        parentEl.name,
+        this.options.ignoreFirstLf
+      ).isClosedByChild(el.name)
     ) {
       this._elementStack.pop()
     }
 
-    const tagDef = this.getTagDefinition(el.name)
+    const tagDef = this.getTagDefinition(el.name, this.options.ignoreFirstLf)
     const { parent, container } = this._getParentElementSkippingContainers()
 
     if (parent && tagDef.requireExtraParent(parent.name)) {
@@ -411,7 +450,7 @@ class _TreeBuilder {
       this._getParentElement()!.endSourceSpan = endTagToken.sourceSpan
     }
 
-    if (this.getTagDefinition(fullName).isVoid) {
+    if (this.getTagDefinition(fullName, this.options.ignoreFirstLf).isVoid) {
       this._errors.push(
         TreeError.create(
           fullName,
@@ -442,7 +481,10 @@ class _TreeBuilder {
         return true
       }
 
-      if (!this.getTagDefinition(el.name).closedByParent) {
+      if (
+        !this.getTagDefinition(el.name, this.options.ignoreFirstLf)
+          .closedByParent
+      ) {
         return false
       }
     }
@@ -538,7 +580,8 @@ class _TreeBuilder {
     parentElement: html.Element | null
   ): string {
     if (prefix == null) {
-      prefix = this.getTagDefinition(localName).implicitNamespacePrefix!
+      prefix = this.getTagDefinition(localName, this.options.ignoreFirstLf)
+        .implicitNamespacePrefix!
       if (prefix == null && parentElement != null) {
         prefix = getNsPrefix(parentElement.name)
       }

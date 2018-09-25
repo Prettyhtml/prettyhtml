@@ -1,6 +1,6 @@
 <div align="center">
 <h1>@starptech/webparser</h1>
-<p>Optimized html parser for formatters like pretthtml.</p>
+<p>Optimized html parser for HTMl5 Web Components.</p>
 </div>
 <br>
 
@@ -8,9 +8,22 @@
 <code>npm install --save @starptech/webparser</code>
 </div>
 
-
 ### Features
 
-* Parse custom self-closing elements
-* Don't decode html entities
-* Don't remove first linefeed in `pre`, `textarea` or `listing` tags
+- Parse custom self-closing elements
+- Don't decode html entities
+- Don't remove first linefeed in `pre`, `textarea` or `listing` tags
+
+## Example
+
+```js
+const parser = new HtmlParser({
+  decodeEntities: true,
+  ignoreFirstLf: true,
+  selfClosingCustomElements: true
+})
+
+const result = parser.parse('<div></div>')
+result.errors
+result.rootNodes
+```

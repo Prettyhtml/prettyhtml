@@ -35,8 +35,65 @@ import {
         })
       })
 
+      describe('LF no skip', () => {
+        it('should not ignore LF immediately after textarea, pre and listing', () => {
+          parser = new HtmlParser({ ignoreFirstLf: false })
+          expect(
+            humanizeDom(
+              parser.parse(
+                '<p>\n</p><textarea>\n</textarea><pre>\n\n</pre><listing>\n\n</listing>',
+                'TestComp'
+              )
+            )
+          ).toEqual([
+            [html.Element, 'p', 0],
+            [html.Text, '\n', 1],
+            [html.Element, 'textarea', 0],
+            [html.Text, '\n', 1],
+            [html.Element, 'pre', 0],
+            [html.Text, '\n\n', 1],
+            [html.Element, 'listing', 0],
+            [html.Text, '\n\n', 1]
+          ])
+        })
+      })
+
+      describe('Case sensitivity', () => {
+        it('should parse attributes case sensitive', () => {
+          parser = new HtmlParser({ ignoreFirstLf: false })
+          expect(
+            humanizeDom(
+              parser.parse(
+                '<SCRIPT src="https://www.google-analytics.com/analytics.js" ASYNC DEFER></SCRIPT>',
+                'TestComp'
+              )
+            )
+          ).toEqual([
+            [html.Element, 'SCRIPT', 0],
+            [html.Attribute, 'src', 'https://www.google-analytics.com/analytics.js'],
+            [html.Attribute, 'ASYNC', ''],
+            [html.Attribute, 'DEFER', ''],
+          ])
+        })
+
+        it('should parse tag case sensitive', () => {
+          parser = new HtmlParser({ ignoreFirstLf: false })
+          expect(
+            humanizeDom(
+              parser.parse(
+                '<SCRIPT></SCRIPT>',
+                'TestComp'
+              )
+            )
+          ).toEqual([
+            [html.Element, 'SCRIPT', 0]
+          ])
+        })
+      })
+
       describe('Custom self-closing elements', () => {
         it('should be able to parse any custom element as self-closing tag', () => {
+          const parser = new HtmlParser({ selfClosingCustomElements: true })
           expect(humanizeDom(parser.parse('<custom/>', 'TestComp'))).toEqual([
             [html.Element, 'custom', 0]
           ])
@@ -311,7 +368,7 @@ import {
           ])
         })
 
-        it('should not ignore LF immediately after textarea, pre and listing', () => {
+        it('should ignore LF immediately after textarea, pre and listing', () => {
           expect(
             humanizeDom(
               parser.parse(
@@ -323,11 +380,10 @@ import {
             [html.Element, 'p', 0],
             [html.Text, '\n', 1],
             [html.Element, 'textarea', 0],
-            [html.Text, '\n', 1],
             [html.Element, 'pre', 0],
-            [html.Text, '\n\n', 1],
+            [html.Text, '\n', 1],
             [html.Element, 'listing', 0],
-            [html.Text, '\n\n', 1]
+            [html.Text, '\n', 1]
           ])
         })
       })
@@ -385,12 +441,18 @@ import {
         it('should not decode entities with only ampersand and #', () => {
           expect(
             humanizeDom(parser.parse('<div [icon]="&#"></div>', 'TestComp'))
-          ).toEqual([[html.Element, 'div', 0], [html.Attribute, '[icon]', '&#']])
+          ).toEqual([
+            [html.Element, 'div', 0],
+            [html.Attribute, '[icon]', '&#']
+          ])
         })
         it('should not decode entities', () => {
           expect(
             humanizeDom(parser.parse('<div [icon]="&#333;"></div>', 'TestComp'))
-          ).toEqual([[html.Element, 'div', 0], [html.Attribute, '[icon]', '&#333;']])
+          ).toEqual([
+            [html.Element, 'div', 0],
+            [html.Attribute, '[icon]', '&#333;']
+          ])
         })
       })
 
@@ -403,8 +465,13 @@ import {
 
         it('should preserve whitespaces and newlines in comments', () => {
           expect(
-            humanizeDom(parser.parse('<!-- \ncomment\n --><div></div>', 'TestComp'))
-          ).toEqual([[html.Comment, ' \ncomment\n ', 0], [html.Element, 'div', 0]])
+            humanizeDom(
+              parser.parse('<!-- \ncomment\n --><div></div>', 'TestComp')
+            )
+          ).toEqual([
+            [html.Comment, ' \ncomment\n ', 0],
+            [html.Element, 'div', 0]
+          ])
         })
       })
 
@@ -728,9 +795,16 @@ import {
           ])
         })
 
-        it('should not report self closing custom element', () => {
+        it('should report self closing custom element', () => {
           const errors = parser.parse('<my-cmp />', 'TestComp').errors
-          expect(errors.length).toEqual(0)
+          expect(errors.length).toEqual(1)
+          expect(humanizeErrors(errors)).toEqual([
+            [
+              'my-cmp',
+              'Only void and foreign elements can be self closed "my-cmp"',
+              '0:0'
+            ]
+          ])
         })
 
         it('should also report lexer errors', () => {

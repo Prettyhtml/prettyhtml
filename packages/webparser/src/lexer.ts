@@ -60,15 +60,17 @@ export class TokenizeResult {
 export function tokenize(
   source: string,
   url: string,
-  getTagDefinition: (tagName: string) => TagDefinition,
+  getTagDefinition: (tagName: string, ignoreFirstLf: boolean) => TagDefinition,
   tokenizeExpansionForms: boolean = false,
-  interpolationConfig: InterpolationConfig = DEFAULT_INTERPOLATION_CONFIG
+  interpolationConfig: InterpolationConfig = DEFAULT_INTERPOLATION_CONFIG,
+  options: LexerOptions
 ): TokenizeResult {
   return new _Tokenizer(
     new ParseSourceFile(source, url),
     getTagDefinition,
     tokenizeExpansionForms,
-    interpolationConfig
+    interpolationConfig,
+    options
   ).tokenize()
 }
 
@@ -85,6 +87,11 @@ function _unknownEntityErrorMsg(entitySrc: string): string {
 
 class _ControlFlowError {
   constructor(public error: TokenError) {}
+}
+
+export interface LexerOptions {
+  decodeEntities?: boolean
+  ignoreFirstLf?: boolean
 }
 
 // See http://www.w3.org/TR/html51/syntax.html#writing
@@ -115,9 +122,10 @@ class _Tokenizer {
    */
   constructor(
     private _file: ParseSourceFile,
-    private _getTagDefinition: (tagName: string) => TagDefinition,
+    private _getTagDefinition: (tagName: string, ignoreFirstLf: boolean) => TagDefinition,
     private _tokenizeIcu: boolean,
-    private _interpolationConfig: InterpolationConfig = DEFAULT_INTERPOLATION_CONFIG
+    private _interpolationConfig: InterpolationConfig = DEFAULT_INTERPOLATION_CONFIG,
+    private _options: LexerOptions
   ) {
     this._input = _file.content
     this._length = _file.content.length
@@ -535,7 +543,7 @@ class _Tokenizer {
       throw e
     }
 
-    const contentTokenType = this._getTagDefinition(tagName).contentType
+    const contentTokenType = this._getTagDefinition(tagName, this._options.ignoreFirstLf).contentType
 
     if (contentTokenType === TagContentType.RAW_TEXT) {
       this._consumeRawTextWithTagClose(lowercaseTagName, false)
@@ -579,7 +587,7 @@ class _Tokenizer {
       this._advance()
       const parts: string[] = []
       while (this._peek !== quoteChar) {
-        parts.push(this._readChar(false))
+        parts.push(this._readChar(this._options.decodeEntities))
       }
       value = parts.join('')
       this._advance()
@@ -680,7 +688,7 @@ class _Tokenizer {
         parts.push(this._interpolationConfig.end)
         this._inInterpolation = false
       } else {
-        parts.push(this._readChar(false))
+        parts.push(this._readChar(this._options.decodeEntities))
       }
     } while (!this._isTextEnd())
 

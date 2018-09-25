@@ -10,7 +10,6 @@ const unified = require('unified')
 const report = require('vfile-reporter')
 const { basename } = require('path')
 const pack = require('./package')
-const defaults = require('./defaults')
 const prettier = require('prettier')
 
 // processing
@@ -36,8 +35,7 @@ var cli = meow(
   --single-quote    Use single instead of double quotes
   --use-prettier    Use prettier to format embedded content
   --stdin           Specify the standard stream as source (for pipe mode)
-  --why             Output sources (when available)
-  --quiet           Output only warnings and errors
+  --quiet           Do not report successful files
 
   Examples
     $ prettyhtml *.html
@@ -75,10 +73,7 @@ var cli = meow(
       },
       quiet: {
         type: 'boolean',
-        default: true
-      },
-      why: {
-        type: 'boolean'
+        default: false
       }
     }
   }
@@ -92,7 +87,7 @@ const settings = {
   rcName: '.prettyhtmlrc',
   packageField: 'prettyhtml',
   ignoreName: '.prettyhtmlignore',
-  frail: true,
+  frail: false,
   defaultConfig: transform({ prettierConfig })
 }
 
@@ -115,7 +110,6 @@ if (cli.flags.stdin === false) {
 
 function processResult(err, code, result) {
   const out = report(err || result.files, {
-    verbose: cli.flags.why,
     quiet: cli.flags.quiet
   })
 
@@ -128,7 +122,7 @@ function processResult(err, code, result) {
 
 function transform({ prettierConfig }) {
   const plugins = [
-    [parse, defaults.parser],
+    [parse],
     [
       format,
       {

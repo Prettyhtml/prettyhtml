@@ -3,13 +3,13 @@ import {
   DEFAULT_INTERPOLATION_CONFIG,
   InterpolationConfig
 } from './interpolation_config'
-import { ParseTreeResult, Parser } from './parser'
+import { ParseTreeResult, Parser, ParserOptions } from './parser'
 
 export { ParseTreeResult, TreeError } from './parser'
 
 export class HtmlParser extends Parser {
-  constructor() {
-    super(getHtmlTagDefinition)
+  constructor(public options: ParserOptions = {}) {
+    super(options, getHtmlTagDefinition)
   }
 
   parse(

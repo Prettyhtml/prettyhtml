@@ -1,5 +1,5 @@
 import { HtmlParser } from 'webparser'
-import fromWebparser from '../index'
+import fromWebParser from '../index'
 
 test('Attributes', () => {
   const parser = new HtmlParser()
@@ -14,7 +14,7 @@ test('Attributes', () => {
 
   expect(result.errors.length).toBe(0)
 
-  const node = fromWebparser(result.rootNodes, {})
+  const node = fromWebParser(result.rootNodes, {})
 
   expect(node).toMatchSnapshot()
 })
@@ -33,7 +33,7 @@ test('Element void', () => {
 
   expect(result.errors.length).toBe(0)
 
-  const node = fromWebparser(result.rootNodes, {})
+  const node = fromWebParser(result.rootNodes, {})
 
   expect(node).toMatchSnapshot()
 })
@@ -44,7 +44,7 @@ test('Simple', () => {
 
   expect(result.errors.length).toBe(0)
 
-  const node = fromWebparser(result.rootNodes, {})
+  const node = fromWebParser(result.rootNodes, {})
 
   expect(node).toMatchSnapshot()
 })
@@ -63,7 +63,7 @@ test('SVG', () => {
 
   expect(result.errors.length).toBe(0)
 
-  const node = fromWebparser(result.rootNodes, {})
+  const node = fromWebParser(result.rootNodes, {})
 
   expect(node).toMatchSnapshot()
 })
@@ -78,7 +78,7 @@ test('Template', () => {
 
   expect(result.errors.length).toBe(0)
 
-  const node = fromWebparser(result.rootNodes, {})
+  const node = fromWebParser(result.rootNodes, {})
 
   expect(node).toMatchSnapshot()
 })
@@ -89,7 +89,7 @@ test('Comment', () => {
 
   expect(result.errors.length).toBe(0)
 
-  const node = fromWebparser(result.rootNodes, {})
+  const node = fromWebParser(result.rootNodes, {})
 
   expect(node).toMatchSnapshot()
 })
@@ -100,7 +100,18 @@ test('Attributes with colon or @ as prefix', () => {
 
   expect(result.errors.length).toBe(0)
 
-  const node = fromWebparser(result.rootNodes, {})
+  const node = fromWebParser(result.rootNodes, {})
+
+  expect(node).toMatchSnapshot()
+})
+
+test.only('Case sensitive attributes', () => {
+  const parser = new HtmlParser()
+  const result = parser.parse(`<div ASYNC></div>`, 'TestComp')
+
+  expect(result.errors.length).toBe(0)
+
+  const node = fromWebParser(result.rootNodes, {})
 
   expect(node).toMatchSnapshot()
 })

@@ -115,6 +115,28 @@ Object {
 }
 `;
 
+exports[`Case sensitive attributes 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "properties": Object {
+        "async": true,
+      },
+      "tagName": "div",
+      "type": "element",
+    },
+  ],
+  "data": Object {
+    "selfClosing": false,
+  },
+  "type": "root",
+}
+`;
+
 exports[`Comment 1`] = `
 Object {
   "children": Array [

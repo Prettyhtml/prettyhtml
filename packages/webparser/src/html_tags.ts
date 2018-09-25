@@ -73,12 +73,15 @@ let _DEFAULT_TAG_DEFINITION!: HtmlTagDefinition
 
 // see http://www.w3.org/TR/html51/syntax.html#optional-tags
 // This implementation does not fully conform to the HTML5 spec.
-let TAG_DEFINITIONS!: { [key: string]: HtmlTagDefinition }
+let TAG_DEFINITIONS: Map<string, { [key: string]: HtmlTagDefinition }> = new Map()
 
-export function getHtmlTagDefinition(tagName: string): HtmlTagDefinition {
-  if (!TAG_DEFINITIONS) {
+export function getHtmlTagDefinition(tagName: string, ignoreFirstLf: boolean): HtmlTagDefinition {
+  const cacheKey = `ignoreFirstLf:${ignoreFirstLf}`
+
+  // we store different views of the tag definition that's why we need a cache invalidation strategy
+  if (!TAG_DEFINITIONS.has(cacheKey)) {
     _DEFAULT_TAG_DEFINITION = new HtmlTagDefinition()
-    TAG_DEFINITIONS = {
+    TAG_DEFINITIONS.set(cacheKey, {
       base: new HtmlTagDefinition({ isVoid: true }),
       meta: new HtmlTagDefinition({ isVoid: true }),
       area: new HtmlTagDefinition({ isVoid: true }),
@@ -184,8 +187,8 @@ export function getHtmlTagDefinition(tagName: string): HtmlTagDefinition {
         closedByChildren: ['option', 'optgroup'],
         closedByParent: true
       }),
-      pre: new HtmlTagDefinition({ ignoreFirstLf: false }),
-      listing: new HtmlTagDefinition({ ignoreFirstLf: false }),
+      pre: new HtmlTagDefinition({ ignoreFirstLf }),
+      listing: new HtmlTagDefinition({ ignoreFirstLf }),
       style: new HtmlTagDefinition({ contentType: TagContentType.RAW_TEXT }),
       script: new HtmlTagDefinition({ contentType: TagContentType.RAW_TEXT }),
       title: new HtmlTagDefinition({
@@ -193,11 +196,11 @@ export function getHtmlTagDefinition(tagName: string): HtmlTagDefinition {
       }),
       textarea: new HtmlTagDefinition({
         contentType: TagContentType.ESCAPABLE_RAW_TEXT,
-        ignoreFirstLf: false
+        ignoreFirstLf
       })
-    }
+    })
   }
-  return TAG_DEFINITIONS[tagName.toLowerCase()] || _DEFAULT_TAG_DEFINITION
+  return TAG_DEFINITIONS.get(cacheKey)[tagName] || _DEFAULT_TAG_DEFINITION
 }
 
 export function isKnownHTMLTag(tagName: string): boolean {

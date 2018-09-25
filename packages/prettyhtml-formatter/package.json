@@ -28,8 +28,10 @@
   },
   "homepage": "https://github.com/StarpTech/prettyhtml#readme",
   "dependencies": {
+    "@starptech/hast-util-from-webparser": "0.0.1",
     "@starptech/prettyhtml-hast-to-html": "^0.0.60",
     "@starptech/prettyhtml-rehype-parse": "^0.0.60",
+    "@starptech/webparser": "0.0.1",
     "hast-util-is-element": "^1.0.1",
     "hast-util-to-string": "^1.0.1",
     "html-void-elements": "^1.0.3",
@@ -37,14 +39,13 @@
     "is-hidden": "^1.1.1",
     "prettier": "^1.14.2",
     "rehype-minify-whitespace": "^2.0.3",
-    "@starptech/webparser": "0.0.1",
-    "@starptech/hast-util-from-webparser": "0.0.1",
     "repeat-string": "^1.6.1",
     "to-vfile": "^5.0.1",
     "unified": "^7.0.0",
     "unist-util-find": "^1.0.1",
     "unist-util-is": "^2.1.2",
     "unist-util-visit-parents": "^2.0.1",
+    "vfile-message": "^1.0.1",
     "xtend": "^4.0.1"
   },
   "devDependencies": {
