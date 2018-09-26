@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "lock": "lerna exec -- npm i --package-lock-only",
     "postinstall": "npm run bootstrap",
-    "precommit": "npm run prettify"
+    "precommit": "npm test && npm run prettify"
   },
   "repository": {
     "type": "git",
