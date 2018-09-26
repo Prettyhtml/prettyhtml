@@ -99,6 +99,10 @@ export class WhitespaceVisitor implements html.Visitor {
     return comment
   }
 
+  visitDoctype(doctype: html.Doctype, context: any): any {
+    return doctype
+  }
+
   visitExpansion(expansion: html.Expansion, context: any): any {
     return expansion
   }

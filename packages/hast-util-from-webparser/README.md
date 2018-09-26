@@ -5,3 +5,7 @@ Produce [HAST](https://github.com/syntax-tree/hast) compatible AST from [Webpars
 ```
 @starptech/hast-util-from-webparser
 ```
+
+## Caveats
+
+Positional informations aren't managed. If you need it feel free to create a PR.
