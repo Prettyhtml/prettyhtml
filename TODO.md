@@ -1,2 +1,0 @@
-- Doctype handling
-- Case sensitive known html attributes

@@ -152,6 +152,90 @@ Object {
 }
 `;
 
+exports[`Doctype 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "name": "html",
+      "public": null,
+      "system": null,
+      "type": "doctype",
+    },
+  ],
+  "data": Object {
+    "selfClosing": false,
+  },
+  "type": "root",
+}
+`;
+
+exports[`Doctype nameless 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "name": "html",
+      "public": null,
+      "system": null,
+      "type": "doctype",
+    },
+  ],
+  "data": Object {
+    "selfClosing": false,
+  },
+  "type": "root",
+}
+`;
+
+exports[`Doctype with html skeleton 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "name": "html",
+      "public": null,
+      "system": null,
+      "type": "doctype",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "data": Object {
+            "selfClosing": false,
+          },
+          "properties": Object {},
+          "tagName": "head",
+          "type": "element",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo",
+            },
+          ],
+          "data": Object {
+            "selfClosing": false,
+          },
+          "properties": Object {},
+          "tagName": "body",
+          "type": "element",
+        },
+      ],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "properties": Object {},
+      "tagName": "html",
+      "type": "element",
+    },
+  ],
+  "data": Object {
+    "selfClosing": false,
+  },
+  "type": "root",
+}
+`;
+
 exports[`Element void 1`] = `
 Object {
   "children": Array [

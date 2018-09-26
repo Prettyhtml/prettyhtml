@@ -72,6 +72,15 @@ class _Humanizer implements html.Visitor {
     this.result.push(res)
   }
 
+  visitDoctype(doctype: html.Doctype, context: any): any {
+    const res = this._appendContext(doctype, [
+      html.Doctype,
+      doctype.value,
+      this.elDepth
+    ])
+    this.result.push(res)
+  }
+
   visitExpansion(expansion: html.Expansion, context: any): any {
     const res = this._appendContext(expansion, [
       html.Expansion,

@@ -18,6 +18,21 @@ import {
     })
 
     describe('parse', () => {
+      describe('HTML5 doctype', () => {
+        it('should parse doctype', () => {
+          expect(
+            humanizeDom(
+              parser.parse(
+                '<!doctype html>',
+                'TestComp'
+              )
+            )
+          ).toEqual([
+            [html.Doctype, 'doctype html', 0]
+          ])
+        })
+      })
+
       describe('vue', () => {
         it('should support colon and @ prefixed attributes', () => {
           expect(
@@ -692,6 +707,7 @@ import {
             }
             visitAttribute(attribute: html.Attribute, context: any): any {}
             visitText(text: html.Text, context: any): any {}
+            visitDoctype(doctype: html.Doctype, context: any): any {}
             visitComment(comment: html.Comment, context: any): any {}
             visitExpansion(expansion: html.Expansion, context: any): any {
               html.visitAll(this, expansion.cases)
@@ -732,6 +748,9 @@ import {
               throw Error('Unexpected')
             }
             visitExpansion(expansion: html.Expansion, context: any): any {
+              throw Error('Unexpected')
+            }
+            visitDoctype(doctype: html.Doctype, context: any): any {
               throw Error('Unexpected')
             }
             visitExpansionCase(

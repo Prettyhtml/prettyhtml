@@ -1,5 +1,5 @@
 {
-  "name": "@starptech/hast-util-from-webparser",
+  "name": "@starptech/prettyhtml-rehype-webparser",
   "version": "0.0.1",
   "description": "",
   "main": "./dist/index.js",
@@ -14,9 +14,9 @@
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
   "license": "ISC",
   "dependencies": {
-    "@starptech/prettyhtml-hastscript": "^0.0.60",
-    "property-information": "^4.2.0",
-    "@starptech/webparser": "0.0.1"
+    "@starptech/webparser": "0.0.1",
+    "@starptech/hast-util-from-webparser": "0.0.1",
+    "vfile-message": "^1.0.1"
   },
   "devDependencies": {
     "jest": "^23.6.0",

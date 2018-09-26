@@ -1,26 +1,24 @@
-'use strict'
-
-const Webparser = require('@starptech/webparser')
-const fromWebparser = require('@starptech/hast-util-from-webparser')
+import { ParseError, HtmlParser } from '@starptech/webparser'
+import fromWebparser from '@starptech/hast-util-from-webparser'
 const VMessage = require('vfile-message')
 
-module.exports = parse
+interface ParseOptions {}
+interface VFile {
+  path: string
+  message(msg: any): void
+}
 
-function parse(options) {
+export = function parse(options?: ParseOptions): any {
   options = options || {}
 
   this.Parser = parser
 
-  function parser(doc, file) {
-    const isDocumentMode = /<(html)/i.test(doc)
-
-    options.documentMode = isDocumentMode
-
-    const parseResult = new Webparser.HtmlParser({
+  function parser(doc: string, file: VFile) {
+    const parseResult = new HtmlParser({
       ignoreFirstLf: false,
       decodeEntities: false,
       selfClosingCustomElements: true
-    }).parse(doc)
+    }).parse(doc, file.path)
 
     for (const err of parseResult.errors) {
       file.message(createVMessage(err))
@@ -29,7 +27,7 @@ function parse(options) {
     return fromWebparser(parseResult.rootNodes, options)
   }
 
-  function createVMessage(err) {
+  function createVMessage(err: ParseError) {
     return new VMessage(
       err.contextualMessage(),
       {

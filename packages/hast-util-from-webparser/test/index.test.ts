@@ -105,9 +105,42 @@ test('Attributes with colon or @ as prefix', () => {
   expect(node).toMatchSnapshot()
 })
 
-test.only('Case sensitive attributes', () => {
+test('Case sensitive attributes', () => {
   const parser = new HtmlParser()
   const result = parser.parse(`<div ASYNC></div>`, 'TestComp')
+
+  expect(result.errors.length).toBe(0)
+
+  const node = fromWebParser(result.rootNodes, {})
+
+  expect(node).toMatchSnapshot()
+})
+
+test('Doctype', () => {
+  const parser = new HtmlParser()
+  const result = parser.parse(`<!DOCTYPE html>`, 'TestComp')
+
+  expect(result.errors.length).toBe(0)
+
+  const node = fromWebParser(result.rootNodes, {})
+
+  expect(node).toMatchSnapshot()
+})
+
+test('Doctype nameless', () => {
+  const parser = new HtmlParser()
+  const result = parser.parse(`<!DOCTYPE>`, 'TestComp')
+
+  expect(result.errors.length).toBe(0)
+
+  const node = fromWebParser(result.rootNodes, {})
+
+  expect(node).toMatchSnapshot()
+})
+
+test('Doctype with html skeleton', () => {
+  const parser = new HtmlParser()
+  const result = parser.parse(`<!DOCTYPE><html><head></head><body>foo</body></html>`, 'TestComp')
 
   expect(result.errors.length).toBe(0)
 

@@ -76,11 +76,22 @@ export class Comment implements Node {
   }
 }
 
+export class Doctype implements Node {
+  constructor(
+    public value: string | null,
+    public sourceSpan: ParseSourceSpan
+  ) {}
+  visit(visitor: Visitor, context: any): any {
+    return visitor.visitDoctype(this, context)
+  }
+}
+
 export interface Visitor {
   // Returning a truthy value from `visit()` will prevent `visitAll()` from the call to the typed
   // method and result returned will become the result included in `visitAll()`s result array.
   visit?(node: Node, context: any): any
 
+  visitDoctype(doctype: Doctype, context: any): any
   visitElement(element: Element, context: any): any
   visitAttribute(attribute: Attribute, context: any): any
   visitText(text: Text, context: any): any
@@ -121,7 +132,7 @@ export class RecursiveVisitor implements Visitor {
   visitAttribute(ast: Attribute, context: any): any {}
   visitText(ast: Text, context: any): any {}
   visitComment(ast: Comment, context: any): any {}
-
+  visitDoctype(doctype: Doctype, context: any): any {}
   visitExpansion(ast: Expansion, context: any): any {
     return this.visitChildren(context, visit => {
       visit(ast.cases)

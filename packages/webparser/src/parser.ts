@@ -111,7 +111,10 @@ class _TreeBuilder {
 
   build(): ParseTreeResult {
     while (this._peek.type !== lex.TokenType.EOF) {
-      if (this._peek.type === lex.TokenType.TAG_OPEN_START) {
+      if (this._peek.type === lex.TokenType.DOC_TYPE) {
+        this._consumeDoctype(this._advance())
+      }
+      else if (this._peek.type === lex.TokenType.TAG_OPEN_START) {
         this._consumeStartTag(this._advance())
       } else if (this._peek.type === lex.TokenType.TAG_CLOSE) {
         this._consumeEndTag(this._advance())
@@ -165,6 +168,11 @@ class _TreeBuilder {
     this._advanceIf(lex.TokenType.COMMENT_END)
     const value = text != null ? text.parts[0] : null
     this._addToParent(new html.Comment(value, token.sourceSpan))
+  }
+
+  private _consumeDoctype(token: lex.Token) {
+    const value = token.parts.length ? token.parts[0] : null
+    this._addToParent(new html.Doctype(value, token.sourceSpan))
   }
 
   private _consumeExpansion(token: lex.Token) {

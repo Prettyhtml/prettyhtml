@@ -4,7 +4,8 @@ import {
   Element,
   Comment,
   Text,
-  Node
+  Node,
+  Doctype
 } from 'webparser'
 
 let htmlSchema = require('property-information/html')
@@ -45,16 +46,6 @@ export = function from(rootNodes: Node[], options: Options) {
     verbose: options.verbose
   })
 
-  // add doctype because webparser don't handle it
-  if (options.documentMode === true) {
-    result.children.unshift({
-      type: 'doctype',
-      name: 'html',
-      public: null,
-      system: null
-    })
-  }
-
   return result
 }
 
@@ -85,6 +76,13 @@ function transform(ast: Node, config: Options): HastNode {
     node = text(ast)
   } else if (ast instanceof Comment) {
     node = comment(ast)
+  } else if (ast instanceof Doctype) {
+    node = {
+      type: 'doctype',
+      name: 'html',
+      public: null,
+      system: null
+    }
   }
 
   config.schema = schema

@@ -8,7 +8,7 @@ const hidden = require('is-hidden')
 const negate = require('negate')
 
 const unified = require('unified')
-const parse = require('../webparser')
+const parse = require('@starptech/prettyhtml-rehype-webparser')
 const stringify = require('../stringify')
 const format = require('..')
 
@@ -42,9 +42,7 @@ function check(t, fixture, options) {
   } catch (err) {}
 
   proc = unified()
-    .use(parse, {
-      verbose: true
-    })
+    .use(parse)
     .use(format, config)
     .use(stringify, config)
 
