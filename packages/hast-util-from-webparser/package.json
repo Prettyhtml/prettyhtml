@@ -7,7 +7,8 @@
     "start": "ts-node index.ts",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
-    "test": "jest --forceExit --coverage --verbose",
+    "test": "jest --forceExit --verbose",
+    "test-coverage": "jest --forceExit --coverage --verbose",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "postinstall": "npm run build-ts"
   },
