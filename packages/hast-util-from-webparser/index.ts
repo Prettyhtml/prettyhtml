@@ -118,7 +118,9 @@ function comment(ast: Comment): HastNode {
 }
 
 function getNameAndNS(name: string) {
-  if (name[0] === ':') {
+  // support vue :foo attributes but respect
+  // namepsace syntax from webparser like :ns:attribute
+  if (name.split(':').length === 2) {
     return { ns: null, name: name }
   }
 

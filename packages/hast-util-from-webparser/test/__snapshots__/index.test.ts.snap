@@ -115,6 +115,28 @@ Object {
 }
 `;
 
+exports[`Attributes with namespace 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "properties": Object {
+        "xmlnsXLink": "http://www.w3.org/1999/xlink",
+      },
+      "tagName": "svg",
+      "type": "element",
+    },
+  ],
+  "data": Object {
+    "selfClosing": false,
+  },
+  "type": "root",
+}
+`;
+
 exports[`Case sensitive attributes 1`] = `
 Object {
   "children": Array [
@@ -345,7 +367,7 @@ Object {
                 "fill": "red",
                 "r": "50",
               },
-              "tagName": ":svg:circle",
+              "tagName": "circle",
               "type": "element",
             },
             Object {
@@ -364,7 +386,7 @@ Object {
                 "fill": "green",
                 "r": "50",
               },
-              "tagName": ":svg:circle",
+              "tagName": "circle",
               "type": "element",
             },
             Object {
@@ -377,13 +399,13 @@ Object {
             "selfClosing": false,
           },
           "properties": Object {
-            ":xmlns:xlink": "http://www.w3.org/1999/xlink",
-            "height": 120,
+            "height": "120",
             "viewBox": "0 0 200 200",
-            "width": 230,
+            "width": "230",
             "xmlns": "http://www.w3.org/2000/svg",
+            "xmlnsXLink": "http://www.w3.org/1999/xlink",
           },
-          "tagName": ":svg:svg",
+          "tagName": "svg",
           "type": "element",
         },
         Object {

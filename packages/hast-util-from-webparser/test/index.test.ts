@@ -148,3 +148,14 @@ test('Doctype with html skeleton', () => {
 
   expect(node).toMatchSnapshot()
 })
+
+test('Attributes with namespace', () => {
+  const parser = new HtmlParser()
+  const result = parser.parse(`<svg xmlns:xlink="http://www.w3.org/1999/xlink"></svg>`, 'TestComp')
+
+  expect(result.errors.length).toBe(0)
+
+  const node = fromWebParser(result.rootNodes, {})
+
+  expect(node).toMatchSnapshot()
+})
