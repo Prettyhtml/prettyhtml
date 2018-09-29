@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "lock": "lerna exec -- npm i --package-lock-only",
     "postinstall": "npm run bootstrap",
-    "precommit": "npm test && npm run prettify"
+    "precommit": "npm test && npm run prettify",
+    "build-ts": "lerna exec --scope @starptech/hast-util-from-webparser --scope @starptech/webparser --scope @starptech/prettyhtml-rehype-webparser -- npm run build-ts"
   },
   "repository": {
     "type": "git",
