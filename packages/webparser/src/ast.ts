@@ -13,33 +13,6 @@ export class Text implements Node {
   }
 }
 
-export class Expansion implements Node {
-  constructor(
-    public switchValue: string,
-    public type: string,
-    public cases: ExpansionCase[],
-    public sourceSpan: ParseSourceSpan,
-    public switchValueSourceSpan: ParseSourceSpan
-  ) {}
-  visit(visitor: Visitor, context: any): any {
-    return visitor.visitExpansion(this, context)
-  }
-}
-
-export class ExpansionCase implements Node {
-  constructor(
-    public value: string,
-    public expression: Node[],
-    public sourceSpan: ParseSourceSpan,
-    public valueSourceSpan: ParseSourceSpan,
-    public expSourceSpan: ParseSourceSpan
-  ) {}
-
-  visit(visitor: Visitor, context: any): any {
-    return visitor.visitExpansionCase(this, context)
-  }
-}
-
 export class Attribute implements Node {
   constructor(
     public name: string,
@@ -96,8 +69,6 @@ export interface Visitor {
   visitAttribute(attribute: Attribute, context: any): any
   visitText(text: Text, context: any): any
   visitComment(comment: Comment, context: any): any
-  visitExpansion(expansion: Expansion, context: any): any
-  visitExpansionCase(expansionCase: ExpansionCase, context: any): any
 }
 
 export function visitAll(
@@ -133,13 +104,6 @@ export class RecursiveVisitor implements Visitor {
   visitText(ast: Text, context: any): any {}
   visitComment(ast: Comment, context: any): any {}
   visitDoctype(doctype: Doctype, context: any): any {}
-  visitExpansion(ast: Expansion, context: any): any {
-    return this.visitChildren(context, visit => {
-      visit(ast.cases)
-    })
-  }
-
-  visitExpansionCase(ast: ExpansionCase, context: any): any {}
 
   private visitChildren<T extends Node>(
     context: any,

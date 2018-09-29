@@ -102,14 +102,6 @@ export class WhitespaceVisitor implements html.Visitor {
   visitDoctype(doctype: html.Doctype, context: any): any {
     return doctype
   }
-
-  visitExpansion(expansion: html.Expansion, context: any): any {
-    return expansion
-  }
-
-  visitExpansionCase(expansionCase: html.ExpansionCase, context: any): any {
-    return expansionCase
-  }
 }
 
 export function removeWhitespaces(

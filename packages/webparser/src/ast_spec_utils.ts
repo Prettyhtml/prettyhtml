@@ -81,27 +81,6 @@ class _Humanizer implements html.Visitor {
     this.result.push(res)
   }
 
-  visitExpansion(expansion: html.Expansion, context: any): any {
-    const res = this._appendContext(expansion, [
-      html.Expansion,
-      expansion.switchValue,
-      expansion.type,
-      this.elDepth++
-    ])
-    this.result.push(res)
-    html.visitAll(this, expansion.cases)
-    this.elDepth--
-  }
-
-  visitExpansionCase(expansionCase: html.ExpansionCase, context: any): any {
-    const res = this._appendContext(expansionCase, [
-      html.ExpansionCase,
-      expansionCase.value,
-      this.elDepth
-    ])
-    this.result.push(res)
-  }
-
   private _appendContext(ast: html.Node, input: any[]): any[] {
     if (!this.includeSourceSpan) return input
     input.push(ast.sourceSpan!.toString())

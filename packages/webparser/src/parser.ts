@@ -59,7 +59,6 @@ export class Parser {
   parse(
     source: string,
     url: string,
-    parseExpansionForms: boolean = false,
     interpolationConfig: InterpolationConfig = DEFAULT_INTERPOLATION_CONFIG
   ): ParseTreeResult {
     if (this.options.ignoreFirstLf === undefined) {
@@ -70,7 +69,6 @@ export class Parser {
       source,
       url,
       this.getTagDefinition,
-      parseExpansionForms,
       interpolationConfig,
       this.options
     )
@@ -131,8 +129,6 @@ class _TreeBuilder {
       ) {
         this._closeVoidElement()
         this._consumeText(this._advance())
-      } else if (this._peek.type === lex.TokenType.EXPANSION_FORM_START) {
-        this._consumeExpansion(this._advance())
       } else {
         // Skip all other tokens...
         this._advance()
@@ -173,164 +169,6 @@ class _TreeBuilder {
   private _consumeDoctype(token: lex.Token) {
     const value = token.parts.length ? token.parts[0] : null
     this._addToParent(new html.Doctype(value, token.sourceSpan))
-  }
-
-  private _consumeExpansion(token: lex.Token) {
-    const switchValue = this._advance()
-
-    const type = this._advance()
-    const cases: html.ExpansionCase[] = []
-
-    // read =
-    while (this._peek.type === lex.TokenType.EXPANSION_CASE_VALUE) {
-      const expCase = this._parseExpansionCase()
-      if (!expCase) return // error
-      cases.push(expCase)
-    }
-
-    // read the final }
-    if (this._peek.type !== lex.TokenType.EXPANSION_FORM_END) {
-      this._errors.push(
-        TreeError.create(
-          null,
-          this._peek.sourceSpan,
-          `Invalid ICU message. Missing '}'.`
-        )
-      )
-      return
-    }
-    const sourceSpan = new ParseSourceSpan(
-      token.sourceSpan.start,
-      this._peek.sourceSpan.end
-    )
-    this._addToParent(
-      new html.Expansion(
-        switchValue.parts[0],
-        type.parts[0],
-        cases,
-        sourceSpan,
-        switchValue.sourceSpan
-      )
-    )
-
-    this._advance()
-  }
-
-  private _parseExpansionCase(): html.ExpansionCase | null {
-    const value = this._advance()
-
-    // read {
-    if (this._peek.type !== lex.TokenType.EXPANSION_CASE_EXP_START) {
-      this._errors.push(
-        TreeError.create(
-          null,
-          this._peek.sourceSpan,
-          `Invalid ICU message. Missing '{'.`
-        )
-      )
-      return null
-    }
-
-    // read until }
-    const start = this._advance()
-
-    const exp = this._collectExpansionExpTokens(start)
-    if (!exp) return null
-
-    const end = this._advance()
-    exp.push(new lex.Token(lex.TokenType.EOF, [], end.sourceSpan))
-
-    // parse everything in between { and }
-    const parsedExp = new _TreeBuilder(
-      this.options,
-      exp,
-      this.getTagDefinition
-    ).build()
-    if (parsedExp.errors.length > 0) {
-      this._errors = this._errors.concat(<TreeError[]>parsedExp.errors)
-      return null
-    }
-
-    const sourceSpan = new ParseSourceSpan(
-      value.sourceSpan.start,
-      end.sourceSpan.end
-    )
-    const expSourceSpan = new ParseSourceSpan(
-      start.sourceSpan.start,
-      end.sourceSpan.end
-    )
-    return new html.ExpansionCase(
-      value.parts[0],
-      parsedExp.rootNodes,
-      sourceSpan,
-      value.sourceSpan,
-      expSourceSpan
-    )
-  }
-
-  private _collectExpansionExpTokens(start: lex.Token): lex.Token[] | null {
-    const exp: lex.Token[] = []
-    const expansionFormStack = [lex.TokenType.EXPANSION_CASE_EXP_START]
-
-    while (true) {
-      if (
-        this._peek.type === lex.TokenType.EXPANSION_FORM_START ||
-        this._peek.type === lex.TokenType.EXPANSION_CASE_EXP_START
-      ) {
-        expansionFormStack.push(this._peek.type)
-      }
-
-      if (this._peek.type === lex.TokenType.EXPANSION_CASE_EXP_END) {
-        if (
-          lastOnStack(
-            expansionFormStack,
-            lex.TokenType.EXPANSION_CASE_EXP_START
-          )
-        ) {
-          expansionFormStack.pop()
-          if (expansionFormStack.length == 0) return exp
-        } else {
-          this._errors.push(
-            TreeError.create(
-              null,
-              start.sourceSpan,
-              `Invalid ICU message. Missing '}'.`
-            )
-          )
-          return null
-        }
-      }
-
-      if (this._peek.type === lex.TokenType.EXPANSION_FORM_END) {
-        if (
-          lastOnStack(expansionFormStack, lex.TokenType.EXPANSION_FORM_START)
-        ) {
-          expansionFormStack.pop()
-        } else {
-          this._errors.push(
-            TreeError.create(
-              null,
-              start.sourceSpan,
-              `Invalid ICU message. Missing '}'.`
-            )
-          )
-          return null
-        }
-      }
-
-      if (this._peek.type === lex.TokenType.EOF) {
-        this._errors.push(
-          TreeError.create(
-            null,
-            start.sourceSpan,
-            `Invalid ICU message. Missing '}'.`
-          )
-        )
-        return null
-      }
-
-      exp.push(this._advance())
-    }
   }
 
   private _consumeText(token: lex.Token) {

@@ -27,11 +27,6 @@ export enum TokenType {
   ATTR_NAME,
   ATTR_VALUE,
   DOC_TYPE,
-  EXPANSION_FORM_START,
-  EXPANSION_CASE_VALUE,
-  EXPANSION_CASE_EXP_START,
-  EXPANSION_CASE_EXP_END,
-  EXPANSION_FORM_END,
   EOF
 }
 
@@ -61,14 +56,12 @@ export function tokenize(
   source: string,
   url: string,
   getTagDefinition: (tagName: string, ignoreFirstLf: boolean) => TagDefinition,
-  tokenizeExpansionForms: boolean = false,
   interpolationConfig: InterpolationConfig = DEFAULT_INTERPOLATION_CONFIG,
   options: LexerOptions
 ): TokenizeResult {
   return new _Tokenizer(
     new ParseSourceFile(source, url),
     getTagDefinition,
-    tokenizeExpansionForms,
     interpolationConfig,
     options
   ).tokenize()
@@ -108,7 +101,6 @@ class _Tokenizer {
   private _currentTokenStart!: ParseLocation
   // TODO(issue/24571): remove '!'.
   private _currentTokenType!: TokenType
-  private _expansionCaseStack: TokenType[] = []
   private _inInterpolation: boolean = false
 
   tokens: Token[] = []
@@ -117,13 +109,11 @@ class _Tokenizer {
   /**
    * @param _file The html source
    * @param _getTagDefinition
-   * @param _tokenizeIcu Whether to tokenize ICU messages (considered as text nodes when false)
    * @param _interpolationConfig
    */
   constructor(
     private _file: ParseSourceFile,
     private _getTagDefinition: (tagName: string, ignoreFirstLf: boolean) => TagDefinition,
-    private _tokenizeIcu: boolean,
     private _interpolationConfig: InterpolationConfig = DEFAULT_INTERPOLATION_CONFIG,
     private _options: LexerOptions
   ) {
@@ -158,7 +148,7 @@ class _Tokenizer {
           } else {
             this._consumeTagOpen(start)
           }
-        } else if (!(this._tokenizeIcu && this._tokenizeExpansionForm())) {
+        } else {
           this._consumeText()
         }
       } catch (e) {
@@ -172,38 +162,6 @@ class _Tokenizer {
     this._beginToken(TokenType.EOF)
     this._endToken([])
     return new TokenizeResult(mergeTextTokens(this.tokens), this.errors)
-  }
-
-  /**
-   * @returns whether an ICU token has been created
-   * @internal
-   */
-  private _tokenizeExpansionForm(): boolean {
-    if (
-      isExpansionFormStart(this._input, this._index, this._interpolationConfig)
-    ) {
-      this._consumeExpansionFormStart()
-      return true
-    }
-
-    if (isExpansionCaseStart(this._peek) && this._isInExpansionForm()) {
-      this._consumeExpansionCaseStart()
-      return true
-    }
-
-    if (this._peek === chars.$RBRACE) {
-      if (this._isInExpansionCase()) {
-        this._consumeExpansionCaseEnd()
-        return true
-      }
-
-      if (this._isInExpansionForm()) {
-        this._consumeExpansionFormEnd()
-        return true
-      }
-    }
-
-    return false
   }
 
   private _getLocation(): ParseLocation {
@@ -241,9 +199,6 @@ class _Tokenizer {
   }
 
   private _createError(msg: string, span: ParseSourceSpan): _ControlFlowError {
-    if (this._isInExpansionForm()) {
-      msg += ` (Do you have an unescaped "{" in your template? Use "{{ '{' }}") to escape it.)`
-    }
     const error = new TokenError(msg, this._currentTokenType, span)
     this._currentTokenStart = null!
     this._currentTokenType = null!
@@ -617,57 +572,6 @@ class _Tokenizer {
     this._endToken(prefixAndName)
   }
 
-  private _consumeExpansionFormStart() {
-    this._beginToken(TokenType.EXPANSION_FORM_START, this._getLocation())
-    this._requireCharCode(chars.$LBRACE)
-    this._endToken([])
-
-    this._expansionCaseStack.push(TokenType.EXPANSION_FORM_START)
-
-    this._beginToken(TokenType.RAW_TEXT, this._getLocation())
-    const condition = this._readUntil(chars.$COMMA)
-    this._endToken([condition], this._getLocation())
-    this._requireCharCode(chars.$COMMA)
-    this._attemptCharCodeUntilFn(isNotWhitespace)
-
-    this._beginToken(TokenType.RAW_TEXT, this._getLocation())
-    const type = this._readUntil(chars.$COMMA)
-    this._endToken([type], this._getLocation())
-    this._requireCharCode(chars.$COMMA)
-    this._attemptCharCodeUntilFn(isNotWhitespace)
-  }
-
-  private _consumeExpansionCaseStart() {
-    this._beginToken(TokenType.EXPANSION_CASE_VALUE, this._getLocation())
-    const value = this._readUntil(chars.$LBRACE).trim()
-    this._endToken([value], this._getLocation())
-    this._attemptCharCodeUntilFn(isNotWhitespace)
-
-    this._beginToken(TokenType.EXPANSION_CASE_EXP_START, this._getLocation())
-    this._requireCharCode(chars.$LBRACE)
-    this._endToken([], this._getLocation())
-    this._attemptCharCodeUntilFn(isNotWhitespace)
-
-    this._expansionCaseStack.push(TokenType.EXPANSION_CASE_EXP_START)
-  }
-
-  private _consumeExpansionCaseEnd() {
-    this._beginToken(TokenType.EXPANSION_CASE_EXP_END, this._getLocation())
-    this._requireCharCode(chars.$RBRACE)
-    this._endToken([], this._getLocation())
-    this._attemptCharCodeUntilFn(isNotWhitespace)
-
-    this._expansionCaseStack.pop()
-  }
-
-  private _consumeExpansionFormEnd() {
-    this._beginToken(TokenType.EXPANSION_FORM_END, this._getLocation())
-    this._requireCharCode(chars.$RBRACE)
-    this._endToken([])
-
-    this._expansionCaseStack.pop()
-  }
-
   private _consumeText() {
     const start = this._getLocation()
     this._beginToken(TokenType.TEXT, start)
@@ -698,24 +602,6 @@ class _Tokenizer {
   private _isTextEnd(): boolean {
     if (this._peek === chars.$LT || this._peek === chars.$EOF) {
       return true
-    }
-
-    if (this._tokenizeIcu && !this._inInterpolation) {
-      if (
-        isExpansionFormStart(
-          this._input,
-          this._index,
-          this._interpolationConfig
-        )
-      ) {
-        // start of an expansion form
-        return true
-      }
-
-      if (this._peek === chars.$RBRACE && this._isInExpansionCase()) {
-        // end of and expansion case
-        return true
-      }
     }
 
     return false
@@ -749,22 +635,6 @@ class _Tokenizer {
       // remove any extra tokens
       this.tokens = this.tokens.slice(0, nbTokens)
     }
-  }
-
-  private _isInExpansionCase(): boolean {
-    return (
-      this._expansionCaseStack.length > 0 &&
-      this._expansionCaseStack[this._expansionCaseStack.length - 1] ===
-        TokenType.EXPANSION_CASE_EXP_START
-    )
-  }
-
-  private _isInExpansionForm(): boolean {
-    return (
-      this._expansionCaseStack.length > 0 &&
-      this._expansionCaseStack[this._expansionCaseStack.length - 1] ===
-        TokenType.EXPANSION_FORM_START
-    )
   }
 }
 
@@ -803,22 +673,6 @@ function isNamedEntityEnd(code: number): boolean {
   return (
     code == chars.$SEMICOLON || code == chars.$EOF || !chars.isAsciiLetter(code)
   )
-}
-
-function isExpansionFormStart(
-  input: string,
-  offset: number,
-  interpolationConfig: InterpolationConfig
-): boolean {
-  const isInterpolationStart = interpolationConfig
-    ? input.indexOf(interpolationConfig.start, offset) == offset
-    : false
-
-  return input.charCodeAt(offset) == chars.$LBRACE && !isInterpolationStart
-}
-
-function isExpansionCaseStart(peek: number): boolean {
-  return peek === chars.$EQ || chars.isAsciiLetter(peek) || chars.isDigit(peek)
 }
 
 function compareCharCodeCaseInsensitive(code1: number, code2: number): boolean {

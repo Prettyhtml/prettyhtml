@@ -1,5 +1,5 @@
 import * as html from '../src/ast'
-import { HtmlParser, ParseTreeResult, TreeError } from '../src/html_parser'
+import { HtmlParser, TreeError } from '../src/html_parser'
 import { TokenType } from '../src/lexer'
 import { ParseError } from '../src/parse_util'
 
@@ -46,6 +46,21 @@ import {
             [html.Element, 'div', 0],
             [html.Attribute, ':md-date.sync', ''],
             [html.Attribute, '@md-closed', 'toggleDialog']
+          ])
+        })
+      })
+
+      describe('interpolation', () => {
+        it('should parse as text', () => {
+          expect(
+            humanizeDom(
+              parser.parse(
+                '{{ foo }}',
+                'TestComp'
+              )
+            )
+          ).toEqual([
+            [html.Text, '{{ foo }}', 0]
           ])
         })
       })
@@ -490,122 +505,6 @@ import {
         })
       })
 
-      describe('expansion forms', () => {
-        it('should parse out expansion forms', () => {
-          const parsed = parser.parse(
-            `<div>before{messages.length, plural, =0 {You have <b>no</b> messages} =1 {One {{message}}}}after</div>`,
-            'TestComp',
-            true
-          )
-
-          expect(humanizeDom(parsed)).toEqual([
-            [html.Element, 'div', 0],
-            [html.Text, 'before', 1],
-            [html.Expansion, 'messages.length', 'plural', 1],
-            [html.ExpansionCase, '=0', 2],
-            [html.ExpansionCase, '=1', 2],
-            [html.Text, 'after', 1]
-          ])
-          const cases = (<any>parsed.rootNodes[0]).children[1].cases
-
-          expect(
-            humanizeDom(new ParseTreeResult(cases[0].expression, []))
-          ).toEqual([
-            [html.Text, 'You have ', 0],
-            [html.Element, 'b', 0],
-            [html.Text, 'no', 1],
-            [html.Text, ' messages', 0]
-          ])
-
-          expect(
-            humanizeDom(new ParseTreeResult(cases[1].expression, []))
-          ).toEqual([[html.Text, 'One {{message}}', 0]])
-        })
-
-        it('should parse out expansion forms', () => {
-          const parsed = parser.parse(
-            `<div><span>{a, plural, =0 {b}}</span></div>`,
-            'TestComp',
-            true
-          )
-
-          expect(humanizeDom(parsed)).toEqual([
-            [html.Element, 'div', 0],
-            [html.Element, 'span', 1],
-            [html.Expansion, 'a', 'plural', 2],
-            [html.ExpansionCase, '=0', 3]
-          ])
-        })
-
-        it('should parse out nested expansion forms', () => {
-          const parsed = parser.parse(
-            `{messages.length, plural, =0 { {p.gender, select, male {m}} }}`,
-            'TestComp',
-            true
-          )
-          expect(humanizeDom(parsed)).toEqual([
-            [html.Expansion, 'messages.length', 'plural', 0],
-            [html.ExpansionCase, '=0', 1]
-          ])
-
-          const firstCase = (<any>parsed.rootNodes[0]).cases[0]
-
-          expect(
-            humanizeDom(new ParseTreeResult(firstCase.expression, []))
-          ).toEqual([
-            [html.Expansion, 'p.gender', 'select', 0],
-            [html.ExpansionCase, 'male', 1],
-            [html.Text, ' ', 0]
-          ])
-        })
-
-        it('should error when expansion form is not closed', () => {
-          const p = parser.parse(
-            `{messages.length, plural, =0 {one}`,
-            'TestComp',
-            true
-          )
-          expect(humanizeErrors(p.errors)).toEqual([
-            [null, "Invalid ICU message. Missing '}'.", '0:34']
-          ])
-        })
-
-        it('should support ICU expressions with cases that contain numbers', () => {
-          const p = parser.parse(
-            `{sex, select, male {m} female {f} 0 {other}}`,
-            'TestComp',
-            true
-          )
-          expect(p.errors.length).toEqual(0)
-        })
-
-        it('should error when expansion case is not closed', () => {
-          const p = parser.parse(
-            `{messages.length, plural, =0 {one`,
-            'TestComp',
-            true
-          )
-          expect(humanizeErrors(p.errors)).toEqual([
-            [null, "Invalid ICU message. Missing '}'.", '0:29']
-          ])
-        })
-
-        it('should error when invalid html in the case', () => {
-          const p = parser.parse(
-            `{messages.length, plural, =0 {<b/>}`,
-            'TestComp',
-            true
-          )
-          expect(humanizeErrors(p.errors)).toEqual([
-            [
-              'b',
-              'Only void and foreign elements can be self closed "b"',
-              '0:30'
-            ]
-          ])
-        })
-      })
-
       describe('source spans', () => {
         it('should store the location', () => {
           expect(
@@ -640,22 +539,6 @@ import {
 
           expect(node.endSourceSpan!.start.offset).toEqual(6)
           expect(node.endSourceSpan!.end.offset).toEqual(12)
-        })
-
-        it('should support expansion form', () => {
-          expect(
-            humanizeDomSourceSpans(
-              parser.parse(
-                '<div>{count, plural, =0 {msg}}</div>',
-                'TestComp',
-                true
-              )
-            )
-          ).toEqual([
-            [html.Element, 'div', 0, '<div>'],
-            [html.Expansion, 'count', 'plural', 1, '{count, plural, =0 {msg}}'],
-            [html.ExpansionCase, '=0', 2, '=0 {msg}']
-          ])
         })
 
         it('should not report a value span for an attribute without a value', () => {
@@ -709,13 +592,6 @@ import {
             visitText(text: html.Text, context: any): any {}
             visitDoctype(doctype: html.Doctype, context: any): any {}
             visitComment(comment: html.Comment, context: any): any {}
-            visitExpansion(expansion: html.Expansion, context: any): any {
-              html.visitAll(this, expansion.cases)
-            }
-            visitExpansionCase(
-              expansionCase: html.ExpansionCase,
-              context: any
-            ): any {}
           }()
 
           html.visitAll(visitor, result.rootNodes)
@@ -747,16 +623,7 @@ import {
             visitComment(comment: html.Comment, context: any): any {
               throw Error('Unexpected')
             }
-            visitExpansion(expansion: html.Expansion, context: any): any {
-              throw Error('Unexpected')
-            }
             visitDoctype(doctype: html.Doctype, context: any): any {
-              throw Error('Unexpected')
-            }
-            visitExpansionCase(
-              expansionCase: html.ExpansionCase,
-              context: any
-            ): any {
               throw Error('Unexpected')
             }
           }()

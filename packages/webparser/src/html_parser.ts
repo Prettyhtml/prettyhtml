@@ -15,9 +15,8 @@ export class HtmlParser extends Parser {
   parse(
     source: string,
     url: string,
-    parseExpansionForms: boolean = false,
     interpolationConfig: InterpolationConfig = DEFAULT_INTERPOLATION_CONFIG
   ): ParseTreeResult {
-    return super.parse(source, url, parseExpansionForms, interpolationConfig)
+    return super.parse(source, url, interpolationConfig)
   }
 }
