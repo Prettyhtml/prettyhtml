@@ -13,7 +13,7 @@ npm install --save @starptech/webparser
 - Can skip decoding of html entities
 - Can consume the first linefeed in `pre`, `textarea` or `listing` tags (is skipped by HTML5 spec)
 
-_Those features are very useful if you want to implement a HTML formatter_
+_Those features are very useful if you want to implement a HTML formatter or anything else where a less strict parser is needed to keep all informations in the ast._
 
 ## Example
 
