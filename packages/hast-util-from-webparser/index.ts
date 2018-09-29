@@ -6,7 +6,7 @@ import {
   Text,
   Node,
   Doctype
-} from 'webparser'
+} from '@starptech/webparser'
 
 let htmlSchema = require('property-information/html')
 let svgSchema = require('property-information/svg')
