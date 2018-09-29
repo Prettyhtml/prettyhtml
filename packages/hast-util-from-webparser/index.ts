@@ -8,10 +8,10 @@ import {
   Doctype
 } from '@starptech/webparser'
 
-let htmlSchema = require('property-information/html')
-let svgSchema = require('property-information/svg')
-let hastSvg = require('@starptech/prettyhtml-hastscript/svg')
-let hast = require('@starptech/prettyhtml-hastscript')
+const htmlSchema = require('property-information/html')
+const svgSchema = require('property-information/svg')
+const hastSvg = require('@starptech/prettyhtml-hastscript/svg')
+const hast = require('@starptech/prettyhtml-hastscript')
 
 function isFakeRoot(obj: Element): boolean {
   return obj.name === ':webparser:root'
@@ -29,6 +29,7 @@ type HastNode = {
   type: string
   tagName?: string
   properties?: Array<Object>
+  position?: { start: any; end: any }
   children?: HastNode[]
   public?: string
   system?: string
@@ -51,7 +52,7 @@ export = function from(rootNodes: Node[], options: Options) {
 
 /* Transform a node. */
 function transform(ast: Node, config: Options): HastNode {
-  let schema = config.schema
+  const schema = config.schema
   let node: HastNode
 
   if (ast instanceof Element) {
@@ -85,6 +86,37 @@ function transform(ast: Node, config: Options): HastNode {
     }
   }
 
+  if (ast instanceof Element) {
+    if (ast.startSourceSpan && ast.endSourceSpan) {
+      node.position = {
+        start: {
+          // webparser format counts lines beginning with zero
+          line: ast.startSourceSpan.start.line++,
+          column: ast.startSourceSpan.start.col,
+          offset: ast.startSourceSpan.start.offset
+        },
+        end: {
+          line: ast.endSourceSpan.end.line++,
+          column: ast.endSourceSpan.end.col,
+          offset: ast.endSourceSpan.end.offset
+        }
+      }
+    }
+  } else {
+    node.position = {
+      start: {
+        line: ast.sourceSpan.start.line++,
+        column: ast.sourceSpan.start.col,
+        offset: ast.sourceSpan.start.offset
+      },
+      end: {
+        line: ast.sourceSpan.end.line++,
+        column: ast.sourceSpan.end.col,
+        offset: ast.sourceSpan.end.offset
+      }
+    }
+  }
+
   config.schema = schema
 
   return node
@@ -92,9 +124,9 @@ function transform(ast: Node, config: Options): HastNode {
 
 /* Transform children. */
 function nodes(children: Node[], config: Options): HastNode[] {
-  let length = children.length
+  const length = children.length
   let index = -1
-  let result: HastNode[] = []
+  const result: HastNode[] = []
 
   while (++index < length) {
     result[index] = transform(children[index], config)
@@ -134,9 +166,9 @@ function element(
   children: HastNode[],
   config: Options
 ): HastNode {
-  let fn = config.schema.space === 'svg' ? hastSvg : hast
-  let name = getNameAndNS(ast.name).name
-  let props: { [name: string]: string } = {}
+  const fn = config.schema.space === 'svg' ? hastSvg : hast
+  const name = getNameAndNS(ast.name).name
+  const props: { [name: string]: string } = {}
   let node
 
   for (const attr of ast.attrs) {

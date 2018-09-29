@@ -8,6 +8,18 @@ Object {
       "data": Object {
         "selfClosing": false,
       },
+      "position": Object {
+        "end": Object {
+          "column": 48,
+          "line": 0,
+          "offset": 48,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 0,
+          "offset": 0,
+        },
+      },
       "properties": Object {
         "className": Array [
           "bar",
@@ -20,6 +32,18 @@ Object {
       "type": "element",
     },
     Object {
+      "position": Object {
+        "end": Object {
+          "column": 2,
+          "line": 1,
+          "offset": 51,
+        },
+        "start": Object {
+          "column": 48,
+          "line": 0,
+          "offset": 48,
+        },
+      },
       "type": "text",
       "value": "
   ",
@@ -29,6 +53,18 @@ Object {
       "data": Object {
         "selfClosing": false,
       },
+      "position": Object {
+        "end": Object {
+          "column": 24,
+          "line": 1,
+          "offset": 73,
+        },
+        "start": Object {
+          "column": 2,
+          "line": 1,
+          "offset": 51,
+        },
+      },
       "properties": Object {
         "data123": "456",
       },
@@ -36,6 +72,18 @@ Object {
       "type": "element",
     },
     Object {
+      "position": Object {
+        "end": Object {
+          "column": 2,
+          "line": 2,
+          "offset": 76,
+        },
+        "start": Object {
+          "column": 24,
+          "line": 1,
+          "offset": 73,
+        },
+      },
       "type": "text",
       "value": "
   ",
@@ -53,6 +101,18 @@ Object {
       "type": "element",
     },
     Object {
+      "position": Object {
+        "end": Object {
+          "column": 2,
+          "line": 3,
+          "offset": 95,
+        },
+        "start": Object {
+          "column": 18,
+          "line": 2,
+          "offset": 92,
+        },
+      },
       "type": "text",
       "value": "
   ",
@@ -61,6 +121,18 @@ Object {
       "children": Array [],
       "data": Object {
         "selfClosing": false,
+      },
+      "position": Object {
+        "end": Object {
+          "column": 18,
+          "line": 3,
+          "offset": 111,
+        },
+        "start": Object {
+          "column": 2,
+          "line": 3,
+          "offset": 95,
+        },
       },
       "properties": Object {
         "download": true,
@@ -69,6 +141,18 @@ Object {
       "type": "element",
     },
     Object {
+      "position": Object {
+        "end": Object {
+          "column": 2,
+          "line": 4,
+          "offset": 114,
+        },
+        "start": Object {
+          "column": 18,
+          "line": 3,
+          "offset": 111,
+        },
+      },
       "type": "text",
       "value": "
   ",
@@ -77,6 +161,18 @@ Object {
       "children": Array [],
       "data": Object {
         "selfClosing": false,
+      },
+      "position": Object {
+        "end": Object {
+          "column": 30,
+          "line": 4,
+          "offset": 142,
+        },
+        "start": Object {
+          "column": 2,
+          "line": 4,
+          "offset": 114,
+        },
       },
       "properties": Object {
         "download": "example.mp3",
@@ -99,6 +195,18 @@ Object {
       "children": Array [],
       "data": Object {
         "selfClosing": false,
+      },
+      "position": Object {
+        "end": Object {
+          "column": 31,
+          "line": 0,
+          "offset": 31,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 0,
+          "offset": 0,
+        },
       },
       "properties": Object {
         ":type": "",
@@ -123,6 +231,18 @@ Object {
       "data": Object {
         "selfClosing": false,
       },
+      "position": Object {
+        "end": Object {
+          "column": 54,
+          "line": 0,
+          "offset": 54,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 0,
+          "offset": 0,
+        },
+      },
       "properties": Object {
         "xmlnsXLink": "http://www.w3.org/1999/xlink",
       },
@@ -145,6 +265,18 @@ Object {
       "data": Object {
         "selfClosing": false,
       },
+      "position": Object {
+        "end": Object {
+          "column": 17,
+          "line": 0,
+          "offset": 17,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 0,
+          "offset": 0,
+        },
+      },
       "properties": Object {
         "async": true,
       },
@@ -163,6 +295,18 @@ exports[`Comment 1`] = `
 Object {
   "children": Array [
     Object {
+      "position": Object {
+        "end": Object {
+          "column": 4,
+          "line": 0,
+          "offset": 4,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 0,
+          "offset": 0,
+        },
+      },
       "type": "comment",
       "value": " foo ",
     },
@@ -179,6 +323,18 @@ Object {
   "children": Array [
     Object {
       "name": "html",
+      "position": Object {
+        "end": Object {
+          "column": 15,
+          "line": 0,
+          "offset": 15,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 0,
+          "offset": 0,
+        },
+      },
       "public": null,
       "system": null,
       "type": "doctype",
@@ -196,6 +352,18 @@ Object {
   "children": Array [
     Object {
       "name": "html",
+      "position": Object {
+        "end": Object {
+          "column": 10,
+          "line": 0,
+          "offset": 10,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 0,
+          "offset": 0,
+        },
+      },
       "public": null,
       "system": null,
       "type": "doctype",
@@ -213,6 +381,18 @@ Object {
   "children": Array [
     Object {
       "name": "html",
+      "position": Object {
+        "end": Object {
+          "column": 10,
+          "line": 0,
+          "offset": 10,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 0,
+          "offset": 0,
+        },
+      },
       "public": null,
       "system": null,
       "type": "doctype",
@@ -224,6 +404,18 @@ Object {
           "data": Object {
             "selfClosing": false,
           },
+          "position": Object {
+            "end": Object {
+              "column": 29,
+              "line": 0,
+              "offset": 29,
+            },
+            "start": Object {
+              "column": 16,
+              "line": 0,
+              "offset": 16,
+            },
+          },
           "properties": Object {},
           "tagName": "head",
           "type": "element",
@@ -231,12 +423,36 @@ Object {
         Object {
           "children": Array [
             Object {
+              "position": Object {
+                "end": Object {
+                  "column": 38,
+                  "line": 0,
+                  "offset": 38,
+                },
+                "start": Object {
+                  "column": 35,
+                  "line": 0,
+                  "offset": 35,
+                },
+              },
               "type": "text",
               "value": "foo",
             },
           ],
           "data": Object {
             "selfClosing": false,
+          },
+          "position": Object {
+            "end": Object {
+              "column": 45,
+              "line": 0,
+              "offset": 45,
+            },
+            "start": Object {
+              "column": 29,
+              "line": 0,
+              "offset": 29,
+            },
           },
           "properties": Object {},
           "tagName": "body",
@@ -245,6 +461,18 @@ Object {
       ],
       "data": Object {
         "selfClosing": false,
+      },
+      "position": Object {
+        "end": Object {
+          "column": 52,
+          "line": 0,
+          "offset": 52,
+        },
+        "start": Object {
+          "column": 10,
+          "line": 0,
+          "offset": 10,
+        },
       },
       "properties": Object {},
       "tagName": "html",
@@ -262,6 +490,18 @@ exports[`Element void 1`] = `
 Object {
   "children": Array [
     Object {
+      "position": Object {
+        "end": Object {
+          "column": 2,
+          "line": 1,
+          "offset": 3,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 0,
+          "offset": 0,
+        },
+      },
       "type": "text",
       "value": "
   ",
@@ -276,6 +516,18 @@ Object {
       "type": "element",
     },
     Object {
+      "position": Object {
+        "end": Object {
+          "column": 2,
+          "line": 2,
+          "offset": 11,
+        },
+        "start": Object {
+          "column": 7,
+          "line": 1,
+          "offset": 8,
+        },
+      },
       "type": "text",
       "value": "
   ",
@@ -290,6 +542,18 @@ Object {
       "type": "element",
     },
     Object {
+      "position": Object {
+        "end": Object {
+          "column": 2,
+          "line": 3,
+          "offset": 18,
+        },
+        "start": Object {
+          "column": 6,
+          "line": 2,
+          "offset": 15,
+        },
+      },
       "type": "text",
       "value": "
   ",
@@ -304,6 +568,18 @@ Object {
       "type": "element",
     },
     Object {
+      "position": Object {
+        "end": Object {
+          "column": 2,
+          "line": 4,
+          "offset": 25,
+        },
+        "start": Object {
+          "column": 6,
+          "line": 3,
+          "offset": 22,
+        },
+      },
       "type": "text",
       "value": "
   ",
@@ -318,6 +594,18 @@ Object {
       "type": "element",
     },
     Object {
+      "position": Object {
+        "end": Object {
+          "column": 2,
+          "line": 5,
+          "offset": 34,
+        },
+        "start": Object {
+          "column": 8,
+          "line": 4,
+          "offset": 31,
+        },
+      },
       "type": "text",
       "value": "
   ",
@@ -345,6 +633,18 @@ Object {
     Object {
       "children": Array [
         Object {
+          "position": Object {
+            "end": Object {
+              "column": 2,
+              "line": 1,
+              "offset": 8,
+            },
+            "start": Object {
+              "column": 5,
+              "line": 0,
+              "offset": 5,
+            },
+          },
           "type": "text",
           "value": "
   ",
@@ -352,6 +652,18 @@ Object {
         Object {
           "children": Array [
             Object {
+              "position": Object {
+                "end": Object {
+                  "column": 4,
+                  "line": 2,
+                  "offset": 143,
+                },
+                "start": Object {
+                  "column": 132,
+                  "line": 1,
+                  "offset": 138,
+                },
+              },
               "type": "text",
               "value": "
     ",
@@ -360,6 +672,18 @@ Object {
               "children": Array [],
               "data": Object {
                 "selfClosing": true,
+              },
+              "position": Object {
+                "end": Object {
+                  "column": 48,
+                  "line": 2,
+                  "offset": 187,
+                },
+                "start": Object {
+                  "column": 4,
+                  "line": 2,
+                  "offset": 143,
+                },
               },
               "properties": Object {
                 "cx": "60",
@@ -371,6 +695,18 @@ Object {
               "type": "element",
             },
             Object {
+              "position": Object {
+                "end": Object {
+                  "column": 4,
+                  "line": 3,
+                  "offset": 192,
+                },
+                "start": Object {
+                  "column": 48,
+                  "line": 3,
+                  "offset": 187,
+                },
+              },
               "type": "text",
               "value": "
     ",
@@ -379,6 +715,18 @@ Object {
               "children": Array [],
               "data": Object {
                 "selfClosing": true,
+              },
+              "position": Object {
+                "end": Object {
+                  "column": 50,
+                  "line": 3,
+                  "offset": 238,
+                },
+                "start": Object {
+                  "column": 4,
+                  "line": 3,
+                  "offset": 192,
+                },
               },
               "properties": Object {
                 "cx": "170",
@@ -390,6 +738,18 @@ Object {
               "type": "element",
             },
             Object {
+              "position": Object {
+                "end": Object {
+                  "column": 2,
+                  "line": 4,
+                  "offset": 241,
+                },
+                "start": Object {
+                  "column": 50,
+                  "line": 4,
+                  "offset": 238,
+                },
+              },
               "type": "text",
               "value": "
   ",
@@ -397,6 +757,18 @@ Object {
           ],
           "data": Object {
             "selfClosing": false,
+          },
+          "position": Object {
+            "end": Object {
+              "column": 8,
+              "line": 4,
+              "offset": 247,
+            },
+            "start": Object {
+              "column": 2,
+              "line": 1,
+              "offset": 8,
+            },
           },
           "properties": Object {
             "height": "120",
@@ -409,6 +781,18 @@ Object {
           "type": "element",
         },
         Object {
+          "position": Object {
+            "end": Object {
+              "column": 0,
+              "line": 5,
+              "offset": 248,
+            },
+            "start": Object {
+              "column": 8,
+              "line": 4,
+              "offset": 247,
+            },
+          },
           "type": "text",
           "value": "
 ",
@@ -416,6 +800,18 @@ Object {
       ],
       "data": Object {
         "selfClosing": false,
+      },
+      "position": Object {
+        "end": Object {
+          "column": 6,
+          "line": 5,
+          "offset": 254,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 0,
+          "offset": 0,
+        },
       },
       "properties": Object {},
       "tagName": "div",
@@ -437,12 +833,36 @@ Object {
         Object {
           "children": Array [
             Object {
+              "position": Object {
+                "end": Object {
+                  "column": 11,
+                  "line": 0,
+                  "offset": 11,
+                },
+                "start": Object {
+                  "column": 8,
+                  "line": 0,
+                  "offset": 8,
+                },
+              },
               "type": "text",
               "value": "foo",
             },
           ],
           "data": Object {
             "selfClosing": false,
+          },
+          "position": Object {
+            "end": Object {
+              "column": 15,
+              "line": 0,
+              "offset": 15,
+            },
+            "start": Object {
+              "column": 5,
+              "line": 0,
+              "offset": 5,
+            },
           },
           "properties": Object {},
           "tagName": "p",
@@ -451,6 +871,18 @@ Object {
       ],
       "data": Object {
         "selfClosing": false,
+      },
+      "position": Object {
+        "end": Object {
+          "column": 21,
+          "line": 0,
+          "offset": 21,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 0,
+          "offset": 0,
+        },
       },
       "properties": Object {},
       "tagName": "div",
@@ -470,12 +902,36 @@ Object {
     Object {
       "children": Array [
         Object {
+          "position": Object {
+            "end": Object {
+              "column": 21,
+              "line": 0,
+              "offset": 21,
+            },
+            "start": Object {
+              "column": 20,
+              "line": 0,
+              "offset": 20,
+            },
+          },
           "type": "text",
           "value": "!",
         },
       ],
       "data": Object {
         "selfClosing": false,
+      },
+      "position": Object {
+        "end": Object {
+          "column": 32,
+          "line": 0,
+          "offset": 32,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 0,
+          "offset": 0,
+        },
       },
       "properties": Object {
         "id": "text",
@@ -484,6 +940,18 @@ Object {
       "type": "element",
     },
     Object {
+      "position": Object {
+        "end": Object {
+          "column": 4,
+          "line": 1,
+          "offset": 37,
+        },
+        "start": Object {
+          "column": 32,
+          "line": 0,
+          "offset": 32,
+        },
+      },
       "type": "text",
       "value": "
     ",
@@ -493,6 +961,18 @@ Object {
         Object {
           "children": Array [
             Object {
+              "position": Object {
+                "end": Object {
+                  "column": 42,
+                  "line": 1,
+                  "offset": 75,
+                },
+                "start": Object {
+                  "column": 32,
+                  "line": 1,
+                  "offset": 65,
+                },
+              },
               "type": "text",
               "value": "importance",
             },
@@ -500,17 +980,53 @@ Object {
           "data": Object {
             "selfClosing": false,
           },
+          "position": Object {
+            "end": Object {
+              "column": 51,
+              "line": 1,
+              "offset": 84,
+            },
+            "start": Object {
+              "column": 24,
+              "line": 1,
+              "offset": 57,
+            },
+          },
           "properties": Object {},
           "tagName": "strong",
           "type": "element",
         },
         Object {
+          "position": Object {
+            "end": Object {
+              "column": 56,
+              "line": 1,
+              "offset": 89,
+            },
+            "start": Object {
+              "column": 51,
+              "line": 1,
+              "offset": 84,
+            },
+          },
           "type": "text",
           "value": " and ",
         },
         Object {
           "children": Array [
             Object {
+              "position": Object {
+                "end": Object {
+                  "column": 68,
+                  "line": 1,
+                  "offset": 101,
+                },
+                "start": Object {
+                  "column": 60,
+                  "line": 1,
+                  "offset": 93,
+                },
+              },
               "type": "text",
               "value": "emphasis",
             },
@@ -518,17 +1034,53 @@ Object {
           "data": Object {
             "selfClosing": false,
           },
+          "position": Object {
+            "end": Object {
+              "column": 73,
+              "line": 1,
+              "offset": 106,
+            },
+            "start": Object {
+              "column": 56,
+              "line": 1,
+              "offset": 89,
+            },
+          },
           "properties": Object {},
           "tagName": "em",
           "type": "element",
         },
         Object {
+          "position": Object {
+            "end": Object {
+              "column": 74,
+              "line": 1,
+              "offset": 107,
+            },
+            "start": Object {
+              "column": 73,
+              "line": 1,
+              "offset": 106,
+            },
+          },
           "type": "text",
           "value": ".",
         },
       ],
       "data": Object {
         "selfClosing": false,
+      },
+      "position": Object {
+        "end": Object {
+          "column": 85,
+          "line": 1,
+          "offset": 118,
+        },
+        "start": Object {
+          "column": 4,
+          "line": 1,
+          "offset": 37,
+        },
       },
       "properties": Object {
         "id": "html",
