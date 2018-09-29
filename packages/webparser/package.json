@@ -9,7 +9,7 @@
     "test": "jest --forceExit --verbose --detectOpenHandles",
     "test-coverage": "npm run test -- --coverage",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
-    "postinstall": "npm run build-ts"
+    "prepublish": "npm run build-ts"
   },
   "keywords": [],
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
