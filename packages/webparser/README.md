@@ -1,6 +1,6 @@
 # @starptech/webparser
 
-Optimized html parser for HTMl5 Web Components.
+Optimized html parser for HTML5 Web Components.
 
 ```
 npm install --save @starptech/webparser

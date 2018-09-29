@@ -1,7 +1,7 @@
 {
   "name": "@starptech/webparser",
   "version": "0.1.2",
-  "description": "",
+  "description": "Optimized html parser for HTML5 Web Components.",
   "main": "./dist/public_api.js",
   "scripts": {
     "build-ts": "tsc",
