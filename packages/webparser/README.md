@@ -31,4 +31,4 @@ result.rootNodes
 
 ## Credits
 
-The parser is a moificated version of [Angular 6](https://github.com/angular/angular) template parser.
+The parser is a modificated version of [Angular 6](https://github.com/angular/angular) template parser.
