@@ -9,7 +9,7 @@ Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templa
 
 * Can parse Angular, Vue or HTML5 templates (even self-closing custom elements).
 * Formats embedded content with [prettier](https://github.com/prettier/prettier) with respect to your local settings.
-* Doesn't change the content of your attributes and tags. You are responsible for encoding.
+* Doesn't change the content of your attributes and tags.
 * Remove all superfluous white-space.
 * Enforce consistent output of your HTML.
 
@@ -18,9 +18,9 @@ Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templa
 - [prettyhtml](/packages/prettyhtml) CLI and API.
 - [prettyhtml-formatter](/packages/prettyhtml-formatter) Formatter.
 - [prettyhtml-hast-to-html](/packages/prettyhtml-hast-to-html) Stringifier.
-- [prettyhtml-parse](https://github.com/StarpTech/parse5) HTML parser and serializer (fork of [parse5](https://github.com/inikulin/parse5))
-- [prettyhtml-rehype-parse](/packages/prettyhtml-rehype-parse) Adapter between HTML parser and rehype.
-- [prettyhtml-hast-util-from-parse](/packages/prettyhtml-hast-util-from-parse) Transform prettyhtml-parse AST to HAST.
+- [prettyhtml-webparser](/packages/webparser) Optimized HTML parser for formatters
+- [prettyhtml-rehype-webparser](/packages/prettyhtml-rehype-webparser) Adapter between HTML parser and rehype.
+- [prettyhtml-hast-util-from-parse](/packages/prettyhtml-hast-util-from-webparser) Transform [webparser](/packages/webparser) AST to HAST.
 - [prettyhtml-hastscript](/packages/prettyhtml-hastscript) Hyperscript compatible DSL for creating virtual HAST trees.
 - [prettyhtml-quick](/packages/prettyhtml-quick) Formats your changed files based on Git. 
 
@@ -76,7 +76,7 @@ const result = prettyhtml(`<custom foo="bar"></custom>`, {
 
 ## Why
 
-Prettier has no support for template syntaxes like Angular or Vue. There is an open [PR](https://github.com/prettier/prettier/pull/4753) but there is no agreement on it. In the meantime I need a general formatter in order to talk less about formatting. Prettyhtml should be able to format any superset of HTML as long it is parseable with minor tweaks. We maintain a [fork](https://github.com/StarpTech/parse5) of the most robust HTML5 parser. Some other packages from the [rehype](https://github.com/rehypejs/rehype) ecosystem were modified to our needs.
+Prettier has no support for template syntaxes like Angular or Vue. There is an open [PR](https://github.com/prettier/prettier/pull/4753) but there is no agreement on it. In the meantime I need a general formatter in order to talk less about formatting. Prettyhtml should be able to format any superset of HTML as long it is parseable with minor tweaks. We use a modified version of the Angular 6 template parser. Some other packages from the [rehype](https://github.com/rehypejs/rehype) ecosystem were modified to our needs.
 
 ## Acknowledgement
 

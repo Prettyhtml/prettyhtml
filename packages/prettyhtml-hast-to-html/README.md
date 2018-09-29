@@ -16,3 +16,7 @@
 * Don't encode attribute values
 * Don't escape special characters in text
 * Don't omit value behind boolean attributes
+
+## Caveats
+
+* Known html attributes aren't handled case-sensitively

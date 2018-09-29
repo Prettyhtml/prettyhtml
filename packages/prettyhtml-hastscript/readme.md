@@ -19,3 +19,7 @@
 
 * Don't coerce or optimize attribute values
 * Don't house `<template>` node through `content` property. Handle it like any other element.
+
+## Caveats
+
+* Known html attributes aren't handled case-sensitively

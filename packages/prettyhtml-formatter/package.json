@@ -29,7 +29,8 @@
   "homepage": "https://github.com/StarpTech/prettyhtml#readme",
   "dependencies": {
     "@starptech/prettyhtml-hast-to-html": "^0.0.60",
-    "@starptech/prettyhtml-rehype-parse": "^0.0.60",
+    "@starptech/prettyhtml-rehype-webparser": "^0.0.1",
+    "@starptech/webparser": "0.0.1",
     "hast-util-is-element": "^1.0.1",
     "hast-util-to-string": "^1.0.1",
     "html-void-elements": "^1.0.3",

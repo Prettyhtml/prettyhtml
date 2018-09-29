@@ -2,10 +2,9 @@
 
 const VFile = require('vfile')
 const unified = require('unified')
-const parse = require('@starptech/prettyhtml-rehype-parse')
+const parse = require('@starptech/prettyhtml-rehype-webparser')
 const stringify = require('@starptech/prettyhtml-formatter/stringify')
 const format = require('@starptech/prettyhtml-formatter')
-const defaults = require('./defaults')
 
 module.exports = prettyhtml
 
@@ -27,13 +26,11 @@ function core(value, processor, options) {
 }
 
 function prettyhtml(value, options) {
-  options = Object.assign({}, options, {
-    parser: defaults.parser
-  })
+  options = Object.assign({}, options)
   return core(
     value,
     unified()
-      .use(parse, options.parser)
+      .use(parse)
       .freeze(),
     options
   )
