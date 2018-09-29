@@ -1,6 +1,6 @@
 {
   "name": "@starptech/prettyhtml",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Opinionated Web Component HTML formatter",
   "main": "index.js",
   "repository": {
@@ -29,9 +29,9 @@
   },
   "homepage": "https://github.com/StarpTech/prettyhtml#readme",
   "dependencies": {
-    "@starptech/prettyhtml-formatter": "^0.1.2",
-    "@starptech/rehype-webparser": "^0.1.2",
-    "@starptech/webparser": "^0.1.2",
+    "@starptech/prettyhtml-formatter": "^0.1.4",
+    "@starptech/rehype-webparser": "^0.1.4",
+    "@starptech/webparser": "^0.1.4",
     "meow": "^5.0.0",
     "prettier": "^1.14.3",
     "rehype-sort-attribute-values": "^1.0.1",
