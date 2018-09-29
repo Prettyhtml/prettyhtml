@@ -18,11 +18,11 @@ Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templa
 - [prettyhtml](/packages/prettyhtml) CLI and API.
 - [prettyhtml-formatter](/packages/prettyhtml-formatter) Formatter.
 - [prettyhtml-hast-to-html](/packages/prettyhtml-hast-to-html) Stringifier.
-- [prettyhtml-webparser](/packages/webparser) Optimized HTML parser for formatters
-- [prettyhtml-rehype-webparser](/packages/prettyhtml-rehype-webparser) Adapter between HTML parser and rehype.
-- [prettyhtml-hast-util-from-parse](/packages/prettyhtml-hast-util-from-webparser) Transform [webparser](/packages/webparser) AST to HAST.
 - [prettyhtml-hastscript](/packages/prettyhtml-hastscript) Hyperscript compatible DSL for creating virtual HAST trees.
-- [prettyhtml-quick](/packages/prettyhtml-quick) Formats your changed files based on Git. 
+- [prettyhtml-quick](/packages/prettyhtml-quick) Formats your changed files based on Git.
+- [webparser](/packages/webparser) Optimized HTML parser for formatters
+- [rehype-webparser](/packages/rehype-webparser) Adapter between HTML parser and rehype.
+- [hast-util-from-parse](/packages/hast-util-from-webparser) Transform [webparser](/packages/webparser) AST to HAST.
 
 ## Example
 Test it on [repl.it](https://repl.it/@StarpTech/PrettyHtml)

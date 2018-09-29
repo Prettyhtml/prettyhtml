@@ -8,7 +8,7 @@ const hidden = require('is-hidden')
 const negate = require('negate')
 
 const unified = require('unified')
-const parse = require('@starptech/prettyhtml-rehype-webparser')
+const parse = require('@starptech/rehype-webparser')
 const stringify = require('../stringify')
 const format = require('..')
 

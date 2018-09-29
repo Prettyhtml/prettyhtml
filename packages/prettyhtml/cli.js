@@ -13,7 +13,7 @@ const pack = require('./package')
 const prettier = require('prettier')
 
 // processing
-const parse = require('@starptech/prettyhtml-rehype-webparser')
+const parse = require('@starptech/rehype-webparser')
 const stringify = require('@starptech/prettyhtml-formatter/stringify')
 const format = require('@starptech/prettyhtml-formatter')
 

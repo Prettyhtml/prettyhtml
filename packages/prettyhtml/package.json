@@ -30,10 +30,10 @@
   "homepage": "https://github.com/StarpTech/prettyhtml#readme",
   "dependencies": {
     "@starptech/prettyhtml-formatter": "^0.1.2",
-    "@starptech/prettyhtml-rehype-webparser": "^0.1.2",
+    "@starptech/rehype-webparser": "^0.1.2",
     "@starptech/webparser": "^0.1.2",
     "meow": "^5.0.0",
-    "prettier": "^1.14.2",
+    "prettier": "^1.14.3",
     "rehype-sort-attribute-values": "^1.0.1",
     "unified": "^7.0.0",
     "unified-engine": "^6.0.1",
