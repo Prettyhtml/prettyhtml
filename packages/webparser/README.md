@@ -30,15 +30,15 @@ result.rootNodes
 
 ## API
 
-###### `options.decodeEntities`
+###### `options.decodeEntities` (enabled by default)
 
-Decode html entities in text and attributes
+Decode html entities in text and attributes according to HTML5 specification.
 
-###### `options.ignoreFirstLf`
+###### `options.ignoreFirstLf` (enabled by default)
 
-Ignore first line feed of `pre`, `textarea` and `listing` tags
+Ignore first line feed of `pre`, `textarea` and `listing` tags according to HTML5 specification.
 
-###### `options.selfClosingCustomElements`
+###### `options.selfClosingCustomElements` (disabled by default)
 
 Allow custom self-closing elements. A custom element is an HTML tag which isn't part of the official HTML5 specification.
 
