@@ -1,3 +1,6 @@
 node_modules
 packages/prettyhtml-formatter/test/fixtures
 coverage
+packages/*/dist
+packages/*/coverage
+packages/*/.nyc_output

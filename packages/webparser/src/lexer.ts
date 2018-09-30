@@ -113,7 +113,10 @@ class _Tokenizer {
    */
   constructor(
     private _file: ParseSourceFile,
-    private _getTagDefinition: (tagName: string, ignoreFirstLf: boolean) => TagDefinition,
+    private _getTagDefinition: (
+      tagName: string,
+      ignoreFirstLf: boolean
+    ) => TagDefinition,
     private _interpolationConfig: InterpolationConfig = DEFAULT_INTERPOLATION_CONFIG,
     private _options: LexerOptions
   ) {
@@ -498,7 +501,10 @@ class _Tokenizer {
       throw e
     }
 
-    const contentTokenType = this._getTagDefinition(tagName, this._options.ignoreFirstLf).contentType
+    const contentTokenType = this._getTagDefinition(
+      tagName,
+      this._options.ignoreFirstLf
+    ).contentType
 
     if (contentTokenType === TagContentType.RAW_TEXT) {
       this._consumeRawTextWithTagClose(lowercaseTagName, false)

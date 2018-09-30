@@ -21,15 +21,8 @@ import {
       describe('HTML5 doctype', () => {
         it('should parse doctype', () => {
           expect(
-            humanizeDom(
-              parser.parse(
-                '<!doctype html>',
-                'TestComp'
-              )
-            )
-          ).toEqual([
-            [html.Doctype, 'doctype html', 0]
-          ])
+            humanizeDom(parser.parse('<!doctype html>', 'TestComp'))
+          ).toEqual([[html.Doctype, 'doctype html', 0]])
         })
       })
 
@@ -52,14 +45,7 @@ import {
 
       describe('interpolation', () => {
         it('should parse as text', () => {
-          expect(
-            humanizeDom(
-              parser.parse(
-                '{{ foo }}',
-                'TestComp'
-              )
-            )
-          ).toEqual([
+          expect(humanizeDom(parser.parse('{{ foo }}', 'TestComp'))).toEqual([
             [html.Text, '{{ foo }}', 0]
           ])
         })
@@ -100,24 +86,21 @@ import {
             )
           ).toEqual([
             [html.Element, 'SCRIPT', 0],
-            [html.Attribute, 'src', 'https://www.google-analytics.com/analytics.js'],
+            [
+              html.Attribute,
+              'src',
+              'https://www.google-analytics.com/analytics.js'
+            ],
             [html.Attribute, 'ASYNC', ''],
-            [html.Attribute, 'DEFER', ''],
+            [html.Attribute, 'DEFER', '']
           ])
         })
 
         it('should parse tag case sensitive', () => {
           parser = new HtmlParser({ ignoreFirstLf: false })
           expect(
-            humanizeDom(
-              parser.parse(
-                '<SCRIPT></SCRIPT>',
-                'TestComp'
-              )
-            )
-          ).toEqual([
-            [html.Element, 'SCRIPT', 0]
-          ])
+            humanizeDom(parser.parse('<SCRIPT></SCRIPT>', 'TestComp'))
+          ).toEqual([[html.Element, 'SCRIPT', 0]])
         })
       })
 

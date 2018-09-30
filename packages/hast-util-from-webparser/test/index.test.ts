@@ -140,7 +140,10 @@ test('Doctype nameless', () => {
 
 test('Doctype with html skeleton', () => {
   const parser = new HtmlParser()
-  const result = parser.parse(`<!DOCTYPE><html><head></head><body>foo</body></html>`, 'TestComp')
+  const result = parser.parse(
+    `<!DOCTYPE><html><head></head><body>foo</body></html>`,
+    'TestComp'
+  )
 
   expect(result.errors.length).toBe(0)
 
@@ -151,7 +154,10 @@ test('Doctype with html skeleton', () => {
 
 test('Attributes with namespace', () => {
   const parser = new HtmlParser()
-  const result = parser.parse(`<svg xmlns:xlink="http://www.w3.org/1999/xlink"></svg>`, 'TestComp')
+  const result = parser.parse(
+    `<svg xmlns:xlink="http://www.w3.org/1999/xlink"></svg>`,
+    'TestComp'
+  )
 
   expect(result.errors.length).toBe(0)
 

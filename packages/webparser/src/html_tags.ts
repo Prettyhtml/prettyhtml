@@ -73,9 +73,15 @@ let _DEFAULT_TAG_DEFINITION!: HtmlTagDefinition
 
 // see http://www.w3.org/TR/html51/syntax.html#optional-tags
 // This implementation does not fully conform to the HTML5 spec.
-let TAG_DEFINITIONS: Map<string, { [key: string]: HtmlTagDefinition }> = new Map()
+let TAG_DEFINITIONS: Map<
+  string,
+  { [key: string]: HtmlTagDefinition }
+> = new Map()
 
-export function getHtmlTagDefinition(tagName: string, ignoreFirstLf: boolean): HtmlTagDefinition {
+export function getHtmlTagDefinition(
+  tagName: string,
+  ignoreFirstLf: boolean
+): HtmlTagDefinition {
   const cacheKey = `ignoreFirstLf:${ignoreFirstLf}`
 
   // we store different views of the tag definition that's why we need a cache invalidation strategy

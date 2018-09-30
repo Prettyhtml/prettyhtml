@@ -111,8 +111,7 @@ class _TreeBuilder {
     while (this._peek.type !== lex.TokenType.EOF) {
       if (this._peek.type === lex.TokenType.DOC_TYPE) {
         this._consumeDoctype(this._advance())
-      }
-      else if (this._peek.type === lex.TokenType.TAG_OPEN_START) {
+      } else if (this._peek.type === lex.TokenType.TAG_OPEN_START) {
         this._consumeStartTag(this._advance())
       } else if (this._peek.type === lex.TokenType.TAG_CLOSE) {
         this._consumeEndTag(this._advance())
