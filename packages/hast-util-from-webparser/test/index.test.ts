@@ -1,4 +1,4 @@
-import { HtmlParser } from 'webparser'
+import { HtmlParser } from '@starptech/webparser'
 import fromWebParser from '../index'
 
 test('Attributes', () => {
