@@ -1,14 +1,13 @@
-<div align="center">
-<h1>@starptech/prettyhtml-formatter</h1>
-<i><b>HTML formatter for <a href="https://github.com/syntax-tree/hast">HAST</a></b></i>
-<p>The implementation is a derivated from <a href="https://github.com/rehypejs/rehype-format">rehype-format (Version 2.3.0)</a> with the goal to apply custom rules on custom web elements and more.</p>
-</div>
-<br>
+# @starptech/prettyhtml-formatter
 
-<div align="center">
-<code>npm install --save @starptech/prettyhtml-formatter</code>
-</div>
+HTML formatter for [HAST](https://github.com/syntax-tree/hast)
 
-### Modifications
+## Installation
 
-*   Use `@starptech/prettyhtml-rehype-parse`
+```
+npm install --save @starptech/prettyhtml-formatter
+```
+
+## Caveats
+
+The implementation is a derivated from [**rehype-format Version 2.3.0**](https://github.com/rehypejs/rehype-format) rehype-format.

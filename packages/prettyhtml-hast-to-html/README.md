@@ -1,14 +1,12 @@
-<div align="center">
-<h1>@starptech/prettyhtml-hast-to-html</h1>
-<i><b><a href="https://github.com/syntax-tree/hast">HAST</a> to HTML converter</b></i>
-<p>The implementation is a derivated from <a href="https://github.com/syntax-tree/hast-util-to-html">ast-util-to-html (Version 4.0.1)</a> with the goal to stringify nodes in a custom way.</p>
-</div>
-<br>
+# @starptech/prettyhtml-hast-to-html
 
-<div align="center">
-<code>npm install --save @starptech/prettyhtml-hast-to-html</code>
-</div>
+[**Hast**](https://github.com/syntax-tree/hast) to HTML converter
 
+## Installation
+
+```
+npm install --save @starptech/prettyhtml-hast-to-html
+```
 
 ### Modifications
 
@@ -18,5 +16,7 @@
 * Don't omit value behind boolean attributes
 
 ## Caveats
+
+The implementation is a modified version of [hast-util-to-html](https://github.com/syntax-tree/hast-util-to-html).
 
 * Known html attributes aren't handled case-sensitively
