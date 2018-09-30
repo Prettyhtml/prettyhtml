@@ -2,11 +2,7 @@
 
 Optimized html parser for HTML5 Web Components.
 
-```
-npm install --save @starptech/webparser
-```
-
-### Features
+## Features
 
 - Can parse custom self-closing elements
 - Can parse tags and attributes case-sensitive
@@ -15,19 +11,36 @@ npm install --save @starptech/webparser
 
 _Those features are very useful if you want to implement a HTML formatter or anything else where a less strict parser is needed to keep all informations in the ast._
 
-## Example
+## Installation
+
+```
+npm install --save @starptech/webparser
+```
+
+## Usage
+
+This example shows how we parse HTML
 
 ```js
-const parser = new HtmlParser({
-  decodeEntities: true,
-  ignoreFirstLf: true,
-  selfClosingCustomElements: true
-})
-
+const parser = new HtmlParser(options)
 const result = parser.parse('<div></div>')
 result.errors
 result.rootNodes
 ```
+
+## API
+
+###### `options.decodeEntities`
+
+Decode html entities in text and attributes
+
+###### `options.ignoreFirstLf`
+
+Ignore first line feed of `pre`, `textarea` and `listing` tags
+
+###### `options.selfClosingCustomElements`
+
+Allow custom self-closing elements. A custom element is an HTML tag which isn't part of the official HTML5 specification.
 
 ## Credits
 

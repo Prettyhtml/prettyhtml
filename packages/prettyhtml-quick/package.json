@@ -10,7 +10,7 @@
     "prettyhtml-quick": "./bin/cli.js"
   },
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@starptech/prettyhtml": "^0.1.4",
     "chalk": "^2.4.1",

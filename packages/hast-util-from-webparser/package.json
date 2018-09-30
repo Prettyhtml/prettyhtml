@@ -14,7 +14,7 @@
   },
   "keywords": [],
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@starptech/prettyhtml-hastscript": "^0.1.2",
     "@starptech/webparser": "^0.1.4",

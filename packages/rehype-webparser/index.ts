@@ -8,9 +8,7 @@ interface VFile {
   message(msg: any): void
 }
 
-export = function parse(options?: ParseOptions): any {
-  options = options || {}
-
+export = function parse(options: ParseOptions = {}): any {
   this.Parser = parser
 
   function parser(doc: string, file: VFile) {
