@@ -21,7 +21,7 @@ const extensions = ['html']
 
 notifier({ pkg: pack }).notify()
 
-const prettierConfig = prettier.resolveConfig.sync(process.cwd())
+const prettierConfig = prettier.resolveConfig.sync(process.cwd()) || {}
 
 var cli = meow(
   `
