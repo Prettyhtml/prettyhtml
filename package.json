@@ -27,13 +27,13 @@
   "homepage": "https://github.com/StarpTech/prettyhtml#readme",
   "devDependencies": {
     "@types/jest": "^23.3.2",
-    "@types/node": "^10.10.3",
+    "@types/node": "^10.11.3",
     "eslint": "^4.19.1",
     "eslint-config-hemera": "0.0.6",
-    "husky": "^0.14.3",
-    "lerna": "^3.3.1",
+    "husky": "^1.0.1",
+    "lerna": "^3.4.0",
     "nyc": "^13.0.1",
-    "prettier": "^1.14.2",
+    "prettier": "^1.14.3",
     "unist-util-inspect": "^4.1.3"
   }
 }
