@@ -1,6 +1,6 @@
 ![Prettyhtml Banner](/logo.png)
 
-[![Build Status](https://travis-ci.org/StarpTech/prettyhtml.svg?branch=master)](https://travis-ci.org/StarpTech/prettyhtml)
+[![Build Status](https://travis-ci.org/Prettyhtml/prettyhtml.svg?branch=master)](https://travis-ci.org/Prettyhtml/prettyhtml)
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
 [![npm version](https://badge.fury.io/js/%40starptech%2Fprettyhtml.svg)](https://badge.fury.io/js/%40starptech%2Fprettyhtml)
 
