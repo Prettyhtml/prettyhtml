@@ -42,7 +42,11 @@ function check(t, fixture, options) {
   } catch (err) {}
 
   proc = unified()
-    .use(parse)
+    .use(parse, {
+      ignoreFirstLf: false,
+      decodeEntities: false,
+      selfClosingCustomElements: true
+    })
     .use(format, config)
     .use(stringify, config)
 

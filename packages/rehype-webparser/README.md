@@ -62,3 +62,7 @@ Now, running `node example` yields:
 
 Configure the `processor` to read HTML as input and process a
 [**HAST**](https://github.com/syntax-tree/hast) syntax tree.
+
+###### `options.*`
+
+[**Webparser**](https://github.com/Prettyhtml/prettyhtml/blob/master/packages/webparser) options.

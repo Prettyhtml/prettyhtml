@@ -30,7 +30,11 @@ function prettyhtml(value, options) {
   return core(
     value,
     unified()
-      .use(parse)
+      .use(parse, {
+        ignoreFirstLf: false,
+        decodeEntities: false,
+        selfClosingCustomElements: true
+      })
       .freeze(),
     options
   )

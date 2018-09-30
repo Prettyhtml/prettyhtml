@@ -17,11 +17,10 @@ function isFakeRoot(obj: Element): boolean {
   return obj.name === ':webparser:root'
 }
 
-type Options = {
-  file?: string
-  verbose?: boolean
+type Options = {}
+
+type TransformOptions = {
   schema?: { space: string }
-  documentMode?: boolean
 }
 
 type HastNode = {
@@ -42,16 +41,14 @@ export = function from(rootNodes: Node[], options: Options = {}) {
   const sourceSpan = new ParseSourceSpan(null, null)
   const fakeRoot = new Element(':webparser:root', [], rootNodes, sourceSpan)
   const result = transform(fakeRoot, {
-    schema: htmlSchema,
-    file: options.file,
-    verbose: options.verbose
+    schema: htmlSchema
   })
 
   return result
 }
 
 /* Transform a node. */
-function transform(ast: Node, config: Options): HastNode {
+function transform(ast: Node, config: TransformOptions): HastNode {
   const schema = config.schema
   let node: HastNode
 
@@ -123,7 +120,7 @@ function transform(ast: Node, config: Options): HastNode {
 }
 
 /* Transform children. */
-function nodes(children: Node[], config: Options): HastNode[] {
+function nodes(children: Node[], config: TransformOptions): HastNode[] {
   const length = children.length
   let index = -1
   const result: HastNode[] = []
@@ -164,7 +161,7 @@ function getNameAndNS(name: string) {
 function element(
   ast: Element,
   children: HastNode[],
-  config: Options
+  config: TransformOptions
 ): HastNode {
   const fn = config.schema.space === 'svg' ? hastSvg : hast
   const name = getNameAndNS(ast.name).name

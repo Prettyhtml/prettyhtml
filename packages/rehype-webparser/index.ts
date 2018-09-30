@@ -2,7 +2,11 @@ import { ParseError, HtmlParser } from '@starptech/webparser'
 import fromWebparser from '@starptech/hast-util-from-webparser'
 const VMessage = require('vfile-message')
 
-interface ParseOptions {}
+interface ParseOptions {
+  ignoreFirstLf?: boolean
+  decodeEntities?: boolean
+  selfClosingCustomElements?: boolean
+}
 interface VFile {
   path: string
   message(msg: any): void
@@ -12,11 +16,7 @@ export = function parse(options: ParseOptions = {}): any {
   this.Parser = parser
 
   function parser(doc: string, file: VFile) {
-    const parseResult = new HtmlParser({
-      ignoreFirstLf: false,
-      decodeEntities: false,
-      selfClosingCustomElements: true
-    }).parse(doc, file.path)
+    const parseResult = new HtmlParser(options).parse(doc, file.path)
 
     for (const err of parseResult.errors) {
       file.message(createVMessage(err))

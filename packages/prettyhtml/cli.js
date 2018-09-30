@@ -122,7 +122,14 @@ function processResult(err, code, result) {
 
 function transform({ prettierConfig }) {
   const plugins = [
-    [parse],
+    [
+      parse,
+      {
+        ignoreFirstLf: false,
+        decodeEntities: false,
+        selfClosingCustomElements: true
+      }
+    ],
     [
       format,
       {
