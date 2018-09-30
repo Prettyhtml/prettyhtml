@@ -61,4 +61,4 @@ Now, running `node example` yields:
 ### `processor.use(webparser[, options])`
 
 Configure the `processor` to read HTML as input and process a
-[**HAST**][hast] syntax tree.
+[**HAST**](https://github.com/syntax-tree/hast) syntax tree.

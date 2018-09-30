@@ -51,4 +51,4 @@ root[3] [data={"selfClosing":false}]
 
 ### `fromWebparser(rootNodes[, options])`
 
-Transform an `Node` to a [HAST Node][node].
+Transform an `Node` to a [**HAST Node**](https://github.com/syntax-tree/hast#ast).
