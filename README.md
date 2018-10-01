@@ -4,7 +4,7 @@
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
 [![npm version](https://badge.fury.io/js/%40starptech%2Fprettyhtml.svg)](https://badge.fury.io/js/%40starptech%2Fprettyhtml)
 
-Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templates. Try it on [repl.it](https://repl.it/@StarpTech/PrettyHtml).
+Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templates. Try it on the [playground](https://prettyhtml.netlify.com/).
 
 ## Features
 
