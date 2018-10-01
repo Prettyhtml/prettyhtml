@@ -18,9 +18,12 @@ function toHTML(node, options) {
   var settings = options || {}
   var quote = settings.singleQuote ? SQ : DQ
   var printWidth = settings.printWidth || 80
+  var useTabs = settings.useTabs
   var tabWidth = settings.tabWidth || 2
 
-  if (typeof tabWidth === 'number') {
+  if (useTabs) {
+    tabWidth = '\t'
+  } else if (typeof tabWidth === 'number') {
     tabWidth = repeat(' ', tabWidth)
   }
 

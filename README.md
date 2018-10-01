@@ -68,6 +68,7 @@ const result = prettyhtml(`<custom foo="bar"></custom>`, {
   usePrettier: true,  // use prettier for embedded content (default: true)
   singleQuote: false  // use single quote instead double quotes (default: `"`)
                       // only needed if you use single quotes in your templates
+  prettier: {}        // use custom prettier settings for embedded content
 })
 ```
 

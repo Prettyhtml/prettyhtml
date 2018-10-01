@@ -20,6 +20,7 @@ function core(value, processor, options) {
     .use(stringify, {
       printWidth: options.printWidth,
       tabWidth: options.tabWidth,
+      useTabs: options.useTabs,
       singleQuote: options.singleQuote
     })
     .processSync(file).contents
