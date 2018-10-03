@@ -356,9 +356,7 @@ import {
 
         it('should set flag that namespace was set implicitly', () => {
           expect(
-            humanizeDom(
-              parser.parse('<svg><g></g></svg>', 'TestComp')
-            )
+            humanizeDom(parser.parse('<svg><g></g></svg>', 'TestComp'))
           ).toEqual([
             [html.Element, ':svg:svg', 0, true],
             [html.Element, ':svg:g', 1, true]

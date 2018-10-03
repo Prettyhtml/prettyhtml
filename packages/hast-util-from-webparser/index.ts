@@ -60,7 +60,8 @@ function transform(ast: Node, config: TransformOptions): HastNode {
 
   if (ast instanceof Element) {
     let children: HastNode[]
-    config.schema = getElementNameAndNS(ast.name).ns === 'svg' ? svgSchema : htmlSchema
+    config.schema =
+      getElementNameAndNS(ast.name).ns === 'svg' ? svgSchema : htmlSchema
     if (ast.children && ast.children.length) {
       children = nodes(ast.children, config)
     }
