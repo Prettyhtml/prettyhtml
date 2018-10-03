@@ -1,6 +1,6 @@
 {
   "name": "@starptech/hast-util-from-webparser",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "@starptech/prettyhtml-hastscript": "^0.1.7",
-    "@starptech/webparser": "^0.1.7",
+    "@starptech/webparser": "^0.1.8",
     "property-information": "^4.2.0"
   },
   "devDependencies": {
