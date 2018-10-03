@@ -49,6 +49,9 @@ There are four different types of nodes
   endSourceSpan
 }
 ```
+
+Void or self-closing elements can be checked when the `startSourceSpan` is equals the `endSourceSpan`.
+
 - Attribute
 ```js
 {
