@@ -9,6 +9,10 @@
   "bin": {
     "prettyhtml-quick": "./bin/cli.js"
   },
+  "files": [
+    "lib",
+    "bin"
+  ],
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
   "license": "MIT",
   "dependencies": {

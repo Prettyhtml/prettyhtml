@@ -15,8 +15,6 @@
   "files": [
     "index.js",
     "cli.js",
-    "defaults.js",
-    "lib",
     "index.d.ts"
   ],
   "keywords": [

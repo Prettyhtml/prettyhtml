@@ -12,6 +12,10 @@
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "prepublish": "npm run build-ts"
   },
+  "files": [
+    "index.ts",
+    "dist"
+  ],
   "keywords": [],
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
   "license": "MIT",
