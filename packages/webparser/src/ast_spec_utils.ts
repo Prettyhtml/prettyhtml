@@ -38,11 +38,13 @@ class _Humanizer implements html.Visitor {
   constructor(private includeSourceSpan: boolean) {}
 
   visitElement(element: html.Element, context: any): any {
-    const res = this._appendContext(element, [
-      html.Element,
-      element.name,
-      this.elDepth++
-    ])
+    const input: any = [html.Element, element.name, this.elDepth++]
+
+    if (element.implicitNs) {
+      input.push(element.implicitNs)
+    }
+
+    const res = this._appendContext(element, input)
     this.result.push(res)
     html.visitAll(this, element.attrs)
     html.visitAll(this, element.children)

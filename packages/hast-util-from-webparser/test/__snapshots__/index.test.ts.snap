@@ -627,6 +627,204 @@ Object {
 }
 `;
 
+exports[`SVG - should preserve explicit svg namespace 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "position": Object {
+            "end": Object {
+              "column": 2,
+              "line": 1,
+              "offset": 8,
+            },
+            "start": Object {
+              "column": 5,
+              "line": 0,
+              "offset": 5,
+            },
+          },
+          "type": "text",
+          "value": "
+  ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "position": Object {
+                "end": Object {
+                  "column": 4,
+                  "line": 2,
+                  "offset": 147,
+                },
+                "start": Object {
+                  "column": 136,
+                  "line": 1,
+                  "offset": 142,
+                },
+              },
+              "type": "text",
+              "value": "
+    ",
+            },
+            Object {
+              "children": Array [],
+              "data": Object {
+                "selfClosing": true,
+              },
+              "position": Object {
+                "end": Object {
+                  "column": 52,
+                  "line": 2,
+                  "offset": 195,
+                },
+                "start": Object {
+                  "column": 4,
+                  "line": 2,
+                  "offset": 147,
+                },
+              },
+              "properties": Object {
+                "cx": "60",
+                "cy": "60",
+                "fill": "red",
+                "r": "50",
+              },
+              "tagName": "svg:circle",
+              "type": "element",
+            },
+            Object {
+              "position": Object {
+                "end": Object {
+                  "column": 4,
+                  "line": 3,
+                  "offset": 200,
+                },
+                "start": Object {
+                  "column": 52,
+                  "line": 3,
+                  "offset": 195,
+                },
+              },
+              "type": "text",
+              "value": "
+    ",
+            },
+            Object {
+              "children": Array [],
+              "data": Object {
+                "selfClosing": true,
+              },
+              "position": Object {
+                "end": Object {
+                  "column": 54,
+                  "line": 3,
+                  "offset": 250,
+                },
+                "start": Object {
+                  "column": 4,
+                  "line": 3,
+                  "offset": 200,
+                },
+              },
+              "properties": Object {
+                "cx": "170",
+                "cy": "60",
+                "fill": "green",
+                "r": "50",
+              },
+              "tagName": "svg:circle",
+              "type": "element",
+            },
+            Object {
+              "position": Object {
+                "end": Object {
+                  "column": 2,
+                  "line": 4,
+                  "offset": 253,
+                },
+                "start": Object {
+                  "column": 54,
+                  "line": 4,
+                  "offset": 250,
+                },
+              },
+              "type": "text",
+              "value": "
+  ",
+            },
+          ],
+          "data": Object {
+            "selfClosing": false,
+          },
+          "position": Object {
+            "end": Object {
+              "column": 12,
+              "line": 4,
+              "offset": 263,
+            },
+            "start": Object {
+              "column": 2,
+              "line": 1,
+              "offset": 8,
+            },
+          },
+          "properties": Object {
+            "height": "120",
+            "viewBox": "0 0 200 200",
+            "width": "230",
+            "xmlns": "http://www.w3.org/2000/svg",
+            "xmlnsXLink": "http://www.w3.org/1999/xlink",
+          },
+          "tagName": "svg:svg",
+          "type": "element",
+        },
+        Object {
+          "position": Object {
+            "end": Object {
+              "column": 0,
+              "line": 5,
+              "offset": 264,
+            },
+            "start": Object {
+              "column": 12,
+              "line": 4,
+              "offset": 263,
+            },
+          },
+          "type": "text",
+          "value": "
+",
+        },
+      ],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "position": Object {
+        "end": Object {
+          "column": 6,
+          "line": 5,
+          "offset": 270,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 0,
+          "offset": 0,
+        },
+      },
+      "properties": Object {},
+      "tagName": "div",
+      "type": "element",
+    },
+  ],
+  "data": Object {
+    "selfClosing": false,
+  },
+  "type": "root",
+}
+`;
+
 exports[`SVG 1`] = `
 Object {
   "children": Array [

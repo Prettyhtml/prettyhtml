@@ -39,7 +39,13 @@ type HastNode = {
 /* Wrapper to normalise options. */
 export = function from(rootNodes: Node[], options: Options = {}) {
   const sourceSpan = new ParseSourceSpan(null, null)
-  const fakeRoot = new Element(':webparser:root', [], rootNodes, sourceSpan)
+  const fakeRoot = new Element(
+    ':webparser:root',
+    [],
+    rootNodes,
+    false,
+    sourceSpan
+  )
   const result = transform(fakeRoot, {
     schema: htmlSchema
   })
@@ -54,7 +60,7 @@ function transform(ast: Node, config: TransformOptions): HastNode {
 
   if (ast instanceof Element) {
     let children: HastNode[]
-    config.schema = getNameAndNS(ast.name).ns === 'svg' ? svgSchema : htmlSchema
+    config.schema = getElementNameAndNS(ast.name).ns === 'svg' ? svgSchema : htmlSchema
     if (ast.children && ast.children.length) {
       children = nodes(ast.children, config)
     }
@@ -146,14 +152,25 @@ function comment(ast: Comment): HastNode {
   return { type: 'comment', value: ast.value }
 }
 
-function getNameAndNS(name: string) {
+function getAttributeNameAndNS(name: string) {
   // support vue :foo attributes but respect
-  // namepsace syntax from webparser like :ns:attribute
+  // namespace syntax from webparser like :ns:attribute
   if (name.split(':').length === 2) {
     return { ns: null, name: name }
   }
 
   const info = splitNsName(name)
+  return { ns: info[0], name: info[1] }
+}
+
+function getElementNameAndNS(name: string, implicitNs = false) {
+  const info = splitNsName(name)
+
+  // when a ns was set but no implicit was propagated
+  if (implicitNs == false && info[0]) {
+    return { ns: info[0], name: info[0] + ':' + info[1] }
+  }
+
   return { ns: info[0], name: info[1] }
 }
 
@@ -164,17 +181,17 @@ function element(
   config: TransformOptions
 ): HastNode {
   const fn = config.schema.space === 'svg' ? hastSvg : hast
-  const name = getNameAndNS(ast.name).name
+  const nameInfo = getElementNameAndNS(ast.name, ast.implicitNs)
   const props: { [name: string]: string } = {}
   let node
 
   for (const attr of ast.attrs) {
-    const attrInfo = getNameAndNS(attr.name)
+    const attrInfo = getAttributeNameAndNS(attr.name)
     props[attrInfo.ns ? attrInfo.ns + ':' + attrInfo.name : attrInfo.name] =
       attr.value
   }
 
-  node = fn(name, props, children)
+  node = fn(nameInfo.name, props, children)
 
   return node
 }

@@ -9,6 +9,10 @@ import {
   humanizeLineColumn
 } from '../src/ast_spec_utils'
 
+// AST output is humanized to an array
+// [type, tagName | attrName | text, index, implicitNs]
+// for mor informations look in ast_spec_util.ts
+
 {
   describe('HtmlParser', () => {
     let parser: HtmlParser
@@ -337,21 +341,27 @@ import {
 
         it('should support implicit namespace', () => {
           expect(humanizeDom(parser.parse('<svg></svg>', 'TestComp'))).toEqual([
-            [html.Element, ':svg:svg', 0]
+            [html.Element, ':svg:svg', 0, true]
           ])
         })
 
         it('should support implicit namespace on nested elements', () => {
-          expect(humanizeDom(parser.parse('<svg><g></g></svg>', 'TestComp'))).toEqual([
-            [html.Element, ':svg:svg', 0],
-            [html.Element, ':svg:g', 1]
+          expect(
+            humanizeDom(parser.parse('<svg><g></g></svg>', 'TestComp'))
+          ).toEqual([
+            [html.Element, ':svg:svg', 0, true],
+            [html.Element, ':svg:g', 1, true]
           ])
         })
 
-        it('should support implicit namespace on nested elements', () => {
-          expect(humanizeDom(parser.parse('<svg:container><g></g></svg:container>', 'TestComp'))).toEqual([
-            [html.Element, ':svg:container', 0],
-            [html.Element, ':svg:g', 1]
+        it('should set flag that namespace was set implicitly', () => {
+          expect(
+            humanizeDom(
+              parser.parse('<svg><g></g></svg>', 'TestComp')
+            )
+          ).toEqual([
+            [html.Element, ':svg:svg', 0, true],
+            [html.Element, ':svg:g', 1, true]
           ])
         })
 
@@ -362,7 +372,7 @@ import {
             )
           ).toEqual([
             [html.Element, ':myns:div', 0],
-            [html.Element, ':myns:p', 1]
+            [html.Element, ':myns:p', 1, true]
           ])
         })
 
@@ -391,7 +401,7 @@ import {
 
         it('should support self closing foreign elements', () => {
           expect(humanizeDom(parser.parse('<math />', 'TestComp'))).toEqual([
-            [html.Element, ':math:math', 0]
+            [html.Element, ':math:math', 0, true]
           ])
         })
 
@@ -436,7 +446,7 @@ import {
           expect(
             humanizeDom(parser.parse('<svg viewBox="0"></svg>', 'TestComp'))
           ).toEqual([
-            [html.Element, ':svg:svg', 0],
+            [html.Element, ':svg:svg', 0, true],
             [html.Attribute, 'viewBox', '0']
           ])
         })
