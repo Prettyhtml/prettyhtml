@@ -24,11 +24,54 @@ This example shows how we parse HTML
 ```js
 const parser = new HtmlParser(options)
 const result = parser.parse('<div></div>')
-result.errors
-result.rootNodes
+```
+
+## Representation
+
+There are four different types of nodes
+
+- Doctype
+```js
+{
+  value: '<!doctype html>',
+  sourceSpan: null
+}
+```
+- Element
+```js
+{
+  name: 'div',
+  attrs: [],
+  children: [],
+  implicitNs: false,
+  sourceSpan: null,
+  startSourceSpan: null,
+  endSourceSpan
+}
+```
+- Attribute
+```js
+{
+  name: 'div',
+  value: 'foo',
+  children: [],
+  sourceSpan:null,
+  valueSpan: null
+}
+```
+- Comment
+```js
+{
+  value: 'foo comment',
+  sourceSpan: null
+}
 ```
 
 ## API
+
+##### `HtmlParser.parse(doc: string): ParseTreeResult`
+
+Parse a document and returns a `ParseTreeResult` result.
 
 ###### `options.decodeEntities` (enabled by default)
 
