@@ -8,6 +8,7 @@
     "url": "git+https://github.com/StarpTech/prettyhtml.git"
   },
   "bin": "cli.js",
+  "types": "./index.d.ts",
   "scripts": {
     "test": "echo 'no tests defined'"
   },
@@ -15,7 +16,8 @@
     "index.js",
     "cli.js",
     "defaults.js",
-    "lib"
+    "lib",
+    "index.d.ts"
   ],
   "keywords": [
     "formatter",
