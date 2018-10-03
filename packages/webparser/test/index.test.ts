@@ -341,6 +341,20 @@ import {
           ])
         })
 
+        it('should support implicit namespace on nested elements', () => {
+          expect(humanizeDom(parser.parse('<svg><g></g></svg>', 'TestComp'))).toEqual([
+            [html.Element, ':svg:svg', 0],
+            [html.Element, ':svg:g', 1]
+          ])
+        })
+
+        it('should support implicit namespace on nested elements', () => {
+          expect(humanizeDom(parser.parse('<svg:container><g></g></svg:container>', 'TestComp'))).toEqual([
+            [html.Element, ':svg:container', 0],
+            [html.Element, ':svg:g', 1]
+          ])
+        })
+
         it('should propagate the namespace', () => {
           expect(
             humanizeDom(
