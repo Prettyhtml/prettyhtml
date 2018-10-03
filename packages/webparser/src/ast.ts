@@ -30,6 +30,7 @@ export class Element implements Node {
     public name: string,
     public attrs: Attribute[],
     public children: Node[],
+    public implicitNs: boolean,
     public sourceSpan: ParseSourceSpan,
     public startSourceSpan: ParseSourceSpan | null = null,
     public endSourceSpan: ParseSourceSpan | null = null

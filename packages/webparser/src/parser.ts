@@ -206,7 +206,7 @@ class _TreeBuilder {
     while (this._peek.type === lex.TokenType.ATTR_NAME) {
       attrs.push(this._consumeAttr(this._advance()))
     }
-    const fullName = this._getElementFullName(
+    const nameAndNsInfo = this._getElementNameAndNsInfo(
       prefix,
       name,
       this._getParentElement()
@@ -217,20 +217,23 @@ class _TreeBuilder {
     if (this._peek.type === lex.TokenType.TAG_OPEN_END_VOID) {
       this._advance()
       selfClosing = true
-      const tagDef = this.getTagDefinition(fullName, this.options.ignoreFirstLf)
+      const tagDef = this.getTagDefinition(
+        nameAndNsInfo.fullName,
+        this.options.ignoreFirstLf
+      )
       if (
         !(
           tagDef.canSelfClose ||
-          getNsPrefix(fullName) !== null ||
+          getNsPrefix(nameAndNsInfo.fullName) !== null ||
           tagDef.isVoid ||
           // allow self-closing custom elements
           (this.options.selfClosingCustomElements &&
-            isKnownHTMLTag(fullName) === false)
+            isKnownHTMLTag(nameAndNsInfo.fullName) === false)
         )
       ) {
         this._errors.push(
           TreeError.create(
-            fullName,
+            nameAndNsInfo.fullName,
             startTagToken.sourceSpan,
             `Only void and foreign elements can be self closed "${
               startTagToken.parts[1]
@@ -244,10 +247,18 @@ class _TreeBuilder {
     }
     const end = this._peek.sourceSpan.start
     const span = new ParseSourceSpan(startTagToken.sourceSpan.start, end)
-    const el = new html.Element(fullName, attrs, [], span, span, undefined)
+    const el = new html.Element(
+      nameAndNsInfo.fullName,
+      attrs,
+      [],
+      nameAndNsInfo.implicitNs,
+      span,
+      span,
+      undefined
+    )
     this._pushElement(el)
     if (selfClosing) {
-      this._popElement(fullName)
+      this._popElement(nameAndNsInfo.fullName)
       el.endSourceSpan = span
     }
   }
@@ -273,6 +284,7 @@ class _TreeBuilder {
         tagDef.parentToAdd,
         [],
         [],
+        el.implicitNs,
         el.sourceSpan,
         el.startSourceSpan,
         el.endSourceSpan
@@ -285,7 +297,7 @@ class _TreeBuilder {
   }
 
   private _consumeEndTag(endTagToken: lex.Token) {
-    const fullName = this._getElementFullName(
+    const nameInfo = this._getElementNameAndNsInfo(
       endTagToken.parts[0],
       endTagToken.parts[1],
       this._getParentElement()
@@ -295,18 +307,23 @@ class _TreeBuilder {
       this._getParentElement()!.endSourceSpan = endTagToken.sourceSpan
     }
 
-    if (this.getTagDefinition(fullName, this.options.ignoreFirstLf).isVoid) {
+    if (
+      this.getTagDefinition(nameInfo.fullName, this.options.ignoreFirstLf)
+        .isVoid
+    ) {
       this._errors.push(
         TreeError.create(
-          fullName,
+          nameInfo.fullName,
           endTagToken.sourceSpan,
           `Void elements do not have end tags "${endTagToken.parts[1]}"`
         )
       )
-    } else if (!this._popElement(fullName)) {
-      const errMsg = `Unexpected closing tag "${fullName}". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags`
+    } else if (!this._popElement(nameInfo.fullName)) {
+      const errMsg = `Unexpected closing tag "${
+        nameInfo.fullName
+      }". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags`
       this._errors.push(
-        TreeError.create(fullName, endTagToken.sourceSpan, errMsg)
+        TreeError.create(nameInfo.fullName, endTagToken.sourceSpan, errMsg)
       )
     }
   }
@@ -419,20 +436,27 @@ class _TreeBuilder {
     }
   }
 
-  private _getElementFullName(
+  private _getElementNameAndNsInfo(
     prefix: string,
     localName: string,
     parentElement: html.Element | null
-  ): string {
+  ): { fullName: string; implicitNs: boolean } {
+    let implicitNs = false
     if (prefix == null) {
       prefix = this.getTagDefinition(localName, this.options.ignoreFirstLf)
         .implicitNamespacePrefix!
+      if (prefix) {
+        implicitNs = true
+      }
       if (prefix == null && parentElement != null) {
         prefix = getNsPrefix(parentElement.name)
+        if (prefix != null) {
+          implicitNs = true
+        }
       }
     }
 
-    return mergeNsAndName(prefix, localName)
+    return { fullName: mergeNsAndName(prefix, localName), implicitNs }
   }
 }
 

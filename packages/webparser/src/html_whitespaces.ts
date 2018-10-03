@@ -62,6 +62,7 @@ export class WhitespaceVisitor implements html.Visitor {
         element.name,
         html.visitAll(this, element.attrs),
         element.children,
+        element.implicitNs,
         element.sourceSpan,
         element.startSourceSpan,
         element.endSourceSpan
@@ -72,6 +73,7 @@ export class WhitespaceVisitor implements html.Visitor {
       element.name,
       element.attrs,
       html.visitAll(this, element.children),
+      element.implicitNs,
       element.sourceSpan,
       element.startSourceSpan,
       element.endSourceSpan
