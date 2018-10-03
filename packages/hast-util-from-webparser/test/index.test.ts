@@ -68,6 +68,25 @@ test('SVG', () => {
   expect(node).toMatchSnapshot()
 })
 
+test('SVG namespace', () => {
+  const parser = new HtmlParser()
+  const result = parser.parse(
+    `<div>
+  <svg width="230" height="120" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <svg:circle cx="60"  cy="60" r="50" fill="red"/>
+    <svg:circle cx="170" cy="60" r="50" fill="green"/>
+  </svg>
+</div>`,
+    'TestComp'
+  )
+
+  expect(result.errors.length).toBe(0)
+
+  const node = fromWebParser(result.rootNodes, {})
+
+  expect(node).toMatchSnapshot()
+})
+
 test('Template', () => {
   const parser = new HtmlParser()
   const result = parser.parse(

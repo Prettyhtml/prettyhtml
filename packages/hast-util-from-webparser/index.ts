@@ -164,7 +164,13 @@ function element(
   config: TransformOptions
 ): HastNode {
   const fn = config.schema.space === 'svg' ? hastSvg : hast
-  const name = getNameAndNS(ast.name).name
+  const elementInfo = getNameAndNS(ast.name)
+  // Handle namespaces in tags, but skip it if it's the same as tag name
+  // i.e. :svg:g -> svg:g, but :svg:svg -> svg
+  const name =
+    elementInfo.ns && elementInfo.ns !== elementInfo.name
+      ? elementInfo.ns + ':' + elementInfo.name
+      : elementInfo.name
   const props: { [name: string]: string } = {}
   let node
 
