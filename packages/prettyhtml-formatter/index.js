@@ -257,7 +257,7 @@ function handleTemplateExpression(child, children) {
 }
 
 function beforeChildNodeAddedHook(node, children, child, index, prev) {
-  if (handleTemplateExpression(child, children)) {
+  if (is('text', child) && handleTemplateExpression(child, children)) {
     return true
   }
 
