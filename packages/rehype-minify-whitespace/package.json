@@ -1,6 +1,6 @@
 {
   "name": "@starptech/rehype-minify-whitespace",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "",
   "main": "index.js",
   "keywords": [
@@ -25,9 +25,9 @@
   },
   "devDependencies": {
     "ava": "^0.25.0",
+    "hastscript": "^4.1.0",
     "nyc": "^13.0.1",
-    "rehype": "^6.0.0",
-    "hastscript": "^4.1.0"
+    "rehype": "^6.0.0"
   },
   "scripts": {
     "test": "ava",
