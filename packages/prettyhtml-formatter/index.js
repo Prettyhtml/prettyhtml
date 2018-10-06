@@ -46,7 +46,6 @@ function format(options) {
   function markIgnoreVisitor(node, parents) {
     /**
      * When 'prettyhtml-ignore' flag is set we can ignore the next element
-     * In order to ignore the whole subtree we have to return the index from the next+1 element
      */
     if (is('comment', node)) {
       if (node.value.indexOf('prettyhtml-ignore') !== -1) {
