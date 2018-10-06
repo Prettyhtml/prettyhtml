@@ -10,7 +10,7 @@ Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templa
 
 * Can parse Angular, Vue or HTML5 templates (even self-closing custom elements).
 * Formats embedded content with [prettier](https://github.com/prettier/prettier) with respect to your local settings.
-* Doesn't change the content of your attributes and tags.
+* Doesn't change the behaviour of your attributes and tags.
 * Remove all superfluous white-space.
 * Enforce consistent output of your HTML.
 
@@ -79,7 +79,7 @@ const result = prettyhtml(`<custom foo="bar"></custom>`, {
 
 ## Why
 
-Prettier has no support for template syntaxes like Angular or Vue. There is an open [PR](https://github.com/prettier/prettier/pull/4753) but there is no agreement on it. In the meantime I need a general formatter in order to talk less about formatting. Prettyhtml should be able to format any superset of HTML as long it is parseable with minor tweaks. We use a modified version of the Angular 6 template parser. Some other packages from the [rehype](https://github.com/rehypejs/rehype) ecosystem were modified to our needs.
+While prettier has basic HTML support soon it's far from useful ([Issue 5098](https://github.com/prettier/prettier/issues/5098)) and there are too many opinions. Therefore I don't like how the formatter is implemented because they don't encapsulate the different aspect of a formatter in plugins or modules which make it very hard to get into it. Due to the awesome groundwork by the [rehype](https://github.com/rehypejs/rehype) we can rely on a specification and use all plugins of the ecosystem. I love prettier for everything else but in the meantime I need a general formatter in order to talk less about formatting. Prettyhtml should be able to format any superset of HTML as long it is parseable with minor tweaks. We use a modified version of the Angular 6 template parser.
 
 ## Acknowledgement
 
