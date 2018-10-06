@@ -16,7 +16,11 @@
     "index.ts",
     "dist"
   ],
-  "keywords": [],
+  "keywords": [
+    "webparser",
+    "parser",
+    "rehype"
+  ],
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
   "license": "MIT",
   "dependencies": {

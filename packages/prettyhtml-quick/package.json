@@ -13,6 +13,12 @@
     "lib",
     "bin"
   ],
+  "keywords": [
+    "prettyhtml",
+    "git",
+    "formatter",
+    "html5"
+  ],
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
   "license": "MIT",
   "dependencies": {

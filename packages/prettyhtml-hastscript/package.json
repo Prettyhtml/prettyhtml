@@ -4,7 +4,7 @@
   "description": "Hyperscript compatible DSL for creating virtual HAST trees",
   "keywords": [
     "hast",
-    "rehype",
+    "prettyhtml",
     "vdom",
     "virtual",
     "dom",

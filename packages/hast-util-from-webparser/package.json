@@ -12,7 +12,12 @@
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "prepublish": "npm run build-ts"
   },
-  "keywords": [],
+  "keywords": [
+    "formatter",
+    "webparser",
+    "hast",
+    "html5"
+  ],
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
   "license": "MIT",
   "dependencies": {

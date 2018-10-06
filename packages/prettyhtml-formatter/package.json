@@ -18,8 +18,8 @@
   ],
   "keywords": [
     "formatter",
-    "web-components",
-    "html"
+    "prettyhtml",
+    "html5"
   ],
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
   "license": "MIT",
@@ -37,7 +37,7 @@
     "html-whitespace-sensitive-tag-names": "^1.0.0",
     "is-hidden": "^1.1.1",
     "prettier": "^1.14.3",
-    "rehype-minify-whitespace": "^2.0.3",
+    "@starptech/rehype-minify-whitespace": "^0.0.1",
     "repeat-string": "^1.6.1",
     "to-vfile": "^5.0.1",
     "unified": "^7.0.0",

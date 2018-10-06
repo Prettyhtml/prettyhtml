@@ -1,6 +1,8 @@
 'use strict'
 
-const minify = require('rehype-minify-whitespace')({ newlines: true })
+const minify = require('@starptech/rehype-minify-whitespace')({
+  newlines: true
+})
 const sensitive = require('html-whitespace-sensitive-tag-names')
 const is = require('unist-util-is')
 const isElement = require('hast-util-is-element')
@@ -41,9 +43,33 @@ function format(options) {
 
   return transform
 
+  function markIgnoreVisitor(node, parents) {
+    /**
+     * When 'prettyhtml-ignore' flag is set we can ignore the next element
+     * In order to ignore the whole subtree we have to return the index from the next+1 element
+     */
+    if (is('comment', node)) {
+      if (node.value.indexOf('prettyhtml-ignore') !== -1) {
+        const parent = parents[parents.length - 1]
+        const nodeIndex = parent ? parent.children.indexOf(node) : null
+        if (nodeIndex !== null) {
+          for (let i = nodeIndex; i < parent.children.length; i++) {
+            const child = parent.children[i]
+            if (isElement(child)) {
+              setNodeData(child, 'ignore', true)
+              return visit.SKIP
+            }
+          }
+        }
+      }
+    }
+  }
+
   function transform(tree) {
     // check if we are in page mode to indent the first level
     indentInitial = isPageMode(tree)
+
+    visit(tree, markIgnoreVisitor)
 
     let root = minify(tree)
 
@@ -65,25 +91,15 @@ function format(options) {
         level--
       }
 
+      if (node.data && node.data.ignore) {
+        return visit.SKIP
+      }
+
       /**
        * When 'prettyhtml-ignore' flag is set we can ignore the next element
        * In order to ignore the whole subtree we have to return the index from the next+1 element
        */
       if (is('comment', node)) {
-        if (node.value.indexOf('prettyhtml-ignore') !== -1) {
-          const parent = parents[parents.length - 1]
-          const nodeIndex = parent ? parent.children.indexOf(node) : null
-          if (nodeIndex !== null) {
-            for (let i = nodeIndex; i < parent.children.length; i++) {
-              const child = parent.children[i]
-              if (isElement(child)) {
-                setNodeData(child, 'ignore', true)
-                return i + 1
-              }
-            }
-          }
-        }
-
         /**
          * indent last line of comment
          * e.g

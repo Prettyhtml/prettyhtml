@@ -14,12 +14,18 @@
   "files": [
     "dist"
   ],
-  "keywords": [],
+  "keywords": [
+    "formatter",
+    "webparser",
+    "parser",
+    "htmlparser",
+    "html5"
+  ],
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
   "license": "MIT",
   "devDependencies": {
     "jest": "^23.6.0",
-    "ts-jest": "^23.10.3",
+    "ts-jest": "^23.10.4",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-eslint-rules": "^5.4.0",

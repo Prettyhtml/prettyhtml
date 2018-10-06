@@ -16,9 +16,10 @@
     "lib"
   ],
   "keywords": [
+    "prettyhtml",
     "formatter",
-    "web-components",
-    "html"
+    "html5",
+    "stringify"
   ],
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
   "license": "MIT",
