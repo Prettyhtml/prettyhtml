@@ -77,6 +77,7 @@ function format(options) {
             for (let i = nodeIndex; i < parent.children.length; i++) {
               const child = parent.children[i]
               if (isElement(child)) {
+                setNodeData(child, 'ignore', true)
                 return i + 1
               }
             }
@@ -109,7 +110,7 @@ function format(options) {
        * e.g pre, textarea
        */
       if (ignore(parents.concat(node))) {
-        setData(node, 'indentLevel', level - 1)
+        setNodeData(node, 'indentLevel', level - 1)
 
         // clear empty script, textarea, pre, style tags
         if (length) {
@@ -176,7 +177,7 @@ function format(options) {
 
           let indentLevel = level
 
-          setData(child, 'indentLevel', indentLevel)
+          setNodeData(child, 'indentLevel', indentLevel)
 
           /**
            * Insert 2 newline
@@ -479,7 +480,7 @@ function indentPrettierOutput(formattedText, level) {
   return lines.join(single)
 }
 
-function setData(node, key, value) {
+function setNodeData(node, key, value) {
   let data = node.data || {}
   node.data = data
   node.data[key] = value
