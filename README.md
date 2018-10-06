@@ -79,7 +79,7 @@ const result = prettyhtml(`<custom foo="bar"></custom>`, {
 
 ## Why
 
-While prettier has basic HTML support soon it's far from useful ([Issue 5098](https://github.com/prettier/prettier/issues/5098)) and there are too many opinions. Therefore I don't like how the formatter is implemented because they don't encapsulate the different aspect of a formatter in plugins or modules which make it very hard to get into it. Due to the awesome groundwork by the [rehype](https://github.com/rehypejs/rehype) we can rely on a specification and use all plugins of the ecosystem. I love prettier for everything else but in the meantime I need a general formatter in order to talk less about formatting. Prettyhtml should be able to format any superset of HTML as long it is parseable with minor tweaks. We use a modified version of the Angular 6 template parser.
+While prettier has basic HTML support soon it's far from useful ([Issue 5098](https://github.com/prettier/prettier/issues/5098)) and there are too many opinions. Therefore I don't like how the formatter is implemented because they don't encapsulate the different aspect of a formatter in plugins or modules which make it very hard to get into it. Due to the awesome groundwork by [@rehype](https://github.com/rehypejs), [@unifiedjs](https://github.com/unifiedjs) (and @vfile, @syntax-tree) we can rely on a specification and use all plugins of the ecosystem. I love prettier for everything else but in the meantime I need a general formatter in order to talk less about formatting. Prettyhtml should be able to format any superset of HTML as long it is parseable with minor tweaks. We use a modified version of the Angular 6 template parser.
 
 ## Acknowledgement
 
