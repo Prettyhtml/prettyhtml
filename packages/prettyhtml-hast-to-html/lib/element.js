@@ -36,9 +36,10 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
   var root = node
   var content
   var attrs
-  var indentLevel = node.data ? node.data.indentLevel : 0
+  var indentLevel = getNodeData(node, 'indentLevel', 0)
   var printContext = { offset: printWidthOffset, collapsed: false, indentLevel }
   var isVoid = ctx.voids.indexOf(name.toLowerCase()) !== -1
+  var ignoreAttrCollapsing = getNodeData(node, 'ignore', false)
 
   if (parentSchema.space === 'html' && name === 'svg') {
     ctx.schema = svg
@@ -55,8 +56,8 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
   }
 
   // check for 'selfClosing' property of parse5 in order to support custom elements
-  if (node.data && selfClosing === false) {
-    selfClosing = !!node.data.selfClosing
+  if (selfClosing === false) {
+    selfClosing = getNodeData(node, 'selfClosing', false)
   }
 
   // <
@@ -82,7 +83,10 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
   // represent the length of the inner text of the node
   printContext.offset += innerTextLength
 
-  attrs = attributes(ctx, node.properties, printContext)
+  attrs = attributes(ctx, node.properties, printContext, ignoreAttrCollapsing)
+
+  const shouldCollapse =
+    ignoreAttrCollapsing === false && printContext.collapsed
 
   content = all(ctx, root)
 
@@ -98,7 +102,7 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
 
     if (attrs) {
       // add no space after tagName when element is collapsed
-      if (printContext.collapsed) {
+      if (shouldCollapse) {
         value += attrs
       } else {
         value += SPACE + attrs
@@ -113,7 +117,7 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
         value += SPACE
       }
 
-      if (printContext.collapsed) {
+      if (shouldCollapse) {
         value += LF + repeat(ctx.tabWidth, printContext.indentLevel)
       }
 
@@ -123,7 +127,7 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
 
     // allow any element to self close itself except known HTML void elements
     else if (selfClosing && !isVoid) {
-      if (printContext.collapsed) {
+      if (shouldCollapse) {
         value += LF + repeat(ctx.tabWidth, printContext.indentLevel)
       }
 
@@ -133,7 +137,7 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
 
     // add newline when element should be wrappend on multiple lines and when
     // it's no self-closing element because in that case the newline was already added before the slash (/)
-    if (printContext.collapsed && !selfClosed) {
+    if (shouldCollapse && !selfClosed) {
       value += LF + repeat(ctx.tabWidth, printContext.indentLevel)
     }
 
@@ -152,7 +156,7 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
 }
 
 /* Stringify all attributes. */
-function attributes(ctx, props, printContext) {
+function attributes(ctx, props, printContext, ignoreIndent) {
   var values = []
   var key
   var value
@@ -172,7 +176,7 @@ function attributes(ctx, props, printContext) {
 
     printContext.offset += result.length
 
-    if (printContext.offset > ctx.printWidth) {
+    if (ignoreIndent === false && printContext.offset > ctx.printWidth) {
       printContext.collapsed = true
     }
 
@@ -263,4 +267,9 @@ function attributeValue(ctx, key, value, info) {
   }
 
   return value
+}
+
+function getNodeData(node, key, defaultValue) {
+  let data = node.data || {}
+  return data[key] || defaultValue
 }
