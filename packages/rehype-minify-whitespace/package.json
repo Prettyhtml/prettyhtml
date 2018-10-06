@@ -11,7 +11,8 @@
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
   "license": "ISC",
   "files": [
-    "index.js"
+    "index.js",
+    "list.json"
   ],
   "dependencies": {
     "collapse-white-space": "^1.0.4",
