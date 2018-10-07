@@ -32,3 +32,7 @@ npm install --save @starptech/rehype-minify-whitespace
 ###### `node.data.ignore`
 
 When the data-property `ignore` is `true` the node is skipped for collapsing.
+
+## Caveats
+
+The implementation is a modified version of [**Hastscript Version 2.0.3**](https://github.com/rehypejs/rehype-minify/tree/master/packages/rehype-minify-whitespace)
