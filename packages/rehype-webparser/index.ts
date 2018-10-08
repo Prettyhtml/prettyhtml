@@ -1,6 +1,5 @@
 import { ParseError, HtmlParser } from '@starptech/webparser'
 import fromWebparser from '@starptech/hast-util-from-webparser'
-const VMessage = require('vfile-message')
 
 interface ParseOptions {
   ignoreFirstLf?: boolean
@@ -9,7 +8,7 @@ interface ParseOptions {
 }
 interface VFile {
   path: string
-  message(msg: any): void
+  message(reason: string, position: any, origin: string): void
 }
 
 export = function parse(options: ParseOptions = {}): any {
@@ -19,28 +18,24 @@ export = function parse(options: ParseOptions = {}): any {
     const parseResult = new HtmlParser(options).parse(doc, file.path)
 
     for (const err of parseResult.errors) {
-      file.message(createVMessage(err))
+      file.message(
+        err.contextualMessage(),
+        {
+          start: {
+            line: err.span.start.line,
+            offset: err.span.start.offset,
+            column: err.span.start.col
+          },
+          end: {
+            line: err.span.end.line,
+            offset: err.span.end.offset,
+            column: err.span.end.col
+          }
+        },
+        'ParseError'
+      )
     }
 
     return fromWebparser(parseResult.rootNodes, options)
-  }
-
-  function createVMessage(err: ParseError) {
-    return new VMessage(
-      err.contextualMessage(),
-      {
-        start: {
-          line: err.span.start.line,
-          offset: err.span.start.offset,
-          column: err.span.start.col
-        },
-        end: {
-          line: err.span.end.line,
-          offset: err.span.end.offset,
-          column: err.span.end.col
-        }
-      },
-      'ParseError'
-    )
   }
 }

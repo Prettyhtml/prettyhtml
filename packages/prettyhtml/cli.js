@@ -35,7 +35,8 @@ var cli = meow(
   --single-quote    Use single instead of double quotes
   --use-prettier    Use prettier to format embedded content
   --stdin           Specify the standard stream as source (for pipe mode)
-  --quiet           Do not report successful files
+  --quiet           Do not output anything for a file which has no warnings or errors
+  --silent          Do not output messages without fatal set to true
 
   Examples
     $ prettyhtml *.html
@@ -74,6 +75,10 @@ var cli = meow(
       quiet: {
         type: 'boolean',
         default: false
+      },
+      silent: {
+        type: 'boolean',
+        default: false
       }
     }
   }
@@ -110,7 +115,8 @@ if (cli.flags.stdin === false) {
 
 function processResult(err, code, result) {
   const out = report(err || result.files, {
-    quiet: cli.flags.quiet
+    quiet: cli.flags.quiet,
+    silent: cli.flags.silent
   })
 
   if (out) {
