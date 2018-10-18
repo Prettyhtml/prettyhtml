@@ -22,12 +22,13 @@ export = function parse(options: ParseOptions = {}): any {
         err.contextualMessage(),
         {
           start: {
-            line: err.span.start.line,
+            // webparser format counts lines beginning from zero
+            line: ++err.span.start.line,
             offset: err.span.start.offset,
             column: err.span.start.col
           },
           end: {
-            line: err.span.end.line,
+            line: ++err.span.end.line,
             offset: err.span.end.offset,
             column: err.span.end.col
           }

@@ -17,14 +17,17 @@ npm install --save @starptech/rehype-minify-whitespace
 ##### In
 
 ```html
-<h1>Heading</h1>
+<h1>Heading</h1>···→
+→···foo···→
 <p><strong>This</strong> and <em>that</em></p>
 ```
 
 ##### Out
 
 ```html
-<h1>Heading</h1><p><strong>This</strong> and <em>that</em></p>
+<h1>Heading</h1>
+foo
+<p><strong>This</strong> and <em>that</em></p>
 ```
 
 ## Api

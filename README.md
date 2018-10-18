@@ -31,6 +31,7 @@ Test it on [repl.it](https://repl.it/@StarpTech/PrettyHtml)
 
 ## Ignore specific elements
 
+Adding this flag before a tag will preserve whitespaces and skip attribute wrapping.
 ```html
 <!-- prettyhtml-ignore -->
 <div></div>

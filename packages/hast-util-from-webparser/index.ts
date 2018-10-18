@@ -94,13 +94,13 @@ function transform(ast: Node, config: TransformOptions): HastNode {
     if (ast.startSourceSpan && ast.endSourceSpan) {
       node.position = {
         start: {
-          // webparser format counts lines beginning with zero
-          line: ast.startSourceSpan.start.line++,
+          // webparser format counts lines beginning from zero
+          line: ++ast.startSourceSpan.start.line,
           column: ast.startSourceSpan.start.col,
           offset: ast.startSourceSpan.start.offset
         },
         end: {
-          line: ast.endSourceSpan.end.line++,
+          line: ++ast.endSourceSpan.end.line,
           column: ast.endSourceSpan.end.col,
           offset: ast.endSourceSpan.end.offset
         }
@@ -109,12 +109,12 @@ function transform(ast: Node, config: TransformOptions): HastNode {
   } else {
     node.position = {
       start: {
-        line: ast.sourceSpan.start.line++,
+        line: ++ast.sourceSpan.start.line,
         column: ast.sourceSpan.start.col,
         offset: ast.sourceSpan.start.offset
       },
       end: {
-        line: ast.sourceSpan.end.line++,
+        line: ++ast.sourceSpan.end.line,
         column: ast.sourceSpan.end.col,
         offset: ast.sourceSpan.end.offset
       }
