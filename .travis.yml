@@ -10,7 +10,3 @@ install:
 
 script:
   - npm test
-
-os:
-  - linux
-  - windows
