@@ -18,7 +18,9 @@ export = function parse(options: ParseOptions = {}): any {
   function parser(doc: string, file: VFile) {
     const parseResult = new HtmlParser(options).parse(doc, file.path)
 
-    for (const err of parseResult.errors.filter(e => e.level === ParseErrorLevel.WARNING)) {
+    for (const err of parseResult.errors.filter(
+      e => e.level === ParseErrorLevel.WARNING
+    )) {
       file.message(
         err.msg,
         {
@@ -39,7 +41,9 @@ export = function parse(options: ParseOptions = {}): any {
     }
 
     // log the last error because the lexer will throw at first with a less meaningful error message
-    for (const err of parseResult.errors.filter(e => e.level === ParseErrorLevel.ERROR).reverse()) {
+    for (const err of parseResult.errors
+      .filter(e => e.level === ParseErrorLevel.ERROR)
+      .reverse()) {
       file.fail(
         err.msg,
         {

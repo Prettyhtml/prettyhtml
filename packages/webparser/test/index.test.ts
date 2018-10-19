@@ -703,7 +703,7 @@ import {
           expect(humanizeErrors(errors)).toEqual([
             [
               'p',
-              'Only void and foreign elements can be self closed "p"',
+              'Only void, foreign or custom elements can be self closed "p"',
               '0:0'
             ]
           ])
@@ -715,7 +715,7 @@ import {
           expect(humanizeErrors(errors)).toEqual([
             [
               'my-cmp',
-              'Only void and foreign elements can be self closed "my-cmp"',
+              'Only void, foreign or custom elements can be self closed "my-cmp"',
               '0:0'
             ]
           ])

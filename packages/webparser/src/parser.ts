@@ -237,7 +237,7 @@ class _TreeBuilder {
           TreeError.create(
             nameAndNsInfo.fullName,
             startTagToken.sourceSpan,
-            `Only void and foreign elements can be self closed "${
+            `Only void, foreign or custom elements can be self closed "${
               startTagToken.parts[1]
             }"`
           )
