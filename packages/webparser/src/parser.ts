@@ -46,7 +46,7 @@ export interface TreeBuilderOptions {
 }
 
 export class ParseTreeResult {
-  constructor(public rootNodes: html.Node[], public errors: ParseError[]) { }
+  constructor(public rootNodes: html.Node[], public errors: ParseError[]) {}
 }
 
 export class Parser {
@@ -56,7 +56,7 @@ export class Parser {
       tagName: string,
       ignoreFirstLf: boolean
     ) => TagDefinition
-  ) { }
+  ) {}
 
   parse(
     source: string,
@@ -238,7 +238,7 @@ class _TreeBuilder {
             nameAndNsInfo.fullName,
             startTagToken.sourceSpan,
             `Only void and foreign elements can be self closed "${
-            startTagToken.parts[1]
+              startTagToken.parts[1]
             }"`
           )
         )
@@ -325,7 +325,7 @@ class _TreeBuilder {
     } else if (!this._popElement(nameInfo.fullName)) {
       const errMsg = `Unexpected closing tag "${
         nameInfo.fullName
-        }". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags`
+      }". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags`
       this._errors.push(
         TreeError.create(nameInfo.fullName, endTagToken.sourceSpan, errMsg)
       )

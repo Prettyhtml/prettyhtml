@@ -616,10 +616,10 @@ import {
               html.visitAll(this, element.attrs)
               html.visitAll(this, element.children)
             }
-            visitAttribute(attribute: html.Attribute, context: any): any { }
-            visitText(text: html.Text, context: any): any { }
-            visitDoctype(doctype: html.Doctype, context: any): any { }
-            visitComment(comment: html.Comment, context: any): any { }
+            visitAttribute(attribute: html.Attribute, context: any): any {}
+            visitText(text: html.Text, context: any): any {}
+            visitDoctype(doctype: html.Doctype, context: any): any {}
+            visitComment(comment: html.Comment, context: any): any {}
           }()
 
           html.visitAll(visitor, result.rootNodes)
