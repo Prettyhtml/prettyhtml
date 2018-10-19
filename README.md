@@ -64,7 +64,7 @@ $ prettyhtml --help
 ```js
 const prettyhtml = require('@starptech/prettyhtml')
 try {
-  const result = prettyhtml(`<custom foo="bar"></custom>`, {
+  const vFile = prettyhtml(`<custom foo="bar"></custom>`, {
     tabWidth: 2,        // the space width of your indentation level (default: 2)
     useTabs: false,     // use tabs instead spaces for indentation (default: false)
     printWidth: 80,     // use different maximum line length (default: 80)
@@ -73,15 +73,15 @@ try {
                         // only needed if you use single quotes in your templates
     prettier: {}        // use custom prettier settings for embedded content
   })
-  console.log(result)
+  console.log(vFile.contents)
 } catch(error) {
   console.error(error)
 }
 ```
 
-##### `prettyhtml(doc: string, options?): string`
+##### `prettyhtml(doc: string, options?): vFile`
 
-Formats a string and returns the result. The method can throw e.g when a parsing error was produced. The error is from type [`vfile-message`](https://github.com/vfile/vfile-message).
+Formats a string and returns a [`vFile`](https://github.com/vfile/vfile). The method can throw e.g when a parsing error was produced. The error is from type [`vfile-message`](https://github.com/vfile/vfile-message).
 
 ## Editor support
 

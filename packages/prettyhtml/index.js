@@ -23,7 +23,7 @@ function core(value, processor, options) {
       useTabs: options.useTabs,
       singleQuote: options.singleQuote
     })
-    .processSync(file).contents
+    .processSync(file)
 }
 
 function prettyhtml(value, options) {

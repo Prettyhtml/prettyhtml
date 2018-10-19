@@ -58,10 +58,14 @@ console.log(
 htmlFiles.forEach(file => {
   const filePath = path.join(root, file)
   let input = fs.readFileSync(filePath, 'utf8')
-  const result = prettyhtml(input, prettyhtmlCfg)
-  fs.writeFileSync(filePath, result, 'utf8')
-  git.stageFile(cwd, file)
-  console.log(`✍️  Fixing up ${chalk.bold(file)}.`)
+  try {
+    const vFile = prettyhtml(input, prettyhtmlCfg)
+    fs.writeFileSync(filePath, vFile.contents, 'utf8')
+    git.stageFile(cwd, file)
+    console.log(`✍️  Fixing up ${chalk.bold(file)}.`)
+  } catch (error) {
+    console.log(`❌  Error: ${chalk.bold(error.message)}.`)
+  }
 })
 
 console.log('✅  Everything is awesome!')
