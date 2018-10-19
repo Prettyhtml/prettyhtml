@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "ava": "^0.25.0",
-    "hastscript": "^4.1.0",
+    "@starptech/prettyhtml-hastscript": "^0.3.0",
     "nyc": "^13.0.1",
     "rehype": "^6.0.0"
   },

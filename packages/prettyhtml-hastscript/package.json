@@ -30,7 +30,7 @@
   "dependencies": {
     "comma-separated-tokens": "^1.0.5",
     "hast-util-parse-selector": "^2.2.0",
-    "property-information": "^4.2.0",
+    "property-information": "https://github.com/StarpTech/property-information/#feature%2F%2312_class-name_as_class",
     "space-separated-tokens": "^1.1.2"
   },
   "devDependencies": {
