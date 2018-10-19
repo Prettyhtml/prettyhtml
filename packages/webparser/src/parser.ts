@@ -34,17 +34,19 @@ export class TreeError extends ParseError {
 
 export interface ParserOptions {
   decodeEntities?: boolean
+  insertRequiredParents?: boolean
   ignoreFirstLf?: boolean
   selfClosingCustomElements?: boolean
 }
 
 export interface TreeBuilderOptions {
   ignoreFirstLf?: boolean
+  insertRequiredParents?: boolean
   selfClosingCustomElements?: boolean
 }
 
 export class ParseTreeResult {
-  constructor(public rootNodes: html.Node[], public errors: ParseError[]) {}
+  constructor(public rootNodes: html.Node[], public errors: ParseError[]) { }
 }
 
 export class Parser {
@@ -54,7 +56,7 @@ export class Parser {
       tagName: string,
       ignoreFirstLf: boolean
     ) => TagDefinition
-  ) {}
+  ) { }
 
   parse(
     source: string,
@@ -236,7 +238,7 @@ class _TreeBuilder {
             nameAndNsInfo.fullName,
             startTagToken.sourceSpan,
             `Only void and foreign elements can be self closed "${
-              startTagToken.parts[1]
+            startTagToken.parts[1]
             }"`
           )
         )
@@ -276,20 +278,22 @@ class _TreeBuilder {
       this._elementStack.pop()
     }
 
-    const tagDef = this.getTagDefinition(el.name, this.options.ignoreFirstLf)
-    const { parent, container } = this._getParentElementSkippingContainers()
+    if (this.options.insertRequiredParents) {
+      const tagDef = this.getTagDefinition(el.name, this.options.ignoreFirstLf)
+      const { parent, container } = this._getParentElementSkippingContainers()
 
-    if (parent && tagDef.requireExtraParent(parent.name)) {
-      const newParent = new html.Element(
-        tagDef.parentToAdd,
-        [],
-        [],
-        el.implicitNs,
-        el.sourceSpan,
-        el.startSourceSpan,
-        el.endSourceSpan
-      )
-      this._insertBeforeContainer(parent, container, newParent)
+      if (parent && tagDef.requireExtraParent(parent.name)) {
+        const newParent = new html.Element(
+          tagDef.parentToAdd,
+          [],
+          [],
+          el.implicitNs,
+          el.sourceSpan,
+          el.startSourceSpan,
+          el.endSourceSpan
+        )
+        this._insertBeforeContainer(parent, container, newParent)
+      }
     }
 
     this._addToParent(el)
@@ -321,7 +325,7 @@ class _TreeBuilder {
     } else if (!this._popElement(nameInfo.fullName)) {
       const errMsg = `Unexpected closing tag "${
         nameInfo.fullName
-      }". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags`
+        }". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags`
       this._errors.push(
         TreeError.create(nameInfo.fullName, endTagToken.sourceSpan, errMsg)
       )

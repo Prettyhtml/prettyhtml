@@ -158,7 +158,7 @@ import {
           ).toEqual([[html.Element, 'div', 0], [html.Element, 'span', 1]])
         })
 
-        it('should parse elements inside  <ng-template> elements', () => {
+        it('should parse elements inside <ng-template> elements', () => {
           expect(
             humanizeDom(
               parser.parse(
@@ -246,7 +246,25 @@ import {
           ])
         })
 
+        // https://github.com/Prettyhtml/prettyhtml/issues/46
+        it('should not add the requiredParent by default', () => {
+          parser = new HtmlParser()
+          expect(
+            humanizeDom(
+              parser.parse(
+                `<draggable><tr><td></td></tr></draggable>`,
+                'TestComp'
+              )
+            )
+          ).toEqual([
+            [html.Element, 'draggable', 0],
+            [html.Element, 'tr', 1],
+            [html.Element, 'td', 2]
+          ])
+        })
+
         it('should add the requiredParent', () => {
+          parser = new HtmlParser({ insertRequiredParents: true })
           expect(
             humanizeDom(
               parser.parse(
@@ -272,6 +290,7 @@ import {
         })
 
         it('should append the required parent considering ng-container', () => {
+          parser = new HtmlParser({ insertRequiredParents: true })
           expect(
             humanizeDom(
               parser.parse(
@@ -288,6 +307,7 @@ import {
         })
 
         it('should append the required parent considering top level ng-container', () => {
+          parser = new HtmlParser({ insertRequiredParents: true })
           expect(
             humanizeDom(
               parser.parse(
@@ -303,6 +323,7 @@ import {
         })
 
         it('should special case ng-container when adding a required parent', () => {
+          parser = new HtmlParser({ insertRequiredParents: true })
           expect(
             humanizeDom(
               parser.parse(
@@ -319,6 +340,7 @@ import {
         })
 
         it('should not add the requiredParent when the parent is a <ng-template>', () => {
+          parser = new HtmlParser({ insertRequiredParents: true })
           expect(
             humanizeDom(
               parser.parse('<ng-template><tr></tr></ng-template>', 'TestComp')
@@ -328,6 +350,7 @@ import {
 
         // https://github.com/angular/angular/issues/5967
         it('should not add the requiredParent to a template root element', () => {
+          parser = new HtmlParser({ insertRequiredParents: true })
           expect(humanizeDom(parser.parse('<tr></tr>', 'TestComp'))).toEqual([
             [html.Element, 'tr', 0]
           ])
@@ -593,10 +616,10 @@ import {
               html.visitAll(this, element.attrs)
               html.visitAll(this, element.children)
             }
-            visitAttribute(attribute: html.Attribute, context: any): any {}
-            visitText(text: html.Text, context: any): any {}
-            visitDoctype(doctype: html.Doctype, context: any): any {}
-            visitComment(comment: html.Comment, context: any): any {}
+            visitAttribute(attribute: html.Attribute, context: any): any { }
+            visitText(text: html.Text, context: any): any { }
+            visitDoctype(doctype: html.Doctype, context: any): any { }
+            visitComment(comment: html.Comment, context: any): any { }
           }()
 
           html.visitAll(visitor, result.rootNodes)

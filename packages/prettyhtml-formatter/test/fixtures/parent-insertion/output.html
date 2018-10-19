@@ -1,0 +1,13 @@
+<table>
+  <thead>
+    <tr>
+      <th></th>
+    </tr>
+  </thead>
+  <draggable :element="'tbody'">
+    <!-- should not add tbody here-->
+    <tr v-for="val in data" :key="val">
+      <td></td>
+    </tr>
+  </draggable>
+</table>
