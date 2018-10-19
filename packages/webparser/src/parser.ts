@@ -34,12 +34,14 @@ export class TreeError extends ParseError {
 
 export interface ParserOptions {
   decodeEntities?: boolean
+  insertRequiredParents?: boolean
   ignoreFirstLf?: boolean
   selfClosingCustomElements?: boolean
 }
 
 export interface TreeBuilderOptions {
   ignoreFirstLf?: boolean
+  insertRequiredParents?: boolean
   selfClosingCustomElements?: boolean
 }
 
@@ -276,20 +278,22 @@ class _TreeBuilder {
       this._elementStack.pop()
     }
 
-    const tagDef = this.getTagDefinition(el.name, this.options.ignoreFirstLf)
-    const { parent, container } = this._getParentElementSkippingContainers()
+    if (this.options.insertRequiredParents) {
+      const tagDef = this.getTagDefinition(el.name, this.options.ignoreFirstLf)
+      const { parent, container } = this._getParentElementSkippingContainers()
 
-    if (parent && tagDef.requireExtraParent(parent.name)) {
-      const newParent = new html.Element(
-        tagDef.parentToAdd,
-        [],
-        [],
-        el.implicitNs,
-        el.sourceSpan,
-        el.startSourceSpan,
-        el.endSourceSpan
-      )
-      this._insertBeforeContainer(parent, container, newParent)
+      if (parent && tagDef.requireExtraParent(parent.name)) {
+        const newParent = new html.Element(
+          tagDef.parentToAdd,
+          [],
+          [],
+          el.implicitNs,
+          el.sourceSpan,
+          el.startSourceSpan,
+          el.endSourceSpan
+        )
+        this._insertBeforeContainer(parent, container, newParent)
+      }
     }
 
     this._addToParent(el)
