@@ -136,7 +136,7 @@ test('known property names', function(t) {
       properties: { className: ['foo'] },
       children: []
     },
-    'should map attribute-like values to property names'
+    'should map attributes to property names case-insensitive'
   )
 
   t.deepEqual(
@@ -144,10 +144,10 @@ test('known property names', function(t) {
     {
       type: 'element',
       tagName: 'div',
-      properties: { className: ['foo'] },
+      properties: { 'class-name': 'foo' },
       children: []
     },
-    'should map property-like values to property names'
+    'should not map property-like values to property names'
   )
 })
 
