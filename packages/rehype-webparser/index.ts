@@ -1,4 +1,4 @@
-import { HtmlParser, ParseErrorLevel } from '@starptech/webparser'
+import { HtmlParser, ParseErrorLevel, TreeError } from '@starptech/webparser'
 import fromWebparser from '@starptech/hast-util-from-webparser'
 
 interface ParseOptions {
@@ -17,10 +17,15 @@ export = function parse(options: ParseOptions = {}): any {
 
   function parser(doc: string, file: VFile) {
     const parseResult = new HtmlParser(options).parse(doc, file.path)
-
-    for (const err of parseResult.errors.filter(
+    const lexerErrors = parseResult.errors.filter(
+      e => !(e instanceof TreeError)
+    )
+    const parserErrors = parseResult.errors.filter(e => e instanceof TreeError)
+    const parserWarnings = parserErrors.filter(
       e => e.level === ParseErrorLevel.WARNING
-    )) {
+    )
+
+    for (const err of parserWarnings) {
       file.message(
         err.msg,
         {
@@ -40,10 +45,12 @@ export = function parse(options: ParseOptions = {}): any {
       )
     }
 
-    // log the last error because the lexer will throw at first with a less meaningful error message
-    for (const err of parseResult.errors
-      .filter(e => e.level === ParseErrorLevel.ERROR)
-      .reverse()) {
+    // log the first error which is related to the parser not lexer
+    const parserFatalErrors = parserErrors.filter(
+      e => e.level === ParseErrorLevel.ERROR
+    )
+
+    for (const err of parserFatalErrors) {
       file.fail(
         err.msg,
         {
@@ -60,6 +67,28 @@ export = function parse(options: ParseOptions = {}): any {
           }
         },
         'ParseError'
+      )
+    }
+
+    // when lexer error don't produce a parser error we still need to fail with the lexer error
+    if (parserFatalErrors.length === 0 && lexerErrors.length > 0) {
+      const err = lexerErrors[0]
+      file.fail(
+        err.msg,
+        {
+          start: {
+            // webparser format counts lines beginning from zero
+            line: ++err.span.start.line,
+            offset: err.span.start.offset,
+            column: err.span.start.col
+          },
+          end: {
+            line: ++err.span.end.line,
+            offset: err.span.end.offset,
+            column: err.span.end.col
+          }
+        },
+        'LexerError'
       )
     }
 
