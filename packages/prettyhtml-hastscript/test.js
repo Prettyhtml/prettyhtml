@@ -136,7 +136,7 @@ test('known property names', function(t) {
       properties: { className: ['foo'] },
       children: []
     },
-    'should map values to property names case-sensitive'
+    'should map attributes to property names case-insensitive'
   )
 
   t.deepEqual(
