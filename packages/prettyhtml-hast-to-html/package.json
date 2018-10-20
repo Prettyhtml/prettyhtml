@@ -34,7 +34,7 @@
     "hast-util-whitespace": "^1.0.1",
     "html-void-elements": "^1.0.3",
     "html-whitespace-sensitive-tag-names": "^1.0.0",
-    "property-information": "https://github.com/StarpTech/property-information/#feature%2F%2312_class-name_as_class",
+    "property-information": "https://github.com/StarpTech/property-information#attr_normalization_fix",
     "space-separated-tokens": "^1.1.2",
     "stringify-entities": "^1.3.2",
     "unist-util-is": "^2.1.2",

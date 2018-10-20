@@ -8,12 +8,12 @@
     "publish": "lerna publish --registry=https://registry.npmjs.org/",
     "clean": "lerna clean",
     "prettify": "prettier --write \"./**/*.js\" --write \"./**/*.ts\"",
-    "test": "lerna exec -- npm test",
+    "test": "lerna exec --parallel -- npm test",
     "lint": "eslint .",
     "lock": "lerna exec -- npm i --package-lock-only",
     "postinstall": "npm run bootstrap",
     "precommit": "npm test && npm run prettify",
-    "build-ts": "lerna exec --scope @starptech/hast-util-from-webparser --scope @starptech/webparser --scope @starptech/rehype-webparser -- npm run build-ts"
+    "build-ts": "lerna exec --parallel --scope @starptech/hast-util-from-webparser --scope @starptech/webparser --scope @starptech/rehype-webparser -- npm run build-ts"
   },
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
     "eslint": "^4.19.1",
     "eslint-config-hemera": "0.0.6",
     "husky": "^1.0.1",
-    "lerna": "^3.4.0",
+    "lerna": "^3.4.3",
     "nyc": "^13.0.1",
     "prettier": "^1.14.3",
     "unist-util-inspect": "^4.1.3"

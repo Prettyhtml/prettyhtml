@@ -23,7 +23,7 @@
   "dependencies": {
     "@starptech/prettyhtml-hastscript": "^0.3.1",
     "@starptech/webparser": "^0.3.0",
-    "property-information": "https://github.com/StarpTech/property-information/#feature%2F%2312_class-name_as_class"
+    "property-information": "https://github.com/StarpTech/property-information#attr_normalization_fix"
   },
   "devDependencies": {
     "jest": "^23.6.0",
