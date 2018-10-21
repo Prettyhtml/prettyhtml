@@ -26,9 +26,6 @@ Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templa
 - [rehype-minify-whitespace](/packages/rehype-minify-whitespace) Collapse whitespace.
 - [hast-util-from-parse](/packages/hast-util-from-webparser) Transform [webparser](/packages/webparser) AST to HAST.
 
-## Example
-Test it on [repl.it](https://repl.it/@StarpTech/PrettyHtml)
-
 ## Ignore specific elements
 
 Adding this flag before a tag will preserve whitespaces and skip attribute wrapping.
