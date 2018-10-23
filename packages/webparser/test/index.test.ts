@@ -497,6 +497,7 @@ import {
 
       describe('entities', () => {
         it('should not decode entities with only ampersand and #', () => {
+          parser = new HtmlParser({ decodeEntities: false })
           expect(
             humanizeDom(parser.parse('<div [icon]="&#"></div>', 'TestComp'))
           ).toEqual([
@@ -505,6 +506,7 @@ import {
           ])
         })
         it('should not decode entities', () => {
+          parser = new HtmlParser({ decodeEntities: false })
           expect(
             humanizeDom(parser.parse('<div [icon]="&#333;"></div>', 'TestComp'))
           ).toEqual([

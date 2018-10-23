@@ -57,7 +57,7 @@ export function tokenize(
   url: string,
   getTagDefinition: (tagName: string, ignoreFirstLf: boolean) => TagDefinition,
   interpolationConfig: InterpolationConfig = DEFAULT_INTERPOLATION_CONFIG,
-  options: LexerOptions
+  options: LexerOptions = { decodeEntities: true, ignoreFirstLf: true }
 ): TokenizeResult {
   return new _Tokenizer(
     new ParseSourceFile(source, url),

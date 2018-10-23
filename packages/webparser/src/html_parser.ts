@@ -8,7 +8,14 @@ import { ParseTreeResult, Parser, ParserOptions } from './parser'
 export { ParseTreeResult, TreeError } from './parser'
 
 export class HtmlParser extends Parser {
-  constructor(public options: ParserOptions = {}) {
+  constructor(
+    public options: ParserOptions = {
+      decodeEntities: true,
+      ignoreFirstLf: true,
+      insertRequiredParents: false,
+      selfClosingCustomElements: false
+    }
+  ) {
     super(options, getHtmlTagDefinition)
   }
 
