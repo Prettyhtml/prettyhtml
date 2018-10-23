@@ -659,19 +659,19 @@ import {
       })
 
       it('should treat expansion form as text when they are not parsed', () => {
-        expect(
-          tokenizeAndHumanizeParts('<span>{a, b, =4 {c}}</span>')
-        ).toEqual([
-          [lex.TokenType.TAG_OPEN_START, null, 'span'],
+        expect(tokenizeAndHumanizeParts('<span>{a, b, =4 {c}}</span>')).toEqual(
+          [
+            [lex.TokenType.TAG_OPEN_START, null, 'span'],
 
-          [lex.TokenType.TAG_OPEN_END],
+            [lex.TokenType.TAG_OPEN_END],
 
-          [lex.TokenType.TEXT, '{a, b, =4 {c}}'],
+            [lex.TokenType.TEXT, '{a, b, =4 {c}}'],
 
-          [lex.TokenType.TAG_CLOSE, null, 'span'],
+            [lex.TokenType.TAG_CLOSE, null, 'span'],
 
-          [lex.TokenType.EOF]
-        ])
+            [lex.TokenType.EOF]
+          ]
+        )
       })
     })
 
@@ -883,10 +883,9 @@ function tokenizeAndHumanizeParts(
   input: string,
   interpolationConfig?: InterpolationConfig
 ): any[] {
-  return tokenizeWithoutErrors(
-    input,
-    interpolationConfig
-  ).map(token => [<any>token.type].concat(token.parts))
+  return tokenizeWithoutErrors(input, interpolationConfig).map(token =>
+    [<any>token.type].concat(token.parts)
+  )
 }
 
 function tokenizeAndHumanizeSourceSpans(input: string): any[] {
