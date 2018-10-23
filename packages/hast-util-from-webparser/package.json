@@ -7,7 +7,7 @@
     "start": "ts-node index.ts",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
-    "test": "jest --forceExit --verbose --detectOpenHandles",
+    "test": "jest --forceExit --detectOpenHandles",
     "test-coverage": "npm run test -- --coverage",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "prepublish": "npm run build-ts"
