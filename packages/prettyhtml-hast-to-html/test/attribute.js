@@ -145,8 +145,8 @@ test('known overloaded booleans', function(t) {
 
   t.deepEqual(
     to(u('element', { tagName: 'a', properties: { download: '' } }, [])),
-    '<a download=""></a>',
-    'should stringify known overloaded booleans set to an empty string with value'
+    '<a download></a>',
+    'should stringify known overloaded booleans set to unset property'
   )
 
   t.deepEqual(
@@ -207,8 +207,8 @@ test('known numbers', function(t) {
 
   t.deepEqual(
     to(u('element', { tagName: 'i', properties: { cols: '' } }, [])),
-    '<i cols=""></i>',
-    'should stringify known numbers set to an empty string'
+    '<i cols></i>',
+    'should stringify known numbers set to an unset property'
   )
 
   t.deepEqual(
@@ -281,8 +281,8 @@ test('known space-separated lists', function(t) {
 
   t.deepEqual(
     to(u('element', { tagName: 'i', properties: { className: '' } }, [])),
-    '<i class=""></i>',
-    'should stringify known space-separated lists set to an empty string'
+    '<i class></i>',
+    'should stringify known space-separated lists set to an unset property'
   )
 
   t.deepEqual(
@@ -373,8 +373,8 @@ test('known comma-separated lists', function(t) {
 
   t.deepEqual(
     to(u('element', { tagName: 'i', properties: { accept: '' } }, [])),
-    '<i accept=""></i>',
-    'should stringify known comma-separated lists set to an empty string'
+    '<i accept></i>',
+    'should stringify known comma-separated lists set to an unset attribute'
   )
 
   t.deepEqual(
@@ -449,8 +449,8 @@ test('known normals', function(t) {
 
   t.deepEqual(
     to(u('element', { tagName: 'i', properties: { id: '' } }, [])),
-    '<i id=""></i>',
-    'should stringify known normals set to an empty string'
+    '<i id></i>',
+    'should stringify known normals set to an unset property'
   )
 
   t.deepEqual(
@@ -523,8 +523,8 @@ test('data properties', function(t) {
 
   t.deepEqual(
     to(u('element', { tagName: 'i', properties: { dataId: '' } }, [])),
-    '<i data-id=""></i>',
-    'should stringify data properties set to an empty string'
+    '<i data-id></i>',
+    'should stringify data properties set to an unset property'
   )
 
   t.deepEqual(

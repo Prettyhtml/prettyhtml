@@ -48,7 +48,7 @@ test('svg', function(t) {
       space: 'svg',
       collapseEmptyAttributes: true
     }),
-    '<circle title=""></circle>',
+    '<circle title></circle>',
     'should *not* collapse empty string attributes in `collapseEmptyAttributes` mode'
   )
 
@@ -172,7 +172,7 @@ test('svg', function(t) {
 
   t.deepEqual(
     to(s('svg', { viewBox: '' }), { space: 'svg' }),
-    '<svg viewBox=""></svg>',
+    '<svg viewBox></svg>',
     'should stringify other falsey attributes'
   )
 

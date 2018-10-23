@@ -257,8 +257,8 @@ function attributeValue(ctx, key, value, info) {
 
   value = String(value)
 
-  // when element is not part of the spec and has no value we avoid quoting
-  if (info.defined === false && value === '') {
+  // when attr has no value we avoid quoting
+  if (value === '') {
     return value
   } else {
     value = quote + value + quote
