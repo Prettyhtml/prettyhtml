@@ -55,7 +55,8 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
     selfClosing = isVoid
   }
 
-  // check for 'selfClosing' property of parse5 in order to support custom elements
+  // check for 'selfClosing' property set by hast-util-from-webparser package
+  // in order to support custom self-closing elements
   if (selfClosing === false) {
     selfClosing = getNodeData(node, 'selfClosing', false)
   }
