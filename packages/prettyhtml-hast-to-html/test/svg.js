@@ -44,15 +44,6 @@ test('svg', function(t) {
   )
 
   t.deepEqual(
-    to(s('circle', { title: '' }), {
-      space: 'svg',
-      collapseEmptyAttributes: true
-    }),
-    '<circle title></circle>',
-    'should *not* collapse empty string attributes in `collapseEmptyAttributes` mode'
-  )
-
-  t.deepEqual(
     to(s('text', { className: ['a', 'b'], title: 'c d' }, 'bravo'), {
       space: 'svg'
     }),
