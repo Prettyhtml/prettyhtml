@@ -257,13 +257,11 @@ function attributeValue(ctx, key, value, info) {
 
   value = String(value)
 
-  // when attr has no value we avoid quoting
+  // When attr has no value we avoid quoting
   if (value === '') {
     return value
   } else {
-    value = quote + value + quote
-    /* Don’t add a `=` for unquoted empties. */
-    value = value ? EQ + value : value
+    value = EQ + quote + value + quote
   }
 
   return value
