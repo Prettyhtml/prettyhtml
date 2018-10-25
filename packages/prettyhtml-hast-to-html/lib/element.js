@@ -55,7 +55,8 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
     selfClosing = isVoid
   }
 
-  // check for 'selfClosing' property of parse5 in order to support custom elements
+  // check for 'selfClosing' property set by hast-util-from-webparser package
+  // in order to support custom self-closing elements
   if (selfClosing === false) {
     selfClosing = getNodeData(node, 'selfClosing', false)
   }
@@ -257,13 +258,11 @@ function attributeValue(ctx, key, value, info) {
 
   value = String(value)
 
-  // when element is not part of the spec and has no value we avoid quoting
-  if (info.defined === false && value === '') {
+  // When attr has no value we avoid quoting
+  if (value === '') {
     return value
   } else {
-    value = quote + value + quote
-    /* Don’t add a `=` for unquoted empties. */
-    value = value ? EQ + value : value
+    value = EQ + quote + value + quote
   }
 
   return value

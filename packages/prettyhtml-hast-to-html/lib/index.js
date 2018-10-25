@@ -38,7 +38,6 @@ function toHTML(node, options) {
       tabWidth: tabWidth,
       tightDoctype: Boolean(settings.tightDoctype),
       tightLists: settings.tightCommaSeparatedLists,
-      collapseEmpty: settings.collapseEmptyAttributes,
       voids: settings.voids || voids.concat(),
       entities: settings.entities || {},
       closeEmpty: settings.closeEmptyElements
