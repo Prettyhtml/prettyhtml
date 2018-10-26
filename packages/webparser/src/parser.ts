@@ -36,12 +36,14 @@ export interface ParserOptions {
   decodeEntities?: boolean
   insertRequiredParents?: boolean
   ignoreFirstLf?: boolean
+  selfClosingElements?: boolean
   selfClosingCustomElements?: boolean
 }
 
 export interface TreeBuilderOptions {
   ignoreFirstLf?: boolean
   insertRequiredParents?: boolean
+  selfClosingElements?: boolean
   selfClosingCustomElements?: boolean
 }
 
@@ -51,10 +53,17 @@ export class ParseTreeResult {
 
 export class Parser {
   constructor(
-    public options: ParserOptions,
+    public options: ParserOptions = {
+      decodeEntities: true,
+      ignoreFirstLf: true,
+      insertRequiredParents: false,
+      selfClosingElements: false,
+      selfClosingCustomElements: false
+    },
     public getTagDefinition: (
       tagName: string,
-      ignoreFirstLf: boolean
+      ignoreFirstLf: boolean,
+      canSelfClose: boolean
     ) => TagDefinition
   ) {}
 
@@ -63,10 +72,6 @@ export class Parser {
     url: string,
     interpolationConfig: InterpolationConfig = DEFAULT_INTERPOLATION_CONFIG
   ): ParseTreeResult {
-    if (this.options.ignoreFirstLf === undefined) {
-      this.options.ignoreFirstLf = true
-    }
-
     const tokensAndErrors = lex.tokenize(
       source,
       url,
@@ -103,7 +108,8 @@ class _TreeBuilder {
     private tokens: lex.Token[],
     private getTagDefinition: (
       tagName: string,
-      ignoreFirstLf: boolean
+      ignoreFirstLf: boolean,
+      canSelfClose: boolean
     ) => TagDefinition
   ) {
     this._advance()
@@ -179,8 +185,11 @@ class _TreeBuilder {
       if (
         parent != null &&
         parent.children.length == 0 &&
-        this.getTagDefinition(parent.name, this.options.ignoreFirstLf)
-          .ignoreFirstLf
+        this.getTagDefinition(
+          parent.name,
+          this.options.ignoreFirstLf,
+          this.options.selfClosingElements
+        ).ignoreFirstLf
       ) {
         text = text.substring(1)
       }
@@ -195,7 +204,11 @@ class _TreeBuilder {
     const el = this._getParentElement()
     if (
       el &&
-      this.getTagDefinition(el.name, this.options.ignoreFirstLf).isVoid
+      this.getTagDefinition(
+        el.name,
+        this.options.ignoreFirstLf,
+        this.options.selfClosingElements
+      ).isVoid
     ) {
       this._elementStack.pop()
     }
@@ -221,7 +234,8 @@ class _TreeBuilder {
       selfClosing = true
       const tagDef = this.getTagDefinition(
         nameAndNsInfo.fullName,
-        this.options.ignoreFirstLf
+        this.options.ignoreFirstLf,
+        this.options.selfClosingElements
       )
       if (
         !(
@@ -272,14 +286,19 @@ class _TreeBuilder {
       parentEl &&
       this.getTagDefinition(
         parentEl.name,
-        this.options.ignoreFirstLf
+        this.options.ignoreFirstLf,
+        this.options.selfClosingElements
       ).isClosedByChild(el.name)
     ) {
       this._elementStack.pop()
     }
 
     if (this.options.insertRequiredParents) {
-      const tagDef = this.getTagDefinition(el.name, this.options.ignoreFirstLf)
+      const tagDef = this.getTagDefinition(
+        el.name,
+        this.options.ignoreFirstLf,
+        this.options.selfClosingElements
+      )
       const { parent, container } = this._getParentElementSkippingContainers()
 
       if (parent && tagDef.requireExtraParent(parent.name)) {
@@ -312,8 +331,11 @@ class _TreeBuilder {
     }
 
     if (
-      this.getTagDefinition(nameInfo.fullName, this.options.ignoreFirstLf)
-        .isVoid
+      this.getTagDefinition(
+        nameInfo.fullName,
+        this.options.ignoreFirstLf,
+        this.options.selfClosingElements
+      ).isVoid
     ) {
       this._errors.push(
         TreeError.create(
@@ -348,8 +370,11 @@ class _TreeBuilder {
       }
 
       if (
-        !this.getTagDefinition(el.name, this.options.ignoreFirstLf)
-          .closedByParent
+        !this.getTagDefinition(
+          el.name,
+          this.options.ignoreFirstLf,
+          this.options.selfClosingElements
+        ).closedByParent
       ) {
         return false
       }
@@ -447,8 +472,11 @@ class _TreeBuilder {
   ): { fullName: string; implicitNs: boolean } {
     let implicitNs = false
     if (prefix == null) {
-      prefix = this.getTagDefinition(localName, this.options.ignoreFirstLf)
-        .implicitNamespacePrefix!
+      prefix = this.getTagDefinition(
+        localName,
+        this.options.ignoreFirstLf,
+        this.options.selfClosingElements
+      ).implicitNamespacePrefix!
       if (prefix) {
         implicitNs = true
       }

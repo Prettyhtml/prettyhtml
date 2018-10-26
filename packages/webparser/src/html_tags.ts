@@ -12,7 +12,7 @@ export class HtmlTagDefinition implements TagDefinition {
   contentType: TagContentType
   isVoid: boolean
   ignoreFirstLf: boolean
-  canSelfClose: boolean = false
+  canSelfClose: boolean
 
   constructor({
     closedByChildren,
@@ -21,7 +21,8 @@ export class HtmlTagDefinition implements TagDefinition {
     contentType = TagContentType.PARSABLE_DATA,
     closedByParent = false,
     isVoid = false,
-    ignoreFirstLf = false
+    ignoreFirstLf = false,
+    canSelfClose = false
   }: {
     closedByChildren?: string[]
     closedByParent?: boolean
@@ -30,6 +31,7 @@ export class HtmlTagDefinition implements TagDefinition {
     contentType?: TagContentType
     isVoid?: boolean
     ignoreFirstLf?: boolean
+    canSelfClose?: boolean
   } = {}) {
     if (closedByChildren && closedByChildren.length > 0) {
       closedByChildren.forEach(
@@ -37,6 +39,7 @@ export class HtmlTagDefinition implements TagDefinition {
       )
     }
     this.isVoid = isVoid
+    this.canSelfClose = canSelfClose
     this.closedByParent = closedByParent || isVoid
     if (requiredParents && requiredParents.length > 0) {
       this.requiredParents = {}
@@ -69,10 +72,8 @@ export class HtmlTagDefinition implements TagDefinition {
   }
 }
 
-let _DEFAULT_TAG_DEFINITION!: HtmlTagDefinition
-
 // see http://www.w3.org/TR/html51/syntax.html#optional-tags
-// This implementation does not fully conform to the HTML5 spec.
+// This implementation isn't fully conform to the HTML5 spec.
 let TAG_DEFINITIONS: Map<
   string,
   { [key: string]: HtmlTagDefinition }
@@ -80,27 +81,27 @@ let TAG_DEFINITIONS: Map<
 
 export function getHtmlTagDefinition(
   tagName: string,
-  ignoreFirstLf: boolean
+  ignoreFirstLf: boolean,
+  canSelfClose: boolean
 ): HtmlTagDefinition {
-  const cacheKey = `ignoreFirstLf:${ignoreFirstLf}`
+  const cacheKey = `${ignoreFirstLf},${canSelfClose}`
 
   // we store different views of the tag definition that's why we need a cache invalidation strategy
   if (!TAG_DEFINITIONS.has(cacheKey)) {
-    _DEFAULT_TAG_DEFINITION = new HtmlTagDefinition()
     TAG_DEFINITIONS.set(cacheKey, {
-      base: new HtmlTagDefinition({ isVoid: true }),
-      meta: new HtmlTagDefinition({ isVoid: true }),
-      area: new HtmlTagDefinition({ isVoid: true }),
-      embed: new HtmlTagDefinition({ isVoid: true }),
-      link: new HtmlTagDefinition({ isVoid: true }),
-      img: new HtmlTagDefinition({ isVoid: true }),
-      input: new HtmlTagDefinition({ isVoid: true }),
-      param: new HtmlTagDefinition({ isVoid: true }),
-      hr: new HtmlTagDefinition({ isVoid: true }),
-      br: new HtmlTagDefinition({ isVoid: true }),
-      source: new HtmlTagDefinition({ isVoid: true }),
-      track: new HtmlTagDefinition({ isVoid: true }),
-      wbr: new HtmlTagDefinition({ isVoid: true }),
+      base: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
+      meta: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
+      area: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
+      embed: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
+      link: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
+      img: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
+      input: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
+      param: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
+      hr: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
+      br: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
+      source: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
+      track: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
+      wbr: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
       p: new HtmlTagDefinition({
         closedByChildren: [
           'address',
@@ -130,83 +131,118 @@ export function getHtmlTagDefinition(
           'table',
           'ul'
         ],
-        closedByParent: true
+        closedByParent: true,
+        canSelfClose
       }),
-      thead: new HtmlTagDefinition({ closedByChildren: ['tbody', 'tfoot'] }),
+      thead: new HtmlTagDefinition({
+        closedByChildren: ['tbody', 'tfoot'],
+        canSelfClose
+      }),
       tbody: new HtmlTagDefinition({
         closedByChildren: ['tbody', 'tfoot'],
-        closedByParent: true
+        closedByParent: true,
+        canSelfClose
       }),
       tfoot: new HtmlTagDefinition({
         closedByChildren: ['tbody'],
-        closedByParent: true
+        closedByParent: true,
+        canSelfClose
       }),
       tr: new HtmlTagDefinition({
         closedByChildren: ['tr'],
         requiredParents: ['tbody', 'tfoot', 'thead'],
-        closedByParent: true
+        closedByParent: true,
+        canSelfClose
       }),
       td: new HtmlTagDefinition({
         closedByChildren: ['td', 'th'],
-        closedByParent: true
+        closedByParent: true,
+        canSelfClose
       }),
       th: new HtmlTagDefinition({
         closedByChildren: ['td', 'th'],
-        closedByParent: true
+        closedByParent: true,
+        canSelfClose
       }),
       col: new HtmlTagDefinition({
         requiredParents: ['colgroup'],
-        isVoid: true
+        isVoid: true,
+        canSelfClose
       }),
-      svg: new HtmlTagDefinition({ implicitNamespacePrefix: 'svg' }),
-      math: new HtmlTagDefinition({ implicitNamespacePrefix: 'math' }),
+      svg: new HtmlTagDefinition({
+        implicitNamespacePrefix: 'svg',
+        canSelfClose
+      }),
+      math: new HtmlTagDefinition({
+        implicitNamespacePrefix: 'math',
+        canSelfClose
+      }),
       li: new HtmlTagDefinition({
         closedByChildren: ['li'],
-        closedByParent: true
+        closedByParent: true,
+        canSelfClose
       }),
-      dt: new HtmlTagDefinition({ closedByChildren: ['dt', 'dd'] }),
+      dt: new HtmlTagDefinition({
+        closedByChildren: ['dt', 'dd'],
+        canSelfClose
+      }),
       dd: new HtmlTagDefinition({
         closedByChildren: ['dt', 'dd'],
-        closedByParent: true
+        closedByParent: true,
+        canSelfClose
       }),
       rb: new HtmlTagDefinition({
         closedByChildren: ['rb', 'rt', 'rtc', 'rp'],
-        closedByParent: true
+        closedByParent: true,
+        canSelfClose
       }),
       rt: new HtmlTagDefinition({
         closedByChildren: ['rb', 'rt', 'rtc', 'rp'],
-        closedByParent: true
+        closedByParent: true,
+        canSelfClose
       }),
       rtc: new HtmlTagDefinition({
         closedByChildren: ['rb', 'rtc', 'rp'],
-        closedByParent: true
+        closedByParent: true,
+        canSelfClose
       }),
       rp: new HtmlTagDefinition({
         closedByChildren: ['rb', 'rt', 'rtc', 'rp'],
-        closedByParent: true
+        closedByParent: true,
+        canSelfClose
       }),
       optgroup: new HtmlTagDefinition({
         closedByChildren: ['optgroup'],
-        closedByParent: true
+        closedByParent: true,
+        canSelfClose
       }),
       option: new HtmlTagDefinition({
         closedByChildren: ['option', 'optgroup'],
-        closedByParent: true
+        closedByParent: true,
+        canSelfClose
       }),
-      pre: new HtmlTagDefinition({ ignoreFirstLf }),
-      listing: new HtmlTagDefinition({ ignoreFirstLf }),
-      style: new HtmlTagDefinition({ contentType: TagContentType.RAW_TEXT }),
-      script: new HtmlTagDefinition({ contentType: TagContentType.RAW_TEXT }),
+      pre: new HtmlTagDefinition({ ignoreFirstLf, canSelfClose }),
+      listing: new HtmlTagDefinition({ ignoreFirstLf, canSelfClose }),
+      style: new HtmlTagDefinition({
+        contentType: TagContentType.RAW_TEXT,
+        canSelfClose
+      }),
+      script: new HtmlTagDefinition({
+        contentType: TagContentType.RAW_TEXT,
+        canSelfClose
+      }),
       title: new HtmlTagDefinition({
-        contentType: TagContentType.ESCAPABLE_RAW_TEXT
+        contentType: TagContentType.ESCAPABLE_RAW_TEXT,
+        canSelfClose
       }),
       textarea: new HtmlTagDefinition({
         contentType: TagContentType.ESCAPABLE_RAW_TEXT,
-        ignoreFirstLf
+        ignoreFirstLf,
+        canSelfClose
       })
     })
   }
-  return TAG_DEFINITIONS.get(cacheKey)[tagName] || _DEFAULT_TAG_DEFINITION
+  return TAG_DEFINITIONS.get(cacheKey)[tagName] || new HtmlTagDefinition({ canSelfClose })
 }
 
 export function isKnownHTMLTag(tagName: string): boolean {

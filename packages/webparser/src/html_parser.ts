@@ -13,6 +13,7 @@ export class HtmlParser extends Parser {
       decodeEntities: true,
       ignoreFirstLf: true,
       insertRequiredParents: false,
+      selfClosingElements: false,
       selfClosingCustomElements: false
     }
   ) {

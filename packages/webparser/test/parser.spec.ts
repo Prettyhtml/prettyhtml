@@ -586,6 +586,20 @@ import {
         })
       })
 
+      describe('self close mode', () => {
+        it('should allow self closing html element', () => {
+          parser = new HtmlParser({ selfClosingElements: true })
+          const errors = parser.parse('<p />', 'TestComp').errors
+          expect(errors.length).toEqual(0)
+        })
+
+        it('should allow self closing custom element', () => {
+          parser = new HtmlParser({ selfClosingElements: true })
+          const errors = parser.parse('<my-cmp />', 'TestComp').errors
+          expect(errors.length).toEqual(0)
+        })
+      })
+
       describe('visitor', () => {
         it('should visit text nodes', () => {
           const result = humanizeDom(parser.parse('text', 'TestComp'))
