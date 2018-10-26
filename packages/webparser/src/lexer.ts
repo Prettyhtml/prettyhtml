@@ -55,9 +55,17 @@ export class TokenizeResult {
 export function tokenize(
   source: string,
   url: string,
-  getTagDefinition: (tagName: string, ignoreFirstLf: boolean, canSelfClose: boolean) => TagDefinition,
+  getTagDefinition: (
+    tagName: string,
+    ignoreFirstLf: boolean,
+    canSelfClose: boolean
+  ) => TagDefinition,
   interpolationConfig: InterpolationConfig = DEFAULT_INTERPOLATION_CONFIG,
-  options: LexerOptions = { decodeEntities: true, ignoreFirstLf: true, selfClosingElements: false }
+  options: LexerOptions = {
+    decodeEntities: true,
+    ignoreFirstLf: true,
+    selfClosingElements: false
+  }
 ): TokenizeResult {
   return new _Tokenizer(
     new ParseSourceFile(source, url),

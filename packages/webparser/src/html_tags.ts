@@ -242,7 +242,10 @@ export function getHtmlTagDefinition(
       })
     })
   }
-  return TAG_DEFINITIONS.get(cacheKey)[tagName] || new HtmlTagDefinition({ canSelfClose })
+  return (
+    TAG_DEFINITIONS.get(cacheKey)[tagName] ||
+    new HtmlTagDefinition({ canSelfClose })
+  )
 }
 
 export function isKnownHTMLTag(tagName: string): boolean {
