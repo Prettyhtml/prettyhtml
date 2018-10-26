@@ -70,6 +70,16 @@ import {
       })
     })
 
+    describe('should parse self-closing raw text elements', () => {
+      it('should work without closing textarea', () => {
+        expect(tokenizeAndHumanizeLineColumn('<textarea/>')).toEqual([
+          [lex.TokenType.TAG_OPEN_START, '0:0'],
+          [lex.TokenType.TAG_OPEN_END_VOID, '0:10'],
+          [lex.TokenType.EOF, '0:11']
+        ])
+      })
+    })
+
     describe('comments', () => {
       it('should parse comments', () => {
         expect(tokenizeAndHumanizeParts('<!--t\ne\rs\r\nt-->')).toEqual([

@@ -517,6 +517,12 @@ class _Tokenizer {
       this._options.selfClosingElements
     ).contentType
 
+    // allow raw text elements to self-close itself
+    // check if the element was self-closed in that case we can skip parsing text and don't run into a parser error
+    if (this.tokens[this.tokens.length-1].type === TokenType.TAG_OPEN_END_VOID) {
+      return
+    }
+
     if (contentTokenType === TagContentType.RAW_TEXT) {
       this._consumeRawTextWithTagClose(lowercaseTagName, false)
     } else if (contentTokenType === TagContentType.ESCAPABLE_RAW_TEXT) {
