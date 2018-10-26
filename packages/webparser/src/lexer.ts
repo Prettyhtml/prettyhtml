@@ -519,7 +519,9 @@ class _Tokenizer {
 
     // allow raw text elements to self-close itself
     // check if the element was self-closed in that case we can skip parsing text and don't run into a parser error
-    if (this.tokens[this.tokens.length-1].type === TokenType.TAG_OPEN_END_VOID) {
+    if (
+      this.tokens[this.tokens.length - 1].type === TokenType.TAG_OPEN_END_VOID
+    ) {
       return
     }
 
