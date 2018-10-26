@@ -45,7 +45,8 @@ function check(t, fixture, options) {
     .use(parse, {
       ignoreFirstLf: false,
       decodeEntities: false,
-      selfClosingCustomElements: true
+      selfClosingCustomElements: true,
+      selfClosingElements: true
     })
     .use(format, config)
     .use(stringify, config)

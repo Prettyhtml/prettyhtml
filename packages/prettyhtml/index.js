@@ -34,7 +34,8 @@ function prettyhtml(value, options) {
       .use(parse, {
         ignoreFirstLf: false,
         decodeEntities: false,
-        selfClosingCustomElements: true
+        selfClosingCustomElements: true,
+        selfClosingElements: true
       })
       .freeze(),
     options

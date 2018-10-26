@@ -133,7 +133,8 @@ function transform({ prettierConfig }) {
       {
         ignoreFirstLf: false,
         decodeEntities: false,
-        selfClosingCustomElements: true
+        selfClosingCustomElements: true,
+        selfClosingElements: true
       }
     ],
     [

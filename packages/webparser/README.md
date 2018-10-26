@@ -78,7 +78,11 @@ Ignore first line feed of `pre`, `textarea` and `listing` tags according to HTML
 
 ###### `options.selfClosingCustomElements` (disabled by default)
 
-Allow custom self-closing elements. A custom element is an HTML tag which isn't part of the official HTML5 specification.
+Allow custom self-closing elements.
+
+###### `options.selfClosingElements` (disabled by default)
+
+Allow custom and known self closing HTML elements.
 
 ###### `options.insertRequiredParents` (disabled by default)
 
