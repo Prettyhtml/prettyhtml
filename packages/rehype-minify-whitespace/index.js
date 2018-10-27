@@ -116,7 +116,8 @@ function collapsable(node) {
 /* Collapse to spaces, or newlines if they’re in a run. */
 function collapseToNewLines(value) {
   var result = String(value).replace(/\s+/g, function($0) {
-    return $0.indexOf('\n') === -1 ? ' ' : '\n'
+    const newLinesCount = ($0.match(/\n/g) || []).length
+    return !newLinesCount ? ' ' : newLinesCount >= 2 ? '\n\n' : '\n'
   })
 
   return result

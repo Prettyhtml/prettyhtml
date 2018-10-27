@@ -46,7 +46,7 @@ export = function from(rootNodes: Node[], options: Options = {}) {
     false,
     sourceSpan
   )
-  const result = transform(fakeRoot, {
+  const result = transform(fakeRoot, null, {
     schema: htmlSchema
   })
 
@@ -54,7 +54,11 @@ export = function from(rootNodes: Node[], options: Options = {}) {
 }
 
 /* Transform a node. */
-function transform(ast: Node, config: TransformOptions): HastNode {
+function transform(
+  ast: Node,
+  nextAst: Node | null,
+  config: TransformOptions
+): HastNode {
   const schema = config.schema
   let node: HastNode
 
@@ -77,6 +81,8 @@ function transform(ast: Node, config: TransformOptions): HastNode {
       ast.startSourceSpan === ast.endSourceSpan &&
       ast.startSourceSpan !== null &&
       ast.endSourceSpan !== null
+
+    node.data.gapAfter = isGap(nextAst)
   } else if (ast instanceof Text) {
     node = text(ast)
   } else if (ast instanceof Comment) {
@@ -133,7 +139,11 @@ function nodes(children: Node[], config: TransformOptions): HastNode[] {
   const result: HastNode[] = []
 
   while (++index < length) {
-    result[index] = transform(children[index], config)
+    result[index] = transform(
+      children[index],
+      children[index + 1] || null,
+      config
+    )
   }
 
   return result
@@ -173,6 +183,10 @@ function getElementNameAndNS(name: string, implicitNs = false) {
   }
 
   return { ns: info[0], name: info[1] }
+}
+
+function isGap(el: Node): boolean {
+  return el instanceof Text && !!el.value && !!el.value.match(/\n\s*?\n\s*?$/)
 }
 
 /* Transform an element. */
