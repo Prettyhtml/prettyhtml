@@ -1,6 +1,6 @@
 import { getHtmlTagDefinition } from '../src/html_tags'
 
-import { InterpolationConfig } from '../src/interpolation_config'
+import { InterpolationConfig, DEFAULT_INTERPOLATION_CONFIG } from '../src/interpolation_config'
 
 import * as lex from '../src/lexer'
 
@@ -72,10 +72,28 @@ import {
 
     describe('should parse self-closing raw text elements', () => {
       it('should work without closing textarea', () => {
-        expect(tokenizeAndHumanizeLineColumn('<textarea/>')).toEqual([
+        expect(
+          tokenizeAndHumanizeLineColumn('<textarea/>', {
+            decodeEntities: true,
+            ignoreFirstLf: true,
+            selfClosingElements: true
+          })
+        ).toEqual([
           [lex.TokenType.TAG_OPEN_START, '0:0'],
           [lex.TokenType.TAG_OPEN_END_VOID, '0:10'],
           [lex.TokenType.EOF, '0:11']
+        ])
+      })
+
+      it('should report EOF when no closing tag was found', () => {
+        expect(
+          tokenizeAndHumanizeErrors('<textarea/>')
+        ).toEqual([
+          [
+            lex.TokenType.ESCAPABLE_RAW_TEXT,
+            'Unexpected character "EOF"',
+            '0:11'
+          ]
         ])
       })
     })
@@ -871,13 +889,15 @@ import {
 
 function tokenizeWithoutErrors(
   input: string,
-  interpolationConfig?: InterpolationConfig
+  interpolationConfig?: InterpolationConfig,
+  options?: lex.LexerOptions
 ): lex.Token[] {
   const tokenizeResult = lex.tokenize(
     input,
     'someUrl',
     getHtmlTagDefinition,
-    interpolationConfig
+    interpolationConfig,
+    options
   )
 
   if (tokenizeResult.errors.length > 0) {
@@ -891,9 +911,10 @@ function tokenizeWithoutErrors(
 
 function tokenizeAndHumanizeParts(
   input: string,
-  interpolationConfig?: InterpolationConfig
+  interpolationConfig?: InterpolationConfig,
+  options?: lex.LexerOptions
 ): any[] {
-  return tokenizeWithoutErrors(input, interpolationConfig).map(token =>
+  return tokenizeWithoutErrors(input, interpolationConfig, options).map(token =>
     [<any>token.type].concat(token.parts)
   )
 }
@@ -909,16 +930,19 @@ function humanizeLineColumn(location: ParseLocation): string {
   return `${location.line}:${location.col}`
 }
 
-function tokenizeAndHumanizeLineColumn(input: string): any[] {
-  return tokenizeWithoutErrors(input).map(token => [
+function tokenizeAndHumanizeLineColumn(
+  input: string,
+  options?: lex.LexerOptions
+): any[] {
+  return tokenizeWithoutErrors(input, DEFAULT_INTERPOLATION_CONFIG, options).map(token => [
     <any>token.type,
     humanizeLineColumn(token.sourceSpan.start)
   ])
 }
 
-function tokenizeAndHumanizeErrors(input: string): any[] {
+function tokenizeAndHumanizeErrors(input: string, options?: lex.LexerOptions): any[] {
   return lex
-    .tokenize(input, 'someUrl', getHtmlTagDefinition)
+    .tokenize(input, 'someUrl', getHtmlTagDefinition, DEFAULT_INTERPOLATION_CONFIG, options)
 
     .errors.map(e => [
       <any>e.tokenType,
