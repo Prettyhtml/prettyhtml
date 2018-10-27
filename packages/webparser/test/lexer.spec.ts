@@ -1,6 +1,9 @@
 import { getHtmlTagDefinition } from '../src/html_tags'
 
-import { InterpolationConfig, DEFAULT_INTERPOLATION_CONFIG } from '../src/interpolation_config'
+import {
+  InterpolationConfig,
+  DEFAULT_INTERPOLATION_CONFIG
+} from '../src/interpolation_config'
 
 import * as lex from '../src/lexer'
 
@@ -86,9 +89,7 @@ import {
       })
 
       it('should report EOF when no closing tag was found', () => {
-        expect(
-          tokenizeAndHumanizeErrors('<textarea/>')
-        ).toEqual([
+        expect(tokenizeAndHumanizeErrors('<textarea/>')).toEqual([
           [
             lex.TokenType.ESCAPABLE_RAW_TEXT,
             'Unexpected character "EOF"',
@@ -934,15 +935,25 @@ function tokenizeAndHumanizeLineColumn(
   input: string,
   options?: lex.LexerOptions
 ): any[] {
-  return tokenizeWithoutErrors(input, DEFAULT_INTERPOLATION_CONFIG, options).map(token => [
-    <any>token.type,
-    humanizeLineColumn(token.sourceSpan.start)
-  ])
+  return tokenizeWithoutErrors(
+    input,
+    DEFAULT_INTERPOLATION_CONFIG,
+    options
+  ).map(token => [<any>token.type, humanizeLineColumn(token.sourceSpan.start)])
 }
 
-function tokenizeAndHumanizeErrors(input: string, options?: lex.LexerOptions): any[] {
+function tokenizeAndHumanizeErrors(
+  input: string,
+  options?: lex.LexerOptions
+): any[] {
   return lex
-    .tokenize(input, 'someUrl', getHtmlTagDefinition, DEFAULT_INTERPOLATION_CONFIG, options)
+    .tokenize(
+      input,
+      'someUrl',
+      getHtmlTagDefinition,
+      DEFAULT_INTERPOLATION_CONFIG,
+      options
+    )
 
     .errors.map(e => [
       <any>e.tokenType,
