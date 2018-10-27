@@ -14,7 +14,7 @@ Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templa
 * Remove all superfluous white-space.
 * Enforce consistent output of your HTML.
 
-## Supported html features
+## Framework specific features
 
 | Feature                         | Framework |
 |---------------------------------|-----------|
