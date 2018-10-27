@@ -8,11 +8,21 @@ Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templa
 
 ## Features
 
-* Can parse Angular, Vue or HTML5 templates (even self-closing custom elements).
+* Can parse Angular, Vue or HTML5 templates.
 * Formats embedded content with [prettier](https://github.com/prettier/prettier) with respect to your local settings.
 * Doesn't change the behaviour of your attributes and tags.
 * Remove all superfluous white-space.
 * Enforce consistent output of your HTML.
+
+## Supported html features
+
+| Feature                         | Framework |
+|---------------------------------|-----------|
+| HTML5                           | all       |
+| Self-closing custom elements    | vue       |
+| Self-closing none void elements | vue       |
+| Case-sensitive attributes       | angular   |
+| Case-sensitive elements         | angular   |
 
 ## Packages
 
