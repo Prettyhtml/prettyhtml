@@ -13,6 +13,8 @@ const svgSchema = require('property-information/svg')
 const hastSvg = require('@starptech/prettyhtml-hastscript/svg')
 const hast = require('@starptech/prettyhtml-hastscript')
 
+const GAP_REGEX = /\n\s*?\n\s*?$/
+
 function isFakeRoot(obj: Element): boolean {
   return obj.name === ':webparser:root'
 }
@@ -81,8 +83,7 @@ function transform(
       ast.startSourceSpan === ast.endSourceSpan &&
       ast.startSourceSpan !== null &&
       ast.endSourceSpan !== null
-
-    node.data.gapAfter = isGap(nextAst)
+    if (isGap(nextAst)) node.data.gapAfter = true
   } else if (ast instanceof Text) {
     node = text(ast)
   } else if (ast instanceof Comment) {
@@ -139,11 +140,8 @@ function nodes(children: Node[], config: TransformOptions): HastNode[] {
   const result: HastNode[] = []
 
   while (++index < length) {
-    result[index] = transform(
-      children[index],
-      children[index + 1] || null,
-      config
-    )
+    const nextChildren = index + 1 < length ? children[index + 1] : null
+    result[index] = transform(children[index], nextChildren, config)
   }
 
   return result
@@ -186,7 +184,7 @@ function getElementNameAndNS(name: string, implicitNs = false) {
 }
 
 function isGap(el: Node): boolean {
-  return el instanceof Text && !!el.value && !!el.value.match(/\n\s*?\n\s*?$/)
+  return el instanceof Text && el.value && GAP_REGEX.test(el.value)
 }
 
 /* Transform an element. */

@@ -6,7 +6,6 @@ Object {
     Object {
       "children": Array [],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "position": Object {
@@ -52,7 +51,6 @@ Object {
     Object {
       "children": Array [],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "position": Object {
@@ -93,7 +91,6 @@ Object {
     Object {
       "children": Array [],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "properties": Object {
@@ -123,7 +120,6 @@ Object {
     Object {
       "children": Array [],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "position": Object {
@@ -164,7 +160,6 @@ Object {
     Object {
       "children": Array [],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "position": Object {
@@ -187,7 +182,6 @@ Object {
     },
   ],
   "data": Object {
-    "gapAfter": false,
     "selfClosing": false,
   },
   "type": "root",
@@ -200,7 +194,6 @@ Object {
     Object {
       "children": Array [],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "position": Object {
@@ -224,7 +217,6 @@ Object {
     },
   ],
   "data": Object {
-    "gapAfter": false,
     "selfClosing": false,
   },
   "type": "root",
@@ -237,7 +229,6 @@ Object {
     Object {
       "children": Array [],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "position": Object {
@@ -260,7 +251,6 @@ Object {
     },
   ],
   "data": Object {
-    "gapAfter": false,
     "selfClosing": false,
   },
   "type": "root",
@@ -273,7 +263,6 @@ Object {
     Object {
       "children": Array [],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "position": Object {
@@ -296,7 +285,6 @@ Object {
     },
   ],
   "data": Object {
-    "gapAfter": false,
     "selfClosing": false,
   },
   "type": "root",
@@ -324,7 +312,6 @@ Object {
     },
   ],
   "data": Object {
-    "gapAfter": false,
     "selfClosing": false,
   },
   "type": "root",
@@ -354,7 +341,6 @@ Object {
     },
   ],
   "data": Object {
-    "gapAfter": false,
     "selfClosing": false,
   },
   "type": "root",
@@ -384,7 +370,6 @@ Object {
     },
   ],
   "data": Object {
-    "gapAfter": false,
     "selfClosing": false,
   },
   "type": "root",
@@ -417,7 +402,6 @@ Object {
         Object {
           "children": Array [],
           "data": Object {
-            "gapAfter": false,
             "selfClosing": false,
           },
           "position": Object {
@@ -456,7 +440,6 @@ Object {
             },
           ],
           "data": Object {
-            "gapAfter": false,
             "selfClosing": false,
           },
           "position": Object {
@@ -477,7 +460,6 @@ Object {
         },
       ],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "position": Object {
@@ -498,7 +480,6 @@ Object {
     },
   ],
   "data": Object {
-    "gapAfter": false,
     "selfClosing": false,
   },
   "type": "root",
@@ -528,7 +509,6 @@ Object {
     Object {
       "children": Array [],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "properties": Object {},
@@ -555,7 +535,6 @@ Object {
     Object {
       "children": Array [],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "properties": Object {},
@@ -582,7 +561,6 @@ Object {
     Object {
       "children": Array [],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "properties": Object {},
@@ -609,7 +587,6 @@ Object {
     Object {
       "children": Array [],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "properties": Object {},
@@ -636,7 +613,6 @@ Object {
     Object {
       "children": Array [],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "properties": Object {},
@@ -645,14 +621,13 @@ Object {
     },
   ],
   "data": Object {
-    "gapAfter": false,
     "selfClosing": false,
   },
   "type": "root",
 }
 `;
 
-exports[`Gaps detection 1`] = `
+exports[`Gaps detection - should set gapAfter data on elements followed by empty lines 1`] = `
 Object {
   "children": Array [
     Object {
@@ -765,7 +740,6 @@ Object {
             },
           ],
           "data": Object {
-            "gapAfter": false,
             "selfClosing": false,
           },
           "position": Object {
@@ -803,7 +777,6 @@ Object {
         },
       ],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "position": Object {
@@ -842,7 +815,6 @@ Object {
     Object {
       "children": Array [],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "position": Object {
@@ -863,7 +835,6 @@ Object {
     },
   ],
   "data": Object {
-    "gapAfter": false,
     "selfClosing": false,
   },
   "type": "root",
@@ -914,7 +885,6 @@ Object {
             Object {
               "children": Array [],
               "data": Object {
-                "gapAfter": false,
                 "selfClosing": true,
               },
               "position": Object {
@@ -958,7 +928,6 @@ Object {
             Object {
               "children": Array [],
               "data": Object {
-                "gapAfter": false,
                 "selfClosing": true,
               },
               "position": Object {
@@ -1001,7 +970,6 @@ Object {
             },
           ],
           "data": Object {
-            "gapAfter": false,
             "selfClosing": false,
           },
           "position": Object {
@@ -1045,7 +1013,6 @@ Object {
         },
       ],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "position": Object {
@@ -1066,7 +1033,6 @@ Object {
     },
   ],
   "data": Object {
-    "gapAfter": false,
     "selfClosing": false,
   },
   "type": "root",
@@ -1117,7 +1083,6 @@ Object {
             Object {
               "children": Array [],
               "data": Object {
-                "gapAfter": false,
                 "selfClosing": true,
               },
               "position": Object {
@@ -1161,7 +1126,6 @@ Object {
             Object {
               "children": Array [],
               "data": Object {
-                "gapAfter": false,
                 "selfClosing": true,
               },
               "position": Object {
@@ -1204,7 +1168,6 @@ Object {
             },
           ],
           "data": Object {
-            "gapAfter": false,
             "selfClosing": false,
           },
           "position": Object {
@@ -1248,7 +1211,6 @@ Object {
         },
       ],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "position": Object {
@@ -1269,7 +1231,6 @@ Object {
     },
   ],
   "data": Object {
-    "gapAfter": false,
     "selfClosing": false,
   },
   "type": "root",
@@ -1301,7 +1262,6 @@ Object {
             },
           ],
           "data": Object {
-            "gapAfter": false,
             "selfClosing": false,
           },
           "position": Object {
@@ -1322,7 +1282,6 @@ Object {
         },
       ],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "position": Object {
@@ -1343,7 +1302,6 @@ Object {
     },
   ],
   "data": Object {
-    "gapAfter": false,
     "selfClosing": false,
   },
   "type": "root",
@@ -1373,7 +1331,6 @@ Object {
         },
       ],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "position": Object {
@@ -1433,7 +1390,6 @@ Object {
             },
           ],
           "data": Object {
-            "gapAfter": false,
             "selfClosing": false,
           },
           "position": Object {
@@ -1488,7 +1444,6 @@ Object {
             },
           ],
           "data": Object {
-            "gapAfter": false,
             "selfClosing": false,
           },
           "position": Object {
@@ -1525,7 +1480,6 @@ Object {
         },
       ],
       "data": Object {
-        "gapAfter": false,
         "selfClosing": false,
       },
       "position": Object {
@@ -1548,7 +1502,6 @@ Object {
     },
   ],
   "data": Object {
-    "gapAfter": false,
     "selfClosing": false,
   },
   "type": "root",
