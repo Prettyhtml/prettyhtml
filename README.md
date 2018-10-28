@@ -11,7 +11,9 @@ Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templa
 * Can parse Angular, Vue or HTML5 templates.
 * Formats embedded content with [prettier](https://github.com/prettier/prettier) with respect to your local settings.
 * Doesn't change the behaviour of your attributes and tags.
-* Remove all superfluous white-space.
+* Remove all superfluous white-space. There are two additional rules:
+  * Collapses multiple blank lines into a single blank line.
+  * Empty lines at the start and end of blocks are removed. (Files always end with a single newline, though.)
 * Enforce consistent output of your HTML.
 
 ## Framework specific features

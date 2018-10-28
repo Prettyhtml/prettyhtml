@@ -298,7 +298,6 @@ function beforeChildNodeAddedHook(node, children, child, index, prev) {
 
 function afterChildNodesAddedHook(node, prev) {
   // Add newline on the close tag after root element
-  // TODO: Remove it and let user handle it
   const isRootElement = node.type === 'root'
   if (isRootElement) {
     return true
