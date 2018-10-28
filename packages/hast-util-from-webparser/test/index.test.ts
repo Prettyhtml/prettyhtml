@@ -184,3 +184,27 @@ test('Attributes with namespace', () => {
 
   expect(node).toMatchSnapshot()
 })
+
+test('Gaps detection - should set gapAfter data on elements followed by empty lines', () => {
+  const parser = new HtmlParser()
+  const result = parser.parse(
+    `<div></div>
+
+
+    <img>
+
+    <p>
+      Hello
+
+      <em>There</em>
+    </p>
+    <div></div>`,
+    'TestComp'
+  )
+
+  expect(result.errors.length).toBe(0)
+
+  const node = fromWebParser(result.rootNodes, {})
+
+  expect(node).toMatchSnapshot()
+})

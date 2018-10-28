@@ -13,6 +13,8 @@ const svgSchema = require('property-information/svg')
 const hastSvg = require('@starptech/prettyhtml-hastscript/svg')
 const hast = require('@starptech/prettyhtml-hastscript')
 
+const GAP_REGEX = /\n\s*?\n\s*?$/
+
 function isFakeRoot(obj: Element): boolean {
   return obj.name === ':webparser:root'
 }
@@ -46,7 +48,7 @@ export = function from(rootNodes: Node[], options: Options = {}) {
     false,
     sourceSpan
   )
-  const result = transform(fakeRoot, {
+  const result = transform(fakeRoot, null, {
     schema: htmlSchema
   })
 
@@ -54,7 +56,11 @@ export = function from(rootNodes: Node[], options: Options = {}) {
 }
 
 /* Transform a node. */
-function transform(ast: Node, config: TransformOptions): HastNode {
+function transform(
+  ast: Node,
+  nextAst: Node | null,
+  config: TransformOptions
+): HastNode {
   const schema = config.schema
   let node: HastNode
 
@@ -77,6 +83,7 @@ function transform(ast: Node, config: TransformOptions): HastNode {
       ast.startSourceSpan === ast.endSourceSpan &&
       ast.startSourceSpan !== null &&
       ast.endSourceSpan !== null
+    if (isGap(nextAst)) node.data.gapAfter = true
   } else if (ast instanceof Text) {
     node = text(ast)
   } else if (ast instanceof Comment) {
@@ -133,7 +140,8 @@ function nodes(children: Node[], config: TransformOptions): HastNode[] {
   const result: HastNode[] = []
 
   while (++index < length) {
-    result[index] = transform(children[index], config)
+    const nextChildren = index + 1 < length ? children[index + 1] : null
+    result[index] = transform(children[index], nextChildren, config)
   }
 
   return result
@@ -173,6 +181,10 @@ function getElementNameAndNS(name: string, implicitNs = false) {
   }
 
   return { ns: info[0], name: info[1] }
+}
+
+function isGap(el: Node): boolean {
+  return el instanceof Text && el.value && GAP_REGEX.test(el.value)
 }
 
 /* Transform an element. */

@@ -10,6 +10,7 @@
     [style.paddingBottom.%]="50 * cellAspectRatio / numCols"
   >{{label}}</td>
 </tr>
+
 <!-- Create the first row separately so we can include a special spacer cell. -->
 <tr *ngFor="let row of rows; let rowIndex = index" role="row">
   <!--
@@ -47,6 +48,7 @@
     >{{item.displayValue}}</div>
   </td>
 </tr>
+
 <div
   cdk-overlay-origin
   class="mat-select-trigger"
@@ -69,10 +71,12 @@
       <ng-content select="mat-select-trigger" *ngSwitchCase="true"></ng-content>
     </span>
   </div>
+
   <div class="mat-select-arrow-wrapper">
     <div class="mat-select-arrow"></div>
   </div>
 </div>
+
 <ng-template
   cdk-connected-overlay
   cdkConnectedOverlayLockPosition

@@ -194,10 +194,12 @@ function format(options) {
            * Insert 2 newline
            * 1. check if an element is followed by a conditional comment
            * 2. check if a comment is followed by a conditional comment
+           * 3. check if an element without new-line has a previous sibling with a gap
            */
           if (
             isElementAfterConditionalComment(node, child, index, prevChild) ||
-            isConCommentFollowedByComment(node, child, index, prevChild)
+            isConCommentFollowedByComment(node, child, index, prevChild) ||
+            (!endsWithNewline(child) && elementHasGap(prevChild))
           ) {
             result.push({
               type: 'text',
@@ -209,6 +211,7 @@ function format(options) {
              * 1. should we break before child node is started?
              * 2. don't break when a newline was already inserted before
              * 3. break text in newline when it's the first node
+             * 4. break text in newline when previous sibling has a gap
              */
             (!endsWithNewline(prevChild) &&
               beforeChildNodeAddedHook(
@@ -218,7 +221,8 @@ function format(options) {
                 index,
                 prevChild
               )) ||
-            (newline && index === 0)
+            (newline && index === 0) ||
+            elementHasGap(prevChild)
           ) {
             result.push({
               type: 'text',
@@ -282,7 +286,7 @@ function beforeChildNodeAddedHook(node, children, child, index, prev) {
     return true
   }
 
-  // don't add newline on the first elmement
+  // don't add newline on the first element
   const isRootElement = node.type === 'root' && index === 0
   if (isRootElement) {
     return false
@@ -383,6 +387,11 @@ function isConCommentFollowedByComment(node, child, index, prev) {
     return true
   }
   return false
+}
+
+function elementHasGap(prev) {
+  // insert double newline when there was an intended gap before the element in original document
+  return prev && prev.data.gapAfter
 }
 
 function isVoid(node) {

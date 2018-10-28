@@ -11,7 +11,9 @@
       @focus.native="onFocus"
       :pattern="pattern"
     ></md-input>
+
     <slot></slot>
+
     <keep-alive>
       <md-datepicker-dialog
         v-if="showDialog"
@@ -21,6 +23,7 @@
         @md-closed="toggleDialog"
       ></md-datepicker-dialog>
     </keep-alive>
+
     <md-overlay
       class="md-datepicker-overlay"
       md-fixed
