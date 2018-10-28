@@ -14,3 +14,7 @@ Please outline the motivation for the proposal.
 ## Example
 
 Please provide an example for how this feature would be used.
+
+## Vote
+
+If you agree with my proposal vote with a 👍
