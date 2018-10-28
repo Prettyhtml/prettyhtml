@@ -76,11 +76,11 @@ test('rehype-minify-whitespace', function(t) {
             h('strong', 'foo'),
             '  ',
             h('em', 'bar'),
-            ' \n \n',
+            ' \n',
             h('meta', { itemProp: true }),
             ' \n'
           ]),
-          ' \n\n',
+          ' \n',
           h('p', [
             h('a', { href: 'example.com' }, ' baz'),
             '  ',
@@ -94,7 +94,7 @@ test('rehype-minify-whitespace', function(t) {
         h('strong', 'foo'),
         ' ',
         h('em', 'bar'),
-        '\n\n',
+        '\n',
         h('meta', { itemProp: true })
       ]),
       h('p', [h('a', { href: 'example.com' }, 'baz'), ' ', h('em', 'qux')])
