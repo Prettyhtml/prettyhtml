@@ -21,6 +21,7 @@ const space = ' '
 const double = '\n\n'
 const re = /\n/g
 
+const CONDITIONAL_COMMENT = /^\s*\[if .*/
 const DOUBLE_BRACKET_INTERPOLATION_REGEXP = /\{\{([\s\S]*?)\}\}/g
 const SINGLE_BRACKET_INTERPOLATION_REGEXP = /\{([\s\S]*?)\}/g
 const ARROW_PERC_INTERPOLATION_REGEXP = /<%([\s\S]*?)%>/g
@@ -367,7 +368,7 @@ function isElementAfterConditionalComment(node, child, index, prev) {
   // insert double newline when conditional comment is before element
   if (
     is('comment', prev) &&
-    prev.value.indexOf('if') !== -1 &&
+    CONDITIONAL_COMMENT.test(prev.value) &&
     isElement(child)
   ) {
     return true
@@ -379,9 +380,9 @@ function isConCommentFollowedByComment(node, child, index, prev) {
   // insert double newline when conditional comment is before a non conditional comment
   if (
     is('comment', prev) &&
-    prev.value.toLowerCase().indexOf('if') !== -1 &&
+    CONDITIONAL_COMMENT.test(prev.value) &&
     is('comment', child) &&
-    child.value.toLowerCase().indexOf('if') === -1
+    !CONDITIONAL_COMMENT.test(child.value)
   ) {
     return true
   }
