@@ -106,6 +106,16 @@ import {
             humanizeDom(parser.parse('<SCRIPT></SCRIPT>', 'TestComp'))
           ).toEqual([[html.Element, 'SCRIPT', 0]])
         })
+
+        it('should parse void elements case sensitive', () => {
+          parser = new HtmlParser({
+            ignoreFirstLf: false,
+            selfClosingElements: true
+          })
+          expect(humanizeDom(parser.parse('<Input/>', 'TestComp'))).toEqual([
+            [html.Element, 'Input', 0]
+          ])
+        })
       })
 
       describe('Custom self-closing elements', () => {
