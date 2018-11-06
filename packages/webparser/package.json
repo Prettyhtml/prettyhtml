@@ -1,6 +1,6 @@
 {
   "name": "@starptech/webparser",
-  "version": "0.5.0",
+  "version": "0.5.2",
   "description": "Optimized html parser for HTML5 Web Components.",
   "main": "./dist/public_api.js",
   "scripts": {
