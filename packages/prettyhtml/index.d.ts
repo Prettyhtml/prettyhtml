@@ -92,7 +92,7 @@ declare function prettyhtml(
     printWidth?: number
     usePrettier?: boolean
     singleQuote?: boolean
-    wrapAttributes?: boolean,
+    wrapAttributes?: boolean
     prettier?: {
       tabWidth?: number
       useTabs?: boolean
