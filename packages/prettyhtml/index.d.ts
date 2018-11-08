@@ -93,6 +93,7 @@ declare function prettyhtml(
     usePrettier?: boolean
     singleQuote?: boolean
     wrapAttributes?: boolean
+    sortAttributes?: boolean
     prettier?: {
       tabWidth?: number
       useTabs?: boolean
