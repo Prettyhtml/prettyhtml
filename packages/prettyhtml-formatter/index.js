@@ -164,8 +164,6 @@ function format(options) {
             newline = true
           }
           child.value = child.value
-            // remove leading and last tab characters
-            .replace(/^[ \t]+|[ \t]+$/g, '')
             // reduce newlines to one newline
             // $& contains the lastMatch
             .replace(re, '$&' + repeat(indent, level))
@@ -225,6 +223,11 @@ function format(options) {
             (newline && index === 0) ||
             elementHasGap(prevChild)
           ) {
+            // we can remove the trailing whitespaces because
+            // we will add a single newline
+            if (is('text', prevChild)) {
+              prevChild.value = prevChild.value.replace(/[ \t]+$/, '')
+            }
             result.push({
               type: 'text',
               value: single + repeat(indent, indentLevel)
