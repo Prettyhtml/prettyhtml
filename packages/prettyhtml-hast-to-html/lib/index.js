@@ -20,6 +20,7 @@ function toHTML(node, options) {
   var printWidth = settings.printWidth === undefined ? 80 : settings.printWidth
   var useTabs = settings.useTabs
   var tabWidth = settings.tabWidth || 2
+  var wrapAttributes = settings.wrapAttributes
 
   if (useTabs) {
     tabWidth = '\t'
@@ -36,6 +37,7 @@ function toHTML(node, options) {
       quote: quote,
       printWidth: printWidth,
       tabWidth: tabWidth,
+      wrapAttributes: wrapAttributes,
       tightDoctype: Boolean(settings.tightDoctype),
       tightLists: settings.tightCommaSeparatedLists,
       voids: settings.voids || voids.concat(),
