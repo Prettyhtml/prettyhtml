@@ -8,18 +8,18 @@ Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templa
 
 ## Features
 
-- Can parse Angular, Vue or HTML5 templates.
-- Formats embedded content with [prettier](https://github.com/prettier/prettier) with respect to your local settings.
-- Doesn't change the behaviour of your attributes and tags.
-- Remove all superfluous white-space. There are two additional rules:
-  - Collapses multiple blank lines into a single blank line.
-  - Empty lines at the start and end of blocks are removed. (Files always end with a single newline, though.)
-- Enforce consistent output of your HTML.
+* Can parse Angular, Vue or HTML5 templates.
+* Formats embedded content with [prettier](https://github.com/prettier/prettier) with respect to your local settings.
+* Doesn't change the behaviour of your attributes and tags.
+* Remove all superfluous white-space. There are two additional rules:
+  * Collapses multiple blank lines into a single blank line.
+  * Empty lines at the start and end of blocks are removed. (Files always end with a single newline, though.)
+* Enforce consistent output of your HTML.
 
 ## Framework specific features
 
 | Feature                         | Framework |
-| ------------------------------- | --------- |
+|---------------------------------|-----------|
 | HTML5                           | all       |
 | Self-closing custom elements    | vue       |
 | Self-closing none void elements | vue       |
@@ -41,7 +41,6 @@ Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templa
 ## Ignore specific elements
 
 Adding this flag before a tag will preserve whitespaces and skip attribute wrapping.
-
 ```html
 <!-- prettyhtml-ignore -->
 <div></div>
@@ -96,7 +95,7 @@ Formats a string and returns a [`vFile`](https://github.com/vfile/vfile). The me
 
 ## Editor support
 
-- [VSCode](https://github.com/StarpTech/prettyhtml-vscode) extension (not published yet)
+* [VSCode](https://github.com/StarpTech/prettyhtml-vscode) extension (not published yet)
 
 ## Why
 
