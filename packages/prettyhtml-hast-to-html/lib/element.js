@@ -37,7 +37,11 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
   var content
   var attrs
   var indentLevel = getNodeData(node, 'indentLevel', 0)
-  var printContext = { offset: printWidthOffset, collapsed: false, indentLevel }
+  var printContext = {
+    offset: printWidthOffset,
+    wrapAttributes: false,
+    indentLevel
+  }
   var isVoid = ctx.voids.indexOf(name) !== -1
   var ignoreAttrCollapsing = getNodeData(node, 'ignore', false)
 
@@ -76,6 +80,13 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
   printContext.offset += GT.length
 
   const propertyCount = Object.keys(node.properties).length
+
+  // force to wrap attributes on multiple lines when the node contains
+  // more than one attribute
+  if (propertyCount > 1 && ctx.wrapAttributes) {
+    printContext.wrapAttributes = true
+  }
+
   // one space before each attribute
   if (propertyCount) {
     printContext.offset += propertyCount * SPACE.length
@@ -87,7 +98,7 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
   attrs = attributes(ctx, node.properties, printContext, ignoreAttrCollapsing)
 
   const shouldCollapse =
-    ignoreAttrCollapsing === false && printContext.collapsed
+    ignoreAttrCollapsing === false && printContext.wrapAttributes
 
   content = all(ctx, root)
 
@@ -178,7 +189,7 @@ function attributes(ctx, props, printContext, ignoreIndent) {
     printContext.offset += result.length
 
     if (ignoreIndent === false && printContext.offset > ctx.printWidth) {
-      printContext.collapsed = true
+      printContext.wrapAttributes = true
     }
 
     if (result) {
@@ -195,7 +206,7 @@ function attributes(ctx, props, printContext, ignoreIndent) {
 
     /* In tight mode, don’t add a space after quoted attributes. */
     if (last !== DQ && last !== SQ) {
-      if (printContext.collapsed) {
+      if (printContext.wrapAttributes) {
         values[index] =
           LF + repeat(ctx.tabWidth, printContext.indentLevel + 1) + result
       } else if (index !== length - 1) {

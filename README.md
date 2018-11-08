@@ -8,18 +8,18 @@ Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templa
 
 ## Features
 
-* Can parse Angular, Vue or HTML5 templates.
-* Formats embedded content with [prettier](https://github.com/prettier/prettier) with respect to your local settings.
-* Doesn't change the behaviour of your attributes and tags.
-* Remove all superfluous white-space. There are two additional rules:
-  * Collapses multiple blank lines into a single blank line.
-  * Empty lines at the start and end of blocks are removed. (Files always end with a single newline, though.)
-* Enforce consistent output of your HTML.
+- Can parse Angular, Vue or HTML5 templates.
+- Formats embedded content with [prettier](https://github.com/prettier/prettier) with respect to your local settings.
+- Doesn't change the behaviour of your attributes and tags.
+- Remove all superfluous white-space. There are two additional rules:
+  - Collapses multiple blank lines into a single blank line.
+  - Empty lines at the start and end of blocks are removed. (Files always end with a single newline, though.)
+- Enforce consistent output of your HTML.
 
 ## Framework specific features
 
 | Feature                         | Framework |
-|---------------------------------|-----------|
+| ------------------------------- | --------- |
 | HTML5                           | all       |
 | Self-closing custom elements    | vue       |
 | Self-closing none void elements | vue       |
@@ -41,6 +41,7 @@ Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templa
 ## Ignore specific elements
 
 Adding this flag before a tag will preserve whitespaces and skip attribute wrapping.
+
 ```html
 <!-- prettyhtml-ignore -->
 <div></div>
@@ -74,13 +75,14 @@ $ prettyhtml --help
 const prettyhtml = require('@starptech/prettyhtml')
 try {
   const vFile = prettyhtml(`<custom foo="bar"></custom>`, {
-    tabWidth: 2,        // the space width of your indentation level (default: 2)
-    useTabs: false,     // use tabs instead spaces for indentation (default: false)
-    printWidth: 80,     // use different maximum line length (default: 80)
-    usePrettier: true,  // use prettier for embedded content (default: true)
-    singleQuote: false  // use single quote instead double quotes (default: `"`)
-                        // only needed if you use single quotes in your templates
-    prettier: {}        // use custom prettier settings for embedded content
+    tabWidth: 2,          // The space width of your indentation level (default: 2)
+    useTabs: false,       // Use tabs instead spaces for indentation (default: false)
+    printWidth: 80,       // Use different maximum line length (default: 80)
+    usePrettier: true,    // Use prettier for embedded content (default: true)
+    singleQuote: false    // Use single quote instead double quotes (default: `"`)
+                          // only needed if you use single quotes in your templates
+    wrapAttributes: false // Force to wrap attributes (when it has multiple)
+    prettier: {}          // use custom prettier settings for embedded content
   })
   console.log(vFile.contents)
 } catch(error) {
@@ -94,7 +96,7 @@ Formats a string and returns a [`vFile`](https://github.com/vfile/vfile). The me
 
 ## Editor support
 
-* [VSCode](https://github.com/StarpTech/prettyhtml-vscode) extension (not published yet)
+- [VSCode](https://github.com/StarpTech/prettyhtml-vscode) extension (not published yet)
 
 ## Why
 

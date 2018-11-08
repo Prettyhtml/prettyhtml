@@ -34,6 +34,7 @@ var cli = meow(
   --use-tabs        Use tabs for indentation
   --single-quote    Use single instead of double quotes
   --use-prettier    Use prettier to format embedded content
+  --wrapAttributes  Force to wrap attributes (when it has multiple)
   --stdin           Specify the standard stream as source (for pipe mode)
   --quiet           Do not output anything for a file which has no warnings or errors
   --silent          Do not output messages without fatal set to true
@@ -67,6 +68,10 @@ var cli = meow(
       usePrettier: {
         type: 'boolean',
         default: true
+      },
+      wrapAttributes: {
+        type: 'boolean',
+        default: false
       },
       stdin: {
         type: 'boolean',
@@ -152,7 +157,8 @@ function transform({ prettierConfig }) {
       {
         tabWidth: cli.flags.tabWidth,
         printWidth: cli.flags.printWidth,
-        singleQuote: cli.flags.singleQuote
+        singleQuote: cli.flags.singleQuote,
+        wrapAttributes: cli.flags.wrapAttributes
       }
     ]
   ]
