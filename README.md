@@ -81,8 +81,9 @@ try {
     usePrettier: true,    // Use prettier for embedded content (default: true)
     singleQuote: false    // Use single quote instead double quotes (default: `"`)
                           // only needed if you use single quotes in your templates
-    wrapAttributes: false // Force to wrap attributes (when it has multiple)
-    prettier: {}          // use custom prettier settings for embedded content
+    wrapAttributes: false // Force to wrap attributes (when it has multiple, default: false)
+    sortAttributes: false // Sort attributes alphabetically (default: false)
+    prettier: {}          // use custom prettier settings for embedded content (default: local config)
   })
   console.log(vFile.contents)
 } catch(error) {

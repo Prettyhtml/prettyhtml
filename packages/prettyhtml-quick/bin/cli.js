@@ -37,7 +37,8 @@ const prettyhtmlCfg = {
   printWidth: prettierConfig.printWidth,
   tabWidth: prettierConfig.tabWidth,
   prettier: prettierConfig,
-  wrapAttributes: prettierConfig.wrapAttributes
+  wrapAttributes: prettierConfig.wrapAttributes,
+  sortAttributes: prettierConfig.sortAttributes
 }
 
 if (htmlFiles.length) {

@@ -15,6 +15,7 @@ const prettier = require('prettier')
 // processing
 const parse = require('@starptech/rehype-webparser')
 const stringify = require('@starptech/prettyhtml-formatter/stringify')
+const sortAttributes = require('@starptech/prettyhtml-sort-attributes')
 const format = require('@starptech/prettyhtml-formatter')
 
 const extensions = ['html']
@@ -35,6 +36,7 @@ var cli = meow(
   --single-quote    Use single instead of double quotes
   --use-prettier    Use prettier to format embedded content
   --wrapAttributes  Force to wrap attributes (when it has multiple)
+  --sortAttributes  Sort attributes alphabetically
   --stdin           Specify the standard stream as source (for pipe mode)
   --quiet           Do not output anything for a file which has no warnings or errors
   --silent          Do not output messages without fatal set to true
@@ -70,6 +72,10 @@ var cli = meow(
         default: true
       },
       wrapAttributes: {
+        type: 'boolean',
+        default: false
+      },
+      sortAttributes: {
         type: 'boolean',
         default: false
       },
@@ -152,6 +158,7 @@ function transform({ prettierConfig }) {
         prettier: prettierConfig
       }
     ],
+    prettierConfig.sortAttributes ? [sortAttributes, {}] : [],
     [
       stringify,
       {

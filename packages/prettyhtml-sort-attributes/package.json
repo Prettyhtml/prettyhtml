@@ -1,0 +1,40 @@
+{
+  "name": "@starptech/prettyhtml-sort-attributes",
+  "version": "0.6.0",
+  "description": "Sort attributes alphabetically",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava",
+    "test-coverage": "nyc --reporter lcov ava"
+  },
+  "devDependencies": {
+    "ava": "^0.25.0",
+    "nyc": "^13.0.1",
+    "rehype": "^6.0.0",
+    "@starptech/prettyhtml-hastscript": "0.6.0"
+  },
+  "dependencies": {
+    "unist-util-visit": "^1.0.0",
+    "hast-util-has-property": "^1.0.0"
+  },
+  "files": [
+    "index.js"
+  ],
+  "nyc": {
+    "check-coverage": true,
+    "lines": 100,
+    "functions": 100,
+    "branches": 100
+  },
+  "keywords": [
+    "prettyhtml",
+    "rehype",
+    "sort",
+    "attributes"
+  ],
+  "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
