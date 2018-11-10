@@ -1,12 +1,3 @@
-/**
- * @fileoverview
- *   Reorder attributes based on how often they occur.
- *
- *   This optimizes for repetition-based compression (such as GZip).
- * @example
- *   <div id="foo"><strong class="bar" id="baz">qux</strong></div>
- */
-
 'use strict'
 
 var visit = require('unist-util-visit')
