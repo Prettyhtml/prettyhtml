@@ -125,6 +125,10 @@ Use different maximum line length (default: 80)
 
 Use prettier for embedded content (default: true)
 
+###### `options.prettier`
+
+Use custom prettier settings for embedded content (default: local config)
+
 ###### `options.singleQuote`
 
 Use single quote instead double quotes (default: false)
@@ -136,10 +140,6 @@ Force to wrap attributes (when it has multiple, default: false)
 ###### `options.sortAttributes`
 
 Sort attributes alphabetically (default: false)
-
-###### `options.prettier`
-
-Use custom prettier settings for embedded content (default: local config)
 
 ## Editor support
 
