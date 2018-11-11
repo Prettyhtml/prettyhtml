@@ -81,6 +81,12 @@ This will process recursively all HTML files in the current directory.
 $ prettyhtml example.html "./**/*.html"
 ```
 
+### Help
+
+```
+$ prettyhtml --help
+```
+
 ## Pre-Commit hook integration
 
 We provide a simple package called [prettyhtml-quick](/packages/prettyhtml-quick) which is able to format only changed files. This example use [husky](https://github.com/typicode/husky) to manage git hooks in the package.json
@@ -93,12 +99,6 @@ We provide a simple package called [prettyhtml-quick](/packages/prettyhtml-quick
     }
   }
 }
-```
-
-## Help
-
-```
-$ prettyhtml --help
 ```
 
 ## API
