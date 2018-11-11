@@ -88,7 +88,7 @@ We provide a simple package called [prettyhtml-quick](/packages/prettyhtml-quick
 ```json
 {
   "husky": {
-    "hooks: {
+    "hooks": {
       "precommit": "prettyhtml-quick --staged"
     }
   }
