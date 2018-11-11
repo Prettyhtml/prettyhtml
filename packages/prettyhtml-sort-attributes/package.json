@@ -1,6 +1,6 @@
 {
   "name": "@starptech/prettyhtml-sort-attributes",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Sort attributes alphabetically",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "test-coverage": "nyc --reporter lcov ava"
   },
   "devDependencies": {
-    "@starptech/prettyhtml-hastscript": "^0.7.0",
+    "@starptech/prettyhtml-hastscript": "^0.8.0",
     "ava": "^0.25.0",
     "nyc": "^13.0.1",
     "rehype": "^6.0.0"
