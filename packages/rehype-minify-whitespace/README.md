@@ -2,7 +2,7 @@
 
 Collapse whitespace.
 
-Normally, collapses to a single space.  If `newlines: true`,
+Normally, collapses to a single space. If `newlines: true`,
 collapses white-space containing newlines to `'\n'` instead
 of `' '`.
 
@@ -34,7 +34,11 @@ foo
 
 ###### `node.data.ignore`
 
-When the data-property `ignore` is `true` the node is skipped for collapsing.
+When this property is `true` the node is skipped for whitespace handling.
+
+###### `node.data.preserveWhitespace`
+
+When this property is `true` the node is skipped for whitespace handling.
 
 ## Caveats
 

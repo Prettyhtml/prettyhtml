@@ -43,7 +43,9 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
     indentLevel
   }
   var isVoid = ctx.voids.indexOf(name) !== -1
-  var ignoreAttrCollapsing = getNodeData(node, 'ignore', false)
+  var ignoreAttrCollapsing =
+    getNodeData(node, 'ignore', false) ||
+    getNodeData(node, 'preserveAttrWrapping', false)
 
   if (parentSchema.space === 'html' && name === 'svg') {
     ctx.schema = svg
