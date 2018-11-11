@@ -46,20 +46,40 @@ function format(options) {
 
   function markIgnoreVisitor(node, parents) {
     /**
-     * When 'prettyhtml-ignore' flag is set we can ignore the next element
+     * Handle special prettyhtml flags to ignore attribute wrapping and/or whitespace handling
      */
     if (is('comment', node)) {
       if (node.value.indexOf('prettyhtml-ignore') !== -1) {
-        const parent = parents[parents.length - 1]
-        const nodeIndex = parent ? parent.children.indexOf(node) : null
-        if (nodeIndex !== null) {
-          for (let i = nodeIndex; i < parent.children.length; i++) {
-            const child = parent.children[i]
-            if (isElement(child)) {
-              setNodeData(child, 'ignore', true)
-              return visit.SKIP
-            }
-          }
+        return setAttributeOnChildren(node, parents, 'ignore', true)
+      } else if (node.value.indexOf('prettyhtml-preserve-whitespace') !== -1) {
+        return setAttributeOnChildren(node, parents, 'preserveWhitespace', true)
+      } else if (
+        node.value.indexOf('prettyhtml-preserve-attribute-wrapping') !== -1
+      ) {
+        return setAttributeOnChildren(
+          node,
+          parents,
+          'preserveAttrWrapping',
+          true
+        )
+      }
+    }
+  }
+
+  function setAttributeOnChildren(
+    node,
+    parents,
+    attributeName,
+    attributeValue
+  ) {
+    const parent = parents[parents.length - 1]
+    const nodeIndex = parent ? parent.children.indexOf(node) : null
+    if (nodeIndex !== null) {
+      for (let i = nodeIndex; i < parent.children.length; i++) {
+        const child = parent.children[i]
+        if (isElement(child)) {
+          setNodeData(child, attributeName, attributeValue)
+          return visit.SKIP
         }
       }
     }

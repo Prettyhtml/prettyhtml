@@ -49,8 +49,8 @@ function minify(tree, options) {
     var start
     var end
 
-    // don't collpase when ignore flag was set
-    if (node.data && node.data.ignore) {
+    // don't collpase when ignore or preserve-whitespace flag was set
+    if (node.data && (node.data.ignore || node.data.preserveWhitespace)) {
       return
     }
 

@@ -38,13 +38,29 @@ Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templa
 - [rehype-minify-whitespace](/packages/rehype-minify-whitespace) Collapse whitespace.
 - [hast-util-from-parse](/packages/hast-util-from-webparser) Transform [webparser](/packages/webparser) AST to HAST.
 
-## Ignore specific elements
+## Ignore element
 
-Adding this flag before a tag will preserve whitespaces and skip attribute wrapping.
+Adding this flag before a tag will preserve from whitespace and/or attribute wrapping.
+
+1. Preserve from indentation, whitespace and attribute wrapping
 
 ```html
-<!-- prettyhtml-ignore -->
+<!--prettyhtml-ignore-->
 <div></div>
+```
+
+2. Preserve only from whitespace processing
+
+```html
+<!--prettyhtml-preserve-whitespace-->
+<h1> foo </h1>
+```
+
+3. Preserve only from attribute wrapping
+
+```html
+<!--prettyhtml-preserve-attribute-wrapping-->
+<h1 foo="bar" ...> foo </h1>
 ```
 
 ## Install
@@ -59,49 +75,84 @@ $ npm install @starptech/prettyhtml --global --registry=https://registry.npmjs.o
 
 ## CLI
 
+This will process recursively all HTML files in the current directory.
+
 ```
 $ prettyhtml example.html "./**/*.html"
 ```
 
-## Help
+### Help
 
 ```
 $ prettyhtml --help
 ```
 
-## API
+## Pre-Commit hook integration
 
-```js
-const prettyhtml = require('@starptech/prettyhtml')
-try {
-  const vFile = prettyhtml(`<custom foo="bar"></custom>`, {
-    tabWidth: 2,          // The space width of your indentation level (default: 2)
-    useTabs: false,       // Use tabs instead spaces for indentation (default: false)
-    printWidth: 80,       // Use different maximum line length (default: 80)
-    usePrettier: true,    // Use prettier for embedded content (default: true)
-    singleQuote: false    // Use single quote instead double quotes (default: `"`)
-                          // only needed if you use single quotes in your templates
-    wrapAttributes: false // Force to wrap attributes (when it has multiple, default: false)
-    sortAttributes: false // Sort attributes alphabetically (default: false)
-    prettier: {}          // use custom prettier settings for embedded content (default: local config)
-  })
-  console.log(vFile.contents)
-} catch(error) {
-  console.error(error)
+We provide a simple package called [prettyhtml-quick](/packages/prettyhtml-quick) which is able to format only changed files. This example use [husky](https://github.com/typicode/husky) to manage git hooks in the package.json
+
+```json
+{
+  "husky": {
+    "hooks": {
+      "precommit": "prettyhtml-quick --staged"
+    }
+  }
 }
 ```
 
-##### `prettyhtml(doc: string, options?): vFile`
+## API
+
+## `prettyhtml(doc: string, options?): vFile`
 
 Formats a string and returns a [`vFile`](https://github.com/vfile/vfile). The method can throw e.g when a parsing error was produced. The error is from type [`vfile-message`](https://github.com/vfile/vfile-message).
+
+##### `options`
+
+###### `options.tabWidth`
+
+The space width of your indentation level (default: 2)
+
+###### `options.useTabs`
+
+Use tabs instead spaces for indentation (default: false)
+
+###### `options.printWidth`
+
+Use different maximum line length (default: 80)
+
+###### `options.usePrettier`
+
+Use prettier for embedded content (default: true)
+
+###### `options.prettier`
+
+Use custom prettier settings for embedded content (default: local config)
+
+###### `options.singleQuote`
+
+Use single quote instead double quotes (default: false)
+
+###### `options.wrapAttributes`
+
+Force to wrap attributes (when it has multiple, default: false)
+
+###### `options.sortAttributes`
+
+Sort attributes alphabetically (default: false)
 
 ## Editor support
 
 - [VSCode](https://github.com/StarpTech/prettyhtml-vscode) extension (not published yet)
+- [Vetur](https://vuejs.github.io/vetur/formatting.html#formatters) Vue tooling for VS Code
 
 ## Why
 
-While prettier has basic HTML support soon it's far from useful ([Issue 5098](https://github.com/prettier/prettier/issues/5098)) and there are too many opinions. Therefore I don't like how the formatter is implemented because they don't split the formatter in testable pieces like plugins or modules which make it very hard to get into it. Due to the awesome groundwork by [@rehype](https://github.com/rehypejs), [@unifiedjs](https://github.com/unifiedjs) (and @vfile, @syntax-tree) we can rely on a specification and use all plugins of the ecosystem. I love prettier for everything else but in the meantime I need a general formatter in order to talk less about formatting. Prettyhtml should be able to format any superset of HTML as long it is parseable with minor tweaks. We use a modified version of the Angular 6 template parser.
+Prettier has [landed](https://github.com/prettier/prettier/releases/tag/1.15.0) HTML support some days ago. This is awesome and will help many people to reduce the headache of correct formatting in teams. The reason why I still using prettyhtml is clear:
+
+- It is very easy to maintain because we have a [specification](https://github.com/syntax-tree/hast) and an [ecosystem](https://github.com/rehypejs/rehype) (and @vfile, @syntax-tree) of plugins.
+- It should be able to format any superset of HTML as long it is parseable with minor tweaks. We use a modified version of the Angular 6 template parser. There is no need to maintain multiple parser.
+- Prettyhtml doesn't try to understand all Javascript frameworks in depth even when it means that the user has to update some places manually.
 
 ## Acknowledgement
 
