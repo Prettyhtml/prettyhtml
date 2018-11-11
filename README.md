@@ -151,7 +151,7 @@ Use custom prettier settings for embedded content (default: local config)
 Prettier has [landed](https://github.com/prettier/prettier/releases/tag/1.15.0) HTML support some days ago. This is awesome and will help many people to reduce the headache of correct formatting in teams. The reason why I still using prettyhtml is clear:
 
 - It is very easy to maintain because we have a [specification](https://github.com/syntax-tree/hast) and an [ecosystem](https://github.com/rehypejs/rehype) (and @vfile, @syntax-tree) of plugins.
-- It should be able to format any superset of HTML as long it is parseable with minor tweaks. We use a modified version of the Angular 6 template parser. There is no need to maintain multiple parser as in the case of prettier.
+- It should be able to format any superset of HTML as long it is parseable with minor tweaks. We use a modified version of the Angular 6 template parser. There is no need to maintain multiple parser.
 - Prettyhtml doesn't try to understand all Javascript frameworks in depth even when it means that the user has to update some places manually.
 
 ## Acknowledgement
