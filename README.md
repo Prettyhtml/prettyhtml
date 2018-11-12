@@ -32,6 +32,7 @@ Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templa
 - [prettyhtml-formatter](/packages/prettyhtml-formatter) Formatter.
 - [prettyhtml-hast-to-html](/packages/prettyhtml-hast-to-html) Stringifier.
 - [prettyhtml-hastscript](/packages/prettyhtml-hastscript) Hyperscript compatible DSL for creating virtual HAST trees.
+- [prettyhtml-sort-attributes](/packages/prettyhtml-sort-attributes) Sort attributes alphabetically.
 - [prettyhtml-quick](/packages/prettyhtml-quick) Formats your changed files based on Git.
 - [webparser](/packages/webparser) Optimized HTML parser for formatters
 - [rehype-webparser](/packages/rehype-webparser) Adapter between HTML parser and rehype.
