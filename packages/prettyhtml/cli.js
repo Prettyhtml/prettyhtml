@@ -157,17 +157,22 @@ function transform({ prettierConfig }) {
         usePrettier: cli.flags.usePrettier,
         prettier: prettierConfig
       }
-    ],
-    prettierConfig.sortAttributes ? [sortAttributes, {}] : [],
-    [
-      stringify,
-      {
-        tabWidth: cli.flags.tabWidth,
-        printWidth: cli.flags.printWidth,
-        singleQuote: cli.flags.singleQuote,
-        wrapAttributes: cli.flags.wrapAttributes
-      }
     ]
   ]
+
+  if (prettierConfig.sortAttributes) {
+    plugins.push([sortAttributes, {}])
+  }
+
+  plugins.push([
+    stringify,
+    {
+      tabWidth: cli.flags.tabWidth,
+      printWidth: cli.flags.printWidth,
+      singleQuote: cli.flags.singleQuote,
+      wrapAttributes: cli.flags.wrapAttributes
+    }
+  ])
+
   return { plugins }
 }
