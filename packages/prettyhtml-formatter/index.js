@@ -283,7 +283,11 @@ function startsWithNewline(node) {
 function handleTemplateExpression(child, children) {
   if (isTemplateExpression(child.value)) {
     // dont touch nodes with single text element
-    if (containsOnlyTextNodes({ children })) {
+    if (
+      containsOnlyTextNodes({
+        children
+      })
+    ) {
       return false
     }
 
@@ -467,12 +471,21 @@ function prettierEmbeddedContent(node, level, indent, prettierOpts) {
         prettierOpts
       )
     )
-    formattedText = indentPrettierOutput(formattedText, level)
+    formattedText = indentPrettierOutput(formattedText, level, indent)
 
     node.children = [
-      { type: 'text', value: single },
-      { type: 'text', value: formattedText },
-      { type: 'text', value: repeat(indent, level - 1) }
+      {
+        type: 'text',
+        value: single
+      },
+      {
+        type: 'text',
+        value: formattedText
+      },
+      {
+        type: 'text',
+        value: repeat(indent, level - 1)
+      }
     ]
   } else if (isElement(node, 'script')) {
     const content = toString(node)
@@ -505,25 +518,34 @@ function prettierEmbeddedContent(node, level, indent, prettierOpts) {
         prettierOpts
       )
     )
-    formattedText = indentPrettierOutput(formattedText, level)
+    formattedText = indentPrettierOutput(formattedText, level, indent)
     // in order to prevent parsing issues
     // https://github.com/inikulin/parse5/issues/262
     formattedText = formattedText.replace(/<\/script\s*>/g, '<\\/script>')
 
     node.children = [
-      { type: 'text', value: single },
-      { type: 'text', value: formattedText },
-      { type: 'text', value: repeat(indent, level - 1) }
+      {
+        type: 'text',
+        value: single
+      },
+      {
+        type: 'text',
+        value: formattedText
+      },
+      {
+        type: 'text',
+        value: repeat(indent, level - 1)
+      }
     ]
   }
 }
 
-function indentPrettierOutput(formattedText, level) {
+function indentPrettierOutput(formattedText, level, indent) {
   let lines = formattedText.split(single)
 
   for (let i = 0; i < lines.length; i++) {
     if (lines[i].replace(/\s+/g, '').length) {
-      lines[i] = repeat('  ', level) + lines[i]
+      lines[i] = repeat(indent, level) + lines[i]
     }
   }
 
