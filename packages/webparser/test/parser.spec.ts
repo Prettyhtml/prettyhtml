@@ -210,6 +210,7 @@ import {
             '<div><embed></div>',
             '<div><hr></div>',
             '<div><img></div>',
+            '<div><image></div>',
             '<div><input></div>',
             '<object><param>/<object>',
             '<audio><source></audio>',
