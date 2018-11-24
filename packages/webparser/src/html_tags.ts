@@ -95,6 +95,7 @@ export function getHtmlTagDefinition(
       embed: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
       link: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
       img: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
+      image: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
       input: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
       param: new HtmlTagDefinition({ isVoid: true, canSelfClose }),
       hr: new HtmlTagDefinition({ isVoid: true, canSelfClose }),

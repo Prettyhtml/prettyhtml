@@ -197,6 +197,43 @@ import {
           ])
         })
 
+        it('should parse image with closed tag in svg space', () => {
+          expect(
+            humanizeDom(
+              parser.parse(
+                '<svg><image src="http://image.de"></image></svg>',
+                'TestComp'
+              )
+            )
+          ).toEqual([
+            [html.Element, ':svg:svg', 0, true],
+            [html.Element, ':svg:image', 1, true],
+            [html.Attribute, 'src', 'http://image.de']
+          ])
+        })
+
+        it('should parse image as void element in html space', () => {
+          expect(
+            humanizeDom(
+              parser.parse('<image src="http://image.de">', 'TestComp')
+            )
+          ).toEqual([
+            [html.Element, 'image', 0],
+            [html.Attribute, 'src', 'http://image.de']
+          ])
+        })
+
+        it('should error when image is used with closed tag in html space', () => {
+          const errors = parser.parse(
+            '<image src="http://image.de"></image>',
+            'TestComp'
+          ).errors
+          expect(errors.length).toEqual(1)
+          expect(humanizeErrors(errors)).toEqual([
+            ['image', 'Void elements do not have end tags "image"', '0:29']
+          ])
+        })
+
         it('should not error on void elements from HTML5 spec', () => {
           // http://www.w3.org/TR/html-markup/syntax.html#syntax-elements without:
           // <base> - it can be present in head only
@@ -210,6 +247,7 @@ import {
             '<div><embed></div>',
             '<div><hr></div>',
             '<div><img></div>',
+            '<div><image></div>',
             '<div><input></div>',
             '<object><param>/<object>',
             '<audio><source></audio>',
