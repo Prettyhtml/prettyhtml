@@ -10,7 +10,8 @@
   "scripts": {
     "test-api": "node test/index.js",
     "test-coverage": "nyc --reporter lcov ava",
-    "test": "ava"
+    "test": "ava",
+    "test-snaphots": "ava --update-snapshots"
   },
   "files": [
     "index.js",
