@@ -243,10 +243,19 @@ function format(options) {
             (newline && index === 0) ||
             elementHasGap(prevChild)
           ) {
-            // we can remove the trailing whitespaces because
-            // we will add a single newline
+            /**
+             * This is needed because
+             * 1. We convert long text into multiple lines
+             * 2. We put template expressions on new lines
+             */
+
+            // remove trailing whitespaces and tabs because a newline is inserted before
             if (is('text', prevChild)) {
               prevChild.value = prevChild.value.replace(/[ \t]+$/, '')
+            }
+            // remove leading whitespaces and tabs because a newline is inserted before
+            if (is('text', child)) {
+              child.value = child.value.replace(/^[ \t]+/, '')
             }
             result.push({
               type: 'text',
