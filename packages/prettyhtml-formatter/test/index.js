@@ -26,7 +26,7 @@ function each(fixture) {
       input: vfile.readSync(path.join(base, 'input.html'))
     }
 
-    t.plan(6)
+    t.plan(5)
 
     check(t, fixture, opts)
   })
@@ -53,7 +53,6 @@ function check(t, fixture, options) {
   proc.process(options.input, function(err, vFile) {
     t.falsy(err, 'shouldn’t throw')
     t.is(options.input.messages.length, 0, 'shouldn’t warn')
-    t.snapshot(vFile.contents)
     // run again with the result to ensure that our formatter is stable
     proc.process(vFile.contents, function(err, vFile) {
       t.falsy(err, 'shouldn’t throw')

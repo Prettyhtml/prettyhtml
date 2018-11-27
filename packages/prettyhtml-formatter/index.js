@@ -111,7 +111,7 @@ function format(options) {
         level--
       }
 
-      if (node.data && node.data.ignore) {
+      if (node.data && (node.data.ignore || node.data.preserveWhitespace)) {
         return visit.SKIP
       }
 
@@ -249,8 +249,15 @@ function format(options) {
              * 2. We put template expressions on new lines
              */
 
-            // remove trailing whitespaces and tabs because a newline is inserted before
             if (is('text', prevChild)) {
+              // In order to produce a stable result we need to indent the text on a newline
+              // when the subsequent node is from type "element"
+              // this is only needed because we want to indent leading text
+              if (is(child) && index === 1) {
+                prevChild.value =
+                  single + repeat(indent, indentLevel) + prevChild.value
+              }
+              // remove trailing whitespaces and tabs because a newline is inserted before
               prevChild.value = prevChild.value.replace(/[ \t]+$/, '')
             }
             // remove leading whitespaces and tabs because a newline is inserted before
