@@ -17,6 +17,7 @@ export class Attribute implements Node {
   constructor(
     public name: string,
     public value: string,
+    public implicitNs: boolean,
     public sourceSpan: ParseSourceSpan,
     public valueSpan?: ParseSourceSpan
   ) {}

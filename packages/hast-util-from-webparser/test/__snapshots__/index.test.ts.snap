@@ -223,6 +223,66 @@ Object {
 }
 `;
 
+exports[`Attributes with colon, binding syntax and namespace 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "data": Object {
+            "selfClosing": true,
+          },
+          "position": Object {
+            "end": Object {
+              "column": 108,
+              "line": 1,
+              "offset": 108,
+            },
+            "start": Object {
+              "column": 14,
+              "line": 1,
+              "offset": 14,
+            },
+          },
+          "properties": Object {
+            ":foo": "dddd",
+            ":xlink:href": "'myHref'",
+            "xmlnsXLink": "http://www.w3.org/1999/xlink",
+          },
+          "tagName": "prism-editor",
+          "type": "element",
+        },
+      ],
+      "data": Object {
+        "selfClosing": false,
+      },
+      "position": Object {
+        "end": Object {
+          "column": 114,
+          "line": 1,
+          "offset": 114,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 1,
+          "offset": 0,
+        },
+      },
+      "properties": Object {
+        "id": "app",
+      },
+      "tagName": "div",
+      "type": "element",
+    },
+  ],
+  "data": Object {
+    "selfClosing": false,
+  },
+  "type": "root",
+}
+`;
+
 exports[`Attributes with namespace 1`] = `
 Object {
   "children": Array [

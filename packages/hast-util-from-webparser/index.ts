@@ -5,7 +5,8 @@ import {
   Comment,
   Text,
   Node,
-  Doctype
+  Doctype,
+  Attribute
 } from '@starptech/webparser'
 
 const htmlSchema = require('property-information/html')
@@ -161,15 +162,16 @@ function comment(ast: Comment): HastNode {
   return { type: 'comment', value: ast.value }
 }
 
-function getAttributeNameAndNS(name: string) {
-  // support vue :foo attributes but respect
-  // namespace syntax from webparser like :ns:attribute
-  if (name.split(':').length === 2) {
-    return { ns: null, name: name }
+function getAttributeName(attribute: Attribute) {
+  const colons = attribute.name.split(':')
+
+  // attrName from webparser: ":xmlns:xlink"
+  // remove first colon because it was added by webparser
+  if (attribute.implicitNs === true && colons.length >= 3) {
+    return colons.slice(1).join(':')
   }
 
-  const info = splitNsName(name)
-  return { ns: info[0], name: info[1] }
+  return attribute.name
 }
 
 function getElementNameAndNS(name: string, implicitNs = false) {
@@ -199,9 +201,7 @@ function element(
   let node
 
   for (const attr of ast.attrs) {
-    const attrInfo = getAttributeNameAndNS(attr.name)
-    props[attrInfo.ns ? attrInfo.ns + ':' + attrInfo.name : attrInfo.name] =
-      attr.value
+    props[getAttributeName(attr)] = attr.value
   }
 
   node = fn(nameInfo.name, props, children)

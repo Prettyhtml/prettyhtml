@@ -23,13 +23,16 @@ const result = parser.parse('<div></div>')
 There are four different types of nodes
 
 - Doctype
+
 ```js
 {
   value: '<!doctype html>',
   sourceSpan: null
 }
 ```
+
 - Element
+
 ```js
 {
   name: 'div',
@@ -45,16 +48,20 @@ There are four different types of nodes
 Void or self-closing elements can be checked when the `startSourceSpan` is equals the `endSourceSpan`.
 
 - Attribute
+
 ```js
 {
   name: 'div',
   value: 'foo',
   children: [],
+  implicitNs: false,
   sourceSpan:null,
   valueSpan: null
 }
 ```
+
 - Comment
+
 ```js
 {
   value: 'foo comment',
