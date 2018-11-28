@@ -384,6 +384,7 @@ class _TreeBuilder {
 
   private _consumeAttr(attrName: lex.Token): html.Attribute {
     const fullName = mergeNsAndName(attrName.parts[0], attrName.parts[1])
+    let implicitNs = attrName.parts[0] != null
     let end = attrName.sourceSpan.end
     let value = ''
     let valueSpan: ParseSourceSpan = undefined!
@@ -396,6 +397,7 @@ class _TreeBuilder {
     return new html.Attribute(
       fullName,
       value,
+      implicitNs,
       new ParseSourceSpan(attrName.sourceSpan.start, end),
       valueSpan
     )
