@@ -18,7 +18,6 @@ module.exports = format
 /* Constants. */
 const single = '\n'
 const space = ' '
-const double = '\n\n'
 const re = /\n/g
 
 const CONDITIONAL_COMMENT_REGEXP = /^\s*\[if .*/
