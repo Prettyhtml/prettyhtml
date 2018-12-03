@@ -1,0 +1,14 @@
+<form
+  #heroForm
+  (ngSubmit)="onSubmit(heroForm)"
+  FOO-BAR="test"
+  [(onTest)]="test ? 'foo' : onTest()"
+></form>
+<h3>
+  <img src="{{heroImageUrl}}" style="height:30px">
+</h3>
+<button [attr.aria-label]="help">help</button>
+<ul>
+  <li *ngFor="let hero of heroes"></li>
+</ul>
+<div [class.special]="isSpecial">Special</div>

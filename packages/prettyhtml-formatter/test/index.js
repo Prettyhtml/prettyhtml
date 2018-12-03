@@ -23,10 +23,11 @@ function each(fixture) {
     var base = path.join(root, fixture)
     var opts = {
       base: base,
-      input: vfile.readSync(path.join(base, 'input.html'))
+      input: vfile.readSync(path.join(base, 'input.html')),
+      output: vfile.readSync(path.join(base, 'output.html'))
     }
 
-    t.plan(5)
+    t.plan(3)
 
     check(t, fixture, opts)
   })
@@ -53,12 +54,8 @@ function check(t, fixture, options) {
   proc.process(options.input, function(err, vFile) {
     t.falsy(err, 'shouldn’t throw')
     t.is(options.input.messages.length, 0, 'shouldn’t warn')
-    // run again with the result to ensure that our formatter is stable
-    proc.process(vFile.contents, function(err, vFile) {
-      t.falsy(err, 'shouldn’t throw')
-      t.is(options.input.messages.length, 0, 'shouldn’t warn')
-      t.snapshot(vFile.contents)
-      t.end()
-    })
+    t.is(String(options.input), String(options.output), 'should match')
+    // fs.writeFileSync(path.join(options.base, 'output.html'), vFile.contents)
+    t.end()
   })
 }
