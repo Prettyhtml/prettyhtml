@@ -185,6 +185,7 @@ function format(options) {
       node.children = result
 
       let prevChild
+      let hasLeadingNewline = false
 
       if (length) {
         // walk through children
@@ -215,11 +216,22 @@ function format(options) {
             !endsWithNewline(prevChild) &&
             beforeChildNodeAddedHook(node, children, child, index, prevChild)
           ) {
+            // all template expression are indented on a ewline thats why need to check
+            // so that we don't add another one
+            if (index === 0 && isTemplateExpression(child.value)) {
+              hasLeadingNewline = true
+            }
             // only necessary because we are trying to indent tags on newlines
             // even when in inline context when possible
             if (is('text', prevChild)) {
               // remove trailing whitespaces and tabs because a newline is inserted before
               prevChild.value = prevChild.value.replace(/[ \t]+$/, '')
+
+              // adds a leading newline because the sibling node is indented on a newline
+              if (index === 1 && hasLeadingNewline === false) {
+                prevChild.value =
+                  single + repeat(indent, indentLevel) + prevChild.value
+              }
             }
             // remove leading whitespaces and tabs because a newline is inserted before
             if (is('text', child)) {
@@ -230,6 +242,15 @@ function format(options) {
               type: 'text',
               value: single + repeat(indent, indentLevel)
             })
+          }
+          // adds a leading newline when he sibling element was inteded on a newline and when no newlines was added
+          else if (
+            is('text', child) &&
+            hasLeadingNewline === false &&
+            endsWithNewline(child) &&
+            !startsWithNewline(child)
+          ) {
+            child.value = single + repeat(indent, indentLevel) + child.value
           }
 
           prevChild = child
