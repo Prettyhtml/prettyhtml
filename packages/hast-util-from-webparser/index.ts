@@ -89,6 +89,10 @@ function transform(
     node = text(ast)
   } else if (ast instanceof Comment) {
     node = comment(ast)
+    if (isGap(nextAst)) {
+      node.data = node.data || {}
+      node.data.gapAfter = true
+    }
   } else if (ast instanceof Doctype) {
     node = {
       type: 'doctype',

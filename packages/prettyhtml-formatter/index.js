@@ -21,7 +21,7 @@ const space = ' '
 const double = '\n\n'
 const re = /\n/g
 
-const CONDITIONAL_COMMENT = /^\s*\[if .*/
+const CONDITIONAL_COMMENT_REGEXP = /^\s*\[if .*/
 const DOUBLE_BRACKET_INTERPOLATION_REGEXP = /\{\{([\s\S]*?)\}\}/g
 const SINGLE_BRACKET_INTERPOLATION_REGEXP = /\{([\s\S]*?)\}/g
 const ARROW_PERC_INTERPOLATION_REGEXP = /<%([\s\S]*?)%>/g
@@ -104,7 +104,6 @@ function format(options) {
       let index = -1
       let result
       let child
-      let newline
       let level = parents.length
 
       if (indentInitial === false) {
@@ -159,13 +158,7 @@ function format(options) {
       }
 
       /**
-       * Indent newlines in `text`.
-       * e.g <p>foo <strong>bar</strong></p> to
-       * <p>
-       *    foo
-       *    <strong>bar</strong>
-       * </p>
-       * Remove leading and trailing spaces and tabs
+       * Indent children
        */
       index = -1
       while (++index < length) {
@@ -178,11 +171,6 @@ function format(options) {
         }
 
         if (is('text', child)) {
-          // when a newline is found we assume that we can indent it on separate lines
-          // and not beside the open and closed tags
-          if (child.value.indexOf(single) !== -1) {
-            newline = true
-          }
           child.value = child.value
             // reduce newlines to one newline
             // $& contains the lastMatch
@@ -209,22 +197,14 @@ function format(options) {
 
           setNodeData(child, 'indentLevel', indentLevel)
 
-          /**
-           * Insert 2 newline
-           * 1. check if an element is followed by a conditional comment
-           * 2. check if a comment is followed by a conditional comment
-           * 3. check if an element without new-line has a previous sibling with a gap
-           */
-          if (
-            isElementAfterConditionalComment(node, child, index, prevChild) ||
-            isConCommentFollowedByComment(node, child, index, prevChild) ||
-            (!endsWithNewline(child) && elementHasGap(prevChild))
-          ) {
+          if (elementHasGap(prevChild)) {
             result.push({
               type: 'text',
-              value: double + repeat(indent, indentLevel)
+              value: single
             })
-          } else if (
+          }
+
+          if (
             /**
              * Insert 1 newline
              * 1. should we break before child node is started?
@@ -232,31 +212,12 @@ function format(options) {
              * 3. break text in newline when it's the first node
              * 4. break text in newline when previous sibling has a gap
              */
-            (!endsWithNewline(prevChild) &&
-              beforeChildNodeAddedHook(
-                node,
-                children,
-                child,
-                index,
-                prevChild
-              )) ||
-            (newline && index === 0) ||
-            elementHasGap(prevChild)
+            !endsWithNewline(prevChild) &&
+            beforeChildNodeAddedHook(node, children, child, index, prevChild)
           ) {
-            /**
-             * This is needed because
-             * 1. We convert long text into multiple lines
-             * 2. We put template expressions on new lines
-             */
-
+            // only necessary because we are trying to indent tags on newlines
+            // even when in inline context when possible
             if (is('text', prevChild)) {
-              // In order to produce a stable result we need to indent the text on a newline
-              // when the subsequent node is from type "element"
-              // this is only needed because we want to indent leading text
-              if (is(child) && index === 1) {
-                prevChild.value =
-                  single + repeat(indent, indentLevel) + prevChild.value
-              }
               // remove trailing whitespaces and tabs because a newline is inserted before
               prevChild.value = prevChild.value.replace(/[ \t]+$/, '')
             }
@@ -264,6 +225,7 @@ function format(options) {
             if (is('text', child)) {
               child.value = child.value.replace(/^[ \t]+/, '')
             }
+
             result.push({
               type: 'text',
               value: single + repeat(indent, indentLevel)
@@ -278,7 +240,7 @@ function format(options) {
 
       // 1. should we break before node is closed?
       // 2. break text when node text was aligned
-      if (afterChildNodesAddedHook(node, prevChild) || newline) {
+      if (afterChildNodesAddedHook(node, prevChild)) {
         result.push({
           type: 'text',
           value: single + repeat(indent, level - 1)
@@ -411,7 +373,7 @@ function isElementAfterConditionalComment(node, child, index, prev) {
   // insert double newline when conditional comment is before element
   if (
     is('comment', prev) &&
-    CONDITIONAL_COMMENT.test(prev.value) &&
+    CONDITIONAL_COMMENT_REGEXP.test(prev.value) &&
     isElement(child)
   ) {
     return true
@@ -423,9 +385,9 @@ function isConCommentFollowedByComment(node, child, index, prev) {
   // insert double newline when conditional comment is before a non conditional comment
   if (
     is('comment', prev) &&
-    CONDITIONAL_COMMENT.test(prev.value) &&
+    CONDITIONAL_COMMENT_REGEXP.test(prev.value) &&
     is('comment', child) &&
-    !CONDITIONAL_COMMENT.test(child.value)
+    !CONDITIONAL_COMMENT_REGEXP.test(child.value)
   ) {
     return true
   }
