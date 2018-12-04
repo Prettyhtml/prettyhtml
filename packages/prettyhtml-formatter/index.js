@@ -17,6 +17,7 @@ module.exports = format
 
 /* Constants. */
 const single = '\n'
+const double = '\n\n'
 const space = ' '
 const re = /\n/g
 
@@ -204,7 +205,21 @@ function format(options) {
             })
           }
 
+          /**
+           * Insert 2 newline
+           * 1. check if an element is followed by a conditional comment
+           * 2. check if a comment is followed by a conditional comment
+           * 3. check if an element without new-line has a previous sibling with a gap
+           */
           if (
+            isElementAfterConditionalComment(node, child, index, prevChild) ||
+            isConCommentFollowedByComment(node, child, index, prevChild)
+          ) {
+            result.push({
+              type: 'text',
+              value: double + repeat(indent, indentLevel)
+            })
+          } else if (
             /**
              * Insert 1 newline
              * 1. should we break before child node is started?
