@@ -205,12 +205,6 @@ function format(options) {
             })
           }
 
-          /**
-           * Insert 2 newline
-           * 1. check if an element is followed by a conditional comment
-           * 2. check if a comment is followed by a conditional comment
-           * 3. check if an element without new-line has a previous sibling with a gap
-           */
           if (
             isElementAfterConditionalComment(node, child, index, prevChild) ||
             isConCommentFollowedByComment(node, child, index, prevChild)
@@ -220,13 +214,6 @@ function format(options) {
               value: double + repeat(indent, indentLevel)
             })
           } else if (
-            /**
-             * Insert 1 newline
-             * 1. should we break before child node is started?
-             * 2. don't break when a newline was already inserted before
-             * 3. break text in newline when it's the first node
-             * 4. break text in newline when previous sibling has a gap
-             */
             !endsWithNewline(prevChild) &&
             beforeChildNodeAddedHook(node, children, child, index, prevChild)
           ) {
@@ -273,8 +260,6 @@ function format(options) {
         }
       }
 
-      // 1. should we break before node is closed?
-      // 2. break text when node text was aligned
       if (afterChildNodesAddedHook(node, prevChild)) {
         result.push({
           type: 'text',
