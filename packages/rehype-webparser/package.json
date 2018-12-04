@@ -1,6 +1,6 @@
 {
   "name": "@starptech/rehype-webparser",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
   "license": "MIT",
   "dependencies": {
-    "@starptech/hast-util-from-webparser": "^0.8.5",
+    "@starptech/hast-util-from-webparser": "^0.8.6",
     "@starptech/webparser": "^0.8.5"
   },
   "devDependencies": {
