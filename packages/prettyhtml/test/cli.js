@@ -3,6 +3,7 @@ const test = require('ava')
 const fs = require('fs')
 const path = require('path')
 const dir = path.join(__dirname, './tmp')
+const cliPath = path.join(__dirname, '../cli.js')
 
 try {
   fs.mkdirSync(dir)
@@ -16,7 +17,7 @@ test.cb('cli', t => {
     '<div id="foo" class=bar/>\n',
     err => {
       if (err) throw err
-      const cp = spawn('./cli.js', [
+      const cp = spawn(cliPath, [
         'test/tmp/single-quote.html',
         '--single-quote'
       ])
