@@ -10,7 +10,7 @@
   "bin": "cli.js",
   "types": "./index.d.ts",
   "scripts": {
-    "test": "echo 'no tests defined'"
+    "test": "ava"
   },
   "files": [
     "index.js",
@@ -41,6 +41,9 @@
     "update-notifier": "^2.5.0",
     "vfile": "^3.0.0",
     "vfile-reporter": "^5.0.0"
+  },
+  "devDependencies": {
+    "ava": "^0.25.0"
   },
   "publishConfig": {
     "access": "public"
