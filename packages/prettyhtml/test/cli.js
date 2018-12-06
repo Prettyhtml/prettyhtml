@@ -3,6 +3,7 @@ const test = require('ava')
 const fs = require('fs')
 const path = require('path')
 const dir = path.join(__dirname, './tmp')
+
 try {
   fs.mkdirSync(dir)
 } catch (err) {
@@ -12,7 +13,7 @@ try {
 test.cb('cli', t => {
   fs.writeFile(
     path.join(dir, 'single-quote.html'),
-    '<div id="foo"/>\n',
+    '<div id="foo" class=bar/>\n',
     err => {
       if (err) throw err
       const cp = spawn('./cli.js', [
@@ -22,8 +23,8 @@ test.cb('cli', t => {
       cp.on('close', function(code) {
         t.is(
           fs.readFileSync(path.join(dir, 'single-quote.html'), 'utf8'),
-          "<div id='foo'/>\n",
-          'double quotes should be replaced with single quotes'
+          "<div id='foo' class='bar'/>\n",
+          'double and unquoted attribute values should be replaced with single quotes'
         )
         t.end()
       })
