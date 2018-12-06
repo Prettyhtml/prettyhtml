@@ -208,6 +208,8 @@ function element(
     props[getAttributeName(attr)] = attr.value
   }
 
+  // hastscript interpret any object with a "value" attribute as
+  // unist node. This is a workaround to explicity express it as property.
   if (props.value) {
     props[Symbol.for('hast.isProp')] = true
   }
