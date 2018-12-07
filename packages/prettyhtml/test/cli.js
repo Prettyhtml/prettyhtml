@@ -11,7 +11,7 @@ try {
   if (err.code !== 'EEXIST') throw err
 }
 
-test.cb('cli: single quotes', t => {
+test.cb('single quotes', t => {
   fs.writeFile(
     path.join(dir, 'single-quote.html'),
     '<div id="foo" class=bar/>\n',
@@ -33,7 +33,7 @@ test.cb('cli: single quotes', t => {
   )
 })
 
-test.skip.cb('cli: sort attributes', t => {
+test.skip.cb('sort attributes', t => {
   fs.writeFile(
     path.join(dir, 'sort-attributes.html'),
     '<div b="bar" a="foo"/>\n',
