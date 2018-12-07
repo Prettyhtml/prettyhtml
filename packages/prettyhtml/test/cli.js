@@ -11,7 +11,7 @@ try {
   if (err.code !== 'EEXIST') throw err
 }
 
-test.cb('cli', t => {
+test.cb('cli: single quotes', t => {
   fs.writeFile(
     path.join(dir, 'single-quote.html'),
     '<div id="foo" class=bar/>\n',
@@ -25,7 +25,7 @@ test.cb('cli', t => {
         t.is(
           fs.readFileSync(path.join(dir, 'single-quote.html'), 'utf8'),
           "<div id='foo' class='bar'/>\n",
-          'double and unquoted attribute values should be replaced with single quotes'
+          'should use single instead of double quotes'
         )
         t.end()
       })
@@ -33,7 +33,29 @@ test.cb('cli', t => {
   )
 })
 
-test.after('cleanup', t => {
+test.skip.cb('cli: sort attributes', t => {
+  fs.writeFile(
+    path.join(dir, 'sort-attributes.html'),
+    '<div b="bar" a="foo"/>\n',
+    err => {
+      if (err) throw err
+      const cp = spawn(cliPath, [
+        'test/tmp/sort-attributes.html',
+        '--sortAttributes'
+      ])
+      cp.on('close', function(code) {
+        t.is(
+          fs.readFileSync(path.join(dir, 'sort-attributes.html'), 'utf8'),
+          '<div a="foo" b="bar"/>\n',
+          'attributes should be sorted alphabetically'
+        )
+        t.end()
+      })
+    }
+  )
+})
+
+test.always.after('cleanup', t => {
   fs.readdir(dir, (err, files) => {
     if (err) throw err
 
