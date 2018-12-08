@@ -35,6 +35,7 @@ Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templa
 - [prettyhtml-sort-attributes](/packages/prettyhtml-sort-attributes) Sort attributes alphabetically.
 - [prettyhtml-quick](/packages/prettyhtml-quick) Formats your changed files based on Git.
 - [webparser](/packages/webparser) Optimized HTML parser for formatters
+- [expression-parser](/packages/expression-parser) Framework agnostic template expression parser.
 - [rehype-webparser](/packages/rehype-webparser) Adapter between HTML parser and rehype.
 - [rehype-minify-whitespace](/packages/rehype-minify-whitespace) Collapse whitespace.
 - [hast-util-from-parse](/packages/hast-util-from-webparser) Transform [webparser](/packages/webparser) AST to HAST.
