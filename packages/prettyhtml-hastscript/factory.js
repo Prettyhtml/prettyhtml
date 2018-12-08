@@ -15,7 +15,12 @@ function factory(schema, defaultTagName) {
     var node = parseSelector(selector, defaultTagName)
     var property
 
-    if (!children && properties && isChildren(properties, node)) {
+    if (
+      !children &&
+      properties &&
+      !properties[Symbol.for('hast.isProp')] &&
+      isChildren(properties, node)
+    ) {
       children = properties
       properties = null
     }
@@ -27,11 +32,6 @@ function factory(schema, defaultTagName) {
     }
 
     addChild(node.children, children)
-
-    // if (node.tagName === 'template') {
-    //   node.content = {type: 'root', children: node.children}
-    //   node.children = []
-    // }
 
     return node
   }
@@ -76,6 +76,7 @@ function factory(schema, defaultTagName) {
   }
 }
 
+// Value can be: string for text node, array for chilNodes
 function isChildren(value, node) {
   return (
     typeof value === 'string' ||

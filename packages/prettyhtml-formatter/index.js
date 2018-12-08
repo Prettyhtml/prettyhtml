@@ -224,13 +224,11 @@ function format(options) {
             !endsWithNewline(prevChild) &&
             beforeChildNodeAddedHook(node, children, child, index, prevChild)
           ) {
-            const brackets = checkForTemplateExpression(child.value)
-            if (brackets) {
-              if (index === 0) {
-                hasLeadingNewline = true
-              }
+            // all template expression are indented on a ewline thats why need to check
+            // so that we don't add another one
+            if (index === 0 && checkForTemplateExpression(child.value)) {
+              hasLeadingNewline = true
             }
-
             // only necessary because we are trying to indent tags on newlines
             // even when in inline context when possible
             if (is('text', prevChild)) {
@@ -408,6 +406,8 @@ function checkForTemplateExpression(value) {
   if (result.expressions && result.expressions.length) {
     return ['{', '}']
   }
+
+  return null
 }
 
 function containsOnlyTextNodes(node) {

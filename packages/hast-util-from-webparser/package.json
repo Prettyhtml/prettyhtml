@@ -1,6 +1,6 @@
 {
   "name": "@starptech/hast-util-from-webparser",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
@@ -21,7 +21,7 @@
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
   "license": "MIT",
   "dependencies": {
-    "@starptech/prettyhtml-hastscript": "^0.8.1",
+    "@starptech/prettyhtml-hastscript": "^0.8.7",
     "@starptech/webparser": "^0.8.5",
     "property-information": "^5.0.1"
   },

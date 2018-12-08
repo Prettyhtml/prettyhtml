@@ -201,11 +201,17 @@ function element(
 ): HastNode {
   const fn = config.schema.space === 'svg' ? hastSvg : hast
   const nameInfo = getElementNameAndNS(ast.name, ast.implicitNs)
-  const props: { [name: string]: string } = {}
+  const props: any = {}
   let node
 
   for (const attr of ast.attrs) {
     props[getAttributeName(attr)] = attr.value
+  }
+
+  // hastscript interpret any object with a "value" attribute as
+  // unist node. This is a workaround to explicity express it as property.
+  if (props.value) {
+    props[Symbol.for('hast.isProp')] = true
   }
 
   node = fn(nameInfo.name, props, children)
