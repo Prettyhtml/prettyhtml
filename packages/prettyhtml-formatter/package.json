@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/StarpTech/prettyhtml#readme",
   "dependencies": {
+    "@starptech/expression-parser": "^0.8.5",
     "@starptech/prettyhtml-hast-to-html": "^0.8.1",
     "@starptech/rehype-minify-whitespace": "^0.8.1",
     "@starptech/rehype-webparser": "^0.8.6",
@@ -39,7 +40,9 @@
     "html-whitespace-sensitive-tag-names": "^1.0.0",
     "is-hidden": "^1.1.1",
     "prettier": "^1.14.3",
+    "property-information": "^5.0.1",
     "repeat-string": "^1.6.1",
+    "space-separated-tokens": "^1.1.2",
     "to-vfile": "^5.0.1",
     "unified": "^7.0.0",
     "unist-util-find": "^1.0.1",

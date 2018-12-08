@@ -1,6 +1,6 @@
 # @starptech/expression-parser
 
-Framework agnostic expression parser
+Framework agnostic template expression parser
 
 ## Installation
 

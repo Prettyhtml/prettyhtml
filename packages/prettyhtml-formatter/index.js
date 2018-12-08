@@ -12,6 +12,8 @@ const voids = require('html-void-elements')
 const find = require('unist-util-find')
 const toString = require('hast-util-to-string')
 const prettier = require('prettier')
+const propInfo = require('property-information')
+const expressionParser = require('@starptech/expression-parser')
 
 module.exports = format
 
@@ -22,9 +24,6 @@ const space = ' '
 const re = /\n/g
 
 const CONDITIONAL_COMMENT_REGEXP = /^\s*\[if .*/
-const DOUBLE_BRACKET_INTERPOLATION_REGEXP = /\{\{([\s\S]*?)\}\}/g
-const SINGLE_BRACKET_INTERPOLATION_REGEXP = /\{([\s\S]*?)\}/g
-const ARROW_PERC_INTERPOLATION_REGEXP = /<%([\s\S]*?)%>/g
 
 /* Format white-space. */
 function format(options) {
@@ -196,6 +195,14 @@ function format(options) {
 
           let indentLevel = level
 
+          // trim attributes
+          for (const attrName in child.properties) {
+            child.properties[attrName] = cleanAttributeExpression(
+              attrName,
+              child.properties[attrName]
+            )
+          }
+
           setNodeData(child, 'indentLevel', indentLevel)
 
           if (elementHasGap(prevChild)) {
@@ -217,11 +224,13 @@ function format(options) {
             !endsWithNewline(prevChild) &&
             beforeChildNodeAddedHook(node, children, child, index, prevChild)
           ) {
-            // all template expression are indented on a ewline thats why need to check
-            // so that we don't add another one
-            if (index === 0 && isTemplateExpression(child.value)) {
-              hasLeadingNewline = true
+            const brackets = checkForTemplateExpression(child.value)
+            if (brackets) {
+              if (index === 0) {
+                hasLeadingNewline = true
+              }
             }
+
             // only necessary because we are trying to indent tags on newlines
             // even when in inline context when possible
             if (is('text', prevChild)) {
@@ -278,8 +287,50 @@ function startsWithNewline(node) {
   return is('text', node) && node.value && /^\s*\n/.test(node.value)
 }
 
+function cleanAttributeExpression(name, value) {
+  if (Array.isArray(value)) {
+    // Don't add space between template expession when we
+    // deal with comma separated props otherwise it will fail
+    if (
+      propInfo.find(propInfo.html, name).commaSeparated ||
+      propInfo.find(propInfo.svg, name).commaSeparated
+    ) {
+      return cleanAttributeExpressionValue(value.join(space), false).split(
+        space
+      )
+    }
+    return cleanAttributeExpressionValue(value.join(space), true).split(space)
+  }
+  return cleanAttributeExpressionValue(value, true)
+}
+
+function cleanAttributeExpressionValue(value, spaceSaparated) {
+  const brackets = checkForTemplateExpression(value)
+  if (brackets) {
+    const result = expressionParser(value, {
+      brackets
+    })
+    for (const expr of result.expressions) {
+      let exprResult = ''
+      if (spaceSaparated) {
+        exprResult =
+          brackets[0] + space + expr.text.trim() + space + brackets[1]
+      } else {
+        exprResult = brackets[0] + expr.text.trim() + brackets[1]
+      }
+      value = replaceRange(value, expr.start, expr.end, exprResult)
+    }
+  }
+  return value
+}
+
+function replaceRange(s, start, end, substitute) {
+  return s.slice(0, start) + substitute + s.slice(end)
+}
+
 function handleTemplateExpression(child, children) {
-  if (isTemplateExpression(child.value)) {
+  const brackets = checkForTemplateExpression(child.value)
+  if (brackets) {
     // dont touch nodes with single text element
     if (
       containsOnlyTextNodes({
@@ -345,28 +396,18 @@ function afterChildNodesAddedHook(node, prev) {
   return hasChilds && !isVoid(node) && !isPrevRawText
 }
 
-function isTemplateExpression(value) {
-  // do no track informations
-  DOUBLE_BRACKET_INTERPOLATION_REGEXP.lastIndex = 0
-  SINGLE_BRACKET_INTERPOLATION_REGEXP.lastIndex = 0
-  ARROW_PERC_INTERPOLATION_REGEXP.lastIndex = 0
-
-  // erb ruby templates
-  if (ARROW_PERC_INTERPOLATION_REGEXP.test(value)) {
-    return true
-  }
-
+function checkForTemplateExpression(value) {
+  let result = expressionParser(value, { brackets: ['{{', '}}'] })
   // angular, vue
-  if (DOUBLE_BRACKET_INTERPOLATION_REGEXP.test(value)) {
-    return true
+  if (result.expressions && result.expressions.length) {
+    return ['{{', '}}']
   }
 
-  // svelte
-  if (SINGLE_BRACKET_INTERPOLATION_REGEXP.test(value)) {
-    return true
+  result = expressionParser(value, { brackets: ['{', '}'] })
+  // svelte, riotjs
+  if (result.expressions && result.expressions.length) {
+    return ['{', '}']
   }
-
-  return false
 }
 
 function containsOnlyTextNodes(node) {

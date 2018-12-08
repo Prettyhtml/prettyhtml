@@ -1,7 +1,7 @@
 {
   "name": "@starptech/expression-parser",
-  "version": "0.8.4",
-  "description": "Framework agnostic expression parser",
+  "version": "0.8.5",
+  "description": "Framework agnostic template expression parser",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -20,6 +20,9 @@
     "prettyhtml",
     "parser",
     "expressions",
+    "angular",
+    "vue",
+    "riotjs",
     "html5"
   ],
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",

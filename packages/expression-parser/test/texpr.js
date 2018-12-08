@@ -29,39 +29,39 @@ module.exports = {
     data: "foo '{'<a>'}'"
   },
 
-  'text inside tag, simple expression': {
+  'simple expression': {
     data: 'foo & { 0 }'
   },
 
-  'text inside tag, expression with embeded brackets': {
+  'expression with embeded brackets': {
     data: 'foo & { "{" }'
   },
 
-  'text inside tag, ternary with embeded brackets': {
+  'ternary with embeded brackets': {
     data: "foo & { s === \"{\" ? '' : '}' }"
   },
 
-  'text inside tag, literal regex in expression': {
+  'literal regex in expression': {
     data: '{ s: /}/ }'
   },
 
-  'text inside tag, like-regex sequence in expression': {
+  'like-regex sequence in expression': {
     data: '{ a++ /5}{0/ -1 }'
   },
 
-  'text inside tag, tricky regex': {
+  'tricky regex': {
     data: '{ a-++/}/i.lastIndex }'
   },
 
-  'tricky regex': {
+  'tricky regex / 2': {
     data: '{ .../5./2/ }'
   },
 
-  'text inside tag, regex with tags inside': {
+  'regex with tags inside': {
     data: ' { a + /<g></g> b } '
   },
 
-  'text inside tag, shortcut': {
+  shortcut: {
     data: '{ a: 1, "b": fn(a,b) }'
   },
 
@@ -203,5 +203,56 @@ module.exports = {
   'Custom brackets `${ }` preceding by escaped bracket': {
     options: { brackets: ['${', '}'] },
     data: '\\${${{}}}"'
+  },
+
+  // Angular
+
+  'Angular simple': {
+    options: { brackets: ['{{', '}}'] },
+    data: '{{title}}'
+  },
+  'Angular pipe': {
+    options: { brackets: ['{{', '}}'] },
+    data: '{{title | uppercase}}'
+  },
+  'Angular safe-navigator operator': {
+    options: { brackets: ['{{', '}}'] },
+    data: '{{currentHero?.name}}'
+  },
+
+  // Vue
+
+  'Vue simple': {
+    options: { brackets: ['{{', '}}'] },
+    data: '{{title}}'
+  },
+  'Vue complex': {
+    options: { brackets: ['{{', '}}'] },
+    data: "{{ message.split('').reverse().join('') }}"
+  },
+
+  // Svelte
+
+  'Svelte tags': {
+    options: { brackets: ['{', '}'] },
+    data: '{@debug name}'
+  },
+  'Svelte await-then-catch': {
+    options: { brackets: ['{', '}'] },
+    data: '{#await promise}{:then answer}{:catch error}{\\/await}'
+  },
+  'Svelte blocks with expressions': {
+    options: { brackets: ['{', '}'] },
+    data:
+      '{#await promise}{message}{:then answer}{messageThen}{:catch error}{messageError}{\\/await}'
+  },
+  'Svelte nested blocks': {
+    options: { brackets: ['{', '}'] },
+    data:
+      '{#await promise}{#if test}{\\/if}{:then answer}{:catch error}{\\/await}'
+  },
+  'Svelte each': {
+    options: { brackets: ['{', '}'] },
+    data: '{#each rows as row, y}{\\/each}'
   }
 }
