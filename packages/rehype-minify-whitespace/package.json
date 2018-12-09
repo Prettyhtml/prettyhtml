@@ -1,6 +1,6 @@
 {
   "name": "@starptech/rehype-minify-whitespace",
-  "version": "0.8.7",
+  "version": "0.8.10",
   "description": "",
   "main": "index.js",
   "keywords": [
@@ -25,7 +25,7 @@
     "unist-util-modify-children": "^1.1.2"
   },
   "devDependencies": {
-    "@starptech/prettyhtml-hastscript": "^0.8.7",
+    "@starptech/prettyhtml-hastscript": "^0.8.10",
     "ava": "^0.25.0",
     "nyc": "^13.0.1",
     "rehype": "^6.0.0"
