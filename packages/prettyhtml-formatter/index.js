@@ -443,10 +443,6 @@ function prettierEmbeddedContent(node, level, indent, prettierOpts) {
   const isScriptTag = isElement(node, 'script')
   let content = toString(node)
 
-  if (content.trim() === '') {
-    return
-  }
-
   if (isScriptTag) {
     content = '<script>' + content + '</script>'
   } else if (isStyleTag) {
