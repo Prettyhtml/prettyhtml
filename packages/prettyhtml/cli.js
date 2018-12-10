@@ -160,7 +160,7 @@ function transform({ prettierConfig }) {
     ]
   ]
 
-  if (prettierConfig.sortAttributes) {
+  if (cli.flags.sortAttributes || prettierConfig.sortAttributes) {
     plugins.push([sortAttributes, {}])
   }
 

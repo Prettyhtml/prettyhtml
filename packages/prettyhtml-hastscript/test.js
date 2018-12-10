@@ -853,6 +853,21 @@ test('children', function(t) {
     'should allow omitting `properties` when a button has an invalid type'
   )
 
+  t.deepEqual(
+    h('div', {
+      type: 'test',
+      value: 'value',
+      [Symbol.for('hast.isProp')]: true
+    }),
+    {
+      type: 'element',
+      tagName: 'div',
+      properties: { type: 'test', value: 'value' },
+      children: []
+    },
+    'should *not* interpret an attribute as children when it has an attribute called "value"'
+  )
+
   t.throws(
     function() {
       h('foo', {}, true)
