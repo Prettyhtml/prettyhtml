@@ -442,7 +442,7 @@ function prettierEmbeddedContent(node, level, indent, prettierOpts) {
   const isStyleTag = isElement(node, 'style')
   const isScriptTag = isElement(node, 'script')
   let content = toString(node)
-  let type = node.properties.type ? `type="${node.properties.type}"` : ''
+  const type = node.properties.type ? `type="${node.properties.type}"` : ''
 
   if (isScriptTag) {
     content = `<script ${type}>${content}</script>`
@@ -459,12 +459,12 @@ function prettierEmbeddedContent(node, level, indent, prettierOpts) {
 
   if (isScriptTag) {
     formattedText = formattedText
-      .replace(/\n*<\/script\s*>/, '')
-      .replace(/<script.*>\n*/, '')
+      .replace(/^<script.*>\n*/, '')
+      .replace(/<\/script\s*>\s*$/, '')
   } else if (isStyleTag) {
     formattedText = formattedText
-      .replace(/\n*<\/style\s*>/, '')
-      .replace(/<style.*>\n*/, '')
+      .replace(/^<style.*>\n*/, '')
+      .replace(/<\/style\s*>\s*$/, '')
   }
 
   node.children = [
