@@ -19,6 +19,7 @@ module.exports = format
 
 /* Constants. */
 const single = '\n'
+const tab = '\t'
 const double = '\n\n'
 const space = ' '
 const re = /\n/g
@@ -36,7 +37,7 @@ function format(options) {
   let indent
 
   if (useTabs) {
-    indent = '\t'
+    indent = tab
   } else {
     indent = repeat(space, tabWidth)
   }
@@ -145,10 +146,12 @@ function format(options) {
         // clear empty script, textarea, pre, style tags
         if (length) {
           const empty = containsOnlyEmptyTextNodes(node)
+          const isEmbeddedContent =
+            isElement(node, 'style') || isElement(node, 'script')
           if (empty) {
             node.children = []
           }
-          if (usePrettier && !empty) {
+          if (usePrettier && !empty && isEmbeddedContent) {
             prettierEmbeddedContent(node, level, indent, prettierOpts)
           }
         }
@@ -477,118 +480,49 @@ function ignore(nodes) {
 }
 
 function prettierEmbeddedContent(node, level, indent, prettierOpts) {
-  if (isElement(node, 'style')) {
-    const content = toString(node)
-    node.children = []
-    const typeAttr = node.properties.type
-      ? node.properties.type.toLowerCase()
-      : ''
-    let parser = 'css'
-    if (typeAttr === 'text/x-scss') {
-      parser = 'scss'
-    } else if (typeAttr === 'text/less') {
-      parser = 'less'
-    } else {
-      const langAttr = node.properties.lang
-        ? node.properties.lang.toLowerCase()
-        : ''
-      if (langAttr === 'postcss') {
-        parser = 'css'
-      } else if (langAttr === 'scss') {
-        parser = 'scss'
-      } else if (langAttr === 'less') {
-        parser = 'less'
-      }
-    }
+  const isStyleTag = isElement(node, 'style')
+  const isScriptTag = isElement(node, 'script')
+  let content = toString(node)
+  const type = node.properties.type ? `type="${node.properties.type}"` : ''
 
-    let formattedText = prettier.format(
-      content,
-      Object.assign(
-        {
-          parser
-        },
-        prettierOpts
-      )
-    )
-    formattedText = indentPrettierOutput(formattedText, level, indent)
-
-    node.children = [
-      {
-        type: 'text',
-        value: single
-      },
-      {
-        type: 'text',
-        value: formattedText
-      },
-      {
-        type: 'text',
-        value: repeat(indent, level - 1)
-      }
-    ]
-  } else if (isElement(node, 'script')) {
-    const content = toString(node)
-    node.children = []
-    const typeAttr = node.properties.type
-      ? node.properties.type.toLowerCase()
-      : ''
-    let parser = 'babylon'
-
-    if (typeAttr.indexOf('json') !== -1) {
-      parser = 'json'
-    } else if (typeAttr === 'application/x-typescript') {
-      parser = 'typescript'
-    } else {
-      const langAttr = node.properties.lang
-        ? node.properties.lang.toLowerCase()
-        : ''
-
-      if (langAttr === 'ts' || langAttr === 'tsx') {
-        parser = 'typescript'
-      }
-    }
-
-    let formattedText = prettier.format(
-      content,
-      Object.assign(
-        {
-          parser
-        },
-        prettierOpts
-      )
-    )
-    formattedText = indentPrettierOutput(formattedText, level, indent)
-    // in order to prevent parsing issues
-    // https://github.com/inikulin/parse5/issues/262
-    formattedText = formattedText.replace(/<\/script\s*>/g, '<\\/script>')
-
-    node.children = [
-      {
-        type: 'text',
-        value: single
-      },
-      {
-        type: 'text',
-        value: formattedText
-      },
-      {
-        type: 'text',
-        value: repeat(indent, level - 1)
-      }
-    ]
-  }
-}
-
-function indentPrettierOutput(formattedText, level, indent) {
-  let lines = formattedText.split(single)
-
-  for (let i = 0; i < lines.length; i++) {
-    if (lines[i].replace(/\s+/g, '').length) {
-      lines[i] = repeat(indent, level) + lines[i]
-    }
+  if (isScriptTag) {
+    content = `<script ${type}>${content}</script>`
+  } else if (isStyleTag) {
+    content = `<style ${type}>${content}</style>`
   }
 
-  return lines.join(single)
+  let formattedText = prettier.format(
+    content,
+    Object.assign({}, prettierOpts, {
+      parser: 'html'
+    })
+  )
+
+  if (isScriptTag) {
+    formattedText = formattedText
+      .replace(/^<script.*>\n*/, '')
+      .replace(/<\/script\s*>\s*$/, '')
+  } else if (isStyleTag) {
+    formattedText = formattedText
+      .replace(/^<style.*>\n*/, '')
+      .replace(/<\/style\s*>\s*$/, '')
+  }
+
+  node.children = [
+    {
+      type: 'text',
+      value: single
+    },
+    {
+      type: 'text',
+      value: formattedText
+    },
+    {
+      type: 'text',
+      value: repeat(indent, level - 1)
+    }
+  ]
+  return formattedText
 }
 
 function setNodeData(node, key, value) {
