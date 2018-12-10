@@ -198,14 +198,6 @@ function format(options) {
 
           let indentLevel = level
 
-          // trim attributes
-          for (const attrName in child.properties) {
-            child.properties[attrName] = cleanAttributeExpression(
-              attrName,
-              child.properties[attrName]
-            )
-          }
-
           setNodeData(child, 'indentLevel', indentLevel)
 
           if (elementHasGap(prevChild)) {
