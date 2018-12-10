@@ -289,6 +289,7 @@ function startsWithNewline(node) {
 }
 
 function cleanAttributeExpression(name, value) {
+  // Some properties are handles as a list for easier accessibility
   if (Array.isArray(value)) {
     // Don't add space between template expession when we
     // deal with comma separated props otherwise it will fail
@@ -399,13 +400,13 @@ function afterChildNodesAddedHook(node, prev) {
 
 function checkForTemplateExpression(value) {
   let result = expressionParser(value, { brackets: ['{{', '}}'] })
-  // angular, vue
+  // e.g angular, vue
   if (result.expressions && result.expressions.length) {
     return ['{{', '}}']
   }
 
   result = expressionParser(value, { brackets: ['{', '}'] })
-  // svelte, riotjs
+  // e.g svelte, riotjs
   if (result.expressions && result.expressions.length) {
     return ['{', '}']
   }
