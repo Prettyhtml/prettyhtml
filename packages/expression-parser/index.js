@@ -10,7 +10,7 @@ const unexpectedCharInExpression = 'Unexpected character %1.'
  * @param   {string} str - Raw string
  * @returns {string} Escaped string.
  */
-var escapeStr = str => str.replace(/(?=[-[\](){^*+?.$|\\])/g, '\\')
+const escapeStr = str => str.replace(/(?=[-[\](){^*+?.$|\\])/g, '\\')
 
 const $_ES6_BQ = '`'
 
