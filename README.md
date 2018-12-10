@@ -51,7 +51,7 @@ Adding this flag before a tag will preserve from whitespace and/or attribute wra
 <div></div>
 ```
 
-2. Preserve only from whitespace processing. This excludes no indentation.
+2. Preserve only from whitespace processing. This excludes indentation.
 
 ```html
 <!--prettyhtml-preserve-whitespace-->
