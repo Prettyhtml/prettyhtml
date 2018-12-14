@@ -1,6 +1,6 @@
 {
   "name": "@starptech/rehype-minify-whitespace",
-  "version": "0.8.13",
+  "version": "0.8.14",
   "description": "",
   "main": "index.js",
   "keywords": [
