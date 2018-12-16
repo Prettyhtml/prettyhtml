@@ -7,14 +7,15 @@
     "type": "git",
     "url": "git+https://github.com/StarpTech/prettyhtml.git"
   },
-  "bin": "cli.js",
+  "bin": "cli/index.js",
   "types": "./index.d.ts",
   "scripts": {
-    "test": "echo 'no tests defined'"
+    "test-coverage": "nyc --reporter lcov ava",
+    "test": "ava"
   },
   "files": [
     "index.js",
-    "cli.js",
+    "cli",
     "index.d.ts"
   ],
   "keywords": [
@@ -45,5 +46,9 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "c7bfe5fdd9ef240ddf235e50a81be52b30828c8f"
+  "gitHead": "c7bfe5fdd9ef240ddf235e50a81be52b30828c8f",
+  "devDependencies": {
+    "ava": "^1.0.1",
+    "nyc": "^13.1.0"
+  }
 }
