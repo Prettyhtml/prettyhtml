@@ -8,10 +8,6 @@ const outputFile = path.join(__dirname, 'fixtures', 'default', 'output.html')
 const inputData = readFileSync(inputFile)
 const cliPath = path.join(__dirname, '..', 'cli', 'index.js')
 
-test.afterEach.always(t => {
-  writeFileSync(inputFile, inputData)
-})
-
 test('Should format with default settings', t => {
   writeFileSync(
     inputFile,
@@ -22,4 +18,8 @@ test('Should format with default settings', t => {
 
   t.is(result.status, 0)
   t.is(readFileSync(inputFile, 'utf8'), readFileSync(outputFile, 'utf8'))
+})
+
+test.after.always('restore file', t => {
+  writeFileSync(inputFile, inputData)
 })
