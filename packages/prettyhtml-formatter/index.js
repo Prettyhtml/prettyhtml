@@ -12,7 +12,6 @@ const voids = require('html-void-elements')
 const find = require('unist-util-find')
 const toString = require('hast-util-to-string')
 const prettier = require('prettier')
-const propInfo = require('property-information')
 const expressionParser = require('@starptech/expression-parser')
 
 module.exports = format
@@ -278,48 +277,6 @@ function endsWithNewline(node) {
 
 function startsWithNewline(node) {
   return is('text', node) && node.value && /^\s*\n/.test(node.value)
-}
-
-function cleanAttributeExpression(name, value) {
-  // Some properties are handles as a list for easier accessibility
-  if (Array.isArray(value)) {
-    // Don't add space between template expession when we
-    // deal with comma separated props otherwise it will fail
-    if (
-      propInfo.find(propInfo.html, name).commaSeparated ||
-      propInfo.find(propInfo.svg, name).commaSeparated
-    ) {
-      return cleanAttributeExpressionValue(value.join(space), false).split(
-        space
-      )
-    }
-    return cleanAttributeExpressionValue(value.join(space), true).split(space)
-  }
-  return cleanAttributeExpressionValue(value, true)
-}
-
-function cleanAttributeExpressionValue(value, spaceSaparated) {
-  const brackets = checkForTemplateExpression(value)
-  if (brackets) {
-    const result = expressionParser(value, {
-      brackets
-    })
-    for (const expr of result.expressions) {
-      let exprResult = ''
-      if (spaceSaparated) {
-        exprResult =
-          brackets[0] + space + expr.text.trim() + space + brackets[1]
-      } else {
-        exprResult = brackets[0] + expr.text.trim() + brackets[1]
-      }
-      value = replaceRange(value, expr.start, expr.end, exprResult)
-    }
-  }
-  return value
-}
-
-function replaceRange(s, start, end, substitute) {
-  return s.slice(0, start) + substitute + s.slice(end)
 }
 
 function handleTemplateExpression(child, children) {
