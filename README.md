@@ -8,6 +8,7 @@ Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templa
 
 ## Features
 
+- Indentation based primary on node-level + tag length, not content.
 - Can parse Angular, Vue or HTML5 templates.
 - Formats embedded content with [prettier](https://github.com/prettier/prettier) with respect to your local settings.
 - Doesn't change the behaviour of your attributes and tags.
