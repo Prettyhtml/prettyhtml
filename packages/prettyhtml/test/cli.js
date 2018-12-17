@@ -6,6 +6,7 @@ const spy = require('../test-helpers/util')
 const args = require('../cli/args')
 const engine = require('unified-engine')
 const unified = require('unified')
+const prepareVfile = require('../test-helpers/prepareVfile')
 
 test.cb('Should format with default settings', t => {
   const stream = new Readable()
@@ -37,7 +38,7 @@ test.cb('Should format with default settings', t => {
     (err, code, result) => {
       t.falsy(err)
       t.deepEqual([stderr(), code], ['<stdin>: no issues found\n', 0])
-      t.snapshot(result.files[0])
+      t.snapshot(prepareVfile(result.files[0]))
       t.end()
     }
   )
