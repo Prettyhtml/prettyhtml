@@ -1,25 +1,106 @@
 const test = require('ava')
-const path = require('path')
-const { writeFileSync, readFileSync } = require('fs')
-const { spawnSync } = require('child_process')
+const { Readable } = require('stream')
+const { configTransform } = require('../cli/processor')
+const { getDefaultSettings } = require('../cli')
+const spy = require('../test-helpers/util')
+const args = require('../cli/args')
+const engine = require('unified-engine')
+const unified = require('unified')
 
-const inputFile = path.join(__dirname, 'fixtures', 'default', 'input.html')
-const outputFile = path.join(__dirname, 'fixtures', 'default', 'output.html')
-const inputData = readFileSync(inputFile)
-const cliPath = path.join(__dirname, '..', 'cli', 'index.js')
-
-test('Should format with default settings', t => {
-  writeFileSync(
-    inputFile,
-    '<form #heroForm (ngSubmit)="onSubmit(heroForm)"><input type="text" [(onChange)]="dede" name="test"><button [style.color]="isSpecial ? \'red\' : \'green\'"></button></form>'
+test.cb('Should format with default settings', t => {
+  const stream = new Readable()
+  stream._read = () => {}
+  stream.push(
+    `<form #heroForm (ngSubmit)="onSubmit(heroForm)"><input type="text" [(onChange)]="dede" name="test" /><button [style.color]="isSpecial ? 'red' : 'green'"></button></form>`
   )
-  const argv = [cliPath, inputFile]
-  const result = spawnSync('node', argv)
+  stream.push(null)
 
-  t.is(result.status, 0)
-  t.is(readFileSync(inputFile, 'utf8'), readFileSync(outputFile, 'utf8'))
+  const stderr = spy()
+  const stdout = spy()
+
+  const prettierConfig = {}
+  const cli = args(prettierConfig)
+  const settings = getDefaultSettings({ prettierConfig, cli })
+  settings.configTransform = configTransform
+  settings.defaultConfig = configTransform({ prettierConfig, cli })
+  settings.processor = unified()
+  settings.streamIn = stream
+  settings.streamError = stderr.stream
+  settings.streamOut = stdout.stream
+
+  engine(
+    {
+      ...settings,
+      streamIn: stream,
+      streamError: stderr.stream
+    },
+    (err, code, result) => {
+      t.falsy(err)
+      t.deepEqual([stderr(), code], ['<stdin>: no issues found\n', 0])
+      t.snapshot(result.files[0])
+      t.end()
+    }
+  )
 })
 
-test.after.always('restore file', t => {
-  writeFileSync(inputFile, inputData)
+test('Should use correct default settings when no prettier settings was provided', t => {
+  const prettierConfig = {}
+  const cli = args(prettierConfig)
+  t.deepEqual(cli.flags, {
+    printWidth: 80,
+    quiet: false,
+    silent: false,
+    singleQuote: false,
+    sortAttributes: false,
+    stdin: false,
+    tabWidth: 2,
+    usePrettier: true,
+    useTabs: false,
+    wrapAttributes: false
+  })
+})
+
+test('Should use correct settings when prettier settings was provided', t => {
+  const prettierConfig = {
+    printWidth: 120,
+    tabWidth: 4,
+    singleQuote: true,
+    useTabs: true
+  }
+  const cli = args(prettierConfig)
+  t.deepEqual(cli.flags, {
+    printWidth: 120,
+    quiet: false,
+    silent: false,
+    // Dont let it override by prettier settings because `"` is best practice in HTML
+    singleQuote: false,
+    sortAttributes: false,
+    stdin: false,
+    tabWidth: 4,
+    usePrettier: true,
+    useTabs: true,
+    wrapAttributes: false
+  })
+})
+
+test('Should transform config in unified pipes', t => {
+  const prettierConfig = {}
+  const cli = args(prettierConfig)
+  const config = configTransform({ prettierConfig, cli })
+  t.is(config.plugins.length, 3)
+})
+
+test('Should add sortAttributes plugin to the config', t => {
+  const prettierConfig = { sortAttributes: true }
+  const cli = args(prettierConfig)
+  const config = configTransform({ prettierConfig, cli })
+  t.is(config.plugins.length, 4)
+})
+
+test('Should add sortAttributes plugin to the config when it was passed as a flag', t => {
+  const prettierConfig = {}
+  const cli = args(prettierConfig)
+  cli.flags.sortAttributes = true
+  const config = configTransform({ prettierConfig, cli })
+  t.is(config.plugins.length, 4)
 })

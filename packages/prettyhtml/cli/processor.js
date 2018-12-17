@@ -4,11 +4,11 @@ const sortAttributes = require('@starptech/prettyhtml-sort-attributes')
 const format = require('@starptech/prettyhtml-formatter')
 const report = require('vfile-reporter')
 
-function processor({ flags }) {
-  return function processResult(err, code, result) {
+function processResult({ cli }) {
+  return (err, code, result) => {
     const out = report(err || result.files, {
-      quiet: flags.quiet,
-      silent: flags.silent
+      quiet: cli.flags.quiet,
+      silent: cli.flags.silent
     })
 
     if (out) {
@@ -19,7 +19,7 @@ function processor({ flags }) {
   }
 }
 
-function transform({ prettierConfig, flags }) {
+function configTransform({ prettierConfig, cli }) {
   const plugins = [
     [
       parse,
@@ -33,30 +33,30 @@ function transform({ prettierConfig, flags }) {
     [
       format,
       {
-        tabWidth: flags.tabWidth,
-        useTabs: flags.useTabs,
-        singleQuote: flags.singleQuote,
-        usePrettier: flags.usePrettier,
+        tabWidth: cli.flags.tabWidth,
+        useTabs: cli.flags.useTabs,
+        singleQuote: cli.flags.singleQuote,
+        usePrettier: cli.flags.usePrettier,
         prettier: prettierConfig
       }
     ]
   ]
 
-  if (flags.sortAttributes || prettierConfig.sortAttributes) {
+  if (cli.flags.sortAttributes || prettierConfig.sortAttributes) {
     plugins.push([sortAttributes, {}])
   }
 
   plugins.push([
     stringify,
     {
-      tabWidth: flags.tabWidth,
-      printWidth: flags.printWidth,
-      singleQuote: flags.singleQuote,
-      wrapAttributes: flags.wrapAttributes
+      tabWidth: cli.flags.tabWidth,
+      printWidth: cli.flags.printWidth,
+      singleQuote: cli.flags.singleQuote,
+      wrapAttributes: cli.flags.wrapAttributes
     }
   ])
 
   return { plugins }
 }
 
-module.exports = { transform, processor }
+module.exports = { configTransform, processResult }
