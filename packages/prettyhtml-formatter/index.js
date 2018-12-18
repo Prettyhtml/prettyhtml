@@ -290,6 +290,11 @@ function handleTemplateExpression(child, children) {
   }
 }
 
+/**
+ * Check if any children will be wrapped on a newline
+ * @param {*} node
+ * @param {*} children
+ */
 function collapsed(node, children) {
   let index = -1
   let prevChild = false
@@ -352,8 +357,8 @@ function afterChildNodesAddedHook(node, prev) {
   /**
    * e.g <label>foo</label>
    */
-  const isPrevRawText = is('text', prev)
-  return hasChilds && !isVoid(node) && !isPrevRawText
+  const isPrevTextNode = is('text', prev)
+  return hasChilds && !isVoid(node) && !isPrevTextNode
 }
 
 function checkForTemplateExpression(value) {
