@@ -114,25 +114,7 @@ function format(options) {
       }
 
       if (is('comment', node)) {
-        /**
-         * indent last line of comment
-         * e.g
-         * <!--
-         *   foo
-         *    -->
-         * to
-         * <!--
-         *   foo
-         * -->
-         */
-
-        let commentLines = node.value.split(single)
-        if (commentLines.length > 1) {
-          commentLines[commentLines.length - 1] =
-            repeat(indent, level - 1) +
-            commentLines[commentLines.length - 1].trim()
-          node.value = commentLines.join(single)
-        }
+        indentComment(node, indent, level)
       }
 
       /**
@@ -144,7 +126,7 @@ function format(options) {
 
         // clear empty script, textarea, pre, style tags
         if (length) {
-          const empty = containsOnlyEmptyTextNodes(node)
+          const empty = hasOnlyEmptyTextChildren(node)
           const isEmbeddedContent =
             isElement(node, 'style') || isElement(node, 'script')
           if (empty) {
@@ -158,6 +140,9 @@ function format(options) {
         return visit.SKIP
       }
 
+      let newline = false
+      const willBreak = collapsed(node, children)
+
       /**
        * Indent children
        */
@@ -166,12 +151,16 @@ function format(options) {
         let child = children[index]
 
         // only indent text in nodes
-        // root text nodes should't influence other root nodes
+        // root text nodes should't influence other root nodes^^
         if (node.type === 'root') {
           break
         }
 
         if (is('text', child)) {
+          if (containsNewline(child) || willBreak) {
+            newline = true
+          }
+
           child.value = child.value
             // reduce newlines to one newline
             // $& contains the lastMatch
@@ -182,12 +171,9 @@ function format(options) {
       // reset
       result = []
       index = -1
-
       node.children = result
 
-      let prevChild
-      let hasLeadingNewline = false
-
+      let prevChild = null
       if (length) {
         // walk through children
         // hint: a child has no children informations we already walking through
@@ -215,25 +201,14 @@ function format(options) {
               value: double + repeat(indent, indentLevel)
             })
           } else if (
-            !endsWithNewline(prevChild) &&
-            beforeChildNodeAddedHook(node, children, child, index, prevChild)
+            beforeChildNodeAddedHook(node, children, child, index, prevChild) ||
+            (newline && index === 0)
           ) {
-            // all template expression are indented on a ewline thats why need to check
-            // so that we don't add another one
-            if (index === 0 && checkForTemplateExpression(child.value)) {
-              hasLeadingNewline = true
-            }
             // only necessary because we are trying to indent tags on newlines
             // even when in inline context when possible
             if (is('text', prevChild)) {
               // remove trailing whitespaces and tabs because a newline is inserted before
               prevChild.value = prevChild.value.replace(/[ \t]+$/, '')
-
-              // adds a leading newline because the sibling node is indented on a newline
-              if (index === 1 && hasLeadingNewline === false) {
-                prevChild.value =
-                  single + repeat(indent, indentLevel) + prevChild.value
-              }
             }
             // remove leading whitespaces and tabs because a newline is inserted before
             if (is('text', child)) {
@@ -245,15 +220,6 @@ function format(options) {
               value: single + repeat(indent, indentLevel)
             })
           }
-          // adds a leading newline when he sibling element was inteded on a newline and when no newlines was added
-          else if (
-            is('text', child) &&
-            hasLeadingNewline === false &&
-            endsWithNewline(child) &&
-            !startsWithNewline(child)
-          ) {
-            child.value = single + repeat(indent, indentLevel) + child.value
-          }
 
           prevChild = child
 
@@ -261,7 +227,7 @@ function format(options) {
         }
       }
 
-      if (afterChildNodesAddedHook(node, prevChild)) {
+      if (afterChildNodesAddedHook(node, prevChild) || newline) {
         result.push({
           type: 'text',
           value: single + repeat(indent, level - 1)
@@ -279,12 +245,36 @@ function startsWithNewline(node) {
   return is('text', node) && node.value && /^\s*\n/.test(node.value)
 }
 
+function containsNewline(node) {
+  return node.value.indexOf(single) !== -1
+}
+
+/**
+ * indent last line of comment
+ * e.g
+ * <!--
+ *   foo
+ *    -->
+ * to
+ * <!--
+ *   foo
+ * -->
+ */
+function indentComment(node, indent, level) {
+  let commentLines = node.value.split(single)
+  if (commentLines.length > 1) {
+    commentLines[commentLines.length - 1] =
+      repeat(indent, level - 1) + commentLines[commentLines.length - 1].trim()
+    node.value = commentLines.join(single)
+  }
+}
+
 function handleTemplateExpression(child, children) {
   const brackets = checkForTemplateExpression(child.value)
   if (brackets) {
     // dont touch nodes with single text element
     if (
-      containsOnlyTextNodes({
+      hasOnlyTextChildren({
         children
       })
     ) {
@@ -300,7 +290,30 @@ function handleTemplateExpression(child, children) {
   }
 }
 
+/**
+ * Check if any children will be wrapped on a newline
+ * @param {*} node
+ * @param {*} children
+ */
+function collapsed(node, children) {
+  let index = -1
+  let prevChild = false
+  while (++index < children.length) {
+    let child = children[index]
+    if (beforeChildNodeAddedHook(node, children, child, index, prevChild)) {
+      return true
+    }
+    prevChild = child
+  }
+}
+
 function beforeChildNodeAddedHook(node, children, child, index, prev) {
+  // don't add newline when prev child already has one
+  if (endsWithNewline(prev)) {
+    return false
+  }
+
+  // every template expression is indented on a newline
   if (is('text', child) && handleTemplateExpression(child, children)) {
     return true
   }
@@ -310,11 +323,12 @@ function beforeChildNodeAddedHook(node, children, child, index, prev) {
     return true
   }
 
+  // embedded content is indented on newlines
   if (isElement(child, ['script', 'style']) && index !== 0) {
     return true
   }
 
-  // don't add newline on the first element
+  // don't add newline on the first element of the page
   const isRootElement = node.type === 'root' && index === 0
   if (isRootElement) {
     return false
@@ -336,15 +350,15 @@ function afterChildNodesAddedHook(node, prev) {
   /**
    * e.g <label><input/>foo</label>
    */
-  if (hasChilds && !containsOnlyTextNodes(node) && !isVoid(node)) {
+  if (hasChilds && !hasOnlyTextChildren(node) && !isVoid(node)) {
     return true
   }
 
   /**
    * e.g <label>foo</label>
    */
-  const isPrevRawText = is('text', prev)
-  return hasChilds && !isVoid(node) && !isPrevRawText
+  const isPrevTextNode = is('text', prev)
+  return hasChilds && !isVoid(node) && !isPrevTextNode
 }
 
 function checkForTemplateExpression(value) {
@@ -363,7 +377,7 @@ function checkForTemplateExpression(value) {
   return null
 }
 
-function containsOnlyTextNodes(node) {
+function hasOnlyTextChildren(node) {
   const children = node.children || []
 
   if (children.length === 0) {
@@ -373,7 +387,7 @@ function containsOnlyTextNodes(node) {
   return children.every(n => is('text', n))
 }
 
-function containsOnlyEmptyTextNodes(node) {
+function hasOnlyEmptyTextChildren(node) {
   const children = node.children || []
 
   if (children.length === 0) {
