@@ -13,7 +13,22 @@ try {
   </p>
   <label class="form-check-label">
     <input type="checkbox" class="form-check-input"> Check me out
-  </label>`
+  </label>
+  <p>
+  dewdewew
+  edewdwedewdewd</p>
+
+  <label>
+  my text
+  on multiple
+  lines
+</label>
+<label>
+  my text
+  on multiple
+  lines
+  <div>fooBar</div>
+</label>`
   )
   console.log(result.contents)
 } catch (error) {

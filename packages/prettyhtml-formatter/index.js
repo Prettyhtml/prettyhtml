@@ -174,7 +174,10 @@ function format(options) {
         }
 
         if (is('text', child)) {
-          if (child.value.indexOf(single) !== -1) {
+          if (
+            child.value.indexOf(single) !== -1 &&
+            containsOnlyNodesWithOneTextChild(node)
+          ) {
             newline = true
           }
 
@@ -363,6 +366,21 @@ function containsOnlyTextNodes(node) {
   }
 
   return children.every(n => is('text', n))
+}
+
+function containsOnlyNodesWithOneTextChild(node) {
+  const children = node.children || []
+
+  if (children.length === 0) {
+    return false
+  }
+
+  return children.every(
+    n =>
+      is('text', n) ||
+      !n.children ||
+      (n.children && n.children.every(n => is('test', n)))
+  )
 }
 
 function containsOnlyEmptyTextNodes(node) {
