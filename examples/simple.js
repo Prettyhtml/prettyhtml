@@ -3,7 +3,17 @@ const prettyhtml = require('./../packages/prettyhtml')
 // example with angular template
 try {
   const result = prettyhtml(
-    `<form #heroForm (ngSubmit)="onSubmit(heroForm)"><input type="text" [(onChange)]="dede" name="test" /><button [style.color]="isSpecial ? 'red' : 'green'"></button></form>`
+    `<p>I am writing to tell you that I am
+    <em>extremely</em> excited about this new
+    <a href="http://w3c.com">HTML</a> formatter. It promises to be
+    <small>as far as I can tell</small> both
+    <strong>flexible</strong> and
+    <strong>resilient</strong> in the face of many new ways of writing
+    <i>HTML</i>
+  </p>
+  <label class="form-check-label">
+    <input type="checkbox" class="form-check-input"> Check me out
+  </label>`
   )
   console.log(result.contents)
 } catch (error) {
