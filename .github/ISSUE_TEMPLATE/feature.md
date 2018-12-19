@@ -5,6 +5,8 @@ about: Submit a proposal for a new feature
 
 ## 🚀 Feature Proposal
 
+<!-- We follow the same option Philosophy as prettier so please read it before you want to propose a new option https://prettier.io/docs/en/option-philosophy.html -->
+
 A clear and concise description of what the feature is.
 
 ## Motivation

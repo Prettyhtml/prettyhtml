@@ -4,7 +4,7 @@
 
 const PassThrough = require('stream').PassThrough
 const { basename } = require('path')
-const pack = require('./../package')
+const pkg = require('./../package')
 const { configTransform, processResult } = require('./processor')
 const args = require('./args')
 const prettier = require('prettier')
@@ -28,7 +28,18 @@ module.exports = { getDefaultSettings }
 
 // this was run directly from the command line
 if (require.main === module) {
-  notifier({ pkg: pack }).notify()
+  notifier({
+    pkg: {
+      name: 'prettyhtml',
+      version: pkg.version
+    },
+    updateCheckInterval: 1000 * 60 * 60 * 24 * 7 // 1 week
+  })
+
+  notifier.notify({
+    isGlobal: false,
+    defer: false
+  })
 
   const prettierConfig = prettier.resolveConfig.sync(process.cwd()) || {}
   const cli = args(prettierConfig)
