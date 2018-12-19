@@ -141,7 +141,10 @@ function format(options) {
       }
 
       let newline = false
-      const willBreak = collapsed(node, children)
+      // we have to look in the future because we indent leading text
+      // on a newline when a child text node contains a newline. If we wouldn't do this
+      // the formatter could produce an unstable result because in the next step we could produce newlines.
+      const collpased = peekCollpase(node, children)
 
       /**
        * Indent children
@@ -157,7 +160,7 @@ function format(options) {
         }
 
         if (is('text', child)) {
-          if (containsNewline(child) || willBreak) {
+          if (containsNewline(child) || collpased) {
             newline = true
           }
 
@@ -201,7 +204,7 @@ function format(options) {
               value: double + repeat(indent, indentLevel)
             })
           } else if (
-            beforeChildNodeAddedHook(node, children, child, index, prevChild) ||
+            insertNewlineBeforeNode(node, children, child, index, prevChild) ||
             (newline && index === 0)
           ) {
             // only necessary because we are trying to indent tags on newlines
@@ -227,7 +230,7 @@ function format(options) {
         }
       }
 
-      if (afterChildNodesAddedHook(node, prevChild) || newline) {
+      if (insertNewlineAfterNode(node, prevChild) || newline) {
         result.push({
           type: 'text',
           value: single + repeat(indent, level - 1)
@@ -295,19 +298,19 @@ function handleTemplateExpression(child, children) {
  * @param {*} node
  * @param {*} children
  */
-function collapsed(node, children) {
+function peekCollpase(node, children) {
   let index = -1
   let prevChild = false
   while (++index < children.length) {
     let child = children[index]
-    if (beforeChildNodeAddedHook(node, children, child, index, prevChild)) {
+    if (insertNewlineBeforeNode(node, children, child, index, prevChild)) {
       return true
     }
     prevChild = child
   }
 }
 
-function beforeChildNodeAddedHook(node, children, child, index, prev) {
+function insertNewlineBeforeNode(node, children, child, index, prev) {
   // don't add newline when prev child already has one
   if (endsWithNewline(prev)) {
     return false
@@ -338,7 +341,7 @@ function beforeChildNodeAddedHook(node, children, child, index, prev) {
   return !isChildTextElement
 }
 
-function afterChildNodesAddedHook(node, prev) {
+function insertNewlineAfterNode(node, prev) {
   // Add newline on the close tag after root element
   const isRootElement = node.type === 'root'
   if (isRootElement) {
