@@ -16,6 +16,7 @@ Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templa
   - Collapses multiple blank lines into a single blank line.
   - Empty lines at the start and end of blocks are removed. (Files always end with a single newline, though.)
 - Enforce consistent output of your HTML.
+- Follows the same option [philosophy](https://prettier.io/docs/en/option-philosophy.html) as prettier.
 
 ## Framework specific features
 
