@@ -10,7 +10,7 @@ const args = require('./args')
 const prettier = require('prettier')
 const engine = require('unified-engine')
 const unified = require('unified')
-const notifier = require('update-notifier')
+const updateNotifier = require('update-notifier')
 
 function getDefaultSettings() {
   const settings = {
@@ -28,7 +28,7 @@ module.exports = { getDefaultSettings }
 
 // this was run directly from the command line
 if (require.main === module) {
-  notifier({
+  const notifier = updateNotifier({
     pkg: {
       name: 'prettyhtml',
       version: pkg.version
