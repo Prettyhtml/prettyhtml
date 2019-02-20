@@ -1,3 +1,4 @@
 # Set the default behavior, in case people don't have core.autocrlf set.
 * text=auto
-*.html text eol=LF
+*.html text eol=lf
+*.htm text eol=lf

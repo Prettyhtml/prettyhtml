@@ -14,6 +14,8 @@ jobs:
         inputs:
           versionSpec: $(node_version)
         displayName: 'Install Node.js'
+      - script: git config --global core.autocrlf false
+        displayName: 'Git settings'
       - script: yarn
         displayName: 'Install dependencies'
       - script: yarn build-ts
