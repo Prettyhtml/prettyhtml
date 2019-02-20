@@ -48,7 +48,7 @@
   },
   "gitHead": "c7bfe5fdd9ef240ddf235e50a81be52b30828c8f",
   "devDependencies": {
-    "ava": "^1.0.1",
+    "ava": "^1.2.1",
     "nyc": "^13.1.0"
   }
 }

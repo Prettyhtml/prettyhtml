@@ -34,7 +34,7 @@
     "space-separated-tokens": "^1.1.2"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
+    "ava": "^1.2.1",
     "nyc": "^13.0.1"
   },
   "scripts": {

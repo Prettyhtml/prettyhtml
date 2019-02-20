@@ -4,7 +4,7 @@ var test = require('ava')
 var u = require('unist-builder')
 var to = require('..')
 
-test('`element`', function(t) {
+test('`element/raw`', function(t) {
   t.deepEqual(
     to(u('raw', '<script>alert("XSS!")</script>')),
     '<script>alert("XSS!")</script>',
