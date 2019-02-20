@@ -7,17 +7,9 @@ var h = require('@starptech/prettyhtml-hastscript')
 var to = require('..')
 
 test('svg', function(t) {
-  t.deepEqual(
-    to(s('path'), { space: 'svg' }),
-    '<path></path>',
-    'should stringify `element`s'
-  )
+  t.deepEqual(to(s('path'), { space: 'svg' }), '<path></path>', 'should stringify `element`s')
 
-  t.deepEqual(
-    to(s('foo'), { space: 'svg' }),
-    '<foo></foo>',
-    'should stringify unknown `element`s'
-  )
+  t.deepEqual(to(s('foo'), { space: 'svg' }), '<foo></foo>', 'should stringify unknown `element`s')
 
   t.deepEqual(
     to(s('g', s('circle')), { space: 'svg' }),
@@ -249,10 +241,7 @@ test('svg', function(t) {
           height: 500,
           viewBox: [0, 0, 500, 500]
         },
-        [
-          s('title', 'SVG `<circle>` element'),
-          s('circle', { cx: 120, cy: 120, r: 100 })
-        ]
+        [s('title', 'SVG `<circle>` element'), s('circle', { cx: 120, cy: 120, r: 100 })]
       ),
       { space: 'svg' }
     ),

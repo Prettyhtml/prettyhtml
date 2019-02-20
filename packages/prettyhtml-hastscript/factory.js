@@ -15,12 +15,7 @@ function factory(schema, defaultTagName) {
     var node = parseSelector(selector, defaultTagName)
     var property
 
-    if (
-      !children &&
-      properties &&
-      !properties[Symbol.for('hast.isProp')] &&
-      isChildren(properties, node)
-    ) {
+    if (!children && properties && !properties[Symbol.for('hast.isProp')] && isChildren(properties, node)) {
       children = properties
       properties = null
     }
@@ -78,11 +73,7 @@ function factory(schema, defaultTagName) {
 
 // Value can be: string for text node, array for chilNodes
 function isChildren(value, node) {
-  return (
-    typeof value === 'string' ||
-    'length' in value ||
-    isNode(node.tagName, value)
-  )
+  return typeof value === 'string' || 'length' in value || isNode(node.tagName, value)
 }
 
 function isNode(tagName, value) {
@@ -99,12 +90,7 @@ function isNode(tagName, value) {
   type = type.toLowerCase()
 
   if (tagName === 'button') {
-    return (
-      type !== 'menu' &&
-      type !== 'submit' &&
-      type !== 'reset' &&
-      type !== 'button'
-    )
+    return type !== 'menu' && type !== 'submit' && type !== 'reset' && type !== 'button'
   }
 
   return 'value' in value

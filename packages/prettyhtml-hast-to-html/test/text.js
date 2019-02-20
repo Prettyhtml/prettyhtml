@@ -8,11 +8,7 @@ var to = require('..')
 test('`text`', function(t) {
   t.deepEqual(to(u('text', 'alpha')), 'alpha', 'should stringify `text`s')
 
-  t.deepEqual(
-    to(u('text', '3 < 5 & 7')),
-    '3 < 5 & 7',
-    'should not encode `text`s'
-  )
+  t.deepEqual(to(u('text', '3 < 5 & 7')), '3 < 5 & 7', 'should not encode `text`s')
 
   t.deepEqual(
     to(h('style', u('text', '*:before {content: "3 < 5"}'))),
@@ -26,9 +22,5 @@ test('`text`', function(t) {
     'should not encode `text`s in `script`'
   )
 
-  t.deepEqual(
-    to(h('b', u('text', '3 < 5'))),
-    '<b>3 < 5</b>',
-    'should not encode `text`s in other nodes'
-  )
+  t.deepEqual(to(h('b', u('text', '3 < 5'))), '<b>3 < 5</b>', 'should not encode `text`s in other nodes')
 })

@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 'use strict'
 
 const fs = require('fs')
@@ -19,10 +21,10 @@ fs.readdirSync(root)
   .forEach(each)
 
 function each(fixture) {
-  test.cb(fixture, function(t) {
-    var base = path.join(root, fixture)
-    var opts = {
-      base: base,
+  test.cb(fixture, function eachFixture(t) {
+    const base = path.join(root, fixture)
+    const opts = {
+      base,
       input: vfile.readSync(path.join(base, 'input.html')),
       output: vfile.readSync(path.join(base, 'output.html'))
     }
@@ -34,14 +36,14 @@ function each(fixture) {
 }
 
 function check(t, fixture, options) {
-  var config
-  var proc
+  let config
 
   try {
     config = JSON.parse(fs.readFileSync(path.join(options.base, 'config.json')))
+    // eslint-disable-next-line no-empty
   } catch (err) {}
 
-  proc = unified()
+  const proc = unified()
     .use(parse, {
       ignoreFirstLf: false,
       decodeEntities: false,
@@ -51,7 +53,7 @@ function check(t, fixture, options) {
     .use(format, config)
     .use(stringify, config)
 
-  proc.process(options.input, function(err, vFile) {
+  proc.process(options.input, function process(err /* ,vFile */) {
     t.falsy(err, 'shouldn’t throw')
     t.is(options.input.messages.length, 0, 'shouldn’t warn')
     t.is(String(options.input), String(options.output), 'should match')

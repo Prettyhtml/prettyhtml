@@ -25,13 +25,9 @@ test('`colgroup` (closing)', function(t) {
   )
 
   t.deepEqual(
-    to(
-      h('table', [
-        h('colgroup', [h('col', { span: 2 })]),
-        h('colgroup', [h('col', { span: 3 })])
-      ]),
-      { omitOptionalTags: true }
-    ),
+    to(h('table', [h('colgroup', [h('col', { span: 2 })]), h('colgroup', [h('col', { span: 3 })])]), {
+      omitOptionalTags: true
+    }),
     '<table><col span="2"><colgroup><col span="3"></table>',
     'should not omit tag if previous is `colgroup` whose closing tag is omitted'
   )

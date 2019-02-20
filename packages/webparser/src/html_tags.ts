@@ -34,9 +34,7 @@ export class HtmlTagDefinition implements TagDefinition {
     canSelfClose?: boolean
   } = {}) {
     if (closedByChildren && closedByChildren.length > 0) {
-      closedByChildren.forEach(
-        tagName => (this.closedByChildren[tagName] = true)
-      )
+      closedByChildren.forEach(tagName => (this.closedByChildren[tagName] = true))
     }
     this.isVoid = isVoid
     this.canSelfClose = canSelfClose
@@ -62,8 +60,7 @@ export class HtmlTagDefinition implements TagDefinition {
     }
 
     const lcParent = currentParent.toLowerCase()
-    const isParentTemplate =
-      lcParent === 'template' || currentParent === 'ng-template'
+    const isParentTemplate = lcParent === 'template' || currentParent === 'ng-template'
     return !isParentTemplate && this.requiredParents[lcParent] != true
   }
 
@@ -74,10 +71,7 @@ export class HtmlTagDefinition implements TagDefinition {
 
 // see http://www.w3.org/TR/html51/syntax.html#optional-tags
 // This implementation isn't fully conform to the HTML5 spec.
-let TAG_DEFINITIONS: Map<
-  string,
-  { [key: string]: HtmlTagDefinition }
-> = new Map()
+let TAG_DEFINITIONS: Map<string, { [key: string]: HtmlTagDefinition }> = new Map()
 
 export function getHtmlTagDefinition(
   tagName: string,
@@ -243,10 +237,7 @@ export function getHtmlTagDefinition(
       })
     })
   }
-  return (
-    TAG_DEFINITIONS.get(cacheKey)[tagName] ||
-    new HtmlTagDefinition({ canSelfClose })
-  )
+  return TAG_DEFINITIONS.get(cacheKey)[tagName] || new HtmlTagDefinition({ canSelfClose })
 }
 
 export function isKnownHTMLTag(tagName: string): boolean {

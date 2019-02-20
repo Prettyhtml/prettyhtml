@@ -6,11 +6,7 @@ var u = require('unist-builder')
 var to = require('..')
 
 test('`p` (closing)', function(t) {
-  t.deepEqual(
-    to(u('root', [h('p')]), { omitOptionalTags: true }),
-    '<p>',
-    'should omit tag without following'
-  )
+  t.deepEqual(to(u('root', [h('p')]), { omitOptionalTags: true }), '<p>', 'should omit tag without following')
 
   t.deepEqual(
     to(u('root', [h('p'), h('address')]), { omitOptionalTags: true }),
@@ -36,11 +32,7 @@ test('`p` (closing)', function(t) {
     'should not omit tag if followed by `xmp`'
   )
 
-  t.deepEqual(
-    to(h('p'), { omitOptionalTags: true }),
-    '<p>',
-    'should omit tag without parent'
-  )
+  t.deepEqual(to(h('p'), { omitOptionalTags: true }), '<p>', 'should omit tag without parent')
 
   t.deepEqual(
     to(h('a', [h('p')]), { omitOptionalTags: true }),

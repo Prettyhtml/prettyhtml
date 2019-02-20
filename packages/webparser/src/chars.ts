@@ -77,7 +77,5 @@ export function isAsciiLetter(code: number): boolean {
 }
 
 export function isAsciiHexDigit(code: number): boolean {
-  return (
-    (code >= $a && code <= $f) || (code >= $A && code <= $F) || isDigit(code)
-  )
+  return (code >= $a && code <= $f) || (code >= $A && code <= $F) || isDigit(code)
 }

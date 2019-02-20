@@ -1,17 +1,10 @@
 import { getHtmlTagDefinition } from '../src/html_tags'
 
-import {
-  InterpolationConfig,
-  DEFAULT_INTERPOLATION_CONFIG
-} from '../src/interpolation_config'
+import { InterpolationConfig, DEFAULT_INTERPOLATION_CONFIG } from '../src/interpolation_config'
 
 import * as lex from '../src/lexer'
 
-import {
-  ParseLocation,
-  ParseSourceFile,
-  ParseSourceSpan
-} from '../src/parse_util'
+import { ParseLocation, ParseSourceFile, ParseSourceSpan } from '../src/parse_util'
 
 {
   describe('HtmlLexer', () => {
@@ -90,11 +83,7 @@ import {
 
       it('should report EOF when no closing tag was found', () => {
         expect(tokenizeAndHumanizeErrors('<textarea/>')).toEqual([
-          [
-            lex.TokenType.ESCAPABLE_RAW_TEXT,
-            'Unexpected character "EOF"',
-            '0:11'
-          ]
+          [lex.TokenType.ESCAPABLE_RAW_TEXT, 'Unexpected character "EOF"', '0:11']
         ])
       })
     })
@@ -199,9 +188,7 @@ import {
       })
 
       it('should store the locations', () => {
-        expect(
-          tokenizeAndHumanizeSourceSpans('<![CDATA[t\ne\rs\r\nt]]>')
-        ).toEqual([
+        expect(tokenizeAndHumanizeSourceSpans('<![CDATA[t\ne\rs\r\nt]]>')).toEqual([
           [lex.TokenType.CDATA_START, '<![CDATA['],
 
           [lex.TokenType.RAW_TEXT, 't\ne\rs\r\nt'],
@@ -291,9 +278,7 @@ import {
       })
 
       it('should parse attributes with interpolation', () => {
-        expect(
-          tokenizeAndHumanizeParts('<t a="{{v}}" b="s{{m}}e" c="s{{m//c}}e">')
-        ).toEqual([
+        expect(tokenizeAndHumanizeParts('<t a="{{v}}" b="s{{m}}e" c="s{{m//c}}e">')).toEqual([
           [lex.TokenType.TAG_OPEN_START, null, 't'],
 
           [lex.TokenType.ATTR_NAME, null, 'a'],
@@ -533,11 +518,7 @@ import {
       })
 
       it('should parse decimal entities', () => {
-        expect(tokenizeAndHumanizeParts('&#65;')).toEqual([
-          [lex.TokenType.TEXT, 'A'],
-
-          [lex.TokenType.EOF]
-        ])
+        expect(tokenizeAndHumanizeParts('&#65;')).toEqual([[lex.TokenType.TEXT, 'A'], [lex.TokenType.EOF]])
       })
 
       it('should store the locations', () => {
@@ -550,12 +531,7 @@ import {
 
       it('should report malformed/unknown entities', () => {
         expect(tokenizeAndHumanizeErrors('&tbo;')).toEqual([
-          [
-            lex.TokenType.TEXT,
-
-            'Unknown entity "tbo" - use the "&#<decimal>;" or  "&#x<hex>;" syntax',
-            '0:0'
-          ]
+          [lex.TokenType.TEXT, 'Unknown entity "tbo" - use the "&#<decimal>;" or  "&#x<hex>;" syntax', '0:0']
         ])
 
         expect(tokenizeAndHumanizeErrors('&#asdf;')).toEqual([
@@ -574,11 +550,7 @@ import {
 
     describe('regular text', () => {
       it('should parse text', () => {
-        expect(tokenizeAndHumanizeParts('a')).toEqual([
-          [lex.TokenType.TEXT, 'a'],
-
-          [lex.TokenType.EOF]
-        ])
+        expect(tokenizeAndHumanizeParts('a')).toEqual([[lex.TokenType.TEXT, 'a'], [lex.TokenType.EOF]])
       })
 
       it('should parse interpolation', () => {
@@ -590,9 +562,10 @@ import {
       })
 
       it('should parse interpolation with custom markers', () => {
-        expect(
-          tokenizeAndHumanizeParts('{% a %}', { start: '{%', end: '%}' })
-        ).toEqual([[lex.TokenType.TEXT, '{% a %}'], [lex.TokenType.EOF]])
+        expect(tokenizeAndHumanizeParts('{% a %}', { start: '{%', end: '%}' })).toEqual([
+          [lex.TokenType.TEXT, '{% a %}'],
+          [lex.TokenType.EOF]
+        ])
       })
 
       it('should handle CR & LF', () => {
@@ -646,11 +619,7 @@ import {
           [lex.TokenType.EOF, '']
         ])
 
-        expect(tokenizeAndHumanizeParts('< a>')).toEqual([
-          [lex.TokenType.TEXT, '< a>'],
-
-          [lex.TokenType.EOF]
-        ])
+        expect(tokenizeAndHumanizeParts('< a>')).toEqual([[lex.TokenType.TEXT, '< a>'], [lex.TokenType.EOF]])
       })
 
       it('should parse valid start tag in interpolation', () => {
@@ -688,27 +657,23 @@ import {
       })
 
       it('should treat expansion form as text when they are not parsed', () => {
-        expect(tokenizeAndHumanizeParts('<span>{a, b, =4 {c}}</span>')).toEqual(
-          [
-            [lex.TokenType.TAG_OPEN_START, null, 'span'],
+        expect(tokenizeAndHumanizeParts('<span>{a, b, =4 {c}}</span>')).toEqual([
+          [lex.TokenType.TAG_OPEN_START, null, 'span'],
 
-            [lex.TokenType.TAG_OPEN_END],
+          [lex.TokenType.TAG_OPEN_END],
 
-            [lex.TokenType.TEXT, '{a, b, =4 {c}}'],
+          [lex.TokenType.TEXT, '{a, b, =4 {c}}'],
 
-            [lex.TokenType.TAG_CLOSE, null, 'span'],
+          [lex.TokenType.TAG_CLOSE, null, 'span'],
 
-            [lex.TokenType.EOF]
-          ]
-        )
+          [lex.TokenType.EOF]
+        ])
       })
     })
 
     describe('raw text', () => {
       it('should parse text', () => {
-        expect(
-          tokenizeAndHumanizeParts(`<script>t\ne\rs\r\nt</script>`)
-        ).toEqual([
+        expect(tokenizeAndHumanizeParts(`<script>t\ne\rs\r\nt</script>`)).toEqual([
           [lex.TokenType.TAG_OPEN_START, null, 'script'],
 
           [lex.TokenType.TAG_OPEN_END],
@@ -780,19 +745,17 @@ import {
 
     describe('escapable raw text', () => {
       it('should parse text', () => {
-        expect(tokenizeAndHumanizeParts(`<title>t\ne\rs\r\nt</title>`)).toEqual(
-          [
-            [lex.TokenType.TAG_OPEN_START, null, 'title'],
+        expect(tokenizeAndHumanizeParts(`<title>t\ne\rs\r\nt</title>`)).toEqual([
+          [lex.TokenType.TAG_OPEN_START, null, 'title'],
 
-            [lex.TokenType.TAG_OPEN_END],
+          [lex.TokenType.TAG_OPEN_END],
 
-            [lex.TokenType.ESCAPABLE_RAW_TEXT, 't\ne\ns\nt'],
+          [lex.TokenType.ESCAPABLE_RAW_TEXT, 't\ne\ns\nt'],
 
-            [lex.TokenType.TAG_CLOSE, null, 'title'],
+          [lex.TokenType.TAG_CLOSE, null, 'title'],
 
-            [lex.TokenType.EOF]
-          ]
-        )
+          [lex.TokenType.EOF]
+        ])
       })
 
       it('should detect entities', () => {
@@ -864,9 +827,7 @@ import {
 
         const error = new lex.TokenError('**ERROR**', null!, span)
 
-        expect(error.toString()).toEqual(
-          `**ERROR** ("\n222\n333\n[ERROR ->]E\n444\n555\n"): file://@123:456`
-        )
+        expect(error.toString()).toEqual(`**ERROR** ("\n222\n333\n[ERROR ->]E\n444\n555\n"): file://@123:456`)
       })
     })
 
@@ -893,13 +854,7 @@ function tokenizeWithoutErrors(
   interpolationConfig?: InterpolationConfig,
   options?: lex.LexerOptions
 ): lex.Token[] {
-  const tokenizeResult = lex.tokenize(
-    input,
-    'someUrl',
-    getHtmlTagDefinition,
-    interpolationConfig,
-    options
-  )
+  const tokenizeResult = lex.tokenize(input, 'someUrl', getHtmlTagDefinition, interpolationConfig, options)
 
   if (tokenizeResult.errors.length > 0) {
     const errorString = tokenizeResult.errors.join('\n')
@@ -921,43 +876,23 @@ function tokenizeAndHumanizeParts(
 }
 
 function tokenizeAndHumanizeSourceSpans(input: string): any[] {
-  return tokenizeWithoutErrors(input).map(token => [
-    <any>token.type,
-    token.sourceSpan.toString()
-  ])
+  return tokenizeWithoutErrors(input).map(token => [<any>token.type, token.sourceSpan.toString()])
 }
 
 function humanizeLineColumn(location: ParseLocation): string {
   return `${location.line}:${location.col}`
 }
 
-function tokenizeAndHumanizeLineColumn(
-  input: string,
-  options?: lex.LexerOptions
-): any[] {
-  return tokenizeWithoutErrors(
-    input,
-    DEFAULT_INTERPOLATION_CONFIG,
-    options
-  ).map(token => [<any>token.type, humanizeLineColumn(token.sourceSpan.start)])
+function tokenizeAndHumanizeLineColumn(input: string, options?: lex.LexerOptions): any[] {
+  return tokenizeWithoutErrors(input, DEFAULT_INTERPOLATION_CONFIG, options).map(token => [
+    <any>token.type,
+    humanizeLineColumn(token.sourceSpan.start)
+  ])
 }
 
-function tokenizeAndHumanizeErrors(
-  input: string,
-  options?: lex.LexerOptions
-): any[] {
+function tokenizeAndHumanizeErrors(input: string, options?: lex.LexerOptions): any[] {
   return lex
-    .tokenize(
-      input,
-      'someUrl',
-      getHtmlTagDefinition,
-      DEFAULT_INTERPOLATION_CONFIG,
-      options
-    )
+    .tokenize(input, 'someUrl', getHtmlTagDefinition, DEFAULT_INTERPOLATION_CONFIG, options)
 
-    .errors.map(e => [
-      <any>e.tokenType,
-      e.msg,
-      humanizeLineColumn(e.span.start)
-    ])
+    .errors.map(e => [<any>e.tokenType, e.msg, humanizeLineColumn(e.span.start)])
 }

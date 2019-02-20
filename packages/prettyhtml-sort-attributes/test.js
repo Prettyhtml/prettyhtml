@@ -23,10 +23,7 @@ test('rehype-sort-attributes', function(t) {
               1: 1,
               '[foo]': 'foo'
             },
-            [
-              h('strong', { id: 'baz', className: ['qux'] }),
-              h('em', { hidden: false, className: ['quux'] })
-            ]
+            [h('strong', { id: 'baz', className: ['qux'] }), h('em', { hidden: false, className: ['quux'] })]
           )
         )
     ),
@@ -43,10 +40,7 @@ test('rehype-sort-attributes', function(t) {
           d: ['bar'],
           z: 'foo'
         },
-        [
-          h('strong', { className: ['qux'], id: 'baz' }),
-          h('em', { hidden: false, className: ['quux'] })
-        ]
+        [h('strong', { className: ['qux'], id: 'baz' }), h('em', { hidden: false, className: ['quux'] })]
       )
     )
   )

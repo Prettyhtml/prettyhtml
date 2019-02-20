@@ -59,10 +59,7 @@ function head(node) {
 function body(node) {
   var head = first(node, true)
 
-  return (
-    !head ||
-    (!is('comment', head) && !whiteSpaceLeft(head) && !element(head, meta))
-  )
+  return !head || (!is('comment', head) && !whiteSpaceLeft(head) && !element(head, meta))
 }
 
 /* Whether to omit `<colgroup>`.
@@ -87,10 +84,7 @@ function tbody(node, index, parent) {
   var head = first(node)
 
   /* Previous table section was already omitted. */
-  if (
-    element(prev, tableContainers) &&
-    closing(prev, place(parent, prev), parent)
-  ) {
+  if (element(prev, tableContainers) && closing(prev, place(parent, prev), parent)) {
     return false
   }
 

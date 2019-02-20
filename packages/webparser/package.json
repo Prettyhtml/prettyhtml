@@ -7,9 +7,9 @@
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "test": "jest --forceExit --detectOpenHandles",
-    "test-coverage": "npm run test -- --coverage",
+    "test-coverage": "yarn run test -- --coverage",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
-    "prepublish": "npm run build-ts"
+    "prepublish": "yarn run build-ts"
   },
   "files": [
     "dist"

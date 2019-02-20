@@ -1,6 +1,4 @@
-declare namespace prettyhtml {
-
-}
+declare namespace prettyhtml {}
 
 interface VPoint {
   line: number

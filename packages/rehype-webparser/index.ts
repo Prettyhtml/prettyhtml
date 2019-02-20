@@ -17,13 +17,9 @@ export = function parse(options: ParseOptions = {}): any {
 
   function parser(doc: string, file: VFile) {
     const parseResult = new HtmlParser(options).parse(doc, file.path)
-    const lexerErrors = parseResult.errors.filter(
-      e => !(e instanceof TreeError)
-    )
+    const lexerErrors = parseResult.errors.filter(e => !(e instanceof TreeError))
     const parserErrors = parseResult.errors.filter(e => e instanceof TreeError)
-    const parserWarnings = parserErrors.filter(
-      e => e.level === ParseErrorLevel.WARNING
-    )
+    const parserWarnings = parserErrors.filter(e => e.level === ParseErrorLevel.WARNING)
 
     for (const err of parserWarnings) {
       file.message(
@@ -46,9 +42,7 @@ export = function parse(options: ParseOptions = {}): any {
     }
 
     // log the first error which is related to the parser not lexer
-    const parserFatalErrors = parserErrors.filter(
-      e => e.level === ParseErrorLevel.ERROR
-    )
+    const parserFatalErrors = parserErrors.filter(e => e.level === ParseErrorLevel.ERROR)
 
     for (const err of parserFatalErrors) {
       file.fail(

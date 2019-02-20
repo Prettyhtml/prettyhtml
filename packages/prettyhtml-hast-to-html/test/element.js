@@ -5,25 +5,13 @@ var h = require('@starptech/prettyhtml-hastscript')
 var to = require('..')
 
 test('`element`', function(t) {
-  t.deepEqual(
-    to(h('i', 'bravo')),
-    '<i>bravo</i>',
-    'should stringify `element`s'
-  )
+  t.deepEqual(to(h('i', 'bravo')), '<i>bravo</i>', 'should stringify `element`s')
 
-  t.deepEqual(
-    to(h('foo')),
-    '<foo></foo>',
-    'should stringify unknown `element`s'
-  )
+  t.deepEqual(to(h('foo')), '<foo></foo>', 'should stringify unknown `element`s')
 
   t.deepEqual(to(h('img')), '<img>', 'should stringify void `element`s')
 
-  t.deepEqual(
-    to(h('foo'), { voids: ['foo'] }),
-    '<foo>',
-    'should stringify given void `element`s'
-  )
+  t.deepEqual(to(h('foo'), { voids: ['foo'] }), '<foo>', 'should stringify given void `element`s')
 
   t.deepEqual(
     to({

@@ -1,5 +1,6 @@
 {
-  "lerna": "3.4.3",
+  "lerna": "3.13.0",
   "packages": ["packages/*"],
+  "useWorkspaces": true,
   "version": "0.8.16"
 }

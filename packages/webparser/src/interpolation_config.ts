@@ -13,7 +13,4 @@ export class InterpolationConfig {
   constructor(public start: string, public end: string) {}
 }
 
-export const DEFAULT_INTERPOLATION_CONFIG: InterpolationConfig = new InterpolationConfig(
-  '{{',
-  '}}'
-)
+export const DEFAULT_INTERPOLATION_CONFIG: InterpolationConfig = new InterpolationConfig('{{', '}}')

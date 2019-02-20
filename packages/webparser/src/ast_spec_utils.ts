@@ -2,10 +2,7 @@ import * as html from './ast'
 import { ParseTreeResult } from './html_parser'
 import { ParseLocation } from './parse_util'
 
-export function humanizeDom(
-  parseResult: ParseTreeResult,
-  addSourceSpan: boolean = false
-): any[] {
+export function humanizeDom(parseResult: ParseTreeResult, addSourceSpan: boolean = false): any[] {
   if (parseResult.errors.length > 0) {
     const errorString = parseResult.errors.join('\n')
     throw new Error(`Unexpected parse errors:\n${errorString}`)
@@ -18,10 +15,7 @@ export function humanizeDomSourceSpans(parseResult: ParseTreeResult): any[] {
   return humanizeDom(parseResult, true)
 }
 
-export function humanizeNodes(
-  nodes: html.Node[],
-  addSourceSpan: boolean = false
-): any[] {
+export function humanizeNodes(nodes: html.Node[], addSourceSpan: boolean = false): any[] {
   const humanizer = new _Humanizer(addSourceSpan)
   html.visitAll(humanizer, nodes)
   return humanizer.result
@@ -52,11 +46,7 @@ class _Humanizer implements html.Visitor {
   }
 
   visitAttribute(attribute: html.Attribute, context: any): any {
-    const res = this._appendContext(attribute, [
-      html.Attribute,
-      attribute.name,
-      attribute.value
-    ])
+    const res = this._appendContext(attribute, [html.Attribute, attribute.name, attribute.value])
     this.result.push(res)
   }
 
@@ -66,20 +56,12 @@ class _Humanizer implements html.Visitor {
   }
 
   visitComment(comment: html.Comment, context: any): any {
-    const res = this._appendContext(comment, [
-      html.Comment,
-      comment.value,
-      this.elDepth
-    ])
+    const res = this._appendContext(comment, [html.Comment, comment.value, this.elDepth])
     this.result.push(res)
   }
 
   visitDoctype(doctype: html.Doctype, context: any): any {
-    const res = this._appendContext(doctype, [
-      html.Doctype,
-      doctype.value,
-      this.elDepth
-    ])
+    const res = this._appendContext(doctype, [html.Doctype, doctype.value, this.elDepth])
     this.result.push(res)
   }
 

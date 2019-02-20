@@ -1,17 +1,10 @@
 import * as chars from './chars'
 
 export class ParseLocation {
-  constructor(
-    public file: ParseSourceFile,
-    public offset: number,
-    public line: number,
-    public col: number
-  ) {}
+  constructor(public file: ParseSourceFile, public offset: number, public line: number, public col: number) {}
 
   toString(): string {
-    return this.offset != null
-      ? `${this.file.url}@${this.line}:${this.col}`
-      : this.file.url
+    return this.offset != null ? `${this.file.url}@${this.line}:${this.col}` : this.file.url
   }
 
   moveBy(delta: number): ParseLocation {
@@ -26,9 +19,7 @@ export class ParseLocation {
       const ch = source.charCodeAt(offset)
       if (ch == chars.$LF) {
         line--
-        const priorLine = source
-          .substr(0, offset - 1)
-          .lastIndexOf(String.fromCharCode(chars.$LF))
+        const priorLine = source.substr(0, offset - 1).lastIndexOf(String.fromCharCode(chars.$LF))
         col = priorLine > 0 ? offset - priorLine : offset
       } else {
         col--
@@ -50,10 +41,7 @@ export class ParseLocation {
 
   // Return the source around the location
   // Up to `maxChars` or `maxLines` on each side of the location
-  getContext(
-    maxChars: number,
-    maxLines: number
-  ): { before: string; after: string } | null {
+  getContext(maxChars: number, maxLines: number): { before: string; after: string } | null {
     const content = this.file.content
     let startOffset = this.offset
 
@@ -102,11 +90,7 @@ export class ParseSourceFile {
 }
 
 export class ParseSourceSpan {
-  constructor(
-    public start: ParseLocation,
-    public end: ParseLocation,
-    public details: string | null = null
-  ) {}
+  constructor(public start: ParseLocation, public end: ParseLocation, public details: string | null = null) {}
 
   toString(): string {
     return this.start.file.content.substring(this.start.offset, this.end.offset)
@@ -127,11 +111,7 @@ export class ParseError {
 
   contextualMessage(): string {
     const ctx = this.span.start.getContext(100, 3)
-    return ctx
-      ? `${this.msg} ("${ctx.before}[${ParseErrorLevel[this.level]} ->]${
-          ctx.after
-        }")`
-      : this.msg
+    return ctx ? `${this.msg} ("${ctx.before}[${ParseErrorLevel[this.level]} ->]${ctx.after}")` : this.msg
   }
 
   toString(): string {

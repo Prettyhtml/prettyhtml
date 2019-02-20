@@ -44,8 +44,7 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
   }
   var isVoid = ctx.voids.indexOf(name) !== -1
   var ignoreAttrCollapsing =
-    getNodeData(node, 'ignore', false) ||
-    getNodeData(node, 'preserveAttrWrapping', false)
+    getNodeData(node, 'ignore', false) || getNodeData(node, 'preserveAttrWrapping', false)
 
   if (parentSchema.space === 'html' && name === 'svg') {
     ctx.schema = svg
@@ -99,8 +98,7 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
 
   attrs = attributes(ctx, node.properties, printContext, ignoreAttrCollapsing)
 
-  const shouldCollapse =
-    ignoreAttrCollapsing === false && printContext.wrapAttributes
+  const shouldCollapse = ignoreAttrCollapsing === false && printContext.wrapAttributes
 
   content = all(ctx, root)
 
@@ -209,8 +207,7 @@ function attributes(ctx, props, printContext, ignoreIndent) {
     /* In tight mode, don’t add a space after quoted attributes. */
     if (last !== DQ && last !== SQ) {
       if (printContext.wrapAttributes) {
-        values[index] =
-          LF + repeat(ctx.tabWidth, printContext.indentLevel + 1) + result
+        values[index] = LF + repeat(ctx.tabWidth, printContext.indentLevel + 1) + result
       } else if (index !== length - 1) {
         values[index] = result + SPACE
       } else {
@@ -228,20 +225,13 @@ function attribute(ctx, key, value) {
   var info = find(schema, key)
   var name = info.attribute
 
-  if (
-    value == null ||
-    (typeof value === 'number' && isNaN(value)) ||
-    (value === false && info.boolean)
-  ) {
+  if (value == null || (typeof value === 'number' && isNaN(value)) || (value === false && info.boolean)) {
     return EMPTY
   }
 
   name = attributeName(ctx, name)
 
-  if (
-    (value === true && info.boolean) ||
-    (value === true && info.overloadedBoolean)
-  ) {
+  if ((value === true && info.boolean) || (value === true && info.overloadedBoolean)) {
     return name
   }
 

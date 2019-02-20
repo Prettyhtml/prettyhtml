@@ -5,11 +5,7 @@ var h = require('@starptech/prettyhtml-hastscript')
 var to = require('..')
 
 test('`dt` (closing)', function(t) {
-  t.deepEqual(
-    to(h('dt'), { omitOptionalTags: true }),
-    '<dt></dt>',
-    'should not omit tag without parent'
-  )
+  t.deepEqual(to(h('dt'), { omitOptionalTags: true }), '<dt></dt>', 'should not omit tag without parent')
 
   t.deepEqual(
     to(h('dl', h('dt')), { omitOptionalTags: true }),

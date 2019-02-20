@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const test = require('ava')
 const prettyhtml = require('..')
 const prepareVfile = require('../test-helpers/prepareVfile')

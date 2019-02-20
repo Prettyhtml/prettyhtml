@@ -15,7 +15,7 @@ This example shows how we parse HTML with [**Webparser**](https://github.com/Pre
 Say we have the following file, `example.html`:
 
 ```html
-<!doctype html>
+<!DOCTYPE html>
 <title>Hello!</title>
 <h1 id="world">World!</h1>
 ```
@@ -30,7 +30,7 @@ const parse = require('@starptech/rehype-webparser')
 const toHTML = require('hast-util-to-html')
 
 // A compiler is needed to inform unified how to transform it back to HTML
-function stringify () {
+function stringify() {
   this.Compiler = compiler
 
   function compiler(tree) {

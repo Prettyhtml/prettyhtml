@@ -1,15 +1,7 @@
 import * as chars from './chars'
-import {
-  ParseError,
-  ParseLocation,
-  ParseSourceFile,
-  ParseSourceSpan
-} from './parse_util'
+import { ParseError, ParseLocation, ParseSourceFile, ParseSourceSpan } from './parse_util'
 
-import {
-  DEFAULT_INTERPOLATION_CONFIG,
-  InterpolationConfig
-} from './interpolation_config'
+import { DEFAULT_INTERPOLATION_CONFIG, InterpolationConfig } from './interpolation_config'
 import { NAMED_ENTITIES, TagContentType, TagDefinition } from './tags'
 
 export enum TokenType {
@@ -31,19 +23,11 @@ export enum TokenType {
 }
 
 export class Token {
-  constructor(
-    public type: TokenType,
-    public parts: string[],
-    public sourceSpan: ParseSourceSpan
-  ) {}
+  constructor(public type: TokenType, public parts: string[], public sourceSpan: ParseSourceSpan) {}
 }
 
 export class TokenError extends ParseError {
-  constructor(
-    errorMsg: string,
-    public tokenType: TokenType,
-    span: ParseSourceSpan
-  ) {
+  constructor(errorMsg: string, public tokenType: TokenType, span: ParseSourceSpan) {
     super(span, errorMsg)
   }
 }
@@ -55,11 +39,7 @@ export class TokenizeResult {
 export function tokenize(
   source: string,
   url: string,
-  getTagDefinition: (
-    tagName: string,
-    ignoreFirstLf: boolean,
-    canSelfClose: boolean
-  ) => TagDefinition,
+  getTagDefinition: (tagName: string, ignoreFirstLf: boolean, canSelfClose: boolean) => TagDefinition,
   interpolationConfig: InterpolationConfig = DEFAULT_INTERPOLATION_CONFIG,
   options: LexerOptions = {
     decodeEntities: true,
@@ -188,23 +168,13 @@ class _Tokenizer {
     return new ParseSourceSpan(start, end)
   }
 
-  private _beginToken(
-    type: TokenType,
-    start: ParseLocation = this._getLocation()
-  ) {
+  private _beginToken(type: TokenType, start: ParseLocation = this._getLocation()) {
     this._currentTokenStart = start
     this._currentTokenType = type
   }
 
-  private _endToken(
-    parts: string[],
-    end: ParseLocation = this._getLocation()
-  ): Token {
-    const token = new Token(
-      this._currentTokenType,
-      parts,
-      new ParseSourceSpan(this._currentTokenStart, end)
-    )
+  private _endToken(parts: string[], end: ParseLocation = this._getLocation()): Token {
+    const token = new Token(this._currentTokenType, parts, new ParseSourceSpan(this._currentTokenStart, end))
     this.tokens.push(token)
     this._currentTokenStart = null!
     this._currentTokenType = null!
@@ -220,10 +190,7 @@ class _Tokenizer {
 
   private _advance() {
     if (this._index >= this._length) {
-      throw this._createError(
-        _unexpectedCharacterErrorMsg(chars.$EOF),
-        this._getSpan()
-      )
+      throw this._createError(_unexpectedCharacterErrorMsg(chars.$EOF), this._getSpan())
     }
     if (this._peek === chars.$LF) {
       this._line++
@@ -232,14 +199,8 @@ class _Tokenizer {
       this._column++
     }
     this._index++
-    this._peek =
-      this._index >= this._length
-        ? chars.$EOF
-        : this._input.charCodeAt(this._index)
-    this._nextPeek =
-      this._index + 1 >= this._length
-        ? chars.$EOF
-        : this._input.charCodeAt(this._index + 1)
+    this._peek = this._index >= this._length ? chars.$EOF : this._input.charCodeAt(this._index)
+    this._nextPeek = this._index + 1 >= this._length ? chars.$EOF : this._input.charCodeAt(this._index + 1)
   }
 
   private _attemptCharCode(charCode: number): boolean {
@@ -261,10 +222,7 @@ class _Tokenizer {
   private _requireCharCode(charCode: number) {
     const location = this._getLocation()
     if (!this._attemptCharCode(charCode)) {
-      throw this._createError(
-        _unexpectedCharacterErrorMsg(this._peek),
-        this._getSpan(location, location)
-      )
+      throw this._createError(_unexpectedCharacterErrorMsg(this._peek), this._getSpan(location, location))
     }
   }
 
@@ -297,10 +255,7 @@ class _Tokenizer {
   private _requireStr(chars: string) {
     const location = this._getLocation()
     if (!this._attemptStr(chars)) {
-      throw this._createError(
-        _unexpectedCharacterErrorMsg(this._peek),
-        this._getSpan(location)
-      )
+      throw this._createError(_unexpectedCharacterErrorMsg(this._peek), this._getSpan(location))
     }
   }
 
@@ -310,17 +265,11 @@ class _Tokenizer {
     }
   }
 
-  private _requireCharCodeUntilFn(
-    predicate: (code: number) => boolean,
-    len: number
-  ) {
+  private _requireCharCodeUntilFn(predicate: (code: number) => boolean, len: number) {
     const start = this._getLocation()
     this._attemptCharCodeUntilFn(predicate)
     if (this._index - start.offset < len) {
-      throw this._createError(
-        _unexpectedCharacterErrorMsg(this._peek),
-        this._getSpan(start, start)
-      )
+      throw this._createError(_unexpectedCharacterErrorMsg(this._peek), this._getSpan(start, start))
     }
   }
 
@@ -344,15 +293,11 @@ class _Tokenizer {
     const start = this._getLocation()
     this._advance()
     if (this._attemptCharCode(chars.$HASH)) {
-      const isHex =
-        this._attemptCharCode(chars.$x) || this._attemptCharCode(chars.$X)
+      const isHex = this._attemptCharCode(chars.$x) || this._attemptCharCode(chars.$X)
       const numberStart = this._getLocation().offset
       this._attemptCharCodeUntilFn(isDigitEntityEnd)
       if (this._peek != chars.$SEMICOLON) {
-        throw this._createError(
-          _unexpectedCharacterErrorMsg(this._peek),
-          this._getSpan()
-        )
+        throw this._createError(_unexpectedCharacterErrorMsg(this._peek), this._getSpan())
       }
       this._advance()
       const strNum = this._input.substring(numberStart, this._index - 1)
@@ -361,10 +306,7 @@ class _Tokenizer {
         return String.fromCharCode(charCode)
       } catch (e) {
         const entity = this._input.substring(start.offset + 1, this._index - 1)
-        throw this._createError(
-          _unknownEntityErrorMsg(entity),
-          this._getSpan(start)
-        )
+        throw this._createError(_unknownEntityErrorMsg(entity), this._getSpan(start))
       }
     } else {
       const startPosition = this._savePosition()
@@ -377,10 +319,7 @@ class _Tokenizer {
       const name = this._input.substring(start.offset + 1, this._index - 1)
       const char = NAMED_ENTITIES[name]
       if (!char) {
-        throw this._createError(
-          _unknownEntityErrorMsg(name),
-          this._getSpan(start)
-        )
+        throw this._createError(_unknownEntityErrorMsg(name), this._getSpan(start))
       }
       return char
     }
@@ -393,10 +332,7 @@ class _Tokenizer {
   ): Token {
     let tagCloseStart: ParseLocation
     const textStart = this._getLocation()
-    this._beginToken(
-      decodeEntities ? TokenType.ESCAPABLE_RAW_TEXT : TokenType.RAW_TEXT,
-      textStart
-    )
+    this._beginToken(decodeEntities ? TokenType.ESCAPABLE_RAW_TEXT : TokenType.RAW_TEXT, textStart)
     const parts: string[] = []
     while (true) {
       tagCloseStart = this._getLocation()
@@ -411,19 +347,14 @@ class _Tokenizer {
         parts.push(this._readChar(decodeEntities))
       }
     }
-    return this._endToken(
-      [this._processCarriageReturns(parts.join(''))],
-      tagCloseStart
-    )
+    return this._endToken([this._processCarriageReturns(parts.join(''))], tagCloseStart)
   }
 
   private _consumeComment(start: ParseLocation) {
     this._beginToken(TokenType.COMMENT_START, start)
     this._requireCharCode(chars.$MINUS)
     this._endToken([])
-    const textToken = this._consumeRawText(false, chars.$MINUS, () =>
-      this._attemptStr('->')
-    )
+    const textToken = this._consumeRawText(false, chars.$MINUS, () => this._attemptStr('->'))
     this._beginToken(TokenType.COMMENT_END, textToken.sourceSpan.end)
     this._endToken([])
   }
@@ -432,9 +363,7 @@ class _Tokenizer {
     this._beginToken(TokenType.CDATA_START, start)
     this._requireStr('CDATA[')
     this._endToken([])
-    const textToken = this._consumeRawText(false, chars.$RBRACKET, () =>
-      this._attemptStr(']>')
-    )
+    const textToken = this._consumeRawText(false, chars.$RBRACKET, () => this._attemptStr(']>'))
     this._beginToken(TokenType.CDATA_END, textToken.sourceSpan.end)
     this._endToken([])
   }
@@ -478,10 +407,7 @@ class _Tokenizer {
     let lowercaseTagName: string
     try {
       if (!chars.isAsciiLetter(this._peek)) {
-        throw this._createError(
-          _unexpectedCharacterErrorMsg(this._peek),
-          this._getSpan()
-        )
+        throw this._createError(_unexpectedCharacterErrorMsg(this._peek), this._getSpan())
       }
       const nameStart = this._index
       this._consumeTagOpenStart(start)
@@ -533,10 +459,7 @@ class _Tokenizer {
     }
   }
 
-  private _consumeRawTextWithTagClose(
-    lowercaseTagName: string,
-    decodeEntities: boolean
-  ) {
+  private _consumeRawTextWithTagClose(lowercaseTagName: string, decodeEntities: boolean) {
     const textToken = this._consumeRawText(decodeEntities, chars.$LT, () => {
       if (!this._attemptCharCode(chars.$SLASH)) return false
       this._attemptCharCodeUntilFn(isNotWhitespace)
@@ -604,10 +527,7 @@ class _Tokenizer {
     const parts: string[] = []
 
     do {
-      if (
-        this._interpolationConfig &&
-        this._attemptStr(this._interpolationConfig.start)
-      ) {
+      if (this._interpolationConfig && this._attemptStr(this._interpolationConfig.start)) {
         parts.push(this._interpolationConfig.start)
         this._inInterpolation = true
       } else if (
@@ -634,13 +554,7 @@ class _Tokenizer {
   }
 
   private _savePosition(): [number, number, number, number, number] {
-    return [
-      this._peek,
-      this._index,
-      this._column,
-      this._line,
-      this.tokens.length
-    ]
+    return [this._peek, this._index, this._column, this._line, this.tokens.length]
   }
 
   private _readUntil(char: number): string {
@@ -649,9 +563,7 @@ class _Tokenizer {
     return this._input.substring(start, this._index)
   }
 
-  private _restorePosition(
-    position: [number, number, number, number, number]
-  ): void {
+  private _restorePosition(position: [number, number, number, number, number]): void {
     this._peek = position[0]
     this._index = position[1]
     this._column = position[2]
@@ -688,17 +600,11 @@ function isPrefixEnd(code: number): boolean {
 }
 
 function isDigitEntityEnd(code: number): boolean {
-  return (
-    code == chars.$SEMICOLON ||
-    code == chars.$EOF ||
-    !chars.isAsciiHexDigit(code)
-  )
+  return code == chars.$SEMICOLON || code == chars.$EOF || !chars.isAsciiHexDigit(code)
 }
 
 function isNamedEntityEnd(code: number): boolean {
-  return (
-    code == chars.$SEMICOLON || code == chars.$EOF || !chars.isAsciiLetter(code)
-  )
+  return code == chars.$SEMICOLON || code == chars.$EOF || !chars.isAsciiLetter(code)
 }
 
 function compareCharCodeCaseInsensitive(code1: number, code2: number): boolean {
@@ -706,9 +612,7 @@ function compareCharCodeCaseInsensitive(code1: number, code2: number): boolean {
 }
 
 function toUpperCaseCharCode(code: number): number {
-  return code >= chars.$a && code <= chars.$z
-    ? code - chars.$a + chars.$A
-    : code
+  return code >= chars.$a && code <= chars.$z ? code - chars.$a + chars.$A : code
 }
 
 function mergeTextTokens(srcTokens: Token[]): Token[] {
@@ -716,11 +620,7 @@ function mergeTextTokens(srcTokens: Token[]): Token[] {
   let lastDstToken: Token | undefined = undefined
   for (let i = 0; i < srcTokens.length; i++) {
     const token = srcTokens[i]
-    if (
-      lastDstToken &&
-      lastDstToken.type == TokenType.TEXT &&
-      token.type == TokenType.TEXT
-    ) {
+    if (lastDstToken && lastDstToken.type == TokenType.TEXT && token.type == TokenType.TEXT) {
       lastDstToken.parts[0] += token.parts[0]
       lastDstToken.sourceSpan.end = token.sourceSpan.end
     } else {

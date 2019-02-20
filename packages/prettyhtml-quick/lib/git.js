@@ -22,17 +22,10 @@ module.exports.getSinceRevision = (directory, opts) => {
   try {
     const revision = opts.staged
       ? 'HEAD'
-      : runGit(directory, [
-          'merge-base',
-          'HEAD',
-          opts.branch || 'master'
-        ]).stdout.trim()
+      : runGit(directory, ['merge-base', 'HEAD', opts.branch || 'master']).stdout.trim()
     return runGit(directory, ['rev-parse', '--short', revision]).stdout.trim()
   } catch (error) {
-    if (
-      /HEAD/.test(error.message) ||
-      (opts.staged && /Needed a single revision/.test(error.message))
-    ) {
+    if (/HEAD/.test(error.message) || (opts.staged && /Needed a single revision/.test(error.message))) {
       return null
     }
     throw error
@@ -43,21 +36,11 @@ module.exports.getChangedFiles = (directory, revision, staged) => {
   const a = getLines(
     runGit(
       directory,
-      [
-        'diff',
-        '--name-only',
-        staged ? '--cached' : null,
-        '--diff-filter=ACMRTUB',
-        revision
-      ].filter(Boolean)
+      ['diff', '--name-only', staged ? '--cached' : null, '--diff-filter=ACMRTUB', revision].filter(Boolean)
     )
   )
 
-  const b = staged
-    ? []
-    : getLines(
-        runGit(directory, ['ls-files', '--others', '--exclude-standard'])
-      )
+  const b = staged ? [] : getLines(runGit(directory, ['ls-files', '--others', '--exclude-standard']))
 
   return a.concat(b).filter(Boolean)
 }

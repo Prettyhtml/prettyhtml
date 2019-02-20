@@ -1,33 +1,17 @@
 import { ParseError, ParseSourceSpan } from './parse_util'
 
 import * as html from './ast'
-import {
-  DEFAULT_INTERPOLATION_CONFIG,
-  InterpolationConfig
-} from './interpolation_config'
+import { DEFAULT_INTERPOLATION_CONFIG, InterpolationConfig } from './interpolation_config'
 import * as lex from './lexer'
-import {
-  TagDefinition,
-  getNsPrefix,
-  isNgContainer,
-  mergeNsAndName
-} from './tags'
+import { TagDefinition, getNsPrefix, isNgContainer, mergeNsAndName } from './tags'
 import { isKnownHTMLTag } from './html_tags'
 
 export class TreeError extends ParseError {
-  static create(
-    elementName: string | null,
-    span: ParseSourceSpan,
-    msg: string
-  ): TreeError {
+  static create(elementName: string | null, span: ParseSourceSpan, msg: string): TreeError {
     return new TreeError(elementName, span, msg)
   }
 
-  constructor(
-    public elementName: string | null,
-    span: ParseSourceSpan,
-    msg: string
-  ) {
+  constructor(public elementName: string | null, span: ParseSourceSpan, msg: string) {
     super(span, msg)
   }
 }
@@ -60,11 +44,7 @@ export class Parser {
       selfClosingElements: false,
       selfClosingCustomElements: false
     },
-    public getTagDefinition: (
-      tagName: string,
-      ignoreFirstLf: boolean,
-      canSelfClose: boolean
-    ) => TagDefinition
+    public getTagDefinition: (tagName: string, ignoreFirstLf: boolean, canSelfClose: boolean) => TagDefinition
   ) {}
 
   parse(
@@ -185,11 +165,8 @@ class _TreeBuilder {
       if (
         parent != null &&
         parent.children.length == 0 &&
-        this.getTagDefinition(
-          parent.name,
-          this.options.ignoreFirstLf,
-          this.options.selfClosingElements
-        ).ignoreFirstLf
+        this.getTagDefinition(parent.name, this.options.ignoreFirstLf, this.options.selfClosingElements)
+          .ignoreFirstLf
       ) {
         text = text.substring(1)
       }
@@ -204,11 +181,7 @@ class _TreeBuilder {
     const el = this._getParentElement()
     if (
       el &&
-      this.getTagDefinition(
-        el.name,
-        this.options.ignoreFirstLf,
-        this.options.selfClosingElements
-      ).isVoid
+      this.getTagDefinition(el.name, this.options.ignoreFirstLf, this.options.selfClosingElements).isVoid
     ) {
       this._elementStack.pop()
     }
@@ -221,11 +194,7 @@ class _TreeBuilder {
     while (this._peek.type === lex.TokenType.ATTR_NAME) {
       attrs.push(this._consumeAttr(this._advance()))
     }
-    const nameAndNsInfo = this._getElementNameAndNsInfo(
-      prefix,
-      name,
-      this._getParentElement()
-    )
+    const nameAndNsInfo = this._getElementNameAndNsInfo(prefix, name, this._getParentElement())
     let selfClosing = false
     // Note: There could have been a tokenizer error
     // so that we don't get a token for the end tag...
@@ -243,17 +212,14 @@ class _TreeBuilder {
           getNsPrefix(nameAndNsInfo.fullName) !== null ||
           tagDef.isVoid ||
           // allow self-closing custom elements
-          (this.options.selfClosingCustomElements &&
-            isKnownHTMLTag(nameAndNsInfo.fullName) === false)
+          (this.options.selfClosingCustomElements && isKnownHTMLTag(nameAndNsInfo.fullName) === false)
         )
       ) {
         this._errors.push(
           TreeError.create(
             nameAndNsInfo.fullName,
             startTagToken.sourceSpan,
-            `Only void, foreign or custom elements can be self closed "${
-              startTagToken.parts[1]
-            }"`
+            `Only void, foreign or custom elements can be self closed "${startTagToken.parts[1]}"`
           )
         )
       }
@@ -331,11 +297,8 @@ class _TreeBuilder {
     }
 
     if (
-      this.getTagDefinition(
-        nameInfo.fullName,
-        this.options.ignoreFirstLf,
-        this.options.selfClosingElements
-      ).isVoid
+      this.getTagDefinition(nameInfo.fullName, this.options.ignoreFirstLf, this.options.selfClosingElements)
+        .isVoid
     ) {
       this._errors.push(
         TreeError.create(
@@ -348,33 +311,21 @@ class _TreeBuilder {
       const errMsg = `Unexpected closing tag "${
         nameInfo.fullName
       }". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags`
-      this._errors.push(
-        TreeError.create(nameInfo.fullName, endTagToken.sourceSpan, errMsg)
-      )
+      this._errors.push(TreeError.create(nameInfo.fullName, endTagToken.sourceSpan, errMsg))
     }
   }
 
   private _popElement(fullName: string): boolean {
-    for (
-      let stackIndex = this._elementStack.length - 1;
-      stackIndex >= 0;
-      stackIndex--
-    ) {
+    for (let stackIndex = this._elementStack.length - 1; stackIndex >= 0; stackIndex--) {
       const el = this._elementStack[stackIndex]
       if (el.name == fullName) {
-        this._elementStack.splice(
-          stackIndex,
-          this._elementStack.length - stackIndex
-        )
+        this._elementStack.splice(stackIndex, this._elementStack.length - stackIndex)
         return true
       }
 
       if (
-        !this.getTagDefinition(
-          el.name,
-          this.options.ignoreFirstLf,
-          this.options.selfClosingElements
-        ).closedByParent
+        !this.getTagDefinition(el.name, this.options.ignoreFirstLf, this.options.selfClosingElements)
+          .closedByParent
       ) {
         return false
       }
@@ -404,9 +355,7 @@ class _TreeBuilder {
   }
 
   private _getParentElement(): html.Element | null {
-    return this._elementStack.length > 0
-      ? this._elementStack[this._elementStack.length - 1]
-      : null
+    return this._elementStack.length > 0 ? this._elementStack[this._elementStack.length - 1] : null
   }
 
   /**
@@ -446,11 +395,7 @@ class _TreeBuilder {
    *
    * @internal
    */
-  private _insertBeforeContainer(
-    parent: html.Element,
-    container: html.Element | null,
-    node: html.Element
-  ) {
+  private _insertBeforeContainer(parent: html.Element, container: html.Element | null, node: html.Element) {
     if (!container) {
       this._addToParent(node)
       this._elementStack.push(node)
@@ -474,11 +419,8 @@ class _TreeBuilder {
   ): { fullName: string; implicitNs: boolean } {
     let implicitNs = false
     if (prefix == null) {
-      prefix = this.getTagDefinition(
-        localName,
-        this.options.ignoreFirstLf,
-        this.options.selfClosingElements
-      ).implicitNamespacePrefix!
+      prefix = this.getTagDefinition(localName, this.options.ignoreFirstLf, this.options.selfClosingElements)
+        .implicitNamespacePrefix!
       if (prefix) {
         implicitNs = true
       }

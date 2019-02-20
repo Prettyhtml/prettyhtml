@@ -3,6 +3,7 @@
 Runs [Prettyhtml](https://github.com/Prettyhtml/prettyhtml) on your changed (based on Git) files.
 
 Example:
+
 ```
 prettyhtml-quick
 🔍  Finding changed files since git revision 2eb4337.

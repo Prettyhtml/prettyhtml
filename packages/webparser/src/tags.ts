@@ -27,9 +27,7 @@ export function splitNsName(elementName: string): [string | null, string] {
   const colonIndex = elementName.indexOf(':', 1)
 
   if (colonIndex == -1) {
-    throw new Error(
-      `Unsupported format "${elementName}" expecting ":namespace:name"`
-    )
+    throw new Error(`Unsupported format "${elementName}" expecting ":namespace:name"`)
   }
 
   return [elementName.slice(1, colonIndex), elementName.slice(colonIndex + 1)]

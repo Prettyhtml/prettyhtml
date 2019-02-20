@@ -31,10 +31,7 @@ var doubleQuoted = [AMP, DQ]
 // The first value causes parse errors, the second is valid.
 // Of both values, the first value is unsafe, and the second is safe.
 module.exports = {
-  name: [
-    [name, name.concat(DQ, SQ, GR)],
-    [name.concat(NULL, DQ, SQ, LT), name.concat(NULL, DQ, SQ, LT, GR)]
-  ],
+  name: [[name, name.concat(DQ, SQ, GR)], [name.concat(NULL, DQ, SQ, LT), name.concat(NULL, DQ, SQ, LT, GR)]],
   unquoted: [[unquoted, unquotedSafe], [unquotedSafe, unquotedSafe]],
   single: [
     [singleQuoted, singleQuoted.concat(DQ, GR)],

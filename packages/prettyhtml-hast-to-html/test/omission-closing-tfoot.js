@@ -5,11 +5,7 @@ var h = require('@starptech/prettyhtml-hastscript')
 var to = require('..')
 
 test('`tfoot` (closing)', function(t) {
-  t.deepEqual(
-    to(h('tfoot'), { omitOptionalTags: true }),
-    '<tfoot>',
-    'should omit tag without siblings'
-  )
+  t.deepEqual(to(h('tfoot'), { omitOptionalTags: true }), '<tfoot>', 'should omit tag without siblings')
 
   t.deepEqual(
     to(h('table', h('tfoot')), { omitOptionalTags: true }),

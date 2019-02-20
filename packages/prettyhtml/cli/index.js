@@ -2,15 +2,15 @@
 
 'use strict'
 
-const PassThrough = require('stream').PassThrough
+const { PassThrough } = require('stream')
 const { basename } = require('path')
-const pkg = require('./../package')
-const { configTransform, processResult } = require('./processor')
-const args = require('./args')
 const prettier = require('prettier')
 const engine = require('unified-engine')
 const unified = require('unified')
 const updateNotifier = require('update-notifier')
+const { configTransform, processResult } = require('./processor')
+const args = require('./args')
+const pkg = require('./../package')
 
 function getDefaultSettings() {
   const settings = {

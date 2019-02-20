@@ -5,17 +5,9 @@ var u = require('unist-builder')
 var to = require('..')
 
 test('`text`', function(t) {
-  t.deepEqual(
-    to(u('doctype')),
-    '<!doctype>',
-    'should stringify doctypes without `name`'
-  )
+  t.deepEqual(to(u('doctype')), '<!doctype>', 'should stringify doctypes without `name`')
 
-  t.deepEqual(
-    to(u('doctype', { name: 'html' })),
-    '<!doctype html>',
-    'should stringify doctypes with `name`'
-  )
+  t.deepEqual(to(u('doctype', { name: 'html' })), '<!doctype html>', 'should stringify doctypes with `name`')
 
   t.deepEqual(
     to(u('doctype', { name: 'html' }), { tightDoctype: true }),

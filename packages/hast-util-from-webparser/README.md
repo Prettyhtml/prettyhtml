@@ -13,7 +13,8 @@ Produce [HAST](https://github.com/syntax-tree/hast) compatible AST from [Webpars
 Say we have the following file, `example.html`:
 
 ```html
-<!doctype html><title>Hello!</title><h1 id="world">World!<!--after-->
+<!DOCTYPE html><title>Hello!</title>
+<h1 id="world">World!<!--after--></h1>
 ```
 
 And our script, `example.js`, looks as follows:

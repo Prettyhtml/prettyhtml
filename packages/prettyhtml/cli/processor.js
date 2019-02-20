@@ -15,6 +15,7 @@ function processResult({ cli }) {
       console.error(out)
     }
 
+    // eslint-disable-next-line no-process-exit
     process.exit(code)
   }
 }

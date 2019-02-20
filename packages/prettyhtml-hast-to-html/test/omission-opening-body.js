@@ -6,11 +6,7 @@ var h = require('@starptech/prettyhtml-hastscript')
 var to = require('..')
 
 test('`body` (opening)', function(t) {
-  t.deepEqual(
-    to(h('body'), { omitOptionalTags: true }),
-    '',
-    'should omit tag without children'
-  )
+  t.deepEqual(to(h('body'), { omitOptionalTags: true }), '', 'should omit tag without children')
 
   t.deepEqual(
     to(h('body', u('comment', 'alpha')), { omitOptionalTags: true }),

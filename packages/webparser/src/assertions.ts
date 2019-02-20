@@ -20,10 +20,7 @@ const INTERPOLATION_BLACKLIST_REGEXPS = [
   /^\/\// // comment
 ]
 
-export function assertInterpolationSymbols(
-  identifier: string,
-  value: any
-): void {
+export function assertInterpolationSymbols(identifier: string, value: any): void {
   if (value != null && !(Array.isArray(value) && value.length == 2)) {
     throw new Error(`Expected '${identifier}' to be an array, [start, end].`)
   } else if (value != null) {
@@ -32,9 +29,7 @@ export function assertInterpolationSymbols(
     // black list checking
     INTERPOLATION_BLACKLIST_REGEXPS.forEach(regexp => {
       if (regexp.test(start) || regexp.test(end)) {
-        throw new Error(
-          `['${start}', '${end}'] contains unusable interpolation symbol.`
-        )
+        throw new Error(`['${start}', '${end}'] contains unusable interpolation symbol.`)
       }
     })
   }

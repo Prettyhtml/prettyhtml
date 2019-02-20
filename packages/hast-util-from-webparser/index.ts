@@ -42,13 +42,7 @@ type HastNode = {
 /* Wrapper to normalise options. */
 export = function from(rootNodes: Node[], options: Options = {}) {
   const sourceSpan = new ParseSourceSpan(null, null)
-  const fakeRoot = new Element(
-    ':webparser:root',
-    [],
-    rootNodes,
-    false,
-    sourceSpan
-  )
+  const fakeRoot = new Element(':webparser:root', [], rootNodes, false, sourceSpan)
   const result = transform(fakeRoot, null, {
     schema: htmlSchema
   })
@@ -57,18 +51,13 @@ export = function from(rootNodes: Node[], options: Options = {}) {
 }
 
 /* Transform a node. */
-function transform(
-  ast: Node,
-  nextAst: Node | null,
-  config: TransformOptions
-): HastNode {
+function transform(ast: Node, nextAst: Node | null, config: TransformOptions): HastNode {
   const schema = config.schema
   let node: HastNode
 
   if (ast instanceof Element) {
     let children: HastNode[]
-    config.schema =
-      getElementNameAndNS(ast.name).ns === 'svg' ? svgSchema : htmlSchema
+    config.schema = getElementNameAndNS(ast.name).ns === 'svg' ? svgSchema : htmlSchema
     if (ast.children && ast.children.length) {
       children = nodes(ast.children, config)
     }
@@ -81,9 +70,7 @@ function transform(
 
     node.data = node.data || {}
     node.data.selfClosing =
-      ast.startSourceSpan === ast.endSourceSpan &&
-      ast.startSourceSpan !== null &&
-      ast.endSourceSpan !== null
+      ast.startSourceSpan === ast.endSourceSpan && ast.startSourceSpan !== null && ast.endSourceSpan !== null
     if (isGap(nextAst)) node.data.gapAfter = true
   } else if (ast instanceof Text) {
     node = text(ast)
@@ -194,11 +181,7 @@ function isGap(el: Node): boolean {
 }
 
 /* Transform an element. */
-function element(
-  ast: Element,
-  children: HastNode[],
-  config: TransformOptions
-): HastNode {
+function element(ast: Element, children: HastNode[], config: TransformOptions): HastNode {
   const fn = config.schema.space === 'svg' ? hastSvg : hast
   const nameInfo = getElementNameAndNS(ast.name, ast.implicitNs)
   const props: any = {}

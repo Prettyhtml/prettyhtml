@@ -5,11 +5,7 @@ var h = require('@starptech/prettyhtml-hastscript')
 var to = require('..')
 
 test('`li` (closing)', function(t) {
-  t.deepEqual(
-    to(h('li'), { omitOptionalTags: true }),
-    '<li>',
-    'should omit tag without parent'
-  )
+  t.deepEqual(to(h('li'), { omitOptionalTags: true }), '<li>', 'should omit tag without parent')
 
   t.deepEqual(
     to(h('ol', h('li')), { omitOptionalTags: true }),

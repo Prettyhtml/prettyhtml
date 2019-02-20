@@ -16,15 +16,7 @@ var tableContainer = ['tbody', 'tfoot']
 var tableRow = 'tr'
 var tableCell = ['td', 'th']
 
-var confusingParagraphParent = [
-  'a',
-  'audio',
-  'del',
-  'ins',
-  'map',
-  'noscript',
-  'video'
-]
+var confusingParagraphParent = ['a', 'audio', 'del', 'ins', 'map', 'noscript', 'video']
 
 var clearParagraphSibling = [
   'address',
@@ -103,9 +95,7 @@ function body(node, index, parent) {
 /* Whether to omit `</p>`. */
 function p(node, index, parent) {
   var next = after(parent, index)
-  return next
-    ? element(next, clearParagraphSibling)
-    : !parent || !element(parent, confusingParagraphParent)
+  return next ? element(next, clearParagraphSibling) : !parent || !element(parent, confusingParagraphParent)
 }
 
 /* Whether to omit `</li>`. */

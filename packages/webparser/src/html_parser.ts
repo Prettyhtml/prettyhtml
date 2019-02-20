@@ -1,8 +1,5 @@
 import { getHtmlTagDefinition } from './html_tags'
-import {
-  DEFAULT_INTERPOLATION_CONFIG,
-  InterpolationConfig
-} from './interpolation_config'
+import { DEFAULT_INTERPOLATION_CONFIG, InterpolationConfig } from './interpolation_config'
 import { ParseTreeResult, Parser, ParserOptions } from './parser'
 
 export { ParseTreeResult, TreeError } from './parser'

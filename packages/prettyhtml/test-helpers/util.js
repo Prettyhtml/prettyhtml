@@ -1,13 +1,13 @@
 'use strict'
 
-var PassThrough = require('stream').PassThrough
+const { PassThrough } = require('stream')
 
 module.exports = spy
 
 function spy() {
-  var stream = new PassThrough()
-  var output = []
-  var originalWrite = stream.write
+  const stream = new PassThrough()
+  const output = []
+  const originalWrite = stream.write
 
   stream.write = write
 
@@ -16,10 +16,10 @@ function spy() {
   return done
 
   function write(chunk, encoding, callback) {
-    callback = typeof encoding === 'function' ? encoding : callback
+    const cb = typeof encoding === 'function' ? encoding : callback
 
-    if (typeof callback === 'function') {
-      setImmediate(callback)
+    if (typeof cb === 'function') {
+      setImmediate(cb)
     }
 
     output.push(chunk)

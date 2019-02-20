@@ -12,11 +12,7 @@ test('`colgroup` (opening)', function(t) {
     'should not omit tag without children'
   )
 
-  t.deepEqual(
-    to(h('colgroup'), { omitOptionalTags: true }),
-    '<colgroup>',
-    'should omit tag with `col` child'
-  )
+  t.deepEqual(to(h('colgroup'), { omitOptionalTags: true }), '<colgroup>', 'should omit tag with `col` child')
 
   t.deepEqual(
     to(h('table', h('colgroup')), { omitOptionalTags: true }),

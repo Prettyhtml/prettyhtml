@@ -18,9 +18,7 @@ function transform(tree) {
     var result = {}
     var prop
 
-    var all = Object.keys(props).sort((left, right) =>
-      left.localeCompare(right)
-    )
+    var all = Object.keys(props).sort((left, right) => left.localeCompare(right))
 
     while (++index < all.length) {
       prop = all[index]

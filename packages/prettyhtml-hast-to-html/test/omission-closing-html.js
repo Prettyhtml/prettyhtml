@@ -6,11 +6,7 @@ var u = require('unist-builder')
 var to = require('..')
 
 test('`html` (closing)', function(t) {
-  t.deepEqual(
-    to(h('html'), { omitOptionalTags: true }),
-    '',
-    'should omit tag without following'
-  )
+  t.deepEqual(to(h('html'), { omitOptionalTags: true }), '', 'should omit tag without following')
 
   t.deepEqual(
     to(u('root', [h('html'), u('comment', 'alpha')]), {

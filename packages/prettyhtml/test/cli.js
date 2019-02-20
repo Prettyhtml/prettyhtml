@@ -1,15 +1,17 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const test = require('ava')
+const engine = require('unified-engine')
+const unified = require('unified')
 const { Readable } = require('stream')
 const { configTransform } = require('../cli/processor')
 const { getDefaultSettings } = require('../cli')
 const spy = require('../test-helpers/util')
 const args = require('../cli/args')
-const engine = require('unified-engine')
-const unified = require('unified')
 const prepareVfile = require('../test-helpers/prepareVfile')
 
 test.cb('Should format with default settings', t => {
   const stream = new Readable()
+  // eslint-disable-next-line no-underscore-dangle
   stream._read = () => {}
   stream.push(
     `<form #heroForm (ngSubmit)="onSubmit(heroForm)"><input type="text" [(onChange)]="dede" name="test" /><button [style.color]="isSpecial ? 'red' : 'green'"></button></form>`
@@ -30,11 +32,10 @@ test.cb('Should format with default settings', t => {
   settings.streamOut = stdout.stream
 
   engine(
-    {
-      ...settings,
+    Object.assign(settings, {
       streamIn: stream,
       streamError: stderr.stream
-    },
+    }),
     (err, code, result) => {
       t.falsy(err)
       t.deepEqual([stderr(), code], ['<stdin>: no issues found\n', 0])

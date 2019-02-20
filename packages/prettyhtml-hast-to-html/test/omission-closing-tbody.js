@@ -5,11 +5,7 @@ var h = require('@starptech/prettyhtml-hastscript')
 var to = require('..')
 
 test('`tbody` (closing)', function(t) {
-  t.deepEqual(
-    to(h('tbody'), { omitOptionalTags: true }),
-    '<tbody>',
-    'should omit tag without siblings'
-  )
+  t.deepEqual(to(h('tbody'), { omitOptionalTags: true }), '<tbody>', 'should omit tag without siblings')
 
   t.deepEqual(
     to(h('table', h('tbody')), { omitOptionalTags: true }),

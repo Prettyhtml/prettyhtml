@@ -42,20 +42,14 @@ export class Element implements Node {
 }
 
 export class Comment implements Node {
-  constructor(
-    public value: string | null,
-    public sourceSpan: ParseSourceSpan
-  ) {}
+  constructor(public value: string | null, public sourceSpan: ParseSourceSpan) {}
   visit(visitor: Visitor, context: any): any {
     return visitor.visitComment(this, context)
   }
 }
 
 export class Doctype implements Node {
-  constructor(
-    public value: string | null,
-    public sourceSpan: ParseSourceSpan
-  ) {}
+  constructor(public value: string | null, public sourceSpan: ParseSourceSpan) {}
   visit(visitor: Visitor, context: any): any {
     return visitor.visitDoctype(this, context)
   }
@@ -73,11 +67,7 @@ export interface Visitor {
   visitComment(comment: Comment, context: any): any
 }
 
-export function visitAll(
-  visitor: Visitor,
-  nodes: Node[],
-  context: any = null
-): any[] {
+export function visitAll(visitor: Visitor, nodes: Node[], context: any = null): any[] {
   const result: any[] = []
 
   const visit = visitor.visit
@@ -109,7 +99,7 @@ export class RecursiveVisitor implements Visitor {
 
   private visitChildren<T extends Node>(
     context: any,
-    cb: (visit: (<V extends Node>(children: V[] | undefined) => void)) => void
+    cb: (visit: <V extends Node>(children: V[] | undefined) => void) => void
   ) {
     let results: any[][] = []
     let t = this

@@ -11,11 +11,7 @@ test('`head` (opening)', function(t) {
     'should omit tag with children'
   )
 
-  t.deepEqual(
-    to(h('head'), { omitOptionalTags: true }),
-    '<head>',
-    'should not omit tag without children'
-  )
+  t.deepEqual(to(h('head'), { omitOptionalTags: true }), '<head>', 'should not omit tag without children')
 
   t.deepEqual(
     to(h('head', h('title', 'alpha')), { omitOptionalTags: true }),
@@ -23,11 +19,7 @@ test('`head` (opening)', function(t) {
     'should omit tag with `title`'
   )
 
-  t.deepEqual(
-    to(h('head', h('base')), { omitOptionalTags: true }),
-    '<base>',
-    'should omit tag with `base`'
-  )
+  t.deepEqual(to(h('head', h('base')), { omitOptionalTags: true }), '<base>', 'should omit tag with `base`')
 
   t.deepEqual(
     to(h('head', [h('title'), h('title')]), { omitOptionalTags: true }),

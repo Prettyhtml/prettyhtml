@@ -5,11 +5,7 @@ var h = require('@starptech/prettyhtml-hastscript')
 var to = require('..')
 
 test('`omitOptionalTags` mode', function(t) {
-  t.deepEqual(
-    to(h('html'), { omitOptionalTags: true }),
-    '',
-    'should omit opening and closing tags'
-  )
+  t.deepEqual(to(h('html'), { omitOptionalTags: true }), '', 'should omit opening and closing tags')
 
   t.deepEqual(
     to(h('html', { lang: 'en' }), { omitOptionalTags: true }),

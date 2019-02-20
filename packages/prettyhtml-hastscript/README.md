@@ -12,6 +12,6 @@ npm install --save @starptech/prettyhtml-hastscript
 
 The implementation is a modified version of [**Hastscript Version 4.0.0**](https://github.com/syntax-tree/hastscript)
 
-* Known html attributes aren't handled case-sensitively
-* Don't coerce or optimize attribute values
-* Don't house `<template>` node through `content` property. Handle it like any other element.
+- Known html attributes aren't handled case-sensitively
+- Don't coerce or optimize attribute values
+- Don't house `<template>` node through `content` property. Handle it like any other element.

@@ -34,7 +34,7 @@ function core(value, processor, options) {
 }
 
 function prettyhtml(value, options) {
-  options = Object.assign({}, options)
+  const opt = Object.assign({}, options)
   return core(
     value,
     unified()
@@ -45,6 +45,6 @@ function prettyhtml(value, options) {
         selfClosingElements: true
       })
       .freeze(),
-    options
+    opt
   )
 }

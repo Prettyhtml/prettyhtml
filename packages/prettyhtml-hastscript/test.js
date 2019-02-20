@@ -688,10 +688,7 @@ test('children', function(t) {
   )
 
   t.deepEqual(
-    h('div', {}, [
-      { type: 'text', value: 'foo' },
-      { type: 'text', value: 'bar' }
-    ]),
+    h('div', {}, [{ type: 'text', value: 'foo' }, { type: 'text', value: 'bar' }]),
     {
       type: 'element',
       tagName: 'div',
@@ -949,10 +946,7 @@ test('svg', function(t) {
         height: '500',
         width: '500'
       },
-      [
-        s('title', 'SVG `<circle>` element'),
-        s('circle', { cx: '120', cy: '120', r: '100' })
-      ]
+      [s('title', 'SVG `<circle>` element'), s('circle', { cx: '120', cy: '120', r: '100' })]
     ),
     {
       type: 'element',

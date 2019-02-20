@@ -16,14 +16,7 @@ function all(ctx, parent) {
   let innerTextLength = 0
   while (++index < length) {
     innerTextLength = getInnerTextLength(children[index])
-    results[index] = one(
-      ctx,
-      children[index],
-      index,
-      parent,
-      printWidthOffset,
-      innerTextLength
-    )
+    results[index] = one(ctx, children[index], index, parent, printWidthOffset, innerTextLength)
     printWidthOffset = results[index].replace(/\n+/g, '').length
   }
 

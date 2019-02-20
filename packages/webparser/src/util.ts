@@ -10,31 +10,17 @@ export function splitAtColon(input: string, defaultValues: string[]): string[] {
   return _splitAt(input, ':', defaultValues)
 }
 
-export function splitAtPeriod(
-  input: string,
-  defaultValues: string[]
-): string[] {
+export function splitAtPeriod(input: string, defaultValues: string[]): string[] {
   return _splitAt(input, '.', defaultValues)
 }
 
-function _splitAt(
-  input: string,
-  character: string,
-  defaultValues: string[]
-): string[] {
+function _splitAt(input: string, character: string, defaultValues: string[]): string[] {
   const characterIndex = input.indexOf(character)
   if (characterIndex == -1) return defaultValues
-  return [
-    input.slice(0, characterIndex).trim(),
-    input.slice(characterIndex + 1).trim()
-  ]
+  return [input.slice(0, characterIndex).trim(), input.slice(characterIndex + 1).trim()]
 }
 
-export function visitValue(
-  value: any,
-  visitor: ValueVisitor,
-  context: any
-): any {
+export function visitValue(value: any, visitor: ValueVisitor, context: any): any {
   if (Array.isArray(value)) {
     return visitor.visitArray(<any[]>value, context)
   }
@@ -43,12 +29,7 @@ export function visitValue(
     return visitor.visitStringMap(<{ [key: string]: any }>value, context)
   }
 
-  if (
-    value == null ||
-    typeof value == 'string' ||
-    typeof value == 'number' ||
-    typeof value == 'boolean'
-  ) {
+  if (value == null || typeof value == 'string' || typeof value == 'number' || typeof value == 'boolean') {
     return visitor.visitPrimitive(value, context)
   }
 
@@ -98,16 +79,11 @@ export const SyncAsync = {
     }
     return value
   },
-  then: <T, R>(
-    value: SyncAsync<T>,
-    cb: (value: T) => R | Promise<R> | SyncAsync<R>
-  ): SyncAsync<R> => {
+  then: <T, R>(value: SyncAsync<T>, cb: (value: T) => R | Promise<R> | SyncAsync<R>): SyncAsync<R> => {
     return isPromise(value) ? value.then(cb) : cb(value)
   },
   all: <T>(syncAsyncValues: SyncAsync<T>[]): SyncAsync<T[]> => {
-    return syncAsyncValues.some(isPromise)
-      ? Promise.all(syncAsyncValues)
-      : (syncAsyncValues as T[])
+    return syncAsyncValues.some(isPromise) ? Promise.all(syncAsyncValues) : (syncAsyncValues as T[])
   }
 }
 
@@ -140,11 +116,7 @@ export function escapeRegExp(s: string): string {
 
 const STRING_MAP_PROTO = Object.getPrototypeOf({})
 function isStrictStringMap(obj: any): boolean {
-  return (
-    typeof obj === 'object' &&
-    obj !== null &&
-    Object.getPrototypeOf(obj) === STRING_MAP_PROTO
-  )
+  return typeof obj === 'object' && obj !== null && Object.getPrototypeOf(obj) === STRING_MAP_PROTO
 }
 
 export function utf8Encode(str: string): string {
@@ -165,10 +137,7 @@ export function utf8Encode(str: string): string {
     if (codePoint <= 0x7f) {
       encoded += String.fromCharCode(codePoint)
     } else if (codePoint <= 0x7ff) {
-      encoded += String.fromCharCode(
-        ((codePoint >> 6) & 0x1f) | 0xc0,
-        (codePoint & 0x3f) | 0x80
-      )
+      encoded += String.fromCharCode(((codePoint >> 6) & 0x1f) | 0xc0, (codePoint & 0x3f) | 0x80)
     } else if (codePoint <= 0xffff) {
       encoded += String.fromCharCode(
         (codePoint >> 12) | 0xe0,

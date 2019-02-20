@@ -25,12 +25,5 @@ function one(ctx, node, index, parent, printWidthOffset, innerTextLength) {
     throw new Error('Cannot compile unknown node `' + type + '`')
   }
 
-  return handlers[type](
-    ctx,
-    node,
-    index,
-    parent,
-    printWidthOffset,
-    innerTextLength
-  )
+  return handlers[type](ctx, node, index, parent, printWidthOffset, innerTextLength)
 }

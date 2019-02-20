@@ -243,13 +243,11 @@ module.exports = {
   },
   'Svelte blocks with expressions': {
     options: { brackets: ['{', '}'] },
-    data:
-      '{#await promise}{message}{:then answer}{messageThen}{:catch error}{messageError}{\\/await}'
+    data: '{#await promise}{message}{:then answer}{messageThen}{:catch error}{messageError}{\\/await}'
   },
   'Svelte nested blocks': {
     options: { brackets: ['{', '}'] },
-    data:
-      '{#await promise}{#if test}{\\/if}{:then answer}{:catch error}{\\/await}'
+    data: '{#await promise}{#if test}{\\/if}{:then answer}{:catch error}{\\/await}'
   },
   'Svelte each': {
     options: { brackets: ['{', '}'] },

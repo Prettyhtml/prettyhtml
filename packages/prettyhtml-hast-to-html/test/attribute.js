@@ -60,13 +60,7 @@ test('unknown', function(t) {
   )
 
   t.deepEqual(
-    to(
-      u(
-        'element',
-        { tagName: 'i', properties: { unknown: { toString: toString } } },
-        []
-      )
-    ),
+    to(u('element', { tagName: 'i', properties: { unknown: { toString: toString } } }, [])),
     '<i unknown="yup"></i>',
     'should stringify unknowns set to objects'
   )
@@ -136,9 +130,7 @@ test('known overloaded booleans', function(t) {
   )
 
   t.deepEqual(
-    to(
-      u('element', { tagName: 'a', properties: { download: 'download' } }, [])
-    ),
+    to(u('element', { tagName: 'a', properties: { download: 'download' } }, [])),
     '<a download="download"></a>',
     'should stringify known overloaded booleans set to their name with value'
   )
@@ -224,13 +216,7 @@ test('known numbers', function(t) {
   )
 
   t.deepEqual(
-    to(
-      u(
-        'element',
-        { tagName: 'i', properties: { cols: { toString: toString } } },
-        []
-      )
-    ),
+    to(u('element', { tagName: 'i', properties: { cols: { toString: toString } } }, [])),
     '<i cols="yup"></i>',
     'should stringify known numbers set to an object'
   )
@@ -292,37 +278,25 @@ test('known space-separated lists', function(t) {
   )
 
   t.deepEqual(
-    to(
-      u('element', { tagName: 'i', properties: { className: 'className' } }, [])
-    ),
+    to(u('element', { tagName: 'i', properties: { className: 'className' } }, [])),
     '<i class="className"></i>',
     'should stringify known space-separated lists set to their property name'
   )
 
   t.deepEqual(
-    to(
-      u('element', { tagName: 'i', properties: { className: 'another' } }, [])
-    ),
+    to(u('element', { tagName: 'i', properties: { className: 'another' } }, [])),
     '<i class="another"></i>',
     'should stringify known space-separated lists set to a string'
   )
 
   t.deepEqual(
-    to(
-      u(
-        'element',
-        { tagName: 'i', properties: { className: { toString: toString } } },
-        []
-      )
-    ),
+    to(u('element', { tagName: 'i', properties: { className: { toString: toString } } }, [])),
     '<i class="yup"></i>',
     'should stringify known space-separated lists set to an object'
   )
 
   t.deepEqual(
-    to(
-      u('element', { tagName: 'i', properties: { className: ['a', 'b'] } }, [])
-    ),
+    to(u('element', { tagName: 'i', properties: { className: ['a', 'b'] } }, [])),
     '<i class="a b"></i>',
     'should stringify known space-separated lists set to an array of strings'
   )
@@ -334,13 +308,7 @@ test('known space-separated lists', function(t) {
   )
 
   t.deepEqual(
-    to(
-      u(
-        'element',
-        { tagName: 'i', properties: { className: [true, false] } },
-        []
-      )
-    ),
+    to(u('element', { tagName: 'i', properties: { className: [true, false] } }, [])),
     '<i class="true false"></i>',
     'should stringify known space-separated lists set to an array of booleans'
   )
@@ -390,13 +358,7 @@ test('known comma-separated lists', function(t) {
   )
 
   t.deepEqual(
-    to(
-      u(
-        'element',
-        { tagName: 'i', properties: { accept: { toString: toString } } },
-        []
-      )
-    ),
+    to(u('element', { tagName: 'i', properties: { accept: { toString: toString } } }, [])),
     '<i accept="yup"></i>',
     'should stringify known comma-separated lists set to an object'
   )
@@ -414,9 +376,7 @@ test('known comma-separated lists', function(t) {
   )
 
   t.deepEqual(
-    to(
-      u('element', { tagName: 'i', properties: { accept: [true, false] } }, [])
-    ),
+    to(u('element', { tagName: 'i', properties: { accept: [true, false] } }, [])),
     '<i accept="true, false"></i>',
     'should stringify known comma-separated lists set to an array of booleans'
   )
@@ -466,13 +426,7 @@ test('known normals', function(t) {
   )
 
   t.deepEqual(
-    to(
-      u(
-        'element',
-        { tagName: 'i', properties: { id: { toString: toString } } },
-        []
-      )
-    ),
+    to(u('element', { tagName: 'i', properties: { id: { toString: toString } } }, [])),
     '<i id="yup"></i>',
     'should stringify known normals set to an object'
   )
@@ -552,13 +506,7 @@ test('data properties', function(t) {
   )
 
   t.deepEqual(
-    to(
-      u(
-        'element',
-        { tagName: 'i', properties: { dataId: { toString: toString } } },
-        []
-      )
-    ),
+    to(u('element', { tagName: 'i', properties: { dataId: { toString: toString } } }, [])),
     '<i data-id="yup"></i>',
     'should stringify data properties set to an object'
   )
@@ -576,9 +524,7 @@ test('data properties', function(t) {
   )
 
   t.deepEqual(
-    to(
-      u('element', { tagName: 'i', properties: { dataId: [true, false] } }, [])
-    ),
+    to(u('element', { tagName: 'i', properties: { dataId: [true, false] } }, [])),
     '<i data-id="true false"></i>',
     'should stringify data properties set to an array of booleans as a space-separated list'
   )

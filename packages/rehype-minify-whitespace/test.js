@@ -14,32 +14,14 @@ test('rehype-minify-whitespace', function(t) {
       .runSync(
         h('main', [
           '  ',
-          h('p', [
-            '  ',
-            h('strong', 'foo'),
-            '  ',
-            h('em', 'bar'),
-            '  ',
-            h('meta', { itemProp: true }),
-            '  '
-          ]),
+          h('p', ['  ', h('strong', 'foo'), '  ', h('em', 'bar'), '  ', h('meta', { itemProp: true }), '  ']),
           '  ',
-          h('p', [
-            h('a', { href: 'example.com' }, ' baz'),
-            '  ',
-            h('em', ' qux')
-          ]),
+          h('p', [h('a', { href: 'example.com' }, ' baz'), '  ', h('em', ' qux')]),
           '  '
         ])
       ),
     h('main', [
-      h('p', [
-        h('strong', 'foo'),
-        ' ',
-        h('em', 'bar'),
-        ' ',
-        h('meta', { itemProp: true })
-      ]),
+      h('p', [h('strong', 'foo'), ' ', h('em', 'bar'), ' ', h('meta', { itemProp: true })]),
       h('p', [h('a', { href: 'example.com' }, 'baz'), ' ', h('em', 'qux')])
     ])
   )
@@ -52,11 +34,7 @@ test('rehype-minify-whitespace', function(t) {
           '  ',
           h('meta', { itemProp: true }),
           '  ',
-          h('noscript', [
-            '  ',
-            h('link', { rel: ['stylesheet'], href: 'index.css' }),
-            '  '
-          ])
+          h('noscript', ['  ', h('link', { rel: ['stylesheet'], href: 'index.css' }), '  '])
         ])
       ),
     h('head', [
@@ -81,22 +59,12 @@ test('rehype-minify-whitespace', function(t) {
             ' \n'
           ]),
           ' \n',
-          h('p', [
-            h('a', { href: 'example.com' }, ' baz'),
-            '  ',
-            h('em', ' qux')
-          ]),
+          h('p', [h('a', { href: 'example.com' }, ' baz'), '  ', h('em', ' qux')]),
           '  '
         ])
       ),
     h('main', [
-      h('p', [
-        h('strong', 'foo'),
-        ' ',
-        h('em', 'bar'),
-        '\n',
-        h('meta', { itemProp: true })
-      ]),
+      h('p', [h('strong', 'foo'), ' ', h('em', 'bar'), '\n', h('meta', { itemProp: true })]),
       h('p', [h('a', { href: 'example.com' }, 'baz'), ' ', h('em', 'qux')])
     ])
   )

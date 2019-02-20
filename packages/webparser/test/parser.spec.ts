@@ -3,11 +3,7 @@ import { HtmlParser, TreeError } from '../src/html_parser'
 import { TokenType } from '../src/lexer'
 import { ParseError } from '../src/parse_util'
 
-import {
-  humanizeDom,
-  humanizeDomSourceSpans,
-  humanizeLineColumn
-} from '../src/ast_spec_utils'
+import { humanizeDom, humanizeDomSourceSpans, humanizeLineColumn } from '../src/ast_spec_utils'
 
 // AST output is humanized to an array
 // [type, tagName | attrName | text, index, implicitNs]
@@ -24,21 +20,16 @@ import {
     describe('parse', () => {
       describe('HTML5 doctype', () => {
         it('should parse doctype', () => {
-          expect(
-            humanizeDom(parser.parse('<!doctype html>', 'TestComp'))
-          ).toEqual([[html.Doctype, 'doctype html', 0]])
+          expect(humanizeDom(parser.parse('<!doctype html>', 'TestComp'))).toEqual([
+            [html.Doctype, 'doctype html', 0]
+          ])
         })
       })
 
       describe('vue', () => {
         it('should support colon and @ prefixed attributes', () => {
           expect(
-            humanizeDom(
-              parser.parse(
-                '<div :md-date.sync="" @md-closed="toggleDialog">',
-                'TestComp'
-              )
-            )
+            humanizeDom(parser.parse('<div :md-date.sync="" @md-closed="toggleDialog">', 'TestComp'))
           ).toEqual([
             [html.Element, 'div', 0],
             [html.Attribute, ':md-date.sync', ''],
@@ -49,9 +40,7 @@ import {
 
       describe('interpolation', () => {
         it('should parse as text', () => {
-          expect(humanizeDom(parser.parse('{{ foo }}', 'TestComp'))).toEqual([
-            [html.Text, '{{ foo }}', 0]
-          ])
+          expect(humanizeDom(parser.parse('{{ foo }}', 'TestComp'))).toEqual([[html.Text, '{{ foo }}', 0]])
         })
       })
 
@@ -90,11 +79,7 @@ import {
             )
           ).toEqual([
             [html.Element, 'SCRIPT', 0],
-            [
-              html.Attribute,
-              'src',
-              'https://www.google-analytics.com/analytics.js'
-            ],
+            [html.Attribute, 'src', 'https://www.google-analytics.com/analytics.js'],
             [html.Attribute, 'ASYNC', ''],
             [html.Attribute, 'DEFER', '']
           ])
@@ -102,9 +87,9 @@ import {
 
         it('should parse tag case sensitive', () => {
           parser = new HtmlParser({ ignoreFirstLf: false })
-          expect(
-            humanizeDom(parser.parse('<SCRIPT></SCRIPT>', 'TestComp'))
-          ).toEqual([[html.Element, 'SCRIPT', 0]])
+          expect(humanizeDom(parser.parse('<SCRIPT></SCRIPT>', 'TestComp'))).toEqual([
+            [html.Element, 'SCRIPT', 0]
+          ])
         })
 
         it('should parse void elements case sensitive', () => {
@@ -112,85 +97,62 @@ import {
             ignoreFirstLf: false,
             selfClosingElements: true
           })
-          expect(humanizeDom(parser.parse('<Input/>', 'TestComp'))).toEqual([
-            [html.Element, 'Input', 0]
-          ])
+          expect(humanizeDom(parser.parse('<Input/>', 'TestComp'))).toEqual([[html.Element, 'Input', 0]])
         })
       })
 
       describe('Custom self-closing elements', () => {
         it('should be able to parse any custom element as self-closing tag', () => {
           const parser = new HtmlParser({ selfClosingCustomElements: true })
-          expect(humanizeDom(parser.parse('<custom/>', 'TestComp'))).toEqual([
-            [html.Element, 'custom', 0]
-          ])
+          expect(humanizeDom(parser.parse('<custom/>', 'TestComp'))).toEqual([[html.Element, 'custom', 0]])
         })
       })
 
       describe('text nodes', () => {
         it('should parse root level text nodes', () => {
-          expect(humanizeDom(parser.parse('a', 'TestComp'))).toEqual([
-            [html.Text, 'a', 0]
-          ])
+          expect(humanizeDom(parser.parse('a', 'TestComp'))).toEqual([[html.Text, 'a', 0]])
         })
 
         it('should parse text nodes inside regular elements', () => {
-          expect(humanizeDom(parser.parse('<div>a</div>', 'TestComp'))).toEqual(
-            [[html.Element, 'div', 0], [html.Text, 'a', 1]]
-          )
+          expect(humanizeDom(parser.parse('<div>a</div>', 'TestComp'))).toEqual([
+            [html.Element, 'div', 0],
+            [html.Text, 'a', 1]
+          ])
         })
 
         it('should parse text nodes inside <ng-template> elements', () => {
-          expect(
-            humanizeDom(
-              parser.parse('<ng-template>a</ng-template>', 'TestComp')
-            )
-          ).toEqual([[html.Element, 'ng-template', 0], [html.Text, 'a', 1]])
+          expect(humanizeDom(parser.parse('<ng-template>a</ng-template>', 'TestComp'))).toEqual([
+            [html.Element, 'ng-template', 0],
+            [html.Text, 'a', 1]
+          ])
         })
 
         it('should parse CDATA', () => {
-          expect(
-            humanizeDom(parser.parse('<![CDATA[text]]>', 'TestComp'))
-          ).toEqual([[html.Text, 'text', 0]])
+          expect(humanizeDom(parser.parse('<![CDATA[text]]>', 'TestComp'))).toEqual([[html.Text, 'text', 0]])
         })
       })
 
       describe('elements', () => {
         it('should parse root level elements', () => {
-          expect(humanizeDom(parser.parse('<div></div>', 'TestComp'))).toEqual([
-            [html.Element, 'div', 0]
-          ])
+          expect(humanizeDom(parser.parse('<div></div>', 'TestComp'))).toEqual([[html.Element, 'div', 0]])
         })
 
         it('should parse elements inside of regular elements', () => {
-          expect(
-            humanizeDom(parser.parse('<div><span></span></div>', 'TestComp'))
-          ).toEqual([[html.Element, 'div', 0], [html.Element, 'span', 1]])
+          expect(humanizeDom(parser.parse('<div><span></span></div>', 'TestComp'))).toEqual([
+            [html.Element, 'div', 0],
+            [html.Element, 'span', 1]
+          ])
         })
 
         it('should parse elements inside <ng-template> elements', () => {
-          expect(
-            humanizeDom(
-              parser.parse(
-                '<ng-template><span></span></ng-template>',
-                'TestComp'
-              )
-            )
-          ).toEqual([
+          expect(humanizeDom(parser.parse('<ng-template><span></span></ng-template>', 'TestComp'))).toEqual([
             [html.Element, 'ng-template', 0],
             [html.Element, 'span', 1]
           ])
         })
 
         it('should support void elements', () => {
-          expect(
-            humanizeDom(
-              parser.parse(
-                '<link rel="author license" href="/about">',
-                'TestComp'
-              )
-            )
-          ).toEqual([
+          expect(humanizeDom(parser.parse('<link rel="author license" href="/about">', 'TestComp'))).toEqual([
             [html.Element, 'link', 0],
             [html.Attribute, 'rel', 'author license'],
             [html.Attribute, 'href', '/about']
@@ -199,12 +161,7 @@ import {
 
         it('should parse image with closed tag in svg space', () => {
           expect(
-            humanizeDom(
-              parser.parse(
-                '<svg><image src="http://image.de"></image></svg>',
-                'TestComp'
-              )
-            )
+            humanizeDom(parser.parse('<svg><image src="http://image.de"></image></svg>', 'TestComp'))
           ).toEqual([
             [html.Element, ':svg:svg', 0, true],
             [html.Element, ':svg:image', 1, true],
@@ -213,21 +170,14 @@ import {
         })
 
         it('should parse image as void element in html space', () => {
-          expect(
-            humanizeDom(
-              parser.parse('<image src="http://image.de">', 'TestComp')
-            )
-          ).toEqual([
+          expect(humanizeDom(parser.parse('<image src="http://image.de">', 'TestComp'))).toEqual([
             [html.Element, 'image', 0],
             [html.Attribute, 'src', 'http://image.de']
           ])
         })
 
         it('should error when image is used with closed tag in html space', () => {
-          const errors = parser.parse(
-            '<image src="http://image.de"></image>',
-            'TestComp'
-          ).errors
+          const errors = parser.parse('<image src="http://image.de"></image>', 'TestComp').errors
           expect(errors.length).toEqual(1)
           expect(humanizeErrors(errors)).toEqual([
             ['image', 'Void elements do not have end tags "image"', '0:29']
@@ -259,9 +209,7 @@ import {
         })
 
         it('should close void elements on text nodes', () => {
-          expect(
-            humanizeDom(parser.parse('<p>before<br>after</p>', 'TestComp'))
-          ).toEqual([
+          expect(humanizeDom(parser.parse('<p>before<br>after</p>', 'TestComp'))).toEqual([
             [html.Element, 'p', 0],
             [html.Text, 'before', 1],
             [html.Element, 'br', 1],
@@ -270,9 +218,7 @@ import {
         })
 
         it('should support optional end tags', () => {
-          expect(
-            humanizeDom(parser.parse('<div><p>1<p>2</div>', 'TestComp'))
-          ).toEqual([
+          expect(humanizeDom(parser.parse('<div><p>1<p>2</div>', 'TestComp'))).toEqual([
             [html.Element, 'div', 0],
             [html.Element, 'p', 1],
             [html.Text, '1', 2],
@@ -282,11 +228,7 @@ import {
         })
 
         it('should support nested elements', () => {
-          expect(
-            humanizeDom(
-              parser.parse('<ul><li><ul><li></li></ul></li></ul>', 'TestComp')
-            )
-          ).toEqual([
+          expect(humanizeDom(parser.parse('<ul><li><ul><li></li></ul></li></ul>', 'TestComp'))).toEqual([
             [html.Element, 'ul', 0],
             [html.Element, 'li', 1],
             [html.Element, 'ul', 2],
@@ -297,14 +239,7 @@ import {
         // https://github.com/Prettyhtml/prettyhtml/issues/46
         it('should not add the requiredParent by default', () => {
           parser = new HtmlParser()
-          expect(
-            humanizeDom(
-              parser.parse(
-                `<draggable><tr><td></td></tr></draggable>`,
-                'TestComp'
-              )
-            )
-          ).toEqual([
+          expect(humanizeDom(parser.parse(`<draggable><tr><td></td></tr></draggable>`, 'TestComp'))).toEqual([
             [html.Element, 'draggable', 0],
             [html.Element, 'tr', 1],
             [html.Element, 'td', 2]
@@ -340,12 +275,7 @@ import {
         it('should append the required parent considering ng-container', () => {
           parser = new HtmlParser({ insertRequiredParents: true })
           expect(
-            humanizeDom(
-              parser.parse(
-                '<table><ng-container><tr></tr></ng-container></table>',
-                'TestComp'
-              )
-            )
+            humanizeDom(parser.parse('<table><ng-container><tr></tr></ng-container></table>', 'TestComp'))
           ).toEqual([
             [html.Element, 'table', 0],
             [html.Element, 'tbody', 1],
@@ -357,27 +287,15 @@ import {
         it('should append the required parent considering top level ng-container', () => {
           parser = new HtmlParser({ insertRequiredParents: true })
           expect(
-            humanizeDom(
-              parser.parse(
-                '<ng-container><tr></tr></ng-container><p></p>',
-                'TestComp'
-              )
-            )
-          ).toEqual([
-            [html.Element, 'ng-container', 0],
-            [html.Element, 'tr', 1],
-            [html.Element, 'p', 0]
-          ])
+            humanizeDom(parser.parse('<ng-container><tr></tr></ng-container><p></p>', 'TestComp'))
+          ).toEqual([[html.Element, 'ng-container', 0], [html.Element, 'tr', 1], [html.Element, 'p', 0]])
         })
 
         it('should special case ng-container when adding a required parent', () => {
           parser = new HtmlParser({ insertRequiredParents: true })
           expect(
             humanizeDom(
-              parser.parse(
-                '<table><thead><ng-container><tr></tr></ng-container></thead></table>',
-                'TestComp'
-              )
+              parser.parse('<table><thead><ng-container><tr></tr></ng-container></thead></table>', 'TestComp')
             )
           ).toEqual([
             [html.Element, 'table', 0],
@@ -389,25 +307,22 @@ import {
 
         it('should not add the requiredParent when the parent is a <ng-template>', () => {
           parser = new HtmlParser({ insertRequiredParents: true })
-          expect(
-            humanizeDom(
-              parser.parse('<ng-template><tr></tr></ng-template>', 'TestComp')
-            )
-          ).toEqual([[html.Element, 'ng-template', 0], [html.Element, 'tr', 1]])
+          expect(humanizeDom(parser.parse('<ng-template><tr></tr></ng-template>', 'TestComp'))).toEqual([
+            [html.Element, 'ng-template', 0],
+            [html.Element, 'tr', 1]
+          ])
         })
 
         // https://github.com/angular/angular/issues/5967
         it('should not add the requiredParent to a template root element', () => {
           parser = new HtmlParser({ insertRequiredParents: true })
-          expect(humanizeDom(parser.parse('<tr></tr>', 'TestComp'))).toEqual([
-            [html.Element, 'tr', 0]
-          ])
+          expect(humanizeDom(parser.parse('<tr></tr>', 'TestComp'))).toEqual([[html.Element, 'tr', 0]])
         })
 
         it('should support explicit namespace', () => {
-          expect(
-            humanizeDom(parser.parse('<myns:div></myns:div>', 'TestComp'))
-          ).toEqual([[html.Element, ':myns:div', 0]])
+          expect(humanizeDom(parser.parse('<myns:div></myns:div>', 'TestComp'))).toEqual([
+            [html.Element, ':myns:div', 0]
+          ])
         })
 
         it('should support implicit namespace', () => {
@@ -417,29 +332,21 @@ import {
         })
 
         it('should support implicit namespace on nested elements', () => {
-          expect(
-            humanizeDom(parser.parse('<svg><g></g></svg>', 'TestComp'))
-          ).toEqual([
+          expect(humanizeDom(parser.parse('<svg><g></g></svg>', 'TestComp'))).toEqual([
             [html.Element, ':svg:svg', 0, true],
             [html.Element, ':svg:g', 1, true]
           ])
         })
 
         it('should set flag that namespace was set implicitly', () => {
-          expect(
-            humanizeDom(parser.parse('<svg><g></g></svg>', 'TestComp'))
-          ).toEqual([
+          expect(humanizeDom(parser.parse('<svg><g></g></svg>', 'TestComp'))).toEqual([
             [html.Element, ':svg:svg', 0, true],
             [html.Element, ':svg:g', 1, true]
           ])
         })
 
         it('should propagate the namespace', () => {
-          expect(
-            humanizeDom(
-              parser.parse('<myns:div><p></p></myns:div>', 'TestComp')
-            )
-          ).toEqual([
+          expect(humanizeDom(parser.parse('<myns:div><p></p></myns:div>', 'TestComp'))).toEqual([
             [html.Element, ':myns:div', 0],
             [html.Element, ':myns:p', 1, true]
           ])
@@ -463,9 +370,7 @@ import {
         })
 
         it('should support self closing void elements', () => {
-          expect(humanizeDom(parser.parse('<input />', 'TestComp'))).toEqual([
-            [html.Element, 'input', 0]
-          ])
+          expect(humanizeDom(parser.parse('<input />', 'TestComp'))).toEqual([[html.Element, 'input', 0]])
         })
 
         it('should support self closing foreign elements', () => {
@@ -496,9 +401,7 @@ import {
 
       describe('attributes', () => {
         it('should parse attributes on regular elements case sensitive', () => {
-          expect(
-            humanizeDom(parser.parse('<div kEy="v" key2=v2></div>', 'TestComp'))
-          ).toEqual([
+          expect(humanizeDom(parser.parse('<div kEy="v" key2=v2></div>', 'TestComp'))).toEqual([
             [html.Element, 'div', 0],
             [html.Attribute, 'kEy', 'v'],
             [html.Attribute, 'key2', 'v2']
@@ -506,37 +409,28 @@ import {
         })
 
         it('should parse attributes without values', () => {
-          expect(
-            humanizeDom(parser.parse('<div k></div>', 'TestComp'))
-          ).toEqual([[html.Element, 'div', 0], [html.Attribute, 'k', '']])
+          expect(humanizeDom(parser.parse('<div k></div>', 'TestComp'))).toEqual([
+            [html.Element, 'div', 0],
+            [html.Attribute, 'k', '']
+          ])
         })
 
         it('should parse attributes on svg elements case sensitive', () => {
-          expect(
-            humanizeDom(parser.parse('<svg viewBox="0"></svg>', 'TestComp'))
-          ).toEqual([
+          expect(humanizeDom(parser.parse('<svg viewBox="0"></svg>', 'TestComp'))).toEqual([
             [html.Element, ':svg:svg', 0, true],
             [html.Attribute, 'viewBox', '0']
           ])
         })
 
         it('should parse attributes on <ng-template> elements', () => {
-          expect(
-            humanizeDom(
-              parser.parse('<ng-template k="v"></ng-template>', 'TestComp')
-            )
-          ).toEqual([
+          expect(humanizeDom(parser.parse('<ng-template k="v"></ng-template>', 'TestComp'))).toEqual([
             [html.Element, 'ng-template', 0],
             [html.Attribute, 'k', 'v']
           ])
         })
 
         it('should support namespace', () => {
-          expect(
-            humanizeDom(
-              parser.parse('<svg:use xlink:href="Port" />', 'TestComp')
-            )
-          ).toEqual([
+          expect(humanizeDom(parser.parse('<svg:use xlink:href="Port" />', 'TestComp'))).toEqual([
             [html.Element, ':svg:use', 0],
             [html.Attribute, ':xlink:href', 'Port']
           ])
@@ -546,18 +440,14 @@ import {
       describe('entities', () => {
         it('should not decode entities with only ampersand and #', () => {
           parser = new HtmlParser({ decodeEntities: false })
-          expect(
-            humanizeDom(parser.parse('<div [icon]="&#"></div>', 'TestComp'))
-          ).toEqual([
+          expect(humanizeDom(parser.parse('<div [icon]="&#"></div>', 'TestComp'))).toEqual([
             [html.Element, 'div', 0],
             [html.Attribute, '[icon]', '&#']
           ])
         })
         it('should not decode entities', () => {
           parser = new HtmlParser({ decodeEntities: false })
-          expect(
-            humanizeDom(parser.parse('<div [icon]="&#333;"></div>', 'TestComp'))
-          ).toEqual([
+          expect(humanizeDom(parser.parse('<div [icon]="&#333;"></div>', 'TestComp'))).toEqual([
             [html.Element, 'div', 0],
             [html.Attribute, '[icon]', '&#333;']
           ])
@@ -566,17 +456,14 @@ import {
 
       describe('comments', () => {
         it('should preserve comments', () => {
-          expect(
-            humanizeDom(parser.parse('<!-- comment --><div></div>', 'TestComp'))
-          ).toEqual([[html.Comment, ' comment ', 0], [html.Element, 'div', 0]])
+          expect(humanizeDom(parser.parse('<!-- comment --><div></div>', 'TestComp'))).toEqual([
+            [html.Comment, ' comment ', 0],
+            [html.Element, 'div', 0]
+          ])
         })
 
         it('should preserve whitespaces and newlines in comments', () => {
-          expect(
-            humanizeDom(
-              parser.parse('<!-- \ncomment\n --><div></div>', 'TestComp')
-            )
-          ).toEqual([
+          expect(humanizeDom(parser.parse('<!-- \ncomment\n --><div></div>', 'TestComp'))).toEqual([
             [html.Comment, ' \ncomment\n ', 0],
             [html.Element, 'div', 0]
           ])
@@ -587,18 +474,10 @@ import {
         it('should store the location', () => {
           expect(
             humanizeDomSourceSpans(
-              parser.parse(
-                '<div [prop]="v1" (e)="do()" attr="v2" noValue>\na\n</div>',
-                'TestComp'
-              )
+              parser.parse('<div [prop]="v1" (e)="do()" attr="v2" noValue>\na\n</div>', 'TestComp')
             )
           ).toEqual([
-            [
-              html.Element,
-              'div',
-              0,
-              '<div [prop]="v1" (e)="do()" attr="v2" noValue>'
-            ],
+            [html.Element, 'div', 0, '<div [prop]="v1" (e)="do()" attr="v2" noValue>'],
             [html.Attribute, '[prop]', 'v1', '[prop]="v1"'],
             [html.Attribute, '(e)', 'do()', '(e)="do()"'],
             [html.Attribute, 'attr', 'v2', 'attr="v2"'],
@@ -608,9 +487,7 @@ import {
         })
 
         it('should set the start and end source spans', () => {
-          const node = <html.Element>(
-            parser.parse('<div>a</div>', 'TestComp').rootNodes[0]
-          )
+          const node = <html.Element>parser.parse('<div>a</div>', 'TestComp').rootNodes[0]
 
           expect(node.startSourceSpan!.start.offset).toEqual(0)
           expect(node.startSourceSpan!.end.offset).toEqual(5)
@@ -621,9 +498,7 @@ import {
 
         it('should not report a value span for an attribute without a value', () => {
           const ast = parser.parse('<div bar></div>', 'TestComp')
-          expect(
-            (ast.rootNodes[0] as html.Element).attrs[0].valueSpan
-          ).toBeUndefined()
+          expect((ast.rootNodes[0] as html.Element).attrs[0].valueSpan).toBeUndefined()
         })
 
         it('should report a value span for an attribute with a value', () => {
@@ -660,17 +535,12 @@ import {
         })
 
         it('should visit attribute nodes', () => {
-          const result = humanizeDom(
-            parser.parse('<div id="foo"></div>', 'TestComp')
-          )
+          const result = humanizeDom(parser.parse('<div id="foo"></div>', 'TestComp'))
           expect(result).toContainEqual([html.Attribute, 'id', 'foo'])
         })
 
         it('should visit all nodes', () => {
-          const result = parser.parse(
-            '<div id="foo"><span id="bar">a</span><span>b</span></div>',
-            'TestComp'
-          )
+          const result = parser.parse('<div id="foo"><span id="bar">a</span><span>b</span></div>', 'TestComp')
           const accumulator: html.Node[] = []
           const visitor = new class {
             visit(node: html.Node, context: any) {
@@ -719,10 +589,7 @@ import {
               throw Error('Unexpected')
             }
           }()
-          const result = parser.parse(
-            '<div id="foo"></div><div id="bar"></div>',
-            'TestComp'
-          )
+          const result = parser.parse('<div id="foo"></div><div id="bar"></div>', 'TestComp')
           const traversal = html.visitAll(visitor, result.rootNodes)
           expect(traversal).toEqual([true, true])
         })
@@ -765,11 +632,7 @@ import {
           const errors = parser.parse('<p />', 'TestComp').errors
           expect(errors.length).toEqual(1)
           expect(humanizeErrors(errors)).toEqual([
-            [
-              'p',
-              'Only void, foreign or custom elements can be self closed "p"',
-              '0:0'
-            ]
+            ['p', 'Only void, foreign or custom elements can be self closed "p"', '0:0']
           ])
         })
 
@@ -777,17 +640,12 @@ import {
           const errors = parser.parse('<my-cmp />', 'TestComp').errors
           expect(errors.length).toEqual(1)
           expect(humanizeErrors(errors)).toEqual([
-            [
-              'my-cmp',
-              'Only void, foreign or custom elements can be self closed "my-cmp"',
-              '0:0'
-            ]
+            ['my-cmp', 'Only void, foreign or custom elements can be self closed "my-cmp"', '0:0']
           ])
         })
 
         it('should also report lexer errors', () => {
-          const errors = parser.parse('<!-err--><div></p></div>', 'TestComp')
-            .errors
+          const errors = parser.parse('<!-err--><div></p></div>', 'TestComp').errors
           expect(errors.length).toEqual(2)
           expect(humanizeErrors(errors)).toEqual([
             [TokenType.COMMENT_START, 'Unexpected character "e"', '0:3'],

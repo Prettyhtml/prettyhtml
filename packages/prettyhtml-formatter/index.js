@@ -1,3 +1,5 @@
+/* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["node"] }] */
+
 'use strict'
 
 const minify = require('@starptech/rehype-minify-whitespace')({
@@ -28,11 +30,11 @@ const CONDITIONAL_COMMENT_REGEXP = /^\s*\[if .*/
 /* Format white-space. */
 function format(options) {
   const settings = options || {}
-  let tabWidth = settings.tabWidth || 2
-  let useTabs = settings.useTabs
-  let indentInitial = settings.indentInitial
-  let usePrettier = settings.usePrettier !== false
-  let prettierOpts = settings.prettier
+  const tabWidth = settings.tabWidth || 2
+  const { useTabs } = settings
+  let { indentInitial } = settings
+  const usePrettier = settings.usePrettier !== false
+  const prettierOpts = settings.prettier
   let indent
 
   if (useTabs) {
@@ -50,27 +52,17 @@ function format(options) {
     if (is('comment', node)) {
       if (node.value.indexOf('prettyhtml-ignore') !== -1) {
         return setAttributeOnChildren(node, parents, 'ignore', true)
-      } else if (node.value.indexOf('prettyhtml-preserve-whitespace') !== -1) {
+      }
+      if (node.value.indexOf('prettyhtml-preserve-whitespace') !== -1) {
         return setAttributeOnChildren(node, parents, 'preserveWhitespace', true)
-      } else if (
-        node.value.indexOf('prettyhtml-preserve-attribute-wrapping') !== -1
-      ) {
-        return setAttributeOnChildren(
-          node,
-          parents,
-          'preserveAttrWrapping',
-          true
-        )
+      }
+      if (node.value.indexOf('prettyhtml-preserve-attribute-wrapping') !== -1) {
+        return setAttributeOnChildren(node, parents, 'preserveAttrWrapping', true)
       }
     }
   }
 
-  function setAttributeOnChildren(
-    node,
-    parents,
-    attributeName,
-    attributeValue
-  ) {
+  function setAttributeOnChildren(node, parents, attributeName, attributeValue) {
     const parent = parents[parents.length - 1]
     const nodeIndex = parent ? parent.children.indexOf(node) : null
     if (nodeIndex !== null) {
@@ -90,7 +82,7 @@ function format(options) {
 
     visit(tree, markIgnoreVisitor)
 
-    let root = minify(tree)
+    const root = minify(tree)
 
     visit(root, visitor)
 
@@ -98,10 +90,9 @@ function format(options) {
 
     function visitor(node, parents) {
       // holds a copy of the children
-      let children = node.children || []
-      let length = children.length
+      const children = node.children || []
+      const { length } = children
       let index = -1
-      let result
       let child
       let level = parents.length
 
@@ -127,9 +118,9 @@ function format(options) {
         // clear empty script, textarea, pre, style tags
         if (length) {
           const empty = hasOnlyEmptyTextChildren(node)
-          const isEmbeddedContent =
-            isElement(node, 'style') || isElement(node, 'script')
+          const isEmbeddedContent = isElement(node, 'style') || isElement(node, 'script')
           if (empty) {
+            // eslint-disable-next-line no-param-reassign
             node.children = []
           }
           if (usePrettier && !empty && isEmbeddedContent) {
@@ -151,7 +142,8 @@ function format(options) {
        */
       index = -1
       while (++index < length) {
-        let child = children[index]
+        // eslint-disable-next-line no-shadow
+        const child = children[index]
 
         // only indent text in nodes
         // root text nodes should't influence other root nodes^^
@@ -167,12 +159,12 @@ function format(options) {
           child.value = child.value
             // reduce newlines to one newline
             // $& contains the lastMatch
-            .replace(re, '$&' + repeat(indent, level))
+            .replace(re, `$&${repeat(indent, level)}`)
         }
       }
 
       // reset
-      result = []
+      const result = []
       index = -1
       node.children = result
 
@@ -184,7 +176,7 @@ function format(options) {
         while (++index < length) {
           child = children[index]
 
-          let indentLevel = level
+          const indentLevel = level
 
           setNodeData(child, 'indentLevel', indentLevel)
 
@@ -264,7 +256,7 @@ function containsNewline(node) {
  * -->
  */
 function indentComment(node, indent, level) {
-  let commentLines = node.value.split(single)
+  const commentLines = node.value.split(single)
   if (commentLines.length > 1) {
     commentLines[commentLines.length - 1] =
       repeat(indent, level - 1) + commentLines[commentLines.length - 1].trim()
@@ -302,7 +294,7 @@ function peekCollpase(node, children) {
   let index = -1
   let prevChild = false
   while (++index < children.length) {
-    let child = children[index]
+    const child = children[index]
     if (insertNewlineBeforeNode(node, children, child, index, prevChild)) {
       return true
     }
@@ -402,11 +394,7 @@ function hasOnlyEmptyTextChildren(node) {
 
 function isElementAfterConditionalComment(node, child, index, prev) {
   // insert double newline when conditional comment is before element
-  if (
-    is('comment', prev) &&
-    CONDITIONAL_COMMENT_REGEXP.test(prev.value) &&
-    isElement(child)
-  ) {
+  if (is('comment', prev) && CONDITIONAL_COMMENT_REGEXP.test(prev.value) && isElement(child)) {
     return true
   }
   return false
@@ -435,7 +423,7 @@ function isVoid(node) {
 }
 
 function ignore(nodes) {
-  var index = nodes.length
+  let index = nodes.length
 
   while (index--) {
     if (sensitive.indexOf(nodes[index].tagName) !== -1) {
@@ -466,13 +454,9 @@ function prettierEmbeddedContent(node, level, indent, prettierOpts) {
   )
 
   if (isScriptTag) {
-    formattedText = formattedText
-      .replace(/^<script.*>\n*/, '')
-      .replace(/<\/script\s*>\s*$/, '')
+    formattedText = formattedText.replace(/^<script.*>\n*/, '').replace(/<\/script\s*>\s*$/, '')
   } else if (isStyleTag) {
-    formattedText = formattedText
-      .replace(/^<style.*>\n*/, '')
-      .replace(/<\/style\s*>\s*$/, '')
+    formattedText = formattedText.replace(/^<style.*>\n*/, '').replace(/<\/style\s*>\s*$/, '')
   }
 
   node.children = [
@@ -493,13 +477,13 @@ function prettierEmbeddedContent(node, level, indent, prettierOpts) {
 }
 
 function setNodeData(node, key, value) {
-  let data = node.data || {}
+  const data = node.data || {}
   node.data = data
   node.data[key] = value
 }
 
 function isPageMode(ast) {
-  return !find(ast, function(node) {
+  return !find(ast, function findCondition(node) {
     return isElement(node, ['html', 'body', 'head'])
   })
 }

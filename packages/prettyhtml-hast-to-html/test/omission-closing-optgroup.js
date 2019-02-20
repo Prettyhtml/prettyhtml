@@ -5,11 +5,7 @@ var h = require('@starptech/prettyhtml-hastscript')
 var to = require('..')
 
 test('`optgroup` (closing)', function(t) {
-  t.deepEqual(
-    to(h('optgroup'), { omitOptionalTags: true }),
-    '<optgroup>',
-    'should omit tag without parent'
-  )
+  t.deepEqual(to(h('optgroup'), { omitOptionalTags: true }), '<optgroup>', 'should omit tag without parent')
 
   t.deepEqual(
     to(h('select', h('optgroup')), { omitOptionalTags: true }),
