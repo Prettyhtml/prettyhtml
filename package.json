@@ -9,9 +9,8 @@
     "prettify": "prettier --write \"./**/*.js\" --write \"./**/*.ts\"",
     "test": "lerna exec --parallel -- yarn test",
     "lint": "eslint .",
-    "lock": "lerna exec -- yarn i --package-lock-only",
     "format": "prettier --write 'packages/**/*.{js,ts,md}'",
-    "build-ts": "lerna exec --parallel --scope @starptech/hast-util-from-webparser --scope @starptech/webparser --scope @starptech/rehype-webparser -- yarn run build-ts"
+    "build-ts": "lerna exec --scope @starptech/webparser --scope @starptech/hast-util-from-webparser --scope @starptech/rehype-webparser -- yarn run build-ts"
   },
   "husky": {
     "hooks": {
