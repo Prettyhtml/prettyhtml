@@ -16,5 +16,7 @@ jobs:
         displayName: 'Install Node.js'
       - script: yarn
         displayName: 'Install dependencies'
+      - script: yarn build-ts
+        displayName: 'Build'
       - script: yarn test
         displayName: 'Run tests'
