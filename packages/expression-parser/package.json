@@ -1,6 +1,6 @@
 {
   "name": "@starptech/expression-parser",
-  "version": "0.8.15",
+  "version": "0.8.17",
   "description": "Framework agnostic template expression parser",
   "main": "index.js",
   "repository": {
