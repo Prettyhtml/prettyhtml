@@ -14,8 +14,8 @@
     "rehype": "^6.0.0"
   },
   "dependencies": {
-    "hast-util-has-property": "^1.0.0",
-    "unist-util-visit": "^1.0.0"
+    "hast-util-has-property": "^1.0.2",
+    "unist-util-visit": "^1.4.0"
   },
   "files": [
     "index.js"

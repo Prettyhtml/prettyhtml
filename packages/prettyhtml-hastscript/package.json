@@ -29,13 +29,13 @@
   ],
   "dependencies": {
     "comma-separated-tokens": "^1.0.5",
-    "hast-util-parse-selector": "^2.2.0",
+    "hast-util-parse-selector": "^2.2.1",
     "property-information": "^5.0.1",
     "space-separated-tokens": "^1.1.2"
   },
   "devDependencies": {
-    "ava": "^1.2.1",
-    "nyc": "^13.0.1"
+    "ava": "^1.4.1",
+    "nyc": "^13.3.0"
   },
   "scripts": {
     "test": "ava",

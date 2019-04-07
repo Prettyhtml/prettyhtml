@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/StarpTech/prettyhtml#readme",
   "devDependencies": {
-    "ava": "^1.2.1"
+    "ava": "^1.4.1"
   },
   "nyc": {
     "check-coverage": true,
