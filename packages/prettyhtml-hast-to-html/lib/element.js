@@ -13,17 +13,17 @@ const repeat = require('repeat-string')
 module.exports = element
 
 /* Constants. */
-var EMPTY = ''
+var emptyString = ''
 
 /* Characters. */
-var SPACE = ' '
-var DQ = '"'
-var SQ = "'"
-var EQ = '='
-var LT = '<'
-var GT = '>'
-var SO = '/'
-var LF = '\n'
+var space = ' '
+var quotationMark = '"'
+var apostrophe = "'"
+var equalsTo = '='
+var lessThan = '<'
+var greaterThan = '>'
+var slash = '/'
+var newLine = '\n'
 
 /* Stringify an element `node`. */
 function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
@@ -67,18 +67,18 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
   }
 
   // <
-  printContext.offset += LT.length
+  printContext.offset += lessThan.length
 
   // tagName length
   printContext.offset += node.tagName.length
 
   // / closing tag
   if (selfClosing && !isVoid) {
-    printContext.offset += SO.length
+    printContext.offset += slash.length
   }
 
   // >
-  printContext.offset += GT.length
+  printContext.offset += greaterThan.length
 
   const propertyCount = Object.keys(node.properties).length
 
@@ -90,7 +90,7 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
 
   // one space before each attribute
   if (propertyCount) {
-    printContext.offset += propertyCount * SPACE.length
+    printContext.offset += propertyCount * space.length
   }
 
   // represent the length of the inner text of the node
@@ -110,14 +110,14 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
   selfClosing = content ? false : selfClosing
 
   if (attrs || !omit || !omit.opening(node, index, parent)) {
-    value = LT + name
+    value = lessThan + name
 
     if (attrs) {
       // add no space after tagName when element is collapsed
       if (shouldCollapse) {
         value += attrs
       } else {
-        value += SPACE + attrs
+        value += space + attrs
       }
     }
 
@@ -125,41 +125,41 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
 
     // check if the should close self-closing elements
     if (selfClosing && close) {
-      if (attrs.charAt(attrs.length - 1) === SO) {
-        value += SPACE
+      if ((!ctx.tightClose || attrs.charAt(attrs.length - 1) === slash) && !shouldCollapse) {
+        value += space
       }
 
       if (shouldCollapse) {
-        value += LF + repeat(ctx.tabWidth, printContext.indentLevel)
+        value += newLine + repeat(ctx.tabWidth, printContext.indentLevel)
       }
 
       selfClosed = true
-      value += SO
+      value += slash
     }
 
     // allow any element to self close itself except known HTML void elements
     else if (selfClosing && !isVoid) {
       if (shouldCollapse) {
-        value += LF + repeat(ctx.tabWidth, printContext.indentLevel)
+        value += newLine + repeat(ctx.tabWidth, printContext.indentLevel)
       }
 
       selfClosed = true
-      value += SO
+      value += slash
     }
 
     // add newline when element should be wrappend on multiple lines and when
     // it's no self-closing element because in that case the newline was already added before the slash (/)
     if (shouldCollapse && !selfClosed) {
-      value += LF + repeat(ctx.tabWidth, printContext.indentLevel)
+      value += newLine + repeat(ctx.tabWidth, printContext.indentLevel)
     }
 
-    value += GT
+    value += greaterThan
   }
 
   value += content
 
   if (!selfClosing && (!omit || !omit.closing(node, index, parent))) {
-    value += LT + SO + name + GT
+    value += lessThan + slash + name + greaterThan
   }
 
   ctx.schema = parentSchema
@@ -205,18 +205,18 @@ function attributes(ctx, props, printContext, ignoreIndent) {
     last = null
 
     /* In tight mode, don’t add a space after quoted attributes. */
-    if (last !== DQ && last !== SQ) {
+    if (last !== quotationMark && last !== apostrophe) {
       if (printContext.wrapAttributes) {
-        values[index] = LF + repeat(ctx.tabWidth, printContext.indentLevel + 1) + result
+        values[index] = newLine + repeat(ctx.tabWidth, printContext.indentLevel + 1) + result
       } else if (index !== length - 1) {
-        values[index] = result + SPACE
+        values[index] = result + space
       } else {
         values[index] = result
       }
     }
   }
 
-  return values.join(EMPTY)
+  return values.join(emptyString)
 }
 
 /* Stringify one attribute. */
@@ -226,7 +226,7 @@ function attribute(ctx, key, value) {
   var name = info.attribute
 
   if (value == null || (typeof value === 'number' && isNaN(value)) || (value === false && info.boolean)) {
-    return EMPTY
+    return emptyString
   }
 
   name = attributeName(ctx, name)
@@ -265,7 +265,7 @@ function attributeValue(ctx, key, value, info) {
   if (value === '') {
     return value
   } else {
-    value = EQ + quote + value + quote
+    value = equalsTo + quote + value + quote
   }
 
   return value

@@ -42,6 +42,8 @@ function toHTML(node, options) {
       tightLists: settings.tightCommaSeparatedLists,
       voids: settings.voids || voids.concat(),
       entities: settings.entities || {},
+      close: settings.closeSelfClosing,
+      tightClose: settings.tightSelfClosing,
       closeEmpty: settings.closeEmptyElements
     },
     node

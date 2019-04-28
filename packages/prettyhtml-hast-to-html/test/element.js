@@ -23,4 +23,10 @@ test('`element`', function(t) {
     '<template><p><b>Bold</b> and <i>italic</i>.</p></template>',
     'should support `<template>`s content'
   )
+
+  t.deepEqual(
+    to(h('img'), { closeSelfClosing: true, tightSelfClosing: true }),
+    '<img/>',
+    'should stringify voids with `/` in `closeSelfClosing` and `tightSelfClosing` mode'
+  )
 })

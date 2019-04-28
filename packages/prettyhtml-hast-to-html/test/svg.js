@@ -19,7 +19,7 @@ test('svg', function(t) {
 
   t.deepEqual(
     to(s('circle'), { space: 'svg', closeEmptyElements: true }),
-    '<circle/>',
+    '<circle />',
     'should stringify with ` /` in `closeEmptyElements` mode'
   )
 
@@ -27,6 +27,16 @@ test('svg', function(t) {
     to(s('text', { dataFoo: 'alpha' }, 'bravo')),
     '<text data-foo="alpha">bravo</text>',
     'should stringify properties'
+  )
+
+  t.deepEqual(
+    to(s('circle'), {
+      space: 'svg',
+      closeEmptyElements: true,
+      tightSelfClosing: true
+    }),
+    '<circle/>',
+    'should stringify voids with `/` in `closeEmptyElements` and `tightSelfClosing` mode'
   )
 
   t.deepEqual(

@@ -28,7 +28,9 @@ function core(value, processor, options) {
       printWidth: options.printWidth,
       tabWidth: options.tabWidth,
       useTabs: options.useTabs,
-      singleQuote: options.singleQuote
+      singleQuote: options.singleQuote,
+      closeSelfClosing: true,
+      closeEmptyElements: true
     })
     .processSync(file)
 }
