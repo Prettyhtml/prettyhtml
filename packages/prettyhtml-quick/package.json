@@ -1,6 +1,6 @@
 {
   "name": "@starptech/prettyhtml-quick",
-  "version": "0.8.17",
+  "version": "0.9.0",
   "description": "",
   "main": "./bin/cli.js",
   "scripts": {
@@ -22,7 +22,7 @@
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
   "license": "MIT",
   "dependencies": {
-    "@starptech/prettyhtml": "^0.8.17",
+    "@starptech/prettyhtml": "^0.9.0",
     "chalk": "^2.4.2",
     "commander": "^2.20.0",
     "execa": "^1.0.0",
