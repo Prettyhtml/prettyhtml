@@ -51,7 +51,16 @@ function check(t, fixture, options) {
       selfClosingElements: true
     })
     .use(format, config)
-    .use(stringify, config)
+    .use(
+      stringify,
+      Object.assign(
+        {
+          closeSelfClosing: true,
+          closeEmptyElements: true
+        },
+        config
+      )
+    )
 
   proc.process(options.input, function process(err /* ,vFile */) {
     t.falsy(err, 'shouldn’t throw')
