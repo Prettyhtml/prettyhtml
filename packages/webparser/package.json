@@ -24,12 +24,12 @@
   "author": "Dustin Deus <deusdustin@gmail.com> (http://www.starptech.de)",
   "license": "MIT",
   "devDependencies": {
-    "jest": "^24.7.1",
+    "jest": "^24.8.0",
     "ts-jest": "^24.0.2",
-    "ts-node": "^8.0.3",
-    "tslint": "^5.15.0",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.17.0",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.4.2",
+    "typescript": "^3.5.2",
     "vrsource-tslint-rules": "^6.0.0"
   },
   "publishConfig": {

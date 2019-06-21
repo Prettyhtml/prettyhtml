@@ -9,13 +9,13 @@
   },
   "devDependencies": {
     "@starptech/prettyhtml-hastscript": "^0.9.0",
-    "ava": "^1.2.1",
-    "nyc": "^13.0.1",
-    "rehype": "^6.0.0"
+    "ava": "^2.1.0",
+    "nyc": "^14.1.1",
+    "rehype": "^8.0.0"
   },
   "dependencies": {
-    "hast-util-has-property": "^1.0.2",
-    "unist-util-visit": "^1.4.0"
+    "hast-util-has-property": "^1.0.3",
+    "unist-util-visit": "^1.4.1"
   },
   "files": [
     "index.js"

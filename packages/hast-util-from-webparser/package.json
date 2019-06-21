@@ -23,15 +23,15 @@
   "dependencies": {
     "@starptech/prettyhtml-hastscript": "^0.9.0",
     "@starptech/webparser": "^0.9.0",
-    "property-information": "^5.0.1"
+    "property-information": "^5.1.0"
   },
   "devDependencies": {
-    "jest": "^24.7.1",
+    "jest": "^24.8.0",
     "ts-jest": "^24.0.2",
-    "ts-node": "^8.0.3",
-    "tslint": "^5.15.0",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.17.0",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.4.2",
+    "typescript": "^3.5.2",
     "vrsource-tslint-rules": "^6.0.0"
   },
   "publishConfig": {

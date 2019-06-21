@@ -28,10 +28,10 @@
     "svg.js"
   ],
   "dependencies": {
-    "comma-separated-tokens": "^1.0.5",
-    "hast-util-parse-selector": "^2.2.1",
-    "property-information": "^5.0.1",
-    "space-separated-tokens": "^1.1.2"
+    "comma-separated-tokens": "^1.0.7",
+    "hast-util-parse-selector": "^2.2.2",
+    "property-information": "^5.1.0",
+    "space-separated-tokens": "^1.1.4"
   },
   "devDependencies": {
     "ava": "^1.4.1",
