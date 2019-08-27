@@ -264,6 +264,17 @@ function attributeValue(ctx, key, value, info) {
   // When attr has no value we avoid quoting
   if (value === '') {
     return value
+  } else if (quote === 'auto'){
+    /**
+     * if there are not double quotes and single quotes in `value`, use double quotes
+     * if there are only single quotes in `value`, use double quotes
+     * if there are only double quotes in `value`, use single quotes
+     * if the index of the first double quote is behind of the index of the first signle quote in `value`, use double quotes
+     * else use single `quote`
+     */
+    var DQIndex = value.indexOf('"'), SQIndex = value.indexOf("'")
+    quote = DQIndex == -1 && SQIndex == -1 ? '"' : DQIndex == -1 ? '"' :SQIndex == -1 ? "'" : DQIndex >= SQIndex ? '"' : "'"
+    value = equalsTo + quote + value + quote
   } else {
     value = equalsTo + quote + value + quote
   }

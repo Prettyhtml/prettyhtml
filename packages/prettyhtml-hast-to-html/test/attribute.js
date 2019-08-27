@@ -554,6 +554,14 @@ test('quote', function(t) {
   )
 
   t.deepEqual(
+    to(u('element', { tagName: 'i', properties: { title: 'a' } }, []), {
+      singleQuote: 'auto'
+    }),
+    '<i title="a"></i>',
+    "should not quote attribute values with single quotes if no quotes in attribute value"
+  )
+
+  t.deepEqual(
     to(u('element', { tagName: 'i', properties: { title: "'a'" } }, []), {
       singleQuote: true
     }),
@@ -568,6 +576,47 @@ test('quote', function(t) {
     '<i title=""a""></i>',
     "should not quote attribute values with double quotes if `quote: '\\\"'` even if they occur in value"
   )
+
+  t.deepEqual(
+    to(u('element', { tagName: 'i', properties: { title: '"a"' } }, []), {
+      singleQuote: 'auto'
+    }),
+    `<i title='"a"'></i>`,
+    "should quote attribute values with single quotes if double quotes appear first"
+  )
+
+  t.deepEqual(
+    to(u('element', { tagName: 'i', properties: { title: "'a'" } }, []), {
+      singleQuote: 'auto'
+    }),
+    `<i title="'a'"></i>`,
+    "should not quote attribute values with single quotes if single quotes appear first"
+  )
+
+  t.deepEqual(
+    to(u('element', { tagName: 'input', properties: {
+      type: "text", name: 'oprfg0', 'validate-name':'操作标识', 'v-model': 'params.oprfg0',
+      'v-select': "selectList.OPRFG0", "v-input-check": '[params.oprfg0,\"select|required:(true)\"]',
+      '@keypress.enter.prevent': "$nextFocus($event.target)"
+     } }, []), {
+      singleQuote: 'auto'
+    }),
+    `<input type="text" name="oprfg0" validate-name="操作标识" v-model="params.oprfg0" v-select="selectList.OPRFG0" v-input-check='[params.oprfg0,"select|required:(true)"]' @keypress.enter.prevent="$nextFocus($event.target)">`,
+    "case 1: singleQuote:auto in my code environment"
+  )
+
+  t.deepEqual(
+    to(u('element', { tagName: 'a', properties: {
+      href: 'javascript:void(0)',
+      "v-input-check": '[params.oprfg0,\"select|required:(true)\"]',
+      '@click': "toLogin('NO')"
+     } }, []), {
+      singleQuote: 'auto'
+    }),
+    `<a href="javascript:void(0)" v-input-check='[params.oprfg0,"select|required:(true)"]' @click="toLogin('NO')"></a>`,
+    "case 2: singleQuote:auto in my code environment"
+  )
+
 })
 
 test('entities in attributes', function(t) {

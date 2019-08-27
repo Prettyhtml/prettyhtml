@@ -16,7 +16,7 @@ var SQ = "'"
 /* Stringify the given HAST node. */
 function toHTML(node, options) {
   var settings = options || {}
-  var quote = settings.singleQuote ? SQ : DQ
+  var quote = settings.singleQuote === "auto" ? "auto" :((settings.singleQuote && SQ) || DQ)
   var printWidth = settings.printWidth === undefined ? 80 : settings.printWidth
   var useTabs = settings.useTabs
   var tabWidth = settings.tabWidth || 2
