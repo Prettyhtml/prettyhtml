@@ -6,8 +6,7 @@
 
 Opinionated general formatter for your Angular, Vue, Svelte or pure HTML5 templates. Try it on the [playground](https://prettyhtml.netlify.com/).
 
-### Project status
-Unfortunately, This project lacks maintainers. Prettier has landed HTML support in 1.15.0. I recommend it to use it if it matches your requirements. If you want to contribute to this project, feel free to create a PR/Issue.
+> **Project status:**  Unfortunately, This project lacks maintainers. Prettier has landed HTML support in 1.15.0. I recommend it to use it if it matches your requirements. If you want to contribute to this project, feel free to create a PR/Issue.
 
 ## Features
 
