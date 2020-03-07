@@ -49,7 +49,7 @@ htmlFiles.forEach(file => {
   try {
     const vFile = prettyhtml(input, prettyhtmlCfg)
     fs.writeFileSync(filePath, vFile.contents, 'utf8')
-    git.stageFile(cwd, file)
+    git.stageFile(root, file)
     console.log(`✍️  Fixing up ${chalk.bold(file)}.`)
   } catch (error) {
     console.log(`❌  Error: ${chalk.bold(error.message)}.`)
