@@ -3,7 +3,7 @@
 module.exports = doctype
 
 /* Stringify a doctype `node`. */
-function doctype(ctx, node) {
+function doctype(ctx, handlers, node) {
   var sep = ctx.tightDoctype ? '' : ' '
   var name = node.name
   var pub = node.public

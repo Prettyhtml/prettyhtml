@@ -26,7 +26,7 @@ var slash = '/'
 var newLine = '\n'
 
 /* Stringify an element `node`. */
-function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
+function element(ctx, handlers, node, index, parent, printWidthOffset, innerTextLength) {
   var parentSchema = ctx.schema
   var name = node.tagName
   var value = ''
@@ -100,7 +100,7 @@ function element(ctx, node, index, parent, printWidthOffset, innerTextLength) {
 
   const shouldCollapse = ignoreAttrCollapsing === false && printContext.wrapAttributes
 
-  content = all(ctx, root)
+  content = all(ctx, handlers, root)
 
   /* If the node is categorised as void, but it has
    * children, remove the categorisation.  This

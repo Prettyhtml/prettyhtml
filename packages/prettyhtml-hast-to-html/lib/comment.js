@@ -3,6 +3,6 @@
 module.exports = comment
 
 /* Stringify a comment `node`. */
-function comment(ctx, node) {
+function comment(ctx, handlers, node) {
   return '<!--' + node.value + '-->'
 }

@@ -4,17 +4,8 @@ module.exports = one
 
 var own = {}.hasOwnProperty
 
-var handlers = {}
-
-handlers.root = require('./all')
-handlers.text = require('./text')
-handlers.element = require('./element')
-handlers.doctype = require('./doctype')
-handlers.comment = require('./comment')
-handlers.raw = require('./raw')
-
 /* Stringify `node`. */
-function one(ctx, node, index, parent, printWidthOffset, innerTextLength) {
+function one(ctx, handlers, node, index, parent, printWidthOffset, innerTextLength) {
   var type = node && node.type
 
   if (!type) {
@@ -24,6 +15,5 @@ function one(ctx, node, index, parent, printWidthOffset, innerTextLength) {
   if (!own.call(handlers, type)) {
     throw new Error('Cannot compile unknown node `' + type + '`')
   }
-
-  return handlers[type](ctx, node, index, parent, printWidthOffset, innerTextLength)
+  return handlers[type](ctx, handlers, node, index, parent, printWidthOffset, innerTextLength)
 }

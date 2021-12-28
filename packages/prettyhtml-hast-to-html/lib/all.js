@@ -6,7 +6,7 @@ var sensitive = require('html-whitespace-sensitive-tag-names')
 module.exports = all
 
 /* Stringify all children of `parent`. */
-function all(ctx, parent) {
+function all(ctx, handlers, parent) {
   var children = parent && parent.children
   var length = children && children.length
   var index = -1
@@ -16,7 +16,7 @@ function all(ctx, parent) {
   let innerTextLength = 0
   while (++index < length) {
     innerTextLength = getInnerTextLength(children[index])
-    results[index] = one(ctx, children[index], index, parent, printWidthOffset, innerTextLength)
+    results[index] = one(ctx, handlers, children[index], index, parent, printWidthOffset, innerTextLength)
     printWidthOffset = results[index].replace(/\n+/g, '').length
   }
 

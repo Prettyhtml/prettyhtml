@@ -6,6 +6,7 @@ var voids = require('html-void-elements')
 var omission = require('./omission')
 var one = require('./one')
 const repeat = require('repeat-string')
+var handlers = require('./handlers')
 
 module.exports = toHTML
 
@@ -46,6 +47,7 @@ function toHTML(node, options) {
       tightClose: settings.tightSelfClosing,
       closeEmpty: settings.closeEmptyElements
     },
+    handlers,
     node
   )
 }
